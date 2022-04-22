@@ -1124,13 +1124,13 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb274-13"><a href="ch-prediction.html#cb274-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb274-14"><a href="ch-prediction.html#cb274-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running MCMC with 4 parallel chains...</span></span>
 <span id="cb274-15"><a href="ch-prediction.html#cb274-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb274-16"><a href="ch-prediction.html#cb274-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.4 seconds.</span></span>
+<span id="cb274-16"><a href="ch-prediction.html#cb274-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.3 seconds.</span></span>
 <span id="cb274-17"><a href="ch-prediction.html#cb274-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.4 seconds.</span></span>
-<span id="cb274-18"><a href="ch-prediction.html#cb274-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.4 seconds.</span></span>
+<span id="cb274-18"><a href="ch-prediction.html#cb274-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.3 seconds.</span></span>
 <span id="cb274-19"><a href="ch-prediction.html#cb274-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.4 seconds.</span></span>
 <span id="cb274-20"><a href="ch-prediction.html#cb274-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb274-21"><a href="ch-prediction.html#cb274-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>
-<span id="cb274-22"><a href="ch-prediction.html#cb274-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mean chain execution time: 0.4 seconds.</span></span>
+<span id="cb274-22"><a href="ch-prediction.html#cb274-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mean chain execution time: 0.3 seconds.</span></span>
 <span id="cb274-23"><a href="ch-prediction.html#cb274-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 0.4 seconds.</span></span></code></pre></div>
 <p>Per questo secondo modello il confronto tra la funzione di densità empirica della <span class="math inline">\(y\)</span> e quella di diversi campioni <span class="math inline">\(y^{rep}\)</span> risulta adeguato:</p>
 <div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="ch-prediction.html#cb275-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>

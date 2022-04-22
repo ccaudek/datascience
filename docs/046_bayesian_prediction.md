@@ -519,13 +519,13 @@ fit <- mod$sample(
 )
 #> Running MCMC with 4 parallel chains...
 #> 
-#> Chain 1 finished in 0.4 seconds.
+#> Chain 1 finished in 0.3 seconds.
 #> Chain 2 finished in 0.4 seconds.
-#> Chain 3 finished in 0.4 seconds.
+#> Chain 3 finished in 0.3 seconds.
 #> Chain 4 finished in 0.4 seconds.
 #> 
 #> All 4 chains finished successfully.
-#> Mean chain execution time: 0.4 seconds.
+#> Mean chain execution time: 0.3 seconds.
 #> Total execution time: 0.4 seconds.
 ```
 
