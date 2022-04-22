@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 7 Confronto di \(k\) gruppi | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 7 Confronto di \(k\) gruppi | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 7 Confronto di \(k\) gruppi | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch-pred-checks.html"/>
+<link rel="next" href="mod-hier-stan.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Il modello lineare</b></span></li>
+<li class="chapter" data-level="1" data-path="regr-models-intro.html"><a href="regr-models-intro.html"><i class="fa fa-check"></i><b>1</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>1.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="1.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>1.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>1.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="1.2.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>1.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-models-intro.html"><a href="regr-models-intro.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regr-model-lm.html"><a href="regr-model-lm.html"><i class="fa fa-check"></i><b>2</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>2.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>2.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="2.1.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>2.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="2.1.3" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>2.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>2.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>2.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-model-lm.html"><a href="regr-model-lm.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html"><i class="fa fa-check"></i><b>3</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>3.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="3.2" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>3.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>3.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>3.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>3.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>4</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>4.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="4.2" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>4.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>4.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>4.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="4.4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>4.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html"><i class="fa fa-check"></i><b>5</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>5.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>5.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="5.1.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#un-esempio-concreto"><i class="fa fa-check"></i><b>5.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>5.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>6</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>6.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>6.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>7</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>7.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="7.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>7.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>7.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>7.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>7.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html"><i class="fa fa-check"></i><b>8</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>8.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="8.2" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>8.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="8.3" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>8.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch-anova" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Capitolo 7</span> Confronto di <span class="math inline">\(k\)</span> gruppi<a href="ch-anova.html#ch-anova" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>L’Analisi della Varianza (ANOVA) consente ai ricercatori di valutare gli effetti di predittori categoriali su una variabile di esito continua. L’ANOVA è un’analisi di regressione nella quale tutte le variabili indipendenti sono qualitative.</p>
+<div id="le-abilità-sociali-di-un-robot" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Le abilità sociali di un robot<a href="ch-anova.html#le-abilità-sociali-di-un-robot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Per illustrare i concetti chiave dell’ANOVA bayesiana considereremo qui una ricerca di <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span>. I ricercatori si sono chiesti se le persone impiegano più tempo a spegnere un robot quando questo mostra abilità sociali. Nell’esperimento di <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span>, 85 partecipanti hanno interagito con un robot per un certo tempo. Ai partecipanti è stato detto che lo scopo della loro interazione con il robot era quella di testare un nuovo algoritmo. Dopo il completamento di due compiti fittizi, ai partecipanti veniva detto che, se volevano, potevano spegnere il robot. La variabile di interesse dell’esperimento era il tempo impiegato dai partecipanti per spegnere il robot. Seguendo <span class="citation">Bergh et al. (<a href="#ref-van2020tutorial" role="doc-biblioref">2020</a>)</span>, analizzeremo i tempi di spegnimento trasformati su scala logaritmica perché tale variabile mostra una chiara asimmetria positiva.</p>
+<p><span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span> hanno manipolato due variabili in un disegno tra i soggetti.</p>
+<ul>
+<li><em>Interaction type</em>. Le risposte verbali dei robot potevano essere o sociali (ad esempio, “Oh sì, la pizza è ottima. Una volta ho mangiato una pizza grande come me.”) o funzionali (ad esempio, “Preferisci la pizza. Ha funzionato bene. Continuiamo.”).</li>
+<li><em>Robot’s objection</em>. Il robot poteva protestare quando stava per essere spento (ad esempio, “No! Per favore, non spegnermi! Ho paura di non riuscire ad accendermi di nuovo!”) oppure no.</li>
+</ul>
+<p>Pertanto, il disegno di questo studio è un’ANOVA tra i soggetti 2 (<em>Interaction type</em>) <span class="math inline">\(\times\)</span> 2 (<em>Robot’s objection</em>).</p>
+<p>Iniziamo a leggere i dati</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ch-anova.html#cb103-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
+<span id="cb103-2"><a href="ch-anova.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;pone.0201581.s001.sav&quot;</span>)</span>
+<span id="cb103-3"><a href="ch-anova.html#cb103-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Per comodità creiamo la variabile <code>cond</code> con quattro modalità (<code>SO</code>, <code>FO</code>, <code>SN</code>, <code>FN</code>), dove <code>S</code> significa <em>social interaction</em>, <code>F</code> sta per <em>funcitonal interaction</em>, <code>O</code> sta per <em>objection</em> e <code>N</code> sta per <em>no objection</em>.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="ch-anova.html#cb104-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Condition)</span>
+<span id="cb104-2"><a href="ch-anova.html#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-3"><a href="ch-anova.html#cb104-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb104-4"><a href="ch-anova.html#cb104-4" aria-hidden="true" tabindex="-1"></a>  d<span class="sc">$</span>cond, </span>
+<span id="cb104-5"><a href="ch-anova.html#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;SO&quot;</span>, <span class="st">&quot;FO&quot;</span>, <span class="st">&quot;SN&quot;</span>, <span class="st">&quot;FN&quot;</span>)</span>
+<span id="cb104-6"><a href="ch-anova.html#cb104-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Ci sono alcuni dati mancanti, quindi verranno omesse le righe con <code>NA</code>. Selezionando le colonne di interesse dal data.frame originario otteniamo:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ch-anova.html#cb105-1" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb105-2"><a href="ch-anova.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(cond, SwitchOff_Time) <span class="sc">%&gt;%</span> </span>
+<span id="cb105-3"><a href="ch-anova.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
+<p>Nelle quattro condizioni si osservano le seguenti medie <span class="citation">(si veda la Tabella 3 di <a href="#ref-horstmann2018robot" role="doc-biblioref">Horstmann et al. 2018</a>)</span>:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ch-anova.html#cb106-1" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="ch-anova.html#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-3"><a href="ch-anova.html#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb106-4"><a href="ch-anova.html#cb106-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_sot =</span> <span class="fu">mean</span>(SwitchOff_Time, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb106-5"><a href="ch-anova.html#cb106-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_sot =</span> <span class="fu">sd</span>(SwitchOff_Time, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb106-6"><a href="ch-anova.html#cb106-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb106-7"><a href="ch-anova.html#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 3</span></span>
+<span id="cb106-8"><a href="ch-anova.html#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cond  avg_sot sd_sot</span></span>
+<span id="cb106-9"><a href="ch-anova.html#cb106-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb106-10"><a href="ch-anova.html#cb106-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 SO       6.19   4.61</span></span>
+<span id="cb106-11"><a href="ch-anova.html#cb106-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 FO      14.4   15.4 </span></span>
+<span id="cb106-12"><a href="ch-anova.html#cb106-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 SN       5.05   2.18</span></span>
+<span id="cb106-13"><a href="ch-anova.html#cb106-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 FN       4.28   2.49</span></span></code></pre></div>
+<p>Visualizziamo i dati:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ch-anova.html#cb107-1" aria-hidden="true" tabindex="-1"></a>dd_summary <span class="ot">&lt;-</span> dd <span class="sc">%&gt;%</span></span>
+<span id="cb107-2"><a href="ch-anova.html#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span></span>
+<span id="cb107-3"><a href="ch-anova.html#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb107-4"><a href="ch-anova.html#cb107-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sot_mean =</span> <span class="fu">mean</span>(SwitchOff_Time),</span>
+<span id="cb107-5"><a href="ch-anova.html#cb107-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sot_sd =</span> <span class="fu">sd</span>(SwitchOff_Time),</span>
+<span id="cb107-6"><a href="ch-anova.html#cb107-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sot_median =</span> <span class="fu">median</span>(SwitchOff_Time)</span>
+<span id="cb107-7"><a href="ch-anova.html#cb107-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb107-8"><a href="ch-anova.html#cb107-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb107-9"><a href="ch-anova.html#cb107-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-10"><a href="ch-anova.html#cb107-10" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">%&gt;%</span></span>
+<span id="cb107-11"><a href="ch-anova.html#cb107-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb107-12"><a href="ch-anova.html#cb107-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> cond, <span class="at">y =</span> SwitchOff_Time, <span class="at">color =</span> cond)</span>
+<span id="cb107-13"><a href="ch-anova.html#cb107-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb107-14"><a href="ch-anova.html#cb107-14" aria-hidden="true" tabindex="-1"></a>  ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(</span>
+<span id="cb107-15"><a href="ch-anova.html#cb107-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">color =</span> cond, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> .<span class="dv">5</span>)</span>
+<span id="cb107-16"><a href="ch-anova.html#cb107-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb107-17"><a href="ch-anova.html#cb107-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb107-18"><a href="ch-anova.html#cb107-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb107-19"><a href="ch-anova.html#cb107-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> sot_median, <span class="at">ymin =</span> sot_median,</span>
+<span id="cb107-20"><a href="ch-anova.html#cb107-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> sot_median</span>
+<span id="cb107-21"><a href="ch-anova.html#cb107-21" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb107-22"><a href="ch-anova.html#cb107-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> dd_summary, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb107-23"><a href="ch-anova.html#cb107-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb107-24"><a href="ch-anova.html#cb107-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_grey</span>(<span class="at">name =</span> <span class="st">&quot;cond&quot;</span>) <span class="sc">+</span></span>
+<span id="cb107-25"><a href="ch-anova.html#cb107-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb107-26"><a href="ch-anova.html#cb107-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb107-27"><a href="ch-anova.html#cb107-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;SwitchOff Time&quot;</span>,</span>
+<span id="cb107-28"><a href="ch-anova.html#cb107-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Condizione&quot;</span></span>
+<span id="cb107-29"><a href="ch-anova.html#cb107-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb107-30"><a href="ch-anova.html#cb107-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-111-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Su scala logaritmica, l’asimmetria positiva della variabile <code>dd$SwitchOff_Time</code> viene ridotta.</p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-112-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Per i dati trasformati, la mediana in ciascuna condizione è:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ch-anova.html#cb108-1" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">log</span>(dd<span class="sc">$</span>SwitchOff_Time <span class="sc">+</span> <span class="fl">0.01</span>)</span>
+<span id="cb108-2"><a href="ch-anova.html#cb108-2" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">%&gt;%</span> </span>
+<span id="cb108-3"><a href="ch-anova.html#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-4"><a href="ch-anova.html#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb108-5"><a href="ch-anova.html#cb108-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_y =</span> <span class="fu">median</span>(y)</span>
+<span id="cb108-6"><a href="ch-anova.html#cb108-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb108-7"><a href="ch-anova.html#cb108-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb108-8"><a href="ch-anova.html#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cond  avg_y</span></span>
+<span id="cb108-9"><a href="ch-anova.html#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt;</span></span>
+<span id="cb108-10"><a href="ch-anova.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 SO     1.61</span></span>
+<span id="cb108-11"><a href="ch-anova.html#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 FO     2.01</span></span>
+<span id="cb108-12"><a href="ch-anova.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 SN     1.39</span></span>
+<span id="cb108-13"><a href="ch-anova.html#cb108-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 FN     1.39</span></span></code></pre></div>
+<p>Creiamo ora la variabile <code>x</code> che indicizza le quattro condizioni (la variabile <code>x</code> verrà usata nel modello Stan):</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ch-anova.html#cb109-1" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(dd<span class="sc">$</span>cond)</span>
+<span id="cb109-2"><a href="ch-anova.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dd)</span>
+<span id="cb109-3"><a href="ch-anova.html#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cond SwitchOff_Time        y x</span></span>
+<span id="cb109-4"><a href="ch-anova.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   SN              6 1.793425 3</span></span>
+<span id="cb109-5"><a href="ch-anova.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   FO              7 1.947338 2</span></span>
+<span id="cb109-6"><a href="ch-anova.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   FO              3 1.101940 2</span></span>
+<span id="cb109-7"><a href="ch-anova.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   FN              4 1.388791 4</span></span>
+<span id="cb109-8"><a href="ch-anova.html#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   FN              4 1.388791 4</span></span>
+<span id="cb109-9"><a href="ch-anova.html#cb109-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   FO             12 2.485740 2</span></span></code></pre></div>
+<p>Il modello bayesiano che usiamo qui per il confronto tra le medie dei quattro gruppi è una semplice estensione del modello per la media di un solo gruppo. Il codice usato è ispirato da quello fornito nella seguente <a href="http://avehtari.github.io/BDA_R_demos/demos_rstan/rstan_demo.html#8_Comparison_of_(k)_groups_with_hierarchical_models">pagina web</a>. Per adattare un modello “robusto”, ipotizzeremo che la <code>y</code> segua una distribuzione <span class="math inline">\(t\)</span> di Student con un numero di gradi di libertà stimato dal modello.</p>
+<p>Il modello classico dell’ANOVA è basato sulle seguenti assunzioni:</p>
+<ul>
+<li>i residui (cioè la differenza tra il valore dell’<span class="math inline">\(i\)</span>-esima osservazione e la media di tutte le osservazioni nella <span class="math inline">\(k\)</span>-esima condizione) devono seguire la distribuzione normale (normalità);</li>
+<li>i residui devono avere la stessa deviazione standard nelle <span class="math inline">\(k\)</span> popolazioni da cui abbiamo estratto i dati (omoschedasticità);</li>
+<li>il disegno sperimentale utilizzato per raccogliere i dati deve garantire l’indipendenza dei residui.</li>
+</ul>
+<p>Nella presenta formulazione dell’ANOVA bayesiana, l’assunto di normalità non è richiesto, mentre devono essere soddisfatte le condizioni di omoschedasticità e indipendenza. L’ANOVA bayesiana può comunque essere estesa a condizioni che violano sia l’assunto di omoschedasticità sia quello di indipendenza. Ma qui ci limitiamo a discutere il caso più semplice.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ch-anova.html#cb110-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb110-2"><a href="ch-anova.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="st">// Comparison of k groups with common variance (ANOVA)</span></span>
+<span id="cb110-3"><a href="ch-anova.html#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb110-4"><a href="ch-anova.html#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;            // number of observations</span></span>
+<span id="cb110-5"><a href="ch-anova.html#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; K;            // number of groups</span></span>
+<span id="cb110-6"><a href="ch-anova.html#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1,upper=K&gt; x[N]; // discrete group indicators</span></span>
+<span id="cb110-7"><a href="ch-anova.html#cb110-7" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;               // real valued observations</span></span>
+<span id="cb110-8"><a href="ch-anova.html#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb110-9"><a href="ch-anova.html#cb110-9" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb110-10"><a href="ch-anova.html#cb110-10" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[K] mu;        // group means</span></span>
+<span id="cb110-11"><a href="ch-anova.html#cb110-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma; // common standard deviation </span></span>
+<span id="cb110-12"><a href="ch-anova.html#cb110-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=1&gt; nu; </span></span>
+<span id="cb110-13"><a href="ch-anova.html#cb110-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb110-14"><a href="ch-anova.html#cb110-14" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb110-15"><a href="ch-anova.html#cb110-15" aria-hidden="true" tabindex="-1"></a><span class="st">  mu ~ normal(0, 2);      // weakly informative prior</span></span>
+<span id="cb110-16"><a href="ch-anova.html#cb110-16" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 1);     // weakly informative prior</span></span>
+<span id="cb110-17"><a href="ch-anova.html#cb110-17" aria-hidden="true" tabindex="-1"></a><span class="st">  nu ~ gamma(2, 0.1);   // Juárez and Steel(2010)</span></span>
+<span id="cb110-18"><a href="ch-anova.html#cb110-18" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ student_t(nu, mu[x], sigma); // observation model / likelihood</span></span>
+<span id="cb110-19"><a href="ch-anova.html#cb110-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb110-20"><a href="ch-anova.html#cb110-20" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb110-21"><a href="ch-anova.html#cb110-21" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/grp_aov.stan&quot;</span>)</span></code></pre></div>
+<p>Creiamo un oggetto che contiene i dati nel formato appropriato per Stan:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="ch-anova.html#cb111-1" aria-hidden="true" tabindex="-1"></a>data_grp <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb111-2"><a href="ch-anova.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(dd),</span>
+<span id="cb111-3"><a href="ch-anova.html#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">K =</span> <span class="dv">4</span>,</span>
+<span id="cb111-4"><a href="ch-anova.html#cb111-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> dd<span class="sc">$</span>x,</span>
+<span id="cb111-5"><a href="ch-anova.html#cb111-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dd<span class="sc">$</span>y</span>
+<span id="cb111-6"><a href="ch-anova.html#cb111-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Compiliamo il modello:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="ch-anova.html#cb112-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;grp_aov.stan&quot;</span>)</span>
+<span id="cb112-2"><a href="ch-anova.html#cb112-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<p>Eseguiamo il campionamento MCMC:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="ch-anova.html#cb113-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb113-2"><a href="ch-anova.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_grp,</span>
+<span id="cb113-3"><a href="ch-anova.html#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb113-4"><a href="ch-anova.html#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb113-5"><a href="ch-anova.html#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb113-6"><a href="ch-anova.html#cb113-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb113-7"><a href="ch-anova.html#cb113-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb113-8"><a href="ch-anova.html#cb113-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb113-9"><a href="ch-anova.html#cb113-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb113-10"><a href="ch-anova.html#cb113-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Esaminando i risultati</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="ch-anova.html#cb114-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb114-2"><a href="ch-anova.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 10</span></span>
+<span id="cb114-3"><a href="ch-anova.html#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable    mean  median     sd    mad      q5     q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb114-4"><a href="ch-anova.html#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb114-5"><a href="ch-anova.html#cb114-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 lp__     -41.2   -40.9   1.85   1.69   -44.7   -38.9    1.00    6774.    9294.</span></span>
+<span id="cb114-6"><a href="ch-anova.html#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 mu[1]      1.69    1.68  0.175  0.170    1.41    1.99   1.00   21498.   12257.</span></span>
+<span id="cb114-7"><a href="ch-anova.html#cb114-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 mu[2]      2.05    2.05  0.196  0.196    1.73    2.37   1.00   20722.   10892.</span></span>
+<span id="cb114-8"><a href="ch-anova.html#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 mu[3]      1.52    1.52  0.122  0.120    1.32    1.72   1.00   22671.   11935.</span></span>
+<span id="cb114-9"><a href="ch-anova.html#cb114-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 mu[4]      1.28    1.28  0.125  0.121    1.07    1.49   1.00   21545.   11572.</span></span>
+<span id="cb114-10"><a href="ch-anova.html#cb114-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 sigma      0.476   0.472 0.0753 0.0736   0.358   0.606  1.00   14197.   11182.</span></span>
+<span id="cb114-11"><a href="ch-anova.html#cb114-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 nu         2.55    2.41  0.821  0.724    1.49    4.07   1.00   14336.    9374.</span></span></code></pre></div>
+<p>ci rendiamo conto che cìè una buona corrispondenza tra le medie a posteriori e le medie campionarie. Trasformiamo l’oggetto <code>fit</code> in un oggetto di classe <code>stanfit</code>:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="ch-anova.html#cb115-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<p>La funzione <code>rstan::extract()</code> estrae i campioni a posteriori da un oggetto di classe <code>stanfit</code>:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="ch-anova.html#cb116-1" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit, <span class="at">permuted =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Una rappresentazione grafica della distribuzione a posteriori delle quattro medie si ottiene con le seguenti istruzioni:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="ch-anova.html#cb117-1" aria-hidden="true" tabindex="-1"></a>temps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(posterior<span class="sc">$</span>mu) <span class="sc">%&gt;%</span></span>
+<span id="cb117-2"><a href="ch-anova.html#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">&#39;SO&#39;</span>, <span class="st">&#39;FO&#39;</span>, <span class="st">&#39;SN&#39;</span>, <span class="st">&#39;FN&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="ch-anova.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(temps, <span class="at">prob =</span> <span class="fl">0.95</span>) <span class="sc">+</span> </span>
+<span id="cb118-2"><a href="ch-anova.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Gruppi&#39;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-123-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>I quattro intervalli di credibilità al 95% sono:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="ch-anova.html#cb119-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb119-2"><a href="ch-anova.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), </span>
+<span id="cb119-3"><a href="ch-anova.html#cb119-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb119-4"><a href="ch-anova.html#cb119-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb119-5"><a href="ch-anova.html#cb119-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci95, <span class="dv">2</span>)</span>
+<span id="cb119-6"><a href="ch-anova.html#cb119-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         2.5%  97.5%</span></span>
+<span id="cb119-7"><a href="ch-anova.html#cb119-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu[1]   1.36   2.05</span></span>
+<span id="cb119-8"><a href="ch-anova.html#cb119-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu[2]   1.67   2.44</span></span>
+<span id="cb119-9"><a href="ch-anova.html#cb119-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu[3]   1.28   1.76</span></span>
+<span id="cb119-10"><a href="ch-anova.html#cb119-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu[4]   1.03   1.53</span></span>
+<span id="cb119-11"><a href="ch-anova.html#cb119-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma   0.34   0.63</span></span>
+<span id="cb119-12"><a href="ch-anova.html#cb119-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; nu      1.37   4.56</span></span>
+<span id="cb119-13"><a href="ch-anova.html#cb119-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__  -45.67 -38.67</span></span></code></pre></div>
+</div>
+<div id="anova-stan" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> I test statistici dell’Analisi della Varianza<a href="ch-anova.html#anova-stan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>L’ANOVA include test statistici di due tipi: i test sull’interazione tra i fattori e i test sugli effetti principali. Per chiarire il significato di “interazione” e di “effetto principale” è necessario prima definire il significato di “effetto statistico”.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-1" class="definition"><strong>Definizione 7.1  </strong></span>L’effetto di un fattore rappresenta la variazione media della variabile dipendente al variare dei livelli del fattore stesso.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definizione 7.2  </strong></span>Si parla di interazione quando l’effetto di un fattore sulla variabile dipendente varia a seconda dei livelli di un altro fattore.</p>
+</div>
+<p>Vengono presentati qui di seguito alcuni esempi. Le figure seguenti mostrano le medie di ciascuna condizione nel caso di un disegno 3 (fattore riga) <span class="math inline">\(\times\)</span> 2 (fattore colonna). La spiegazione delle figure è presentata nelle didascalie.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-anova1"></span>
+<img src="images/anova1.pdf" alt="Il fattore colonna è indicato dal colore. **Sinistra** La figura mostra un effetto principale del fattore riga e un effetto principale del fattore colonna. Non c'è interazione tra i fattori riga e colonna. **Destra** La figura mostra un effetto principale del fattore riga. L'effetto principale del fattore colonna è zero. Non c'è interazione tra i fattori riga e colonna."  />
+<p class="caption">
+FIGURA 7.1: Il fattore colonna è indicato dal colore. <strong>Sinistra</strong> La figura mostra un effetto principale del fattore riga e un effetto principale del fattore colonna. Non c’è interazione tra i fattori riga e colonna. <strong>Destra</strong> La figura mostra un effetto principale del fattore riga. L’effetto principale del fattore colonna è zero. Non c’è interazione tra i fattori riga e colonna.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-anova2"></span>
+<img src="images/anova2.pdf" alt="Il fattore colonna è indicato dal colore. **Sinistra** La figura mostra che l'effetto principale del fattore riga è zero, mentre c'è un effetto principale del fattore colonna. Non c'è interazione tra i fattori riga e colonna. **Destra** Non c'è né un effetto principale del fattore riga, né un effetto pricipale del fattore colonna, né un'interazione tra i fattori riga e colonna."  />
+<p class="caption">
+FIGURA 7.2: Il fattore colonna è indicato dal colore. <strong>Sinistra</strong> La figura mostra che l’effetto principale del fattore riga è zero, mentre c’è un effetto principale del fattore colonna. Non c’è interazione tra i fattori riga e colonna. <strong>Destra</strong> Non c’è né un effetto principale del fattore riga, né un effetto pricipale del fattore colonna, né un’interazione tra i fattori riga e colonna.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-anova3"></span>
+<img src="images/anova3.pdf" alt="Il fattore colonna è indicato dal colore. Entrambe le figure mostrano un'interazione tra i fattori riga e colonna. Nella figura di sinistra gli effetti principali non sono interpretabili; nella figura di destra gli effetti principali sono interpretabili in quanto l'interazione è di lieve entità."  />
+<p class="caption">
+FIGURA 7.3: Il fattore colonna è indicato dal colore. Entrambe le figure mostrano un’interazione tra i fattori riga e colonna. Nella figura di sinistra gli effetti principali non sono interpretabili; nella figura di destra gli effetti principali sono interpretabili in quanto l’interazione è di lieve entità.
+</p>
+</div>
+<p>Dagli esempi precedenti si evince che c’è un’interazione ogni qualvolta i profili delle medie non sono paralleli. Anche se, nella popolazione, non c’è interazione, a causa della variabilità campionaria i profili delle medie non sono mai perfettamente paralleli nel campione. Il problema è quello di stabilire se l’assenza di parallelismo nel campione fornisce sufficiente evidenza di presenza di interazione nella popolazione.</p>
+<div id="test-sullinterazione" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Test sull’interazione<a href="ch-anova.html#test-sullinterazione" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Ritorniamo ora ai dati di <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span>. Nel caso di un disegno 2 <span class="math inline">\(\times\)</span> 2, con i fattori <em>Interaction type</em> (social, functional) e <em>Robot’s objection</em> (objection, no objection), è possibile verificare la presenza dell’interazione <em>Interaction type</em> <span class="math inline">\(\times\)</span> <em>Robot’s objection</em>.</p>
+<p>Nel modello bayesiano, la distribuzione a posteriori fornisce un enorme numero di stime del valore della media in ciascuna delle quattro condizioni. L’effetto di un fattore corrisponde alla differenza tra le stime della media in corrispondenza di ciascuna modalità del fattore.</p>
+<p>Nel caso presente abbiamo:</p>
+<ul>
+<li><code>mu[1]</code> <span class="math inline">\(\rightarrow\)</span> SO</li>
+<li><code>mu[2]</code> <span class="math inline">\(\rightarrow\)</span> FO</li>
+<li><code>mu[3]</code> <span class="math inline">\(\rightarrow\)</span> SN</li>
+<li><code>mu[4]</code> <span class="math inline">\(\rightarrow\)</span> FN</li>
+</ul>
+<p>Quindi, <code>mean(posterior$mu[, 1] - posterior$mu[, 3])</code> corrisponde alla stima a posteriori dell’effetto di <em>Objection</em> nella condizione <em>Social Interaction</em>. Invece, <code>mean(posterior$mu[, 2] - posterior$mu[, 3])</code> corrisponde alla stima a posteriori dell’effetto di <em>Objection</em> nella condizione <em>Functional Interaction</em>. In assenza di interazione, questi due effetti devono essere (statisticamente) uguali.</p>
+<p>Per sottoporre a verifica questa ipotesi, calcoliamo la proporzione di volte in cui questo <em>non</em> si verifica nella distribuzione a posteriori:</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="ch-anova.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
+<span id="cb120-2"><a href="ch-anova.html#cb120-2" aria-hidden="true" tabindex="-1"></a>  (posterior<span class="sc">$</span>mu[, <span class="dv">1</span>] <span class="sc">-</span> posterior<span class="sc">$</span>mu[, <span class="dv">3</span>]) <span class="sc">&gt;</span> </span>
+<span id="cb120-3"><a href="ch-anova.html#cb120-3" aria-hidden="true" tabindex="-1"></a>    (posterior<span class="sc">$</span>mu[, <span class="dv">2</span>] <span class="sc">-</span> posterior<span class="sc">$</span>mu[, <span class="dv">4</span>])</span>
+<span id="cb120-4"><a href="ch-anova.html#cb120-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span> </span>
+<span id="cb120-5"><a href="ch-anova.html#cb120-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>(posterior<span class="sc">$</span>mu[, <span class="dv">1</span>])</span>
+<span id="cb120-6"><a href="ch-anova.html#cb120-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.0314375</span></span></code></pre></div>
+<p>La stima di questa probabilità in un test direzionale è molto simile alla probabilità frequentista riportata da <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span>, ovvero <span class="math inline">\(p = 0.016\)</span>. <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span> riportano la presenza di un’interazione tra <em>Interaction type</em> e <em>Robot’s objection</em> (com’è stato anche trovato con la presente ANOVA bayesiana). Per interpretare l’interazione è necessario esaminare le mediane dei quattro gruppi.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> L’esame delle mediane indica che l’effetto del fattore <em>Robot’s objection</em> è più grande quando il fattore <em>Interaction type</em> assume la modalità <em>Functional</em> piuttosto che <em>Social</em>. Ma possiamo anche leggere l’interazione nella direzione opposta: l’effetto del fattore <em>Interaction type</em> è più grande quando il fattore <em>Robot’s objection</em> assume la modalità <em>Objection</em> anziché <em>No objection</em>.</p>
+</div>
+<div id="test-sugli-effetti-principali" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Test sugli effetti principali<a href="ch-anova.html#test-sugli-effetti-principali" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>L’effetto principale descrive l’effetto marginale di un fattore. Nel caso presente, in cui ciascun fattore ha solo due modalità, l’effetto principale corrisponde alla differenze tra le medie delle modalità di ciascun fattore.</p>
+<p>L’effetto principale del fattore <em>Interaction type</em> è la differenza tra le medie di <em>Social</em> e di <em>Functional</em>, ignorando <em>Robot’s objection</em>. <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span> riportano che gli individui che avevano avuto un’interazione funzionale con il robot impiegavano più tempo a spegnere il robot di coloro che avevano avuto un’interazione sociale con il robot (<span class="math inline">\(p\)</span> = 0.045). Il presente modello bayesiano offre scarse evidenze di ciò:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="ch-anova.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((<span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">2</span>]) <span class="sc">+</span> <span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">4</span>])) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb121-2"><a href="ch-anova.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.765852</span></span>
+<span id="cb121-3"><a href="ch-anova.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((<span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">3</span>])) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb121-4"><a href="ch-anova.html#cb121-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.043196</span></span></code></pre></div>
+<p>Infatti, all’evento <em>complementare</em> possiamo associare la seguente probabilità:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="ch-anova.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
+<span id="cb122-2"><a href="ch-anova.html#cb122-2" aria-hidden="true" tabindex="-1"></a>  (posterior<span class="sc">$</span>mu[, <span class="dv">2</span>] <span class="sc">+</span> posterior<span class="sc">$</span>mu[, <span class="dv">4</span>]) <span class="sc">&lt;</span> </span>
+<span id="cb122-3"><a href="ch-anova.html#cb122-3" aria-hidden="true" tabindex="-1"></a>    (posterior<span class="sc">$</span>mu[, <span class="dv">1</span>] <span class="sc">+</span> posterior<span class="sc">$</span>mu[, <span class="dv">3</span>])</span>
+<span id="cb122-4"><a href="ch-anova.html#cb122-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span> </span>
+<span id="cb122-5"><a href="ch-anova.html#cb122-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>(posterior<span class="sc">$</span>mu[, <span class="dv">1</span>])</span>
+<span id="cb122-6"><a href="ch-anova.html#cb122-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.344125</span></span></code></pre></div>
+<p>L’effetto principale del fattore <em>Robot’s objection</em> è la differenza tra le medie di <em>Objection</em> e di <em>No Objection</em>, ignorando <em>Interaction type</em>. <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span> riportano che i partecipanti avevano aspettato più a lungo prima di spegnere il robot quando il robot aveva avanzato un’obiezione rispetto a quando non si era opposto ad essere spento:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="ch-anova.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(</span>
+<span id="cb123-2"><a href="ch-anova.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">2</span>])) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb123-3"><a href="ch-anova.html#cb123-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb123-4"><a href="ch-anova.html#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6.701133</span></span>
+<span id="cb123-5"><a href="ch-anova.html#cb123-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-6"><a href="ch-anova.html#cb123-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(</span>
+<span id="cb123-7"><a href="ch-anova.html#cb123-7" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">3</span>]) <span class="sc">+</span> <span class="fu">exp</span>(posterior<span class="sc">$</span>mu[, <span class="dv">4</span>])) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb123-8"><a href="ch-anova.html#cb123-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb123-9"><a href="ch-anova.html#cb123-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4.107915</span></span></code></pre></div>
+<p>In base al modello bayesiano, la probabilità direzionale per l’evento complementare è</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="ch-anova.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(</span>
+<span id="cb124-2"><a href="ch-anova.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  (posterior<span class="sc">$</span>mu[, <span class="dv">1</span>] <span class="sc">+</span> posterior<span class="sc">$</span>mu[, <span class="dv">2</span>]) <span class="sc">&lt;</span> </span>
+<span id="cb124-3"><a href="ch-anova.html#cb124-3" aria-hidden="true" tabindex="-1"></a>    (posterior<span class="sc">$</span>mu[, <span class="dv">3</span>] <span class="sc">+</span> posterior<span class="sc">$</span>mu[, <span class="dv">4</span>])</span>
+<span id="cb124-4"><a href="ch-anova.html#cb124-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span> </span>
+<span id="cb124-5"><a href="ch-anova.html#cb124-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>(posterior<span class="sc">$</span>mu[, <span class="dv">1</span>])</span>
+<span id="cb124-6"><a href="ch-anova.html#cb124-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.0011875</span></span></code></pre></div>
+<p>e corrisponde, in ordine di grandezza, alla probabilità frequentista riportata da <span class="citation">Horstmann et al. (<a href="#ref-horstmann2018robot" role="doc-biblioref">2018</a>)</span>, ovvero <span class="math inline">\(p\)</span> = 0.004.</p>
+</div>
+</div>
+<div id="codice-stan-versione-2" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Codice Stan (versione 2)<a href="ch-anova.html#codice-stan-versione-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>È possibile modificare il codice Stan precedente così da avere i dati grezzi in input ed eseguire la standardizzazione all’interno del programma.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="ch-anova.html#cb125-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb125-2"><a href="ch-anova.html#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="st">// Comparison of k groups with common variance (ANOVA)</span></span>
+<span id="cb125-3"><a href="ch-anova.html#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb125-4"><a href="ch-anova.html#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;            // number of observations</span></span>
+<span id="cb125-5"><a href="ch-anova.html#cb125-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; K;            // number of groups</span></span>
+<span id="cb125-6"><a href="ch-anova.html#cb125-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1,upper=K&gt; x[N]; // discrete group indicators</span></span>
+<span id="cb125-7"><a href="ch-anova.html#cb125-7" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;               // real valued observations</span></span>
+<span id="cb125-8"><a href="ch-anova.html#cb125-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb125-9"><a href="ch-anova.html#cb125-9" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
+<span id="cb125-10"><a href="ch-anova.html#cb125-10" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_std;</span></span>
+<span id="cb125-11"><a href="ch-anova.html#cb125-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std = (y - mean(y)) / sd(y);</span></span>
+<span id="cb125-12"><a href="ch-anova.html#cb125-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb125-13"><a href="ch-anova.html#cb125-13" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb125-14"><a href="ch-anova.html#cb125-14" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[K] mu_std;        // group means</span></span>
+<span id="cb125-15"><a href="ch-anova.html#cb125-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_std; // common standard deviation </span></span>
+<span id="cb125-16"><a href="ch-anova.html#cb125-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=1&gt; nu;</span></span>
+<span id="cb125-17"><a href="ch-anova.html#cb125-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb125-18"><a href="ch-anova.html#cb125-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb125-19"><a href="ch-anova.html#cb125-19" aria-hidden="true" tabindex="-1"></a><span class="st">  mu_std ~ normal(0, 2);  </span></span>
+<span id="cb125-20"><a href="ch-anova.html#cb125-20" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_std ~ normal(0, 2);     </span></span>
+<span id="cb125-21"><a href="ch-anova.html#cb125-21" aria-hidden="true" tabindex="-1"></a><span class="st">  nu ~ gamma(2, 0.1);   // Juárez and Steel(2010)</span></span>
+<span id="cb125-22"><a href="ch-anova.html#cb125-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std ~ student_t(nu, mu_std[x], sigma_std); </span></span>
+<span id="cb125-23"><a href="ch-anova.html#cb125-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb125-24"><a href="ch-anova.html#cb125-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb125-25"><a href="ch-anova.html#cb125-25" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[K] mu;</span></span>
+<span id="cb125-26"><a href="ch-anova.html#cb125-26" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb125-27"><a href="ch-anova.html#cb125-27" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:K) {</span></span>
+<span id="cb125-28"><a href="ch-anova.html#cb125-28" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[i] = mu_std[i] * sd(y) + mean(y);</span></span>
+<span id="cb125-29"><a href="ch-anova.html#cb125-29" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb125-30"><a href="ch-anova.html#cb125-30" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma = sd(y) * sigma_std;</span></span>
+<span id="cb125-31"><a href="ch-anova.html#cb125-31" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb125-32"><a href="ch-anova.html#cb125-32" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb125-33"><a href="ch-anova.html#cb125-33" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/grp_aovstd.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="ch-anova.html#cb126-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;grp_aovstd.stan&quot;</span>)</span>
+<span id="cb126-2"><a href="ch-anova.html#cb126-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<p>Eseguiamo il campionamento MCMC usando gli stessi dati discussi in precedenza:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="ch-anova.html#cb127-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb127-2"><a href="ch-anova.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_grp,</span>
+<span id="cb127-3"><a href="ch-anova.html#cb127-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb127-4"><a href="ch-anova.html#cb127-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb127-5"><a href="ch-anova.html#cb127-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb127-6"><a href="ch-anova.html#cb127-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb127-7"><a href="ch-anova.html#cb127-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb127-8"><a href="ch-anova.html#cb127-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb127-9"><a href="ch-anova.html#cb127-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb127-10"><a href="ch-anova.html#cb127-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>I risultati sono equivalenti a quelli trovati in precedenza:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="ch-anova.html#cb128-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;nu&quot;</span>))</span>
+<span id="cb128-2"><a href="ch-anova.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 10</span></span>
+<span id="cb128-3"><a href="ch-anova.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median     sd    mad    q5   q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb128-4"><a href="ch-anova.html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb128-5"><a href="ch-anova.html#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu[1]    1.70   1.70  0.176  0.171  1.42  2.00   1.00   22449.   11510.</span></span>
+<span id="cb128-6"><a href="ch-anova.html#cb128-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 mu[2]    2.07   2.06  0.197  0.196  1.75  2.40   1.00   21774.   12016.</span></span>
+<span id="cb128-7"><a href="ch-anova.html#cb128-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 mu[3]    1.53   1.52  0.122  0.121  1.32  1.73   1.00   21066.   11485.</span></span>
+<span id="cb128-8"><a href="ch-anova.html#cb128-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 mu[4]    1.29   1.28  0.127  0.124  1.08  1.50   1.00   20576.   11730.</span></span>
+<span id="cb128-9"><a href="ch-anova.html#cb128-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 sigma    0.480  0.476 0.0759 0.0744 0.362 0.612  1.00   15958.   12302.</span></span>
+<span id="cb128-10"><a href="ch-anova.html#cb128-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 nu       2.58   2.44  0.831  0.725  1.51  4.13   1.00   15484.    9221.</span></span></code></pre></div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-van2020tutorial" class="csl-entry">
+Bergh, Don van den, Johnny Van Doorn, Maarten Marsman, Tim Draws, Erik-Jan Van Kesteren, Koen Derks, Fabian Dablander, et al. 2020. <span>“A Tutorial on Conducting and Interpreting a Bayesian ANOVA in JASP.”</span> <em><span>L’Année</span> Psychologique</em> 120 (1): 73–96.
+</div>
+<div id="ref-horstmann2018robot" class="csl-entry">
+Horstmann, Aike C, Nikolai Bock, Eva Linhuber, Jessica M Szczuka, Carolin Straßmann, and Nicole C Krämer. 2018. <span>“Do a Robot’s Social Skills and Its Objection Discourage Interactants from Switching the Robot Off?”</span> <em>PloS One</em> 13 (7): e0201581.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="6">
+<li id="fn6"><p>In presenza di outlier la mediana fornisce una misura di tenenza centrale più robusta della media.<a href="ch-anova.html#fnref6" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-pred-checks.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mod-hier-stan.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/060_anova.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

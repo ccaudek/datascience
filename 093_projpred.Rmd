@@ -1,0 +1,222 @@
+# Selezione di variabili {#ch:varsel}
+
+```{r, echo=FALSE}
+source("_common.R")
+source("_stan_options.R")
+library("brms")
+library("projpred")
+```
+
+I concetti che sono stati introdotti in questa parte della dispensa, tra le altre cose, risultano utili per affrontare un problema importante in psicologia, ovvero quello della semplificazione di un modello di regressione che contiene molti predittori. Il problema è quello di selezionare un insieme di variabili indipendenti così che tale selezione non comporti una apprezzabile perdita nella capacità predittiva del modello ristretto rispetto al modello completo. 
+
+## L'importanza delle variabili
+
+Un modo per identificare le variabili rilevanti per prevedere una determinata variabile risposta è quello di utilizzare il metodo basato sulla proiezione, come discusso nel seguente  [link](https://cran.r-project.org/web/packages/projpred/vignettes/quickstart.html) e in @piironen2017comparison. Per descrivere questa procedura, adatto qui un esempio discusso da Mark Lai in  [Course Handouts for Bayesian Data Analysis Class](https://bookdown.org/marklhc/notes_bookdown/model-comparison-and-regularization.html). Iniziamo a leggere i dati.
+
+```{r}
+kidiq <- rio::import(here::here("data", "kidiq.dta"))
+kidiq <- kidiq %>%
+  mutate(
+    mom_hs = factor(mom_hs, labels = c("no", "yes"))
+  )
+```
+
+Per semplificare  l'analisi, standardizzo le variabili numeriche.
+
+```{r}
+scale_this <- function(x) as.vector(scale(x))
+kidiq_scaled <- kidiq %>%
+  as_tibble() %>%
+  mutate(across(where(is.numeric), scale_this))
+kidiq_scaled <- kidiq_scaled %>%
+  mutate(
+    mom_hs = kidiq$mom_hs
+  )
+glimpse(kidiq_scaled)
+```
+
+Il seguente modello di regressione utilizza `kid_score` quale variabile dipendente e, quali predittori, include tutte le altre variabili disponibili e le loro  interazioni a due vie.
+
+```{r}
+m1 <- brm(
+  kid_score ~ (mom_iq + mom_hs + mom_work + mom_age)^2,
+  data = kidiq_scaled,
+  seed = 2302,
+  chains = 4L,
+  cores = 4L,
+  refresh = 0,
+  backend = "cmdstan"
+)
+```
+
+Un grafico che riporta un _posterior predictive check_ si ottiene con l'istruzione seguente:
+
+```{r}
+pp_check(m1, ndraws = 50, alpha = 0.5) +
+  xlim(-5, 4) +
+  labs(x = "Kid IQ")
+```
+
+Identifichiamo ora l'importanza relativa delle variabili indipendenti nei termini della loro importanza per la previsione:
+
+```{r varsel, cache=FALSE}
+# Variable selection
+vs <- projpred::varsel(m1)
+```
+
+Un grafico dell'importanza relativa di ciascuna variable per la previsione di `kid_score` si ottiene nel modo seguente:
+
+```{r}
+# plot predictive performance on training data
+plot(vs, stats = c("elpd", "rmse"))
+```
+
+
+## Il pacchetto `projpred`
+
+Troviamo ora il numero di variabili da mantenere, in base al modello completo:
+
+```{r}
+projpred::suggest_size(vs)
+```
+
+Usiamo quindi il metodo `cv_varsel()` per eseguire la convalida incrociata per vedere quante variabili dovrebbero essere incluse nel modello:
+
+```{r varselcv, cache=FALSE}
+# With cross-validation
+cvs <- projpred::cv_varsel(m1, verbose = FALSE)
+```
+
+In base al metodo della convalida incrociata, il numero di variabili da mantenere è
+
+```{r}
+projpred::suggest_size(cvs)
+```
+
+Generiamo il grafico dei risultati della convalida incrociata, questa volta relativi al modello completo:
+
+```{r}
+plot(cvs, stats = c("elpd", "rmse"), deltas = TRUE)
+```
+
+Stampiamo l'elenco delle variabili ordinate in base alla loro importanza relativa, secondo il metodo della convalida incrociata:
+
+```{r}
+summary(cvs, stats=c('mse'), type = c('mean','se'))
+```
+
+Il metodo basato sulla proiezione produce le distribuzioni a posteriori basate su una proiezione dal modello completo sul modello semplificato. In altre parole, si pone la domanda: "Se vogliamo un modello con solo `mom_iq` nel modello, quali coefficienti dovrebbero essere usati per fare in modo che l'accuratezza della previsione risultante sia la più vicina possibile a quella del modello completo?". I coefficienti ottenuti con il metodo basato sulla proiezione saranno dunque diversi da quelli che si avrebbero se si stimasse direttamente il modello utilizzando il solo predittore `mom_iq` (ad es. `m2`). I risultati ottenuti da studi basati sulla simulazione hanno mostrato che il metodo basato sulla proiezione produce un modello con prestazioni predittive migliori.
+
+```{r}
+proj1 <- projpred::project(
+  cvs,
+  nv = suggest_size(cvs),
+  seed = 123,
+  ns = 1000
+)
+posterior_summary(proj1) %>%
+  round(3)
+```
+
+Per fare un confronto, stimiamo i coefficienti del modello di regressione che include unicamente la variabile `mom_iq`:
+
+```{r}
+m2 <- brm(kid_score ~ mom_iq,
+  data = kidiq_scaled,
+  seed = 2302,
+  chains = 4L,
+  cores = 4L,
+  refresh = 0,
+  backend = "cmdstan"
+)
+```
+
+```{r}
+summary(m2)
+```
+
+Nel caso presente, le differenze sono minime, ma questo non è sempre vero.
+
+## Confronto di modelli tramite $\elpd$
+
+Confrontiamo ora la capacità predittiva a posteriori dei due modelli discussi sopra rispetto alla loro $\elpd$. Ricordiamo che tanto maggiore è $\elpd$ rispetto ad un nuovo insieme di dati futuri $\tilde{y}$, $\log p(\tilde{y} \mid y)$, tanto maggiore è l'accuratezza predittiva del modello. Iniziamo a calcolare $\elpd$ per i due modelli:
+
+```{r}
+loo1 <- loo::loo(m1)
+loo2 <- loo::loo(m2)
+c(loo1$estimates[1], loo2$estimates[1])
+```
+
+La quantità $\elpd$ non fornisce una metrica interpretabile per l'accuratezza predittiva di un singolo modello. Risulta invece utile per il confronto tra modelli alternativi. Un confronto tra il modello completo e il modello semplificato si ottiene mediante la funzione `loo_compare()`:
+
+```{r}
+loo::loo_compare(loo1, loo2)
+```
+
+I risultati di tale confronto indicano che il Modello `m1` ha il valore $\elpd$ più basso e, dunque, sarebbe quello da preferire. Tuttavia, se si considera la differenza in $\elpd$ in riferimento all'errore standard corrispondente (nella colonna `se_diff`), ne risulta una differenza relativamente piccola. Per il Modello `m1` $\elpd$ è uguale a -567.3 e per `m2` è -569.5.  La differenza è pari a (-567.3 - -569.5) = 2.2, con un errore standard stimato di 5.0. I dati dunque suggeriscono che la vera differenza in $\elpd$ tra `m1` e `m2` sia compresa tra $\pm$ 2 errori standard (ovvero nel caso presente, 10 unità) dalla differenza stimata di -2.2 unità, ovvero sia inclusa nell'intervallo $-2.2 \pm 2 \cdot 5 = (-12.2, 7.8)$. Dato il valore $\elpd = 0$ è compreso nell'intervallo di $\pm$ due standard error dalla differenza stimata, i dati non forniscono evidenze convincenti che l'accuratezza predittiva a posteriori di `m1` sia superiore a quella di `m2`. Inoltre, dato che il Modello `m2` è più semplice di `m1`, concludiamo che `m2` sia il modello migliore tra i due considerati (rasoio di Ockham).
+
+## Coefficiente di determinazione bayesiano
+
+@gelman2019r definiscono il [coefficiente di determinazione bayesiano](https://avehtari.github.io/bayes_R2/bayes_R2.html) come
+
+\begin{equation}
+R^2 = \frac{\Var_{\mu}}{\Var_{\mu} + \Var_{\text{res}}},
+\end{equation}
+
+dove $\Var_{\mu}$ è la varianza del valore atteso predetto dal modello e $\Var_{\text{res}}$ è la varianza dei residui. Entrambe queste quantità sono stimate considerando gli indici a posteriori del modello adattato.
+
+Di seguito vengono calcolati i coefficienti di determinazione bayesiani dei due modelli discussi sopra:
+
+```{r}
+loo_R2(m1, robust = TRUE) %>%
+  round(3)
+loo_R2(m2, robust = TRUE) %>%
+  round(3)
+```
+
+Una rappresentazione grafica della distribuzione a posteriori dei due coefficienti di determinazione bayesiani si ottiene com le seguenti istruzioni:
+
+```{r}
+library("patchwork")
+library("latex2exp")
+
+m1_fit_r2 <- loo_R2(m1, summary = FALSE)
+foo <- tibble(R2 = as.numeric(m1_fit_r2))
+h1 <- foo %>%
+  ggplot(aes(x = R2)) +
+  geom_density(alpha = 0.5) +
+  xlab(TeX("$R^2$")) +
+  ylab("Density") +
+  ggtitle("Bayesian R squared\n posterior for model 1")
+
+m2_fit_r2 <- loo_R2(m2, summary = FALSE)
+foo2 <- tibble(R2 = as.numeric(m2_fit_r2))
+h2 <- foo2 %>%
+  ggplot(aes(x = R2)) +
+  geom_density(alpha = 0.5) +
+  xlab(TeX("$R^2$")) +
+  ylab("Density") +
+  ggtitle("Bayesian R squared\n posterior for model 2")
+
+h1 | h2
+```
+
+Considerato l'intervallo a posteriori del 95%, anche in questo caso non abbiamo evidenze convincenti che l'uso di un solo predittore faccia diminuire la capacità predittiva del modello.
+
+## Commenti e considerazioni finali {-}
+
+Dati due modelli computazionali che forniscono resoconti diversi di un set di dati, come possiamo decidere quale modello è maggiormente supportato dai dati? In questa parte della dispensa abbiamo visto come il problema del confronto di modelli possa essere formulato nei termini di un problema di inferenza statistica.
+
+Abbiamo visto come la divergenza KL possa essere usata per confrontare una "vera" distribuzione di probabilità con una sua approssimazione. Abbiamo anche visto come che, da un punto di vista bayesiano, il problema del confronto tra modelli viene presentato nei termini della capacità predittiva di un modello per nuove osservazioni future: "*The central question is then how one should decide among a set of competing models. A short answer is that a model should be selected based on its generalizability, which is defined as a model's ability to fit current data but also to predict future data*" [@myung2003tutorial].
+
+Se un modello non si generalizza bene a nuovi dati, si può sostenere che il modello è inappropriato o almeno manca di alcune caratteristiche importanti dato che non cattura la natura del vero processo di generazione dei dati sottostante $p_t(\tilde{y})$. La capacità predittiva di un modello viene comunemente descritta in termini della sua densità predittiva logaritmica attesa (ELPD):
+
+$$
+\overline{\text{ELPD}} = \int \log p_{\mathcal{M}} (\tilde{y} \mid y) p_t(\tilde{y}) d \tilde{y}.
+$$
+
+L'ELPD per il modello $\mathcal{M}$ può essere interpretata come la media pesata della densità predittiva logaritmica $\log p_{\mathcal{M}} (\tilde{y}_i \mid y)$ per una nuova osservazione per il modello $\mathcal{M}$, dove i pesi derivano dal vero processo di generazione dei dati $p_t(\tilde{y})$. Grandi valori di $\overline{\text{ELPD}}(\mathcal{M})$ indicano che il modello prevede bene nuove osservazioni $\tilde{y}$, mentre piccoli valori $\overline{\text{ELPD}}(\mathcal{M})$ mostrano che il modello non si generalizza bene a nuovi dati. In pratica, però, la vera densità $p_t(\tilde{y})$ è incognita. Una _stima_ di $\overline{\text{ELPD}}(\mathcal{M})$ può essere ottenuta con il metodo di validazione incrociata leave-one-out (LOO) in cui il modello tante volte ($n$) quante sono le singole osservazioni (_leave-one-out cross-validation_, LOO-CV). La strategia LOO-CV è computazionalmente troppo onerosa per qualunque scopo pratico e viene quindi approssimata mediante un metodo chiamato _Pareto-smoothed importance sampling cross-validation_ [PSIS; @vehtari2017practical] -- che non richiede di adattare il modello $n$ volte. Tale stima della densità predittiva logaritmica viene chiamata ELPD-LOO. Maggiore è il punteggio ELPD-LOO di un modello, migliore è l'accuratezza predittiva out-of-sample del modello. L'errore standard di ELPD-LOO fornisce una descrizione dell'incertezza sulle prestazioni predittive per dati futuri sconosciuti. Nel confronto dei modelli, quando la differenza in ELPD-LOO è maggiore di 4, il numero di osservazioni è maggiore di 100, e in assenza di un errore di specificazione del modello, la differenza dei valori ELPD-LOO di due modelli segue la distribuzione normale. Nel confronto di modelli, un valore $|\text{elpd}_{\text{diff}} / SE_{\text{diff}}|$ maggiore di 2 può dunque essere considerato degno di menzione ("noteworthy") [@gelman2020regression].
+
+Anche se la procedura descritta sopra viene correntemente usata dai ricercatori, è però necessaria una nota di cautela. @navarro2019between ci fa notare che il problema statistico del confronto di modelli non risolve il problema scientifico della selezione di teorie. A questo proposito usa una citazione di George Box: *"Since all models are wrong the scientist must be alert to what is importantly wrong. It is inappropriate to be concerned about mice when there are tigers abroad."*
+
+La metafora delle tigri di George Box fa riferimento evidentemente all'assunzione che sta alla base delle procedure discusse in questo Capitolo, ovvero all'ipotesi che il vero meccanismo generatore dei dati sia noto e che l'unica incognita corrisponda ai parametri. Tuttavia le cose non sono così semplici: nei casi di interesse scientifico è lo stesso meccanismo generatore dei dati ad essere sconosciuto. I ricercatori non comprendono appieno i fenomeni che stanno studiando (altrimenti perché studiarli?) e qualunque descrizione formale di un fenomeno (modello) è sbagliata in un modo sconosciuto e sistematico. Di conseguenza, è "facile" fare inferenza sulla capacità predittiva del modello, ma è molto difficile fare inferenza sulla struttura causale dei fenomeni. In altre parole, se le analisi statistiche ci dicono che un modello ha una buona accuratezza predittiva, con ciò non abbiamo imparato nulla sulla struttura causale del fenomeno. Ma è anche vera l'affermazione opposta: un modello che non ha _neppure_ una buona accuratezza predittiva è sicuramente inutile --- non è in grado né di fare previsioni accurate né di catturare la struttura causale.

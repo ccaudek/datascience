@@ -1,0 +1,123 @@
+# Aggiornamento Bayesiano {#appendix:bayes-updating}
+
+Per fornire un esempio di aggiornamento bayesiano, consideriamo il seguente problema. Supponiamo che, per qualche strano errore di produzione, una fabbrica
+produca due tipi di monete. Il primo tipo di monete ha la caratteristica
+che, quando una moneta viene lanciata, la probabilità di osservare
+l'esito "testa" è 0.6. Per semplicità, sia $\theta$ la probabilità di
+osservare l'esito "testa". Per una moneta del primo tipo, dunque,
+$\theta = 0.6$. Per una moneta del secondo tipo, invece, la probabilità
+di produrre l'esito "testa" è 0.4. Ovvero, $\theta = 0.4$.
+
+Noi possediamo una moneta, ma non sappiamo se è del primo tipo o del secondo tipo. Sappiamo solo che il 75% delle monete sono del primo tipo e il 25% sono del secondo tipo. Sulla base di questa conoscenza *a priori* -- ovvero sulla base di una conoscenza ottenuta senza avere eseguitol'esperimento che consiste nel lanciare la moneta una serie di volte per osservare gli esiti prodotti -- possiamo dire che la probabilità di una prima ipotesi, secondo la quale $\theta = 0.6$, è 3 volte più grande della probabilità di una seconda ipotesi, secondo la quale
+$\theta = 0.4$. Senza avere eseguito alcun esperimento casuale con la
+moneta, questo è quello che sappiamo.
+
+Ora immaginiamo di lanciare una moneta due volte e di ottenere il
+risultato seguente: $\{T, C\}$. Quello che ci chiediamo è: sulla base di
+questa evidenza, come cambiano le probabilità che associamo alle due
+ipotesi? In altre parole, ci chiediamo qual è la probabilità di ciascuna
+ipotesi alla luce dei dati che sono stati osservati: $P(H \mid y)$,
+laddove $y$ sono i dati osservati. Tale probabilità si chiama
+probabilità a posteriori. Inoltre, se confrontiamo le due ipotesi, ci
+chiediamo quale valore assuma il rapporto $\frac{P(H_1 \mid y)}{P(H_2 \mid y)}$.
+Tale rapporto ci dice quanto è più probabile $H_1$ rispetto ad $H_2$, alla luce dei dati osservati. Infine, ci chiediamo come cambia il rapporto definito sopra, quando osserviamo via via nuovi risultati prodotti dal lancio della moneta.
+
+Definiamo il problema in maniera più chiara. Conosciamo le probabilità a priori, ovvero $P(H_1) = 0.75$ e $P(H_1) = 0.25$. Quello che vogliamo conoscere sono le probabilità a posteriori $P(H_1 \mid y)$ e $P(H_2 \mid y)$. Per trovare le probabilità a posteriori applichiamo il teorema di Bayes:
+
+$$
+\begin{split}
+P(H_1 \mid y) &= \frac{P(y \mid H_1) P(H_1)}{P(y)} \\
+&= \frac{P(y \mid H_1) P(H_1)}{P(y \mid H_1) P(H_1) + P(y \mid H_2) P(H_2)},
+\end{split}
+$$
+
+laddove lo sviluppo del denominatore deriva da un'applicazione del teorema della probabilità totale.
+Inoltre,
+
+$$
+P(H_2 \mid y) = \frac{P(y \mid H_2) P(H_2)}{P(y \mid H_1) P(H_1) + P(y \mid H_2) P(H_2)}.
+$$
+
+Se consideriamo l'ipotesi $H_1$ = "la probabilità di testa è 0.6", allora
+la verosimiglianza dei dati $\{T, C\}$, ovvero la probabilità di osservare questa specifica sequenza di T e C, è uguale a $0.6 \times 0.4 = 0.24.$
+Dunque, $P(y \mid H_1) = 0.24$.
+
+Se invece consideriamo l'ipotesi $H_2$ = "la probabilità di testa è 0.4", allora la verosimiglianza dei dati $\{T, C\}$ è $0.4 \times 0.6 = 0.24$, ovvero, $P(y \mid H_2) = 0.24$. In base alle due ipotesi $H_1$ e $H_2$, dunque, i dati osservati hanno la
+medesima plausibilità di essere osservati.
+Per semplicità, calcoliamo anche
+
+$$
+\begin{split}
+P(y) &= P(y \mid H_1) P(H_1) + P(y \mid H_2) P(H_2) \\
+&= 0.24 \cdot 0.75 + 0.24 \cdot 0.25 \\
+&= 0.24.
+\end{split}
+$$
+
+Le probabilità a posteriori diventano:
+
+$$
+\begin{split}
+P(H_1 \mid y) &= \frac{P(y \mid H_1) P(H_1)}{P(y)}\\
+&= \frac{0.24 \cdot 0.75}{0.24} \\
+&= 0.75,
+\end{split}
+$$
+
+$$
+\begin{split}
+P(H_2 \mid y) &= \frac{P(y \mid H_2) P(H_2)}{P(y)} \\
+&= \frac{0.24 \cdot 0.25}{0.24} \\
+&= 0.25.
+\end{split}
+$$
+
+Possiamo dunque concludere dicendo che, sulla base dei dati osservati, l'ipotesi $H_1$ ha una probabilità 3 volte maggiore di essere vera dell'ipotesi $H_2$.
+
+È tuttavia possibile raccogliere più evidenze e, sulla base di esse, le probabilità a posteriori cambieranno.  Supponiamo di lanciare la moneta una terza volta e di osservare croce. I nostri dati dunque sono $\{T, C, C\}$.
+
+Di conseguenza, $P(y \mid H_1) = 0.6 \cdot 0.4 \cdot 0.4 = 0.096$ e $P(y \mid H_2) = 0.4 \cdot 0.6 \cdot 0.6 = 0.144$.
+Ne segue che le probabilità a posteriori diventano:
+
+$$
+\begin{split}
+P(H_1 \mid y) &= \frac{P(y \mid H_1) P(H_1)}{P(y)} \\
+&= \frac{0.096 \cdot 0.75}{0.096 \cdot 0.75 + 0.144 \cdot 0.25} \\
+&= 0.667,
+\end{split}
+$$
+
+$$
+\begin{split}
+P(H_2 \mid y) &= \frac{P(y \mid H_2) P(H_2)}{P(y)} \\
+&= \frac{0.144 \cdot 0.25}{0.096 \cdot 0.75 + 0.144 \cdot 0.25} \\
+&= 0.333.
+\end{split}
+$$
+
+In queste circostanze, le evidenze che favoriscono $H_1$ nei confronti
+di $H_2$ sono solo pari ad un fattore di 2.
+
+Se otteniamo ancora croce in un quarto lancio della moneta, i nostri
+dati diventano: $\{T, C, C, C\}$.
+Ripetendo il ragionamento fatto sopra,
+$P(y \mid H_1) = 0.6 \cdot 0.4 \cdot 0.4 \cdot 0.4 = 0.0384$ e
+$P(y \mid H_2) = 0.4 \cdot 0.6 \cdot 0.6 \cdot 0.6 = 0.0864$.
+Dunque
+
+\begin{equation}
+P(H_1 \mid y) = \frac{0.0384 \cdot 0.75}{0.0384 \cdot 0.75 + 0.0864 \cdot 0.25} = 0.571,\notag
+\end{equation}
+
+\begin{equation}
+P(H_2 \mid y) = \frac{0.0864 \cdot 0.25}{0.0384 \cdot 0.75 + 0.0864 \cdot 0.25} = 0.429.\notag
+\end{equation}
+
+e le evidenze a favore di $H_1$ si riducono a 1.33. Se si ottenesse un
+altro esito croce in un sesto lancio della moneta, l'ipotesi $H2$
+diventerebbe più probabile dell'ipotesi $H_1$.
+
+In conclusione, questo esercizio ci fa capire come sia possibile aggiornare le nostre credenze sulla base delle evidenze disponibili, ovvero come sia possibile passare da un grado di conoscenza del mondo a priori a una conoscenza a posteriori.
+Se prima di lanciare la moneta ritenevamo che l'ipotesi $H_1$ fosse tre volte più plausibile dell'ipotesi $H_2$, dopo avere osservato uno specifico campione di dati siamo giunti alla conclusione opposta.
+Il processo di aggiornamento bayesiano, dunque, ci fornisce un metodo per modificare il livello di fiducia in una data ipotesi, alla luce di nuove informazioni.
+

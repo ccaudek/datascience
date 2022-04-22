@@ -1,0 +1,197 @@
+# Probabilità congiunta {#chapter-prob-congiunta}
+
+```{r c018, include = FALSE}
+source("_common.R")
+```
+
+La probabilità congiunta è la probabilità che due o più eventi si verifichino contemporaneamente. In questo Capitolo verrà esaminato in dettaglio il caso discreto. 
+
+## Funzione di probabilità congiunta
+
+Dopo aver trattato della distribuzione di probabilità di una variabile casuale, la quale associa ad ogni evento elementare dello spazio campione uno ed un solo numero reale, è naturale estendere questo concetto al caso di due o più variabili casuali. 
+
+Iniziamo a descrivere il caso discreto con un esempio. Consideriamo l'esperimento casuale corrispondente al lancio di tre monete equilibrate. Lo spazio campione è
+
+$$
+\Omega = \{TTT, TTC, TCT, CTT, CCT, CTC, TCC, CCC\}.
+$$ 
+
+Dato che i tre lanci sono tra loro indipendenti, non c'è ragione di aspettarsi che uno degli otto risultati possibili dell'esperimento sia più probabile degli altri, dunque possiamo associare a ciascuno degli otto eventi elementari dello spazio campione la stessa probabilità, ovvero 1/8.
+
+Siano $X \in \{0, 1, 2, 3\}$ = "numero di realizzazioni con il risultato testa nei tre lanci" e $Y \in \{0, 1\}$ = "numero di realizzazioni con il risultato testa nel primo lancio" due variabili casuali definite sullo spazio campione $\Omega$. Indicando con T = 'testa' e C = 'croce', si ottiene la situazione riportata nella tabella \@ref(tab:tre-monete-distr-cong-1).
+
+Table: (\#tab:tre-monete-distr-cong-1) Spazio campione dell'esperimento consistente nel lancio di tre monete equilibrate su cui sono state definite le variabili aleatorie $X$ = 'numero di realizzazioni con il risultato testa nei tre lanci' e $Y$ = 'numero di realizzazioni con il risultato testa nel primo lancio'.
+
+       $\omega$       $X$   $Y$   $P(\omega)$
+  ------------------ ----- ----- -------------
+   $\omega_1$ = TTT    3     1        1/8
+   $\omega_2$ = TTC    2     1        1/8
+   $\omega_3$ = TCT    2     1        1/8
+   $\omega_4$ = CTT    2     0        1/8
+   $\omega_5$ = CCT    1     0        1/8
+   $\omega_6$ = CTC    1     0        1/8
+   $\omega_7$ = TCC    1     1        1/8
+   $\omega_8$ = CCC    0     0        1/8
+
+Ci poniamo il problema di associare un valore di probabilità ad ogni coppia $(x, y)$ definita su $\Omega$. La coppia $(X = 0, Y = 0)$ si realizza in corrispondenza di un solo evento elementare, ovvero CCC; avrà dunque una probabilità pari a $P(X=0, Y=0) = P(CCC) = 1/8$. Nel caso della coppia $(X = 1, Y = 0)$ ci sono due eventi elementari che danno luogo al risultato considerato, ovvero, CCT e CTC. La probabilità dell'evento composto $P(X=1, Y=0)$ è uguale alla somma delle probabilità dei due eventi elementari che lo costituiscono, cioé $P(X=1, Y=0) = P(\mbox{CCT}) + P(\mbox{CTC}) = 1/8 + 1/8 = 1/4$. Sono riportati qui sotto i calcoli per tutti i possibili valori di $X, Y$.
+
+\begin{align}
+P(X = 0, Y = 0) &= P(\omega_8 = CCC) = 1/8; \notag\\
+P(X = 1, Y = 0) &= P(\omega_5 = CCT) + P(\omega_6 = CTC) = 2/8; \notag\\
+P(X = 1, Y = 1) &= P(\omega_7 = TCC) = 1/8; \notag\\
+P(X = 2, Y = 0) &= P(\omega_4 = CTT) = 1/8; \notag\\
+P(X = 2, Y = 1) &= P(\omega_3 = TCT) + P(\omega_2 = TTC) = 2/8; \notag\\
+P(X = 3, Y = 1) &= P(\omega_1 = TTT) = 1/8; \notag
+\end{align}
+
+Le probabilità così trovate sono riportate nella tabella \@ref(tab:ditr-cong-biv-1) la quale descrive la distribuzione di probabilità congiunta delle variabili casuali $X$ = "numero di realizzazioni con il risultato testa nei tre lanci" e $Y$ = "numero di realizzazioni con il risultato testa nel primo lancio" per l'esperimento casuale consistente nel lancio di tre monete equilibrate.
+
+Table: (\#tab:ditr-cong-biv-1) Distribuzione di probabilità congiunta per i risultati dell'esperimento consistente nel lancio di tre monete equilibrate.
+
+   $x / y$      0     1   
+  ---------- ----- ----- 
+      0       1/8    0   
+      1       2/8   1/8  
+      2       1/8   2/8  
+      3        0    1/8  
+
+In generale, possiamo dire che, dato uno spazio campione discreto $\Omega$, è possibile associare ad ogni evento elementare $\omega_i$ dello spazio campione una coppia di numeri reali $(x, y)$, essendo $x = X(\omega)$ e $y = Y(\omega)$, il che ci conduce alla seguente definizione.
+
+::: {.definition}
+Siano $X$ e $Y$ due variabili casuali. La funzione che associa ad ogni coppia $(x, y)$ un valore di probabilità prende il nome di funzione di probabilità congiunta:
+
+\begin{equation}
+P(x, y) = P(X = x, Y = y).
+\end{equation}
+::: 
+
+Il termine "congiunta" deriva dal fatto che questa probabilità è legata al verificarsi di una coppia di valori, il primo associato alla variabile casuale $X$ ed il secondo alla variabile casuale $Y$. Nel caso di due sole variabili casuali si parla di distribuzione bivariata, mentre nel caso di più variabili casuali si parla di distribuzione multivariata.
+
+<!-- ::: {.remark} -->
+<!-- La regola della catena, $P(A \cap B) = P(A)P(B \mid A)$, permette il calcolo di qualsiasi membro della distribuzione congiunta di un insieme di variabili casuali utilizzando solo le probabilità condizionate. Nel caso di 4 eventi, per esempio, la regola della catena diventa -->
+
+<!-- $$ -->
+<!-- P(A_1, A_2, A_3, A_4) = P(A_1) P(A_2 \mid A_1) P(A_3 \mid A_1, A_2) P(A_4 \mid A_1, A_2, A_3). -->
+<!-- $$ -->
+<!-- ::: -->
+
+### Proprietà
+
+Una distribuzione di massa di probabilità congiunta bivariata deve soddisfare due proprietà:
+
+1.  $0 \leq P(x_i, y_j) \leq 1$;
+
+2.  la probabilità totale deve essere uguale a $1.0$. Tale proprietà può essere espressa nel modo seguente
+
+$$
+\sum_{i} \sum_{j} P(x_i, y_j) = 1.0.
+$$
+
+### Eventi
+
+Si noti che dalla probabilità congiunta possiamo calcolare la probabilità di qualsiasi evento definito in base alle variabili aleatorie $X$ e $Y$. Per capire come questo possa essere fatto, consideriamo nuovamente l'esperimento casuale discusso in precedenza.
+
+::: {.exercise}
+Per la distribuzione di massa di probabilità congiunta riportata nella tabella \@ref(tab:ditr-cong-biv-1) si trovi la probabilità dell'evento $X+Y \leq 1$.
+
+Per trovare la probabilità richiesta dobbiamo sommare le probabilità associate a tutte le coppie $(x,y)$ che soddisfano la condizione $X+Y \leq 1$, ovvero
+
+\begin{equation}
+P_{XY}(X+Y \leq 1) = P_{XY}(0, 0)+ P_{XY}(0, 1) + P_{XY}(1, 0) = 3/8.\notag
+\end{equation}
+::: 
+
+### Funzioni di probabilità marginali {#sec:marg-distr-discr}
+
+<!-- La distribuzione marginale di un sottoinsieme di variabili casuali è la distribuzione di probabilità delle variabili contenute nel sottoinsieme. Come spiegato da [Wikipedia](https://it.wikipedia.org/wiki/Distribuzione_marginale): *il termine variabile marginale è usato per riferirsi a quelle variabili nel sottoinsieme delle variabili che vengono trattenute ovvero utilizzate. Questo termine, marginale, è attribuito ai valori ottenuti ad esempio sommando in una tabella di valori lungo le righe oppure lungo le colonne, trascrivendo il risultato appunto a margine rispettivamente della riga o colonna sommata. La distribuzione delle variabili marginali (la distribuzione marginale) è ottenuta mediante marginalizzazione sopra le variabili da "scartare", e le variabili scartate sono dette fuori marginalizzate.* -->
+
+Nel caso di due variabili casuali discrete $X$ e $Y$ di cui conosciamo la distribuzione congiunta, la distribuzione marginale di $X$ è calcolata sommando la distribuzione di probabilità congiunta sopra la variabile da "scartare", in questo caso la $Y$. La funzione di massa di probabilità marginale $P(X=x)$ è
+
+\begin{equation}
+P(X = x) = \sum_y P(X, Y = y) = \sum_y P(X \mid Y = y) P(Y = y),
+\end{equation}
+
+dove $P(X = x,Y = y)$ è la distribuzione congiunta di $X, Y$, mentre $P(X = x \mid Y = y)$ è la distribuzione condizionata di $X$ dato $Y$. Se esaminiamo $P(X=x)$, diciamo che la variabile $Y$ è stata marginalizzata. 
+
+Le probabilità bivariate marginali e congiunte per variabili casuali discrete sono spesso mostrate come tabelle di contingenza. Si noti che $P(X = x)$ e $P(Y = y)$ sono normalizzate:
+
+$$
+\sum_x P(X=x) = 1.0, \quad \sum_y P(Y=y) = 1.0.
+$$
+
+Nel caso continuo si sostituisce l'integrazione alla somma -- si veda la Sezione \@ref(sec:margin-vc-cont). 
+
+::: {.exercise}
+Per l'esperimento casuale consistente nel lancio di tre monete equilibrate, si calcolino le probabilità marginali di $X$ e $Y$.
+
+Nell'ultima colonna a destra e nell'ultima riga in basso della tabella \@ref(tab:ditr-cong-biv) sono riportate le distribuzioni di probabilità marginali di $X$ e $Y$. $P_X$ si ottiene sommando su ciascuna riga fissata la colonna $j$, $P_X(X = j) = \sum_y p_{xy}(x = j, y)$. $P_Y$ si trova sommando su ciascuna colonna fissata la riga $i,$ $P_Y (Y = i) = \sum_x p_{xy}(x, y = i)$.
+
+Table: (\#tab:ditr-cong-biv) Distribuzione di probabilità congiunta $p(x,y)$ per i risultati dell'esperimento consistente nel lancio di tre monete equilibrate e  probabilità marginali $P(x)$ e $P(y)$.
+
+         $x / y$          0     1    $P(x)$
+  --------------------- ----- ----- --------
+            0            1/8    0     1/8
+            1            2/8   1/8    3/8
+            2            1/8   2/8    3/8
+            3             0    1/8    1/8
+         $P(y)$          4/8   4/8    1.0
+
+:::
+
+## Marginalizzazione di variabili casuali continue {#sec:margin-vc-cont}
+
+Nella trattazione della statistca bayesiana useremo spesso il concetto di "marginalizzazione" e vedremo equazioni come la seguente:
+
+\begin{equation}
+p(y) = \int_{\theta} p(y, \theta) = \int_{\theta} p(y \mid \theta) p(\theta),
+(\#eq:ex-marg-cont)
+\end{equation}
+
+laddove $y$ e $\theta$ sono due variabili casuali continue -- nello specifico, con $y$ denoteremo i dati e con $\theta$ i parametri di un modello statistico. Per ora, possiamo pensare a $y$ e $\theta$ come a due variabili casuali qualsiasi. È possibiile pensare al caso continuo indicato nella \@ref(eq:ex-marg-cont) come all'estensione dell'esempio precedente ad un numero infinito di valori $\theta$.
+
+<!-- Per meglio comprendere la \@ref(eq:ex-marg-cont) possiamo esaminare il corrispondente caso discreto nel quale sostituiamo semplicemente l'integrale con una somma, il che ci riporta alla situazione descritta nella Sezione \@ref(sec:marg-distr-discr). Possiamo dunque scrivere: -->
+
+<!-- \begin{equation} -->
+<!-- p(y) = \sum_{\theta} p(y, \theta) = \sum_{\theta} p(y \mid \theta) p(\theta). -->
+<!-- (\#eq:ex-marginalization) -->
+<!-- \end{equation} -->
+
+<!-- Esaminiamo un semplice esempio numerico. Siano $y$ e $\theta$ due variabili discrete aventi la distribuzione di massa di probabilità congiunta riportata nella tabella \@ref(tab:ex-marg). -->
+
+<!-- Table: (\#tab:ex-marg) Distribuzione di probabilità congiunta $p(y, \theta)$ per due variabili casuali discrete. -->
+
+<!--          $y / \theta$    0     1    $p(y)$ -->
+<!--   --------------------- ----- ----- -------- -->
+<!--             0            0.1  0.2    0.3 -->
+<!--             1            0.3  0.4    0.7 -->
+<!--     $p(\theta)$          0.4  0.6    1.0 -->
+<!--   --------------------- ----- ----- -------- -->
+
+<!-- Applicando la \@ref(eq:ex-marginalization), la distribuzione marginale $p(y) = \{0.3, 0.7\}$ può essere trovata nel modo seguente: -->
+
+<!-- $$ -->
+<!-- \begin{pmatrix} -->
+<!--     0.1 / 0.4 \\ -->
+<!--     0.3 / 0.4 -->
+<!-- \end{pmatrix} \cdot 0.4 + -->
+<!-- \begin{pmatrix} -->
+<!--     0.2 / 0.6 \\ -->
+<!--     0.4 / 0.6 -->
+<!-- \end{pmatrix} \cdot 0.6 = -->
+<!-- \begin{pmatrix} -->
+<!--     0.3 \\ -->
+<!--    0.7 -->
+<!-- \end{pmatrix}. -->
+<!-- $$ -->
+
+<!-- È possibiile pensare al caso continuo indicato nella \@ref(eq:ex-marg-cont) come all'estensione dell'esempio presente ad un numero infinito di valori $\theta$. -->
+
+## Commenti e considerazioni finali {-}
+
+La funzione di probabilità congiunta tiene simultaneamente conto del
+comportamento di due variabili casuali $X$ e $Y$ e di come esse si
+influenzano reciprocamente. In particolare, si osserva che se le due
+variabili discrete $X$ e $Y$ non si influenzano, cioè se sono statisticamente indipendenti, allora la distribuzione di massa di probabilità congiunta si ottiene
+come prodotto delle funzioni di probabilità marginali di $X$ e $Y$:
+$P_{X, Y}(x, y) = P_X(x) P_Y(y)$.
+

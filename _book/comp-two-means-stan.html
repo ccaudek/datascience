@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 5 Confronto tra due gruppi indipendenti | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 5 Confronto tra due gruppi indipendenti | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 5 Confronto tra due gruppi indipendenti | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="inference-reg-lin-stan.html"/>
+<link rel="next" href="ch-pred-checks.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Il modello lineare</b></span></li>
+<li class="chapter" data-level="1" data-path="regr-models-intro.html"><a href="regr-models-intro.html"><i class="fa fa-check"></i><b>1</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>1.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="1.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>1.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>1.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="1.2.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>1.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-models-intro.html"><a href="regr-models-intro.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regr-model-lm.html"><a href="regr-model-lm.html"><i class="fa fa-check"></i><b>2</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>2.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>2.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="2.1.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>2.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="2.1.3" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>2.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>2.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>2.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-model-lm.html"><a href="regr-model-lm.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html"><i class="fa fa-check"></i><b>3</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>3.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="3.2" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>3.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>3.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>3.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>3.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>4</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>4.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="4.2" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>4.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>4.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>4.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="4.4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>4.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html"><i class="fa fa-check"></i><b>5</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>5.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>5.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="5.1.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#un-esempio-concreto"><i class="fa fa-check"></i><b>5.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>5.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>6</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>6.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>6.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>7</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>7.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="7.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>7.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>7.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>7.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>7.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html"><i class="fa fa-check"></i><b>8</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>8.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="8.2" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>8.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="8.3" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>8.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="comp-two-means-stan" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capitolo 5</span> Confronto tra due gruppi indipendenti<a href="comp-two-means-stan.html#comp-two-means-stan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Il problema del confronto tra due gruppi indipendenti può essere formulato nei termini di un modello lineare nel quale la variabile <span class="math inline">\(X\)</span> è dicotomica, ovvero assume solo due valori.</p>
+<div id="modello-lineare-con-una-variabile-dicotomica" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Modello lineare con una variabile dicotomica<a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se <span class="math inline">\(X\)</span> è una variabile dicotomica con valori 0 e 1, allora per il modello lineare <span class="math inline">\(\mu_i = \alpha + \beta x_i\)</span> abbiamo quanto segue. Quando <span class="math inline">\(x=0\)</span>, il modello diventa</p>
+<p><span class="math display">\[
+\mu_i = \alpha
+\]</span>
+mentre, quando <span class="math inline">\(x=1\)</span>, il modello diventa</p>
+<p><span class="math display">\[
+\mu_i = \alpha + \beta.
+\]</span></p>
+<p>Ciò significa che il parametro <span class="math inline">\(\alpha\)</span> è uguale al valore atteso del gruppo codificato con <span class="math inline">\(X=0\)</span> e il parametro <span class="math inline">\(\beta\)</span> è uguale alla differenza tra le medie dei due gruppi (essendo la media del secondo gruppo uguale a <span class="math inline">\(\alpha + \beta\)</span>). Il parametro <span class="math inline">\(\beta\)</span>, dunque, codifica l’effetto di una manipolazione sperimentale o di un trattamento, e l’inferenza su <span class="math inline">\(\beta\)</span> corrisponde direttamente all’inferenza sull’efficacia di un trattamento o di un effetto sperimentale. L’inferenza su <span class="math inline">\(\beta\)</span>, dunque, viene utilizzata per capire quanto “credibile” può essere considerato l’effetto di un trattamento o di una manipolazione sperimentale.</p>
+<div id="confronti-non-effetti" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Confronti, non effetti<a href="comp-two-means-stan.html#confronti-non-effetti" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Per “effetto di un trattamento” si intende la differenza tra le medie di due gruppi (per esempio, il gruppo “sperimentale” e il gruppo “di controllo”). <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020regression" role="doc-biblioref">2020</a>)</span> fanno notare come l’uso della terminologia “effetto” implica un modello causale: una variazione di <span class="math inline">\(X\)</span> <em>produce</em> una variazione di <span class="math inline">\(Y\)</span>. In generale, il modello lineare descrive una regolarità osservabile nel campione di dati. Ma questa regolarità (ovvero, la presenza di una relazione approssimativamente lineare tra <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>) non ci dice nulla della presenza (o dell’assenza) di una relazione di causa/effetto tra queste variabili. L’associazione osservata tra le variabili <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> potrebbe dipendere dall’effetto di una o più altre variabili non misurate, senza che tra <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> ci sia alcuna relazione causale. In tali circostanze, l’interpretazione più appropriata dei coefficienti del modello lineare è quella che ci porta a pensare ai coefficienti del modello come ai risultati di un confronto. Nel caso presente, il confronto è quello tra il valore atteso del quoziente di intelligenza dei bambini, quando la madre ha oppure non ha completato il ciclo di istruzione secondaria superiore. Dato che l’affermazione precedente è formulata nei termini del valore atteso, questo significa che facciamo riferimento ad un campione di osservazioni. Niente viene detto della relazione <em>causale</em> tra il quoziente di intelligenza del bambino e l’ottenimento del diploma di scuola superiore da parte della madre <em>all’interno del singolo soggetto</em>. Quindi, quando usiamo il termine “effetto” dobbiamo sempre pensare a tale termine come come se fosse contenuto tra virgolette.</p>
+</div>
+<div id="un-esempio-concreto" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Un esempio concreto<a href="comp-two-means-stan.html#un-esempio-concreto" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Esaminiamo nuovamente i dati <code>kid_score</code> discussi da <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020regression" role="doc-biblioref">2020</a>)</span>. La domanda della ricerca è se il QI del figlio (misurato sulla scala PIAT) è associato al livello di istruzione della madre.</p>
+<p>Codifichiamo il livello di istruzione della madre (<span class="math inline">\(x\)</span>) con una <em>variabile indicatrice</em> (ovvero, una variabile che assume solo i valori 0 e 1) tale per cui:</p>
+<ul>
+<li><span class="math inline">\(x=0\)</span>: la madre non ha completato la scuola secondaria di secondo grado (scuola media superiore);</li>
+<li><span class="math inline">\(x=1\)</span>: la madre ha completato la scuola media superiore.</li>
+</ul>
+<p>Supponiamo che i dati siano contenuti nel data.frame <code>df</code>.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="comp-two-means-stan.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
+<span id="cb77-2"><a href="comp-two-means-stan.html#cb77-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span></code></pre></div>
+<p>Calcoliamo le statistiche descrittive per i due gruppi:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="comp-two-means-stan.html#cb78-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb78-2"><a href="comp-two-means-stan.html#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mom_hs) <span class="sc">%&gt;%</span> </span>
+<span id="cb78-3"><a href="comp-two-means-stan.html#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb78-4"><a href="comp-two-means-stan.html#cb78-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_kid_score =</span> <span class="fu">mean</span>(kid_score),</span>
+<span id="cb78-5"><a href="comp-two-means-stan.html#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">std =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(kid_score))</span>
+<span id="cb78-6"><a href="comp-two-means-stan.html#cb78-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb78-7"><a href="comp-two-means-stan.html#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb78-8"><a href="comp-two-means-stan.html#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mom_hs mean_kid_score   std</span></span>
+<span id="cb78-9"><a href="comp-two-means-stan.html#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb78-10"><a href="comp-two-means-stan.html#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      0           77.5  22.6</span></span>
+<span id="cb78-11"><a href="comp-two-means-stan.html#cb78-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2      1           89.3  19.0</span></span></code></pre></div>
+<p>Il punteggio medio PIAT è pari a 77.5 per i bambini la cui madre non ha il diploma di scuola media superiore e pari a 89.3 per i bambini la cui madre ha completato la scuola media superiore. Questa differenza suggerisce un’associazione tra le variabili, ma tale differenza potrebbe essere soltanto la conseguenza della variabilità campionaria, senza riflettere una caratteristica generale della popolazione. Come possiamo usare il modello statistico lineare per fare inferenza sulla differenza osservata tra i due gruppi? Non dobbiamo fare nient’altro che usare il modello lineare che abbiamo definito in precedenza.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="comp-two-means-stan.html#cb79-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb79-2"><a href="comp-two-means-stan.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb79-3"><a href="comp-two-means-stan.html#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb79-4"><a href="comp-two-means-stan.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb79-5"><a href="comp-two-means-stan.html#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb79-6"><a href="comp-two-means-stan.html#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb79-7"><a href="comp-two-means-stan.html#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
+<span id="cb79-8"><a href="comp-two-means-stan.html#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x_std;</span></span>
+<span id="cb79-9"><a href="comp-two-means-stan.html#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_std;</span></span>
+<span id="cb79-10"><a href="comp-two-means-stan.html#cb79-10" aria-hidden="true" tabindex="-1"></a><span class="st">  x_std = (x - mean(x)) / sd(x);</span></span>
+<span id="cb79-11"><a href="comp-two-means-stan.html#cb79-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std = (y - mean(y)) / sd(y);</span></span>
+<span id="cb79-12"><a href="comp-two-means-stan.html#cb79-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb79-13"><a href="comp-two-means-stan.html#cb79-13" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb79-14"><a href="comp-two-means-stan.html#cb79-14" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha_std;</span></span>
+<span id="cb79-15"><a href="comp-two-means-stan.html#cb79-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta_std;</span></span>
+<span id="cb79-16"><a href="comp-two-means-stan.html#cb79-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_std;</span></span>
+<span id="cb79-17"><a href="comp-two-means-stan.html#cb79-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb79-18"><a href="comp-two-means-stan.html#cb79-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb79-19"><a href="comp-two-means-stan.html#cb79-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha_std ~ normal(0, 2);</span></span>
+<span id="cb79-20"><a href="comp-two-means-stan.html#cb79-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_std ~ normal(0, 2);</span></span>
+<span id="cb79-21"><a href="comp-two-means-stan.html#cb79-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_std ~ cauchy(0, 2);</span></span>
+<span id="cb79-22"><a href="comp-two-means-stan.html#cb79-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);</span></span>
+<span id="cb79-23"><a href="comp-two-means-stan.html#cb79-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb79-24"><a href="comp-two-means-stan.html#cb79-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb79-25"><a href="comp-two-means-stan.html#cb79-25" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb79-26"><a href="comp-two-means-stan.html#cb79-26" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb79-27"><a href="comp-two-means-stan.html#cb79-27" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb79-28"><a href="comp-two-means-stan.html#cb79-28" aria-hidden="true" tabindex="-1"></a><span class="st">  real cohen_d;</span></span>
+<span id="cb79-29"><a href="comp-two-means-stan.html#cb79-29" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x))</span></span>
+<span id="cb79-30"><a href="comp-two-means-stan.html#cb79-30" aria-hidden="true" tabindex="-1"></a><span class="st">           + mean(y);</span></span>
+<span id="cb79-31"><a href="comp-two-means-stan.html#cb79-31" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = beta_std * sd(y) / sd(x);</span></span>
+<span id="cb79-32"><a href="comp-two-means-stan.html#cb79-32" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma = sd(y) * sigma_std;</span></span>
+<span id="cb79-33"><a href="comp-two-means-stan.html#cb79-33" aria-hidden="true" tabindex="-1"></a><span class="st">  cohen_d = beta / sigma;</span></span>
+<span id="cb79-34"><a href="comp-two-means-stan.html#cb79-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb79-35"><a href="comp-two-means-stan.html#cb79-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb79-36"><a href="comp-two-means-stan.html#cb79-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simpleregstd.stan&quot;</span>)</span></code></pre></div>
+<p>Come in precedenza, salviamo i dati in un oggetto di classe <code>list</code>:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="comp-two-means-stan.html#cb80-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb80-2"><a href="comp-two-means-stan.html#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb80-3"><a href="comp-two-means-stan.html#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb80-4"><a href="comp-two-means-stan.html#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>mom_hs</span>
+<span id="cb80-5"><a href="comp-two-means-stan.html#cb80-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Compiliamo il modello:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="comp-two-means-stan.html#cb81-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simpleregstd.stan&quot;</span>)</span>
+<span id="cb81-2"><a href="comp-two-means-stan.html#cb81-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<p>Adattiamo il modello ai dati:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="comp-two-means-stan.html#cb82-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb82-2"><a href="comp-two-means-stan.html#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb82-3"><a href="comp-two-means-stan.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb82-4"><a href="comp-two-means-stan.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb82-5"><a href="comp-two-means-stan.html#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb82-6"><a href="comp-two-means-stan.html#cb82-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb82-7"><a href="comp-two-means-stan.html#cb82-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb82-8"><a href="comp-two-means-stan.html#cb82-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb82-9"><a href="comp-two-means-stan.html#cb82-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb82-10"><a href="comp-two-means-stan.html#cb82-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Creiamo un grafico con i valori predetti dal modello lineare:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="comp-two-means-stan.html#cb83-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
+<span id="cb83-2"><a href="comp-two-means-stan.html#cb83-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="comp-two-means-stan.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb84-2"><a href="comp-two-means-stan.html#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">kid_score =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb84-3"><a href="comp-two-means-stan.html#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mom_hs =</span> df<span class="sc">$</span>mom_hs</span>
+<span id="cb84-4"><a href="comp-two-means-stan.html#cb84-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-5"><a href="comp-two-means-stan.html#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mom_hs, kid_score)) <span class="sc">+</span> </span>
+<span id="cb84-6"><a href="comp-two-means-stan.html#cb84-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb84-7"><a href="comp-two-means-stan.html#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>alpha), </span>
+<span id="cb84-8"><a href="comp-two-means-stan.html#cb84-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>beta)) <span class="sc">+</span></span>
+<span id="cb84-9"><a href="comp-two-means-stan.html#cb84-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb84-10"><a href="comp-two-means-stan.html#cb84-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Quoziente di intelligenza del bambino&quot;</span>,</span>
+<span id="cb84-11"><a href="comp-two-means-stan.html#cb84-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Diploma di istruzione secondaria di secondo grado della madre</span><span class="sc">\n</span><span class="st">(0 = no; 1 = sì)&quot;</span></span>
+<span id="cb84-12"><a href="comp-two-means-stan.html#cb84-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb84-13"><a href="comp-two-means-stan.html#cb84-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-88-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Le stime a posteriori dei parametri si ottengono con:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="comp-two-means-stan.html#cb85-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;cohen_d&quot;</span>))</span>
+<span id="cb85-2"><a href="comp-two-means-stan.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb85-3"><a href="comp-two-means-stan.html#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median    sd   mad     q5    q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb85-4"><a href="comp-two-means-stan.html#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb85-5"><a href="comp-two-means-stan.html#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    77.6   77.5   2.08  2.06  74.1   81.0    1.00   16538.   12192.</span></span>
+<span id="cb85-6"><a href="comp-two-means-stan.html#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta     11.8   11.7   2.35  2.34   7.88  15.6    1.00   16718.   12319.</span></span>
+<span id="cb85-7"><a href="comp-two-means-stan.html#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    19.9   19.9   0.676 0.671 18.8   21.0    1.00   15949.   10908.</span></span>
+<span id="cb85-8"><a href="comp-two-means-stan.html#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 cohen_d   0.592  0.591 0.120 0.119  0.393  0.788  1.00   16771.   12647.</span></span></code></pre></div>
+<p>I risultati confermano ciò che ci aspettavamo:</p>
+<ul>
+<li>il coefficiente <span class="math inline">\(\texttt{alpha} = 77.56\)</span> corrisponde alla media del gruppo codificato con <span class="math inline">\(x = 0\)</span>, ovvero la media dei punteggi PIAT per i bambini la cui madre non ha completato la scuola media superiore;</li>
+<li>il coefficiente <span class="math inline">\(\texttt{beta} = 11.76\)</span> corrisponde alla differenza tra le medie dei due gruppi, ovvero 89.32 - 77.55 = 11.77 (con piccoli errori di approssimazione).</li>
+</ul>
+<p>La seguente chiamata ritorna l’intervallo di credibilità al 95% per tutti i parametri del modello:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="comp-two-means-stan.html#cb86-1" aria-hidden="true" tabindex="-1"></a>rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb86-2"><a href="comp-two-means-stan.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb86-3"><a href="comp-two-means-stan.html#cb86-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb86-4"><a href="comp-two-means-stan.html#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    2.5%         97.5%</span></span>
+<span id="cb86-5"><a href="comp-two-means-stan.html#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha_std   -0.09401587    0.09248375</span></span>
+<span id="cb86-6"><a href="comp-two-means-stan.html#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta_std     0.14360650    0.32886135</span></span>
+<span id="cb86-7"><a href="comp-two-means-stan.html#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_std    0.91337438    1.04372000</span></span>
+<span id="cb86-8"><a href="comp-two-means-stan.html#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha       73.43237000   81.62094500</span></span>
+<span id="cb86-9"><a href="comp-two-means-stan.html#cb86-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta         7.13510525   16.33961500</span></span>
+<span id="cb86-10"><a href="comp-two-means-stan.html#cb86-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma       18.64258750   21.30290500</span></span>
+<span id="cb86-11"><a href="comp-two-means-stan.html#cb86-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cohen_d      0.35667085    0.82770125</span></span>
+<span id="cb86-12"><a href="comp-two-means-stan.html#cb86-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__      -208.90605000 -204.32400000</span></span></code></pre></div>
+<p>Possiamo dunque concludere che i bambini la cui madre ha completato la scuola superiore ottengono in media circa 12 punti in più rispetto ai bambini la cui madre non ha completato la scuola superiore. L’intervallo di credibilità al 95% ci dice che possiamo essere sicuri al 95% che tale differenza sia di almeno 7 punti e possa arrivare fino a ben 16 punti. Per riassumere, possiamo concludere, con un grado di certezza soggettiva del 95%, che c’è un’associazione positiva tra il livello di scolarità della madre e l’intelligenza del bambino: le madri che hanno livello di istruzione più alto della media tendo ad avere bambini il cui QI è anch’esso più alto della media.</p>
+</div>
+</div>
+<div id="la-dimensione-delleffetto" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> La dimensione dell’effetto<a href="comp-two-means-stan.html#la-dimensione-delleffetto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Nel caso di due gruppi indipendenti, la dimensione dell’effetto si può stimare con la statistica <span class="math inline">\(d\)</span> di Cohen:</p>
+<p><span class="math display">\[
+d={\frac {{\bar {y}}_{1}-{\bar {y}}_{2}}{s}}.
+\]</span></p>
+<p>Nel caso presente, la differenza <span class="math inline">\({\bar {y}}_{1}-{\bar {y}}_{2}\)</span> corrisponde a al parametro <span class="math inline">\(\beta\)</span> del modello lineare. Inoltre, una stima della deviazione starndard comune dei due gruppi è fornita dalla deviazione standard della regressione, ovvero dal parametro <span class="math inline">\(\sigma\)</span>. Nel blocco <code>generated quantities</code> del modello Stan ho calcolato <code>cohen_d = beta / sigma</code>. Ciò significa che Stan calcolerà la distribuzione a posteriori del parametro <code>cohen_d</code>. Possiamo dunque riassumere la distribuzione a posteriori di <code>cohen_d</code> con un qualche indice di tendenza centrale (che sarà la nostra stima della dimensione dell’effetto) e calcolare l’intervallo di credibilità, per esempio al 95%. Questi risultati si ottengono con l’istruzione riportata di seguito:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="comp-two-means-stan.html#cb87-1" aria-hidden="true" tabindex="-1"></a>posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
+<span id="cb87-2"><a href="comp-two-means-stan.html#cb87-2" aria-hidden="true" tabindex="-1"></a>  stanfit,</span>
+<span id="cb87-3"><a href="comp-two-means-stan.html#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">quantile</span>(.x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span>
+<span id="cb87-4"><a href="comp-two-means-stan.html#cb87-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb87-5"><a href="comp-two-means-stan.html#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 8 × 4</span></span>
+<span id="cb87-6"><a href="comp-two-means-stan.html#cb87-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable     `2.5%`       `50%`   `97.5%`</span></span>
+<span id="cb87-7"><a href="comp-two-means-stan.html#cb87-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb87-8"><a href="comp-two-means-stan.html#cb87-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha_std   -0.0940   -0.000366    0.0925</span></span>
+<span id="cb87-9"><a href="comp-two-means-stan.html#cb87-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta_std     0.144     0.236       0.329 </span></span>
+<span id="cb87-10"><a href="comp-two-means-stan.html#cb87-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_std    0.913     0.974       1.04  </span></span>
+<span id="cb87-11"><a href="comp-two-means-stan.html#cb87-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 alpha       73.4      77.5        81.6   </span></span>
+<span id="cb87-12"><a href="comp-two-means-stan.html#cb87-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 beta         7.14     11.7        16.3   </span></span>
+<span id="cb87-13"><a href="comp-two-means-stan.html#cb87-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 sigma       18.6      19.9        21.3   </span></span>
+<span id="cb87-14"><a href="comp-two-means-stan.html#cb87-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 cohen_d      0.357     0.591       0.828 </span></span>
+<span id="cb87-15"><a href="comp-two-means-stan.html#cb87-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 lp__      -209.     -205.       -204.</span></span></code></pre></div>
+<p>I risultati dell’analisi bayesiana coincidono con quelli che si ottengono utilizzando la formula del <span class="math inline">\(d\)</span> di Cohen con le medie dei due gruppi e una stima della varianza <em>pooled</em>. Il calcolo della statistica <span class="math inline">\(d\)</span> di Cohen è fornita, ad esempio, dal pacchetto <code>effectsize</code>:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="comp-two-means-stan.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;effectsize&quot;</span>)</span>
+<span id="cb88-2"><a href="comp-two-means-stan.html#cb88-2" aria-hidden="true" tabindex="-1"></a>(d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(kid_score <span class="sc">~</span> mom_hs, <span class="at">data =</span> df))</span>
+<span id="cb88-3"><a href="comp-two-means-stan.html#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d |         95% CI</span></span>
+<span id="cb88-4"><a href="comp-two-means-stan.html#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
+<span id="cb88-5"><a href="comp-two-means-stan.html#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.59     | [-0.83, -0.36]</span></span>
+<span id="cb88-6"><a href="comp-two-means-stan.html#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb88-7"><a href="comp-two-means-stan.html#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - Estimated using pooled SD.</span></span></code></pre></div>
+<p>Il fatto che l’output abbia un segno negativo dipende dal fatto che è stata sottratta la media maggiore dalla media minore (in altri termini, dobbiamo guardare il risultato in valore assoluto).</p>
+<p>In conclusione, il valore <span class="math inline">\(d\)</span> di Cohen di entità “media” [<span class="math inline">\(d\)</span> &gt; 0.5; <span class="citation">Sawilowsky (<a href="#ref-sawilowsky2009new" role="doc-biblioref">2009</a>)</span>] può essere interpretato dicendo che la scolarità delle madri ha un’influenza non trascurabile sul QI dei bambini.</p>
+</div>
+<div id="commenti-e-considerazioni-finali-4" class="section level2 unnumbered hasAnchor">
+<h2>Commenti e considerazioni finali<a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La dimensione dell’effetto formulata nei termini dell’indice <span class="math inline">\(d\)</span> di Cohen fornisce un indice che non dipende dall’unità di misura delle variabili, ovvero è una differenza media standardizzata. L’intrepretazione di <span class="math inline">\(d\)</span> è semplice: la scala di <span class="math inline">\(d\)</span> è la deviazione standard. Se, per esempio, <span class="math inline">\(d = 0.5\)</span>, allora la media di un primo gruppo è mezza deviazione standard più grande della media del secondo gruppo. In questo Capitolo abbiamo visto come <span class="math inline">\(d\)</span> possa essere calcolato mediante un modello lineare bayesiano implementato in linguaggio Stan.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman2020regression" class="csl-entry">
+Gelman, Andrew, Jennifer Hill, and Aki Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge University Press.
+</div>
+<div id="ref-sawilowsky2009new" class="csl-entry">
+Sawilowsky, Shlomo S. 2009. <span>“New Effect Size Rules of Thumb.”</span> <em>Journal of Modern Applied Statistical Methods</em> 8 (2): 26.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="inference-reg-lin-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-pred-checks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/055_reglin5.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

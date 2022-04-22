@@ -1,0 +1,251 @@
+# Indici di posizione e di scala {#ch:loc-scale}
+
+```{r, include = FALSE}
+source("_common.R")
+```
+
+L'analisi grafica, esaminata in precedenza, costituisce la base di partenza di qualsivoglia analisi quantitativa dei dati. Tramite opportune rappresentazioni grafiche possiamo individuare alcune caratteristiche importanti di una distribuzione: per esempio, è possibile capire se la distribuzione è simmetrica o asimmetrica; oppure se è unimodale o multimodale. Successivamente, possiamo calcolare degli indici numerici che descrivono in modo sintetico le caratteristiche di base dei dati esaminati.
+
+## Indici di tendenza centrale
+
+Tra le misure di tendenza centrale, ovvero tra gli indici che forniscono un'idea dei valori attorno ai quali sono prevalentemente concentrati i dati di un campione, quella più comunemente usata è la media.
+
+### Media
+
+Tutti conosciamo la media aritmetica di $\{x_1, x_2, \dots, x_n\}$, ovvero il numero reale $\bar{x}$ definito da
+
+\begin{equation}
+\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i.
+(\#eq:mean)
+\end{equation}
+
+Nella \@ref(eq:mean) abbiamo usato la notazione delle sommatorie per descrivere una somma di valori. Questa notazione è molto usata in statistica e viene descritta in Appendice.
+
+La media gode della seguente importante proprietà: la somma degli scarti tra ciascuna modalità $x_i$ e la media aritmetica $\bar{x}$ è nulla, cioè
+
+\begin{equation}
+\sum_{i=1}^n (x_i - \bar{x}) = 0.\notag
+\label{eq:diffmeansumzero}
+\end{equation}
+
+Infatti, 
+
+$$
+\begin{aligned}
+\sum_{i=1}^n (x_i - \bar{x}) &= \sum_i x_i - \sum_i \bar{x}\notag\\
+&= \sum_i x_i - n \bar{x}\notag\\
+&= \sum_i x_i - \sum_i x_i = 0.\notag
+\end{aligned}
+$$
+
+Ciò ci consente di pensare alla media come al baricentro della distribuzione.
+
+Un'altra proprietà della media è la seguente. La somma dei quadrati degli scarti tra ciascuna modalità $x_i$ e una costante arbitraria $a$, cioè 
+
+\begin{equation}
+\varphi(a) = \sum_{i=1}^n (x_i - a)^2,\notag
+\end{equation} 
+
+è minima per $a = \bar{x}$.
+
+::: {.remark}
+Il concetto statistico di media ha suscitato molte battute. Per esempio,
+il fatto che, in media, ciascuno di noi ha un numero di gambe circa pari
+a 1.9999999. Oppure, il fatto che, in media, ciascuno di noi ha un
+testicolo. Ma la media ha altri problemi, oltre al fatto di ispirare
+battute simili alle precedenti. In particolare, dobbiamo notare che la
+media non è sempre l'indice che meglio rappresenta la tendenza centrale
+di una distribuzione. In particolare, ciò non accade quando la
+distribuzione è asimmetrica, o in presenza di valori anomali (_outlier_)
+-- si veda il pannello di destra della figura \@ref(fig:violin-zetsche). In tali circostanze, la tendenza centrale della distribuzione è meglio rappresentata dalla mediana o dalla media spuntata.
+:::
+
+<!-- ::: {.exercise} -->
+<!-- Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
+
+<!-- ```{r} -->
+<!-- bysubj %>%  -->
+<!--   group_by(group) %>%  -->
+<!--   summarise( -->
+<!--     avg_bdi = mean(bdi) -->
+<!--   ) -->
+<!-- ``` -->
+<!-- ::: -->
+
+### Media spuntata
+
+La _media spuntata_ $\bar{x}_t$ (_trimmed mean_) non è altro che la
+media dei dati calcolata considerando solo il 90% (o altra percentuale)
+dei dati centrali. Per calcolare $\bar{x}_t$ si ordinando i dati secondo
+una sequenza crescente, $x_1 \leq x_2 \leq x_3 \leq \dots \leq x_n$, per
+poi eliminare il primo 5% e l'ultimo 5% dei dati della serie così
+ordinata. La media spuntata è data dalla media aritmetica dei dati rimanenti.
+
+<!-- ::: {.exercise} -->
+<!-- Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019 escludendo il 10% dei valori più estremi in ciascun gruppo. -->
+
+<!-- ```{r} -->
+<!-- bysubj %>% -->
+<!--   group_by(group) %>% -->
+<!--   summarise( -->
+<!--     avg_trim_bdi = mean(bdi, trim = 0.1) -->
+<!--   ) -->
+<!-- ``` -->
+<!-- ::: -->
+
+### Moda e mediana
+
+In precedenza abbiamo già incontrato altri due popolari indici di
+tendenza centrale: la *moda* (*Mo*), ovvero il valore centrale della
+classe con la frequenza massima (può succedere che una distribuzione
+abbia più mode; in tal caso si dice *multimodale* e questo operatore
+perde il suo significato di indice di tendenza centrale) e la *mediana*
+$\tilde{x}$.
+
+<!-- ::: {.exercise} -->
+<!-- Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
+
+<!-- ```{r} -->
+<!-- bysubj %>% -->
+<!--   group_by(group) %>% -->
+<!--   summarise( -->
+<!--     q25 = quantile(bdi, probs = 0.25), -->
+<!--     q50 = quantile(bdi, probs = 0.50), -->
+<!--     q75 = quantile(bdi, probs = 0.75) -->
+<!--   ) -->
+<!-- ``` -->
+<!-- ::: -->
+
+::: {.remark}
+Si noti che solitamente i software restituiscono un valore *interpolato* del $p$-esimo quantile $q_p$ $(0 < p < 1)$, il quale viene calcolato mediante specifiche procedure. Il risultato fornito dai software, dunque, non sarà identico a quello trovato utilizzando la definizione non interpolata di quantile che abbiamo presentato qui. Se, per qualche ragione, vogliamo conoscere l'algoritmo usato per la determinazione dei quantili interpolati, dobbiamo leggere la documentazione del software.
+:::
+
+## Indici di dispersione
+
+Le medie e gli indici di posizione descritti in precedenza forniscono
+delle sintesi dei dati che mettono in evidenza la tendenza centrale
+delle osservazioni. Tali indici, tuttavia, non considerano un aspetto
+importante della distribuzione dei dati, ovvero la variabilità dei
+valori numerici della variabile statistica. È dunque necessario
+sintetizzare la distribuzione di una variabile statistica oltre che con
+le misure di posizione anche tramite l'utilizzo di indicatori che
+valutino la dispersione delle unità statistice.
+
+::: {.remark}
+Un'introduzione "soft" al tema degli indici di posizione è fornita nel seguente  [link](https://tinystats.github.io/teacups-giraffes-and-statistics/04_variance.html).
+:::
+
+### Indici basati sull'ordinamento dei dati
+
+È possibile calcolare degli indici di variabilità basati
+sull'ordinamento dei dati. L'indice più ovvio è l'intervallo di
+variazione, ovvero la distanza tra il valore massimo e il valore minimo
+di una distribuzione di modalità, mentre in precedenza abbiamo già
+incontrato la differenza interquartile. Questi due indici, però, hanno
+il limite di essere calcolati sulla base di due soli valori della
+distribuzione ($x_{\text{max}}$ e $x_{\text{mini}}$, oppure $x_{0.25}$ e
+$x_{0.75}$). Pertanto non utilizzano tutte le informazioni che sono
+disponibili. Inoltre, l'intervallo di variazione ha il limite di essere
+pesantemente influenzato dalla presenza di valori anomali.
+
+### Varianza
+
+Dati i limiti delle statistiche precedenti è più comune misurare la variabilità di una variabile statistica come la dispersione dei dati attorno ad un indice di tendenza centrale. Infatti, la misura di variabilità di gran lunga più usata per valutare la variabilità di una variabile statistica è senza dubbio la varianza. La varianza
+
+\begin{equation}
+s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+(\#eq:var-descr)
+\end{equation}
+
+è la media dei quadrati degli scarti $x_i - \bar{x}$ tra ogni valore e la media della distribuzione. La varianza è una misura di dispersione più complessa di quelle esaminate in precedenza. È appropriata solo nel caso di distribuzioni simmetriche e, anch'essa, è fortemente influenzata dai valori anomali. Inoltre, è espressa in un'unità di misura che è il quadrato dell'unità di misura dei dati originari e quindi ad essa non può essere assegnata un'interpretazione intuitiva.
+
+::: {.exercise}
+Si calcoli la varianza dei valori BDI-II per i dati di @zetschefuture2019.
+
+Applicando la formula precedente, per tutto il campione abbiamo
+
+```{r}
+var(bysubj$bdi)
+```
+:::
+
+### Precisione
+
+Si definisce _precisione_ l'inverso della varianza:
+
+\begin{equation}
+\tau = \frac{1}{\sigma^2}.
+(\#eq:precision)
+\end{equation}
+
+Alcuni ritengono che la precisione sia più "intuitiva" della varianza perché dice quanto sono concentrati i valori attorno alla media piuttosto che quanto sono dispersi. In altri termini, si potrebbe argomentare che siamo più interessati a quanto sia precisa una misurazione piuttosto che a quanto sia imprecisa. Più sono dispersi i valori attorno alla media (alta varianza), meno  sono precisi (poca precisione); minore è la varianza, maggiore è la precisione.
+
+La precisione è uno dei due parametri naturali della distribuzione gaussiana. Nei termini della \@ref(eq:precision), la distribuzione gaussiana (si veda il Capitolo \@ref(distr-rv-cont)) può essere espressa nel modo seguente
+
+$$
+{\displaystyle f(y)=\sqrt{\frac{\tau}{2\pi}} e^{-{\frac {1}{2}}\tau\left({y-\mu }\right)^{2}}},
+$$
+anziché come
+
+$$
+{\displaystyle f(y)={\frac {1}{\sigma {\sqrt {2\pi }}}}e^{-{\frac {1}{2}}\left({\frac {y-\mu }{\sigma }}\right)^{2}}}.
+$$
+
+### Scarto tipo
+
+Per le ragioni espresse sopra, la misura più usata della dispersione di una distribuzione di dati è lo _scarto quadratico medio_ (o _scarto tipo_, o _deviazione standard_), ovvero la radice quadrata della varianza^[Il termine _standard deviation_ è stato introdotto in statistica da Pearson nel 1894 assieme alla lettera greca $\sigma$ che lo rappresenta. Il termine italiano "deviazione standard" ne è la traduzione più utilizzata nel linguaggio comune; il termine dell'[Ente Nazionale Italiano di Unificazione](https://it.wikipedia.org/wiki/Ente_nazionale_italiano_di_unificazione) è tuttavia "scarto tipo", definito come la radice quadrata positiva della varianza.]. A differenza della varianza, dunque, lo scarto tipo è espresso nella stessa unità di misura dei dati. Come nel caso della varianza, anche lo scarto tipo $s$ dovrebbe essere usato soltanto quando la media è adeguata per misurare il centro della distribuzione, ovvero, nel caso di distribuzioni simmetriche. Come nel caso della media $\bar{x}$, anche lo scarto tipo è fortemente influenzato dai dati anomali (*outlier*), ovvero dalla presenza di uno o di pochi dati che sono molto più distanti dalla media rispetto agli altri valori della distribuzione. Quando tutte le osservazioni sono uguali, $s = 0$, altrimenti $s > 0$.
+
+Allo scarto tipo può essere assegnata una semplice interpretazione: lo scarto tipo è *simile* (ma non identico) allo scarto semplice medio campionario, ovvero alla media aritmetica dei valori assoluti degli scarti dalla media. Lo scarto tipo ci dice, dunque, quanto sono distanti, in media, le singole osservazioni dal centro della distribuzione. Un'interpretazione più precisa del significato dello scarto tipo è fornita nel Paragrafo successivo.
+
+::: {.exercise}
+Si calcoli lo scarto tipo per i valori BDI-II di dati di @zetschefuture2019.
+
+Applicando la formula precedente, per tutto il campione abbiamo
+
+```{r}
+sd(bysubj$bdi)
+```
+:::
+
+### Deviazione mediana assoluta
+
+Una misura robusta della dispersione statistica di un campione è la deviazione mediana assoluta (_Median Absolute Deviation_, MAD) definita come la mediana del valore assoluto delle deviazioni dei dati dalla mediana, ovvero:
+
+$$
+{\displaystyle \operatorname {MAD} =\operatorname {median} \left(\ \left|X_{i}-\operatorname {median} (X)\right|\ \right)}
+$$
+Nel caso di una distribuzione dei dati unimodale simmetrica di forma campanulare (ovvero, normale) si ha che
+
+$$
+{\displaystyle \text{deviazione standard} \approx 1.4826\ \operatorname {MAD} .\,}
+$$
+Pertanto, solitamente i software restituiscono il valore MAD moltiplicato per una tale costante.
+
+::: {.exercise}
+Si calcoli il valore MAD per i valori BDI-II riportati da @zetschefuture2019.
+
+Applicando la formula precedente, per tutto il campione abbiamo
+
+```{r}
+1.4826 * median(abs(bysubj$bdi - median(bysubj$bdi)))
+```
+:::
+
+### Indici di variabilità relativi
+
+A volte può essere interessante effettuare un confronto fra due misure di variabilità di grandezze incommensurabili, ovvero di caratteri rilevati mediante differenti unità di misura. In questi casi, le misure di variabilità precedentemente descritte si rivelano inadeguate in quanto dipendono dall'unità di misura adottata. Diventa dunque necessario ricorrere a particolari numeri adimensionali detti indici relativi di variabilità. Il più importante di tali indici è il coefficiente di variazione, ovvero il numero puro
+
+$$
+C_v = \frac{\sigma}{\bar{x}}
+$$
+ottenuto dal rapporto tra la deviazione standard e la media dei dati. Un altro indice relativo di variabilità è la differenza interquartile rapportata al primo quartile oppure al terzo quartile oppure alla mediana, cioè:
+
+$$
+\frac{x_{0.75} - x_{0.25}}{x_{0.25}}, \qquad \frac{x_{0.75} - x_{0.25}}{x_{0.75}}, \qquad \frac{x_{0.75} - x_{0.25}}{x_{0.50}}.
+$$
+
+
+## Commenti e considerazioni finali {-}
+
+Le statistiche descrittive ci forniscono degli indici sintetici che riassumono i dati, ovvero le nostre misurazioni dell'intera popolazione o di un campione estratto da una popolazione. Le statistiche descrittive comprendono gli indici di tendenza centrale e gli indici di dispersione. Gli indici di tendenza centrale includono la media, la mediana e la moda, mentre gli indici di dispersione includono lo scarto tipo, la varianza, la curtosi e l'asimmetria.
+

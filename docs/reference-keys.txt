@@ -1,0 +1,17 @@
+fig:linearfunction
+eq:normalsamplingmodel
+eq:normalsamplinglinearmodel
+eq:regmodel
+eq:samplinglinearmodel
+regr-models-intro
+la-funzione-lineare
+una-media-per-ciascuna-osservazione
+relazione-lineare-tra-la-media-y-mid-x-e-il-predittore
+il-modello-lineare
+regr-model-lm
+stima-dei-coefficienti-di-regressione
+trasformazione-dei-dati
+il-metodo-dei-minimi-quadrati
+il-coefficiente-di-determinazione
+indice-di-determinazione
+inferenza-sul-modello-di-regressione

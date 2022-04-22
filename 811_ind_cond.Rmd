@@ -1,0 +1,68 @@
+# Indipendenza stocastica
+
+## Indipendenza stocastica incondizionata
+
+In precedenza abbiamo visto come l'indipendenza stocastica di due eventi $A$ e $B$ si ha quando il verificarsi di uno non modifica la probabilità di verificarsi dell'altro, ovvero quando $P(A \mid B) = P(A)$ e $P(B \mid A) = P(B)$. Queste due condizioni si possono sintetizzare con la formula $P(A \cap B) = P(A) P(B)$.
+
+Analogamente, quando si afferma che due variabili casuali $X$ e $Y$ definite sullo stesso spazio campione $\Omega$ sono indipendenti si afferma che conoscere qualcosa riguardo al valore di una di esse non apporta alcuna informazione circa il valore dell'altra. Formalmente, questo si verifica quando
+
+\begin{equation}
+P(X, Y)\, = P_X(x)P_Y(y).
+\end{equation}
+
+Nel caso discreto, dunque, l'indipendenza implica che la probabilità riportata in ciascuna cella della tabella di probabilità congiunta deve essere uguale al prodotto delle probabilità marginali di riga e di colonna:
+
+$$
+P(x_i, y_i)\, = P_X(x_i) P_Y(y_i).
+$$
+
+::: {.exercise}
+Per la situazione rappresentata nella tabella \@ref(tab:ditr-cong-biv) le variabili casuali $X$ e $Y$ sono indipendenti?
+
+  Nella tabella le variabili casuali $X$ e $Y$ non sono indipendenti: le probabilità congiunte non sono ricavabili dal prodotto delle marginali. Per esempio, nessuna delle probabilità marginali è uguale a $0$ per cui nessuno dei valori dentro la tabella (probabilità congiunte) che risulta essere uguale a $0$ può essere il prodotto delle probabilità marginali.
+:::
+
+## Indipendenza condizionata tra eventi
+
+  Sebbene l'indipendenza incondizionata sia una proprietà utile, non capita spesso di incontrare due eventi indipendenti. Una situazione più comune è quando due eventi sono indipendenti dato un terzo evento. Ad esempio, supponiamo di voler ragionare sulla possibilità che uno studente che è in possesso di un titolo di laurea triennale venga accettato al Corso di Laurea Magistrale (CdL) $A$ o al CdL Magistrale $B$. Nella maggior parte dei casi, questi due eventi non sono indipendenti. Se apprendiamo che lo studente è stato accettato al CdL $A$, la nostra stima della sua probabilità che venga accettato al CdL $B$ è ora più alta, poiché è aumentata la nostra credenza che lo studente in questione sia uno studente "promettente".
+
+Ora, supponiamo che entrambi i CdL basino le loro decisioni unicamente sul voto di laurea triennale (chiamiamolo $C$) dello studente e supponiamo di sapere che, per lo  studente in questione, $C = 105/110$. In questo caso, apprendere che lo studente è stato ammesso al CdL $A$ non cambia la probabilità che venga ammesso al CdL $B$: il suo voto di laurea $C$ fornisce tutte le informazioni rilevanti circa la possibilità che lo studente venga ammesso al CdL $A$; sapere che è stato ammesso al CdL $B$ non aggiunge niente a tutto ciò. Formalmente, possiamo scrivere
+
+\begin{equation}
+P(A \mid B \cap C) = P(A \mid B)
+\end{equation}
+
+Se la condizione precedente si verifica, gli eventi $A$ e $B$ si dicono condizionatamente indipendenti dall'evento $C$.
+
+Alternativamente, possiamo dire che gli eventi $A$ e $B$ sono condizionatamente indipendenti dall'evento $C$ se e solo se
+
+\begin{equation}
+P(A \mid B \cap C) = P(A \mid C) P(B \mid C),
+\end{equation}
+
+oppure, maniera equivalente se
+
+$$
+P(A \mid B, C)= P(A \mid C).
+$$
+
+Poiché la probabilità di $A$ dato $C$ è uguale alla probabilità di $A$ dati sia $B$ che $C$, questa uguaglianza esprime il fatto che $B$ non aggiunge  nulla alla nostra conoscenza della probabilità di $A$.
+
+Solitamente, l'indipendenza condizionata viene indicata utilizzando la notazione $(A \indep B \mid C)$.
+
+
+## Indipendenza di variabili casuali
+
+Siano $X, Y, Z$ tre variabili casuali. Diciamo che $X$ è condizionatamente indipendente da $Y$ data $Z$ in una distribuzione $P$ se $P$ soddisfa $(X=x \indep Y=y \mid Z=z)$ per tutti i valori $x \in X$, $y \in Y$ e $z \in Z$. Se l'insieme $Z$ è vuoto, invece di scrivere $(X \indep Y \mid \emptyset)$, scriviamo $(X \mid Y)$ e diciamo che $X$ e $Y$ sono _marginalmente indipendenti_.
+
+Da ciò segue la seguente definizione alternativa di indipendenza condizionata.
+
+:::{.definition}
+La distribuzione $P$ soddisfa $(X \indep Y \mid Z)$ se e solo se
+
+$$
+P(X, Y \mid Z) = (X \mid Z)P(Y \mid Z).
+$$
+:::
+
+

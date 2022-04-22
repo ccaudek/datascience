@@ -1,0 +1,388 @@
+# Probabilità condizionata {#chapter-prob-cond}
+
+```{r c016, include = FALSE}
+source("_common.R")
+```
+
+Il fondamento della statistica bayesiana è il teorema di Bayes e il teorema di Bayes è una semplice ridescrizione della probabilità condizionata. Esaminiamo dunque la nozione di probabilità condizionata. 
+
+## Probabilità condizionata su altri eventi {#sec:bayes-cancer}
+
+L'attribuzione di una probabilità ad un evento è sempre condizionata dalle conoscenze che abbiamo a disposizione. Per un determinato stato di conoscenze, attribuiamo ad un dato evento una certa probabilità di verificarsi; ma se il nostro stato di conoscenze cambia, allora cambierà anche la probabilità che attribuiremo all'evento in questione. Infatti, si può pensare che tutte le probabilità siano probabilità condizionate, anche se l'evento condizionante non è sempre esplicitamente menzionato. 
+
+Per introdurre la probabilità condizionata, @albert2019probability utilizzando il famoso paradosso delle tre carte. "Ci sono tre carte, delle quali la prima ($A$) è rossa su entrambi i lati, la seconda ($B$) su un lato è rossa e sull'altro è bianca e la terza ($C$) è bianca su entrambi i lati. Ponendo su un tavolo una delle tre carte, scelta a caso, ottengo che il lato visibile è di colore rosso. Qual è la probabilità che anche il lato non visibile sia di colore rosso? La risposta intuitiva porta solitamente a rispondere che la probabilità ricercata sia pari al 50%, in quanto solo due carte (la $A$ e la $B$) possono mostrare il colore rosso e solo una di queste (la $A$) può mostrare anche sull'altro lato il colore rosso; tuttavia si dimostra che la risposta giusta è 2/3." (da Wikipedia)
+
+@albert2019probability propongono di risolvere il problema con una simulazione in $\textsf{R}$: prima di tutto si sceglie una carta a caso, e poi si sceglie un lato della carta. Ci sono tre carte possibili, che chiamiamo "c_rossa", "c_bianca", e "c_entrambi". Per la carta rossa, ci sono due lati rossi; per la carta bianca ci sono due lati bianchi e la carta "entrambi" ha un lato rosso e un lato bianco. 
+
+```{r}
+df <- tibble(
+  Carta = c(
+    "c_rossa", "c_rossa", "c_bianca", "c_bianca", "c_entrambi", 
+    "c_entrambi"
+  ),
+  Lato = c(
+    "rosso", "rosso", "bianco", "bianco", "rosso", "bianco"
+  )
+)
+df
+```
+
+Estraiamo una carta a caso e classifichiamo il risultato ottenuto in base al  tipo di carta e lato osservato. Ripetiamo l'esperimento 1,000 volte:
+
+```{r}
+set.seed(84735)
+carte <- sample_n(df, 1e3, replace = TRUE)
+table(carte$Carta, carte$Lato)
+```
+
+Se si osserva il colore rosso (seconda colonna nella tabella precedente), questo risultato è dovuto ad una carta $A$ ("rossa") in 344 casi e ad una carta $B$ ("entrambi") in 160 casi. Quindi, nella simulazione il risultato per cui è stato osservato un colore rosso (344 + 160) è associato ad una carta $A$ ("rossa") in circa 2/3 dei casi -- se il lato visibile è di colore rosso, allora c'è una probabilità di 2/3 che anche il lato non visibile sia di colore rosso. 
+
+Questo esempio dimostra come le nostre intuizioni a proposito della probabilità condizionata non sono sempre corrette. Consideriamo un altro problema più articolato.
+
+::: {.exercise}
+Supponiamo che lo screening per la diagnosi precoce del tumore mammario si avvalga di un test che è accurato al 90%, nel senso che classifica correttamente il 90% delle donne colpite dal cancro e il 90% delle donne che non hanno il cancro al seno. Supponiamo che l'1% delle donne sottoposte allo screening abbia effettivamente il cancro al seno (e d'altra parte, il 99% non lo ha). Ci chiediamo: (1) qual è la probabilità che una donna scelta a caso ottenga una mammografia positiva, e (2) se la mammografia è positiva, qual è la probabilità che vi sia effettivamente un tumore al seno?
+
+Per risolvere questo problema, supponiamo che il test in questione venga somministrato ad un grande campione di donne, diciamo a 1000 donne. Di queste 1000 donne, 10 (ovvero, l'1%) hanno il cancro al seno. Per queste 10 donne, il test darà un risultato positivo in 9 casi (ovvero, nel 90% dei casi). Per le rimanenti 990 donne che non hanno il cancro al seno, il test darà un risultato positivo in 99 casi (se la probabilità di un vero positivo è del 90%, la probabilità di un falso positivo è del 10%). Questa situazione è rappresentata nella figura \@ref(fig:mammografia). 
+
+Combinando i due risultati precedenti, vediamo che il test dà un risultato positivo per 9 donne che hanno effettivamente il cancro al seno e per 99 donne che non ce l'hanno, per un totale di 108 risultati positivi. Dunque, la probabilità di ottenere un risultato positivo al test è $\frac{108}{1000}$ = 11%. Ma delle 108 donne che hanno ottenuto un risultato positivo al test, solo 9 hanno il cancro al seno. Dunque, la probabilità di essere una donna che ha veramente il cancro al seno, dato un risultato positivo al test (che ha le proprietà descritte sopra), è pari a $\frac{9}{108}$ = 8%.
+
+```{r mammografia, echo=FALSE, fig.cap="Rappresentazione ad albero che riporta le frequenze attese dei risultati di una mammografia in un campione di 1,000 donne.", out.width = '77%'}
+knitr::include_graphics("images/mammografia.png")
+```
+:::
+
+Nell'esercizio precedente, la probabilità dell'evento "ottenere un risultato positivo al test" è una probabilità non condizionata, mentre la probabilità dell'evento "avere il cancro al seno, dato che il test ha prodotto un risultato positivo" è una probabilità condizionata. 
+
+In termini generali, la probabilità condizionata $P(A \mid B)$ rappresenta la probabilità che si verifichi l'evento $A$ sapendo che si è verificato l'evento $B$. Arriviamo dunque alla seguente definizione.
+
+::: {.definition}
+Dato un qualsiasi evento $A$, si chiama *probabilità condizionata* di
+$A$ dato $B$ il numero
+
+\begin{equation}
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad \text{con}\, P(B) > 0,
+(\#eq:probcond)
+\end{equation}
+
+dove $P(A\cap B)$ è la _probabilità congiunta_ dei due eventi, ovvero la probabilità che si verifichino entrambi.
+:::
+
+Concludiamo con un problema molto semplice per consolidare la nostra comprensione del concetto di probabilità condizionata. 
+
+::: {.exercise}
+Da un mazzo di 52 carte (13 carte per ciascuno dei 4 semi) ne viene estratta una in modo casuale. Qual è la probabilità che esca una figura di cuori? Sapendo che la carta estratta ha il seme di cuori, qual è la probabilità che il valore numerico della carta sia 7, 8 o 9?
+
+Ci sono 13 carte di cuori, dunque la risposta alla prima domanda è 1/4. Questa è una probabilità non condizionata, dunque il suo calcolo non presenta alcuna difficoltà. La seconda probabilità cercata è una probabilità condizionata. Anche in questo secondo caso dobbiamo solo contare, ma, in questo caso, considerando solo un sottoinsieme di carte, ovvero le 13 carte di cuori. In questo modo è facile arrivare al risultato cercato, ovvero 3/13. Applicando la formula \@ref(eq:probcond), con $A$ = 7, 8, o 9, e $B$ = cuori arriviamo allo stesso risulato:
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{3/52}{13/52} = \frac{3}{13}.
+$$
+::: 
+
+<!-- ### La fallacia del condizionale trasposto -->
+
+<!-- Un errore comune che si commette è quello di credere che $P(A \mid B)$ sia uguale a $P(B \mid A)$. Tale fallacia ha particolare risalto in ambito forense tanto che è conosciuta con il nome di "fallacia del procuratore". In essa, una piccola probabilità dell'evidenza, data l'innocenza, viene erroneamente interpretata come la probabilità dell'innocenza, data l'evidenza. -->
+
+<!-- Consideriamo il caso di un esame del DNA. Un esperto forense potrebbe affermare, ad esempio, che "se l'imputato è innocente, c'è solo una possibilità su un miliardo che vi sia una corrispondenza tra il suo DNA e il DNA trovato sulla scena del crimine". Ma talvolta questa probabilità è erroneamente interpretata come avesse il seguente significato: "date le prove del DNA, c'è solo una possibilità su un miliardo che l'imputato sia innocente". -->
+
+<!-- Le considerazioni precedenti risultano più chiare se facciamo nuovamente riferimento all'esercizio sul tumore mammario descritto sopra. In tale esercizio abbiamo visto come la probabilità di cancro dato un risultato positivo al test sia uguale a 0.08. Tale probabilità è molto diversa dalla probabilità di un risultato positivo al test data la presenza del cancro. Infatti, questa seconda probabilità è uguale a 0.90 ed è descritta nel problema come una delle caratteristiche del test in questione. -->
+
+## La regola moltiplicativa
+
+Dalla definizione di probabilità condizionata è possibile esprimere la probabilità congiunta tramite le condizionate. La *regola moltiplicativa* (o *legge delle probabilità composte*, o *regola della catena*) afferma che la probabilità che si verifichino due eventi $A$ e $B$ è pari alla probabilità di uno dei due eventi moltiplicato con la probabilità dell'altro evento condizionato al verificarsi del primo:
+
+\begin{equation}
+P(A \cap B) = P(B)P(A \mid B) = P(A)P(B \mid A).
+(\#eq:probcondinv)
+\end{equation}
+
+La \@ref(eq:probcondinv) si estende al caso di $n$ eventi $A_1, \dots, A_n$ nella forma seguente: 
+
+\begin{equation}
+P\left( \bigcap_{k=1}^n A_k \right) = \prod_{k=1}^n P\left(  A_k  \ \Biggl\lvert \ \bigcap_{j=1}^{k-1} A_j \right)
+(\#eq:probcomposte)
+\end{equation}
+
+Per esempio, nel caso di quattro eventi abbiamo
+
+\begin{equation}
+\begin{split}
+P(A_1 \cap A_2 \cap A_3 \cap A_4) = {}& P(A_1) \cdot P(A_2 \mid A_1) \cdot  P(A_3 \mid A_1 \cap A_2) \cdot \\
+ & P(A_4 \mid A_1 \cap A_2 \cap A_{3}).\notag
+\end{split}
+\end{equation}
+
+::: {.exercise}
+Da un'urna contenente 6 palline bianche e 4 nere si estrae una pallina per volta, senza reintrodurla nell'urna. Indichiamo con $B_i$ l'evento: "esce una pallina bianca alla $i$-esima estrazione" e con $N_i$ l'estrazione di una pallina nera. L'evento: "escono due palline bianche nelle prime due estrazioni" è rappresentato dalla intersezione
+$\{B_1 \cap  B_2\}$ e la sua probabilità vale, per la \@ref(eq:probcondinv) 
+
+$$
+P(B_1 \cap B_2) = P(B_1)P(B_2 \mid B_1).
+$$
+
+$P(B_1)$ vale 6/10, perché nella prima estrazione $\Omega$ è costituito da 10 elementi: 6 palline bianche e 4 nere. La probabilità condizionata $P(B_2 \mid B_1)$ vale 5/9, perché nella seconda estrazione, se è verificato l'evento $B_1$, lo spazio campionario consiste di 5 palline bianche e 4 nere. Si ricava
+pertanto:
+
+$$
+P(B_1 \cap B_2) = \frac{6}{10} \cdot \frac{5}{9} = \frac{1}{3}.
+$$ 
+
+In modo analogo si ha che
+
+$$
+P(N_1 \cap N_2) = P(N_1)P(N_2 \mid N_1) = \frac{4}{10} \cdot \frac{3}{9} = \frac{4}{30}.
+$$
+
+Se l'esperimento consiste nell'estrazione successiva di 3 palline, la probabilità che queste siano tutte bianche vale, per la \@ref(eq:probcomposte):
+
+$$
+P(B_1 \cap B_2 \cap B_3)=P(B_1)P(B_2 \mid B_1)P(B_3 \mid B_1 \cap B_2),
+$$
+
+dove la probabilità $P(B_3 \mid B_1 \cap B_2)$ si calcola supponendo che si sia verificato l'evento condizionante $\{B_1 \cap B_2\}$. Lo spazio campionario per questa probabilità condizionata è costituito da 4 palline bianche e 4 nere, per cui $P(B_3 \mid B_1 \cap B_2) = 1/2$ e quindi:
+
+$$
+P (B_1 \cap B_2 \cap B_3) = \frac{6}{10}\cdot\frac{5}{9} \cdot\frac{4}{8}  = \frac{1}{6}.
+$$
+
+La probabilità dell'estrazione di tre palline nere è invece:
+
+$$
+\begin{aligned}
+P(N_1 \cap N_2 \cap N_3) &= P(N_1)P(N_2 \mid N_1)P(N_3 \mid N_1 \cap N_2)\notag\\ 
+&= \frac{4}{10} \cdot \frac{3}{9} \cdot \frac{2}{8} = \frac{1}{30}.\notag
+\end{aligned}
+$$
+::: 
+
+## L'indipendendenza stocastica
+
+Un concetto molto importante per le applicazioni statistiche della probabilità è quello dell'indipendenza stocastica. La definizione \@ref(eq:probcond) consente di esprimere il concetto di indipendenza di un evento da un altro in forma intuitiva: se $A$ e $B$ sono eventi indipendenti, allora il verificarsi di $A$ non influisce sulla probabilità del verificarsi di $B$, ovvero non la condiziona, e il verificarsi di $B$ non influisce sulla probabilità del verificarsi di $A$. Infatti, per la \@ref(eq:probcond), si ha che, se $A$ e $B$ sono due eventi indipendenti, risulta:
+
+$$
+P(A \mid B) = \frac{P(A)P(B)}{P(B)} = P(A),
+$$ 
+
+$$
+P(B \mid A) = \frac{P(A)P(B)}{P(A)} = P(B).
+$$ 
+
+Possiamo dunque dire che due eventi $A$ e $B$ sono indipendenti se 
+
+\begin{equation}
+\begin{split}
+P(A \mid B) &= P(A), \\
+P(B \mid A) &= P(B).
+\end{split}
+\end{equation}
+
+::: {.exercise}
+Nel lancio di due dadi non truccati, si considerino gli eventi: $A$ = {esce un 1 o un 2 nel primo lancio} e $B$ = {il punteggio totale è 8}. Gli eventi $A$ e $B$ sono indipendenti?
+
+Rappresentiamo qui sotto lo spazio campione dell'esperimento casuale.
+
+```{r sampling-space-dice, echo=FALSE, out.width = '70%', fig.cap="Rappresentazione dello spazio campionario dei risultati dell'esperimento casuale corrispondente al lancio di due dadi bilanciati. Sono evidenziati gli eventi elementari che costituiscono l'evento $B$: 'il punteggio totale è 8'."}
+knitr::include_graphics("images/sampling-space-dice.png")
+```
+
+Gli eventi $A$ e $B$ non sono statisticamente indipendenti. Infatti, le loro probabilità valgono $P(A) = 12/36$ e $P(B) = 5/36$ e la probabilità della loro intersezione è
+
+$$
+P(A \cap B) = 1/36 = 3/108 \neq P(A)P(B) = 5/108.
+$$
+::: 
+
+::: {.remark}
+Il concetto di indipendenza è del tutto differente da quello di incompatibilità. Si noti infatti che due eventi _A_ e _B_ incompatibili (per i quali si ha $A \cap B = \emptyset$) sono statisticamente dipendenti, poiché il verificarsi dell'uno esclude il verificarsi dell'altro: $P(A \cap B)=0  \neq P(A)P(B)$.
+::: 
+
+## Il teorema della probabilità totale
+
+Dato un insieme finito $A_i$ di eventi, nel calcolo della probabilità dell'unione di tutti gli eventi, se gli eventi considerati non sono a due a due incompatibili, si deve tenere conto delle loro intersezioni. In particolare, la probabilità dell'unione di due eventi $A$ e $B$ è pari alla somma delle singole probabilità $P(A)$ e $P(B)$ diminuita della probabilità della loro intersezione:
+
+\begin{equation}
+P(A \cup B) = P(A) + P(B) - P(A \cap B).
+(\#eq:probunione)
+\end{equation}
+
+Nel caso di tre eventi, si ha
+
+$$
+\begin{split}
+P(A \cup B \cup C) &= P(A)+P(B)+P(C)-P(A\cap B)-P(A\cap C) - \\
+& \qquad P(B\cap C) + P(A\cap B\cap C).
+\end{split}
+$$
+
+La formula per il caso di $n$ eventi si ricava per induzione.
+
+Per il caso di due soli eventi, se $A$ e $B$ sono indipendenti, la \@ref(eq:probunione) si modifica nella relazione seguente:
+
+\begin{equation}
+P(A \cup B) = P(A) + P(B) - P(A)P(B).
+\end{equation}
+
+Nel caso di due eventi $A$ e $B$ incompatibili, se cioè $P(A \cap B) = \varnothing$, si ha che 
+
+$$
+A\cap B=\varnothing \Rightarrow P(A\cup B)=P(A)+P(B).
+$$
+
+Si può dimostrare per induzione che ciò vale anche per un insieme finito di eventi $A_{n}$ a due a due incompatibili, ovvero che:
+
+$$
+A_i\cap A_j=\varnothing, i\neq j \Rightarrow P\left(\bigcup_{i=1}^n A_i\right)=\sum_{i=1}^nP(A_i).
+$$
+
+## Il teorema della probabilità assoluta
+
+Il teorema della probabilità assoluta consente di calcolare la probabilità di un evento $E$ di cui sono note le probabilità condizionate rispetto ad altri eventi $(H_i)_{i\geq 1}$, a condizione che essi costituiscano una partizione dell'evento certo $\Omega$, ovvero 
+
+1. $\bigcup_{i=1}^\infty H_i = \Omega$;
+2. $H_j \cap H_j = \emptyset, i\neq j$;
+3. $P(H_i) > 0, i = 1, \dots, \infty$.
+
+Nel caso di una partizione dello spazio campione in $n$ sottoinsiemi abbiamo
+
+\begin{equation}
+P(E) = \sum_{i=1}^n P(H_i\cap E) = \sum_{i=1}^n P(E \mid H_i) P(H_i).
+\end{equation}
+
+Consideriamo, ad esempio, una partizione dell'evento certo in tre sottoinsiemi.
+
+```{tikz tikz-prob-tot, echo=FALSE, fig.cap = "Partizione dell'evento certo $\\Omega$ in tre sottoinsiemi sui quali viene definito l'evento $E$.", fig.ext = 'png', cache=TRUE}
+\usetikzlibrary{
+  matrix, patterns, calc, fit, shapes, chains, snakes,
+  arrows.meta, arrows, backgrounds, trees, positioning,
+  lindenmayersystems
+}
+\begin{tikzpicture}
+\tikzset{
+    myrectangle/.style={
+        draw=black,
+        minimum width=4cm,
+        minimum height=2cm,
+    },
+    A/.style={
+        draw=gray,
+    },
+    E/.style={
+        draw=gray,
+    },
+    >=stealth,
+    node distance=1cm and 1cm,
+}
+
+    \node[myrectangle] (left) {};
+    \node[myrectangle] (right) [right=of left] {};
+    \path (left.south east) -- coordinate (tmp) (right.south west);
+    \node[myrectangle] (bottom) [below=of tmp] {};
+
+    % "contents" of left node
+    \path (left.west) -- node[pos=.25] {$H_1$} (left.east);
+    \path (left.west) -- node[pos=.5] {$H_2$} (left.east);
+    \path (left.west) -- node[pos=.75] {$H_3$} (left.east);
+
+    \draw[A] ($(left.north west) ! .4 ! (left.north east)$) -- ($(left.south west) ! .35 ! (left.south east)$);
+    \draw[A] ($(left.north west) ! .6 ! (left.north east)$) -- ($(left.south west) ! .66 ! (left.south east)$);
+
+    % "contents" of right node
+    \draw[E] (right.center) ellipse [x radius=1.5cm, y radius=0.75cm] node {$E$};
+
+    % "contents" of bottom node
+    \path (bottom.west) -- node[pos=.25] {\scriptsize $E\cap H_1$} (bottom.east);
+    \path (bottom.west) -- node[pos=.5] {\scriptsize $E \cap H_2$} (bottom.east);
+    \path (bottom.west) -- node[pos=.75] {\scriptsize $E \cap H_3$} (bottom.east);
+
+    \draw[A] ($(bottom.north west) ! .4 ! (bottom.north east)$) -- ($(bottom.south west) ! .35 ! (bottom.south east)$);
+    \draw[A] ($(bottom.north west) ! .6 ! (bottom.north east)$) -- ($(bottom.south west) ! .66 ! (bottom.south east)$);
+
+    \draw[E] (bottom.center) ellipse [x radius=1.5cm, y radius=0.75cm];
+
+    % arrows
+    \begin{scope}[
+        shorten >=.2cm,
+        shorten <=.2cm,
+    ]
+        \draw[->, black] (left) -- (bottom);
+        \draw[->, black] (right) -- (bottom);
+    \end{scope}
+
+    % labels on top
+    \node at (left.north east) [anchor=south east] {$\Omega$};
+    \node at (right.north east) [anchor=south east] {$\Omega$};
+    \node at (bottom.north east) [anchor=south east] {$\Omega$};
+\end{tikzpicture}
+```
+
+In tali circostanze si ha che
+
+\begin{equation}
+P(E) = P(E \cap H_1) + P(E \cap H_2) + P(E \cap H_3), \notag
+(\#eq:prob-total-1a)
+\end{equation}
+
+ovvero
+
+\begin{equation}
+P(E) = P(E \mid H_1) P(H_1) + P(E \mid H_2) P(H_2) + P(E \mid H_3) P(H_3).
+(\#eq:prob-total-1b)
+\end{equation}
+
+In base al teorema della probabilità assoluta, dunque, se l'evento $E$ è costituito da tutti gli eventi elementari in $E \cap H_1$, $E \cap H_2$ e $E \cap H_3$, allora la sua probabilità è data dalla somma delle probabilità condizionate $P(E \mid H_i)$, ciascuna delle quali pesata per la probabilità dell'evento condizionante $H_i$.
+
+::: {.exercise}
+Si considerino tre urne, ciascuna delle quali contiene 100 palline:
+
+-   Urna 1: 75 palline rosse e 25 palline blu,
+-   Urna 2: 60 palline rosse e 40 palline blu,
+-   Urna 3: 45 palline rosse e 55 palline blu.
+
+\noindent
+Una pallina viene estratta a caso da un'urna anch'essa scelta a caso.
+Qual è la probabilità che la pallina estratta sia di colore rosso?
+
+Sia $R$ l'evento "la pallina estratta è rossa" e sia $U_i$ l'evento che
+corrisponde alla scelta dell'$i$-esima urna. Sappiamo che
+
+$$
+P(R \mid U_1) = 0.75, \quad P(R \mid U_2) = 0.60, \quad P(R \mid U_3) = 0.45.
+$$
+
+Gli eventi $U_1$, $U_2$ e $U_3$ costituiscono una partizione dello
+spazio campione in quanto $U_1$, $U_2$ e $U_3$ sono eventi
+mutualmente esclusivi ed esaustivi, ovvero $P(U_1 \cup U_2 \cup U_3) = 1.0$. In base al teorema della probabilità assoluta, la probabilità di estrarre una pallina rossa è dunque
+
+$$
+\begin{split}
+P(R) &= P(R \mid U_1)P(U_1) + P(R \mid U_2)P(U_2) + P(R \mid U_3)P(U_3) \\
+&= 0.75 \cdot \frac{1}{3}+0.60 \cdot \frac{1}{3}+0.45 \cdot \frac{1}{3} \\
+&=0.60.
+\end{split}
+$$
+:::
+
+## Indipendenza condizionale
+
+Aggiungo qui delle considerazioni sul concetto di indipendenza condizionale a cui si farà riferimento nell'ultima parte della dispensa. L'indipendenza condizionale descrive situazioni in cui un'osservazione è irrilevante o ridondante quando si valuta la certezza di un'ipotesi. L'indipendenza condizionale è solitamente formulata nei termini della probabilità condizionata, come un caso speciale in cui la probabilità dell'ipotesi data un'osservazione non informativa è uguale alla probabilità senza tale osservazione non informativa.
+
+Se $A$ è l'ipotesi e $B$ e $C$ sono osservazioni, l'indipendenza condizionale può essere espressa come l'uguaglianza:
+
+$$
+P(A \mid B,C)=P(A \mid C).
+$$
+
+Dato che $P(A \mid B,C)$ è uguale a $P(A \mid C)$, questa uguaglianza corrisponde all'affermazione che $B$ non fornisce alcun contributo alla certezza di $A$. In questo caso si dice che $A$ e $B$ condizionalmente indipendenti dato $C$, scritto simbolicamente come: $(A \perp\!\!\!\!\perp B \mid C)$.
+
+In maniera equivalente, l'indipendenza condizionale $(A \perp\!\!\!\!\perp B \mid C)$ si verifica se:
+
+$$
+P(A, B \mid C) = P(A \mid C) P(B \mid C).
+$$
+
+Un esempio è il seguente (da Wikipedia). Siano due eventi le probabilità che le persone $A$ e $B$ tornino a casa in tempo per la cena, e il terzo evento è il fatto che una tempesta di neve ha colpito la città. Mentre sia $A$ che $B$ hanno una probabilità più piccola di tornare a casa in tempo per la cena di quando non c'è la neve, tali probabilità sono indipendenti l'una dall'altra. Cioè, sapere che $A$ è in ritardo non ci dice nulla sul fatto che $B$ sia in ritardo o meno -- $A$ e $B$ potrebbero vivere in quartieri diversi, percorrere distanze diverse e utilizzare mezzi di trasporto diversi. Tuttavia, se sapessimo che $A$ e $B$ vivono nello stesso quartiere, usano lo stesso mezzo di trasporto e lavorano nello stesso luogo, allora i due eventi non sarebbero condizionatamente indipendenti.
+
+## Commenti e considerazioni finali {-}
+
+La probabilità condizionata è importante perché ci fornisce uno strumento per precisare il concetto di indipendenza statistica. Una delle domande più importanti delle analisi statistiche è infatti quella che si chiede se due variabili siano associate tra loro oppure no. In questo Capitolo abbiamo discusso il concetto di indipendenza (come contrapposto al concetto di associazione). In seguito vedremo come sia possibile fare inferenza sull'associazione tra variabili.
+

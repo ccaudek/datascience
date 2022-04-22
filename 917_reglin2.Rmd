@@ -1,0 +1,316 @@
+# Adattare il modello lineare ai dati {#regr-ml}
+
+```{r c052, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+source("_common.R")
+source("_stan_options.R")
+#library("brms")
+library("broom")
+# library("viridisLite")
+```
+
+In questo Capitolo verranno esposte alcune nozioni matematiche che stanno alla base dell'inferenza sul modello lineare. 
+
+## Minimi quadrati
+
+Nel modello lineare classico, $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$, i coefficienti $\beta_0$ e $\beta_1$ sono stimati in modo tale da minimizzare gli errori $\varepsilon_i$. Se il numero dei dati $n$ è maggiore di 2, non è generalmente possibile trovare una retta che passi per tutte le osservazioni ($x, y$) (sarebbe $y_i = \beta_0 + \beta_1 x_i$, senza errori, per tutti i punti $i = 1, \dots, n$). L'obiettivo della stima dei minimi quadrati è quello di scegliere i valori ($\hat{\beta}_0, \hat{\beta}_1$) che minimizzano la somma dei quadrati dei residui,
+
+\begin{equation}
+e_i = y_i − (\hat{\beta}_0 + \hat{\beta}_1 x_i)\,.
+\end{equation}
+
+Distinguiamo tra i residui $e_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$ e gli *errori* $\varepsilon_i = y_i − (\beta_0 + \beta_1 x_i)$. Il modello di regressione è scritto in termini degli errori, ma possiamo solo lavorare con i residui: non possiamo calcolare gli errori perché per farlo sarebbe necessario conoscere i parametri ignoti $\beta_0$ e $\beta_1$.
+
+La somma dei residui quadratici (_residual sum of squares_) è
+
+\begin{equation}
+\text{RSS} = \sum_{i=1}^n (y_i = (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2\,.
+\end{equation}
+
+I coefficienti ($\hat{\beta}_0, \hat{\beta}_1$) che minimizzano RSS sono chiamati stime dei minimi quadrati, o minimi quadrati ordinari (_ordinari least squares_), o stime OLS. 
+
+### Stima della deviazione standard dei residui $\sigma$
+
+Nel modello lineare, gli errori $\varepsilon_i$ provengono da una distribuzione con media 0 e deviazione standard $\sigma$: la media è zero per definizione (qualsiasi media diversa da zero viene assorbita nell'intercetta, $\beta_0$), e  la deviazione standard degli errori può essere stimata dai dati. Un modo apparentemente naturale per stimare $\sigma$ potrebbe essere quello di calcolare la deviazione standard dei residui, $\sqrt{\frac{1}{n} \sum_{i=1}^n e_i^2} = \sqrt{ \frac{1}{n} \sum_{i=1}^n y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2}$, ma questo approccio finisce per sottostimare $\sigma$.
+La correzione standard di questa sottostima consiste nel sostituire $n$ con $n - 2$ al denominatore (la sottrazione di 2 deriva dal fatto che il valore atteso del modello lineare è stato calcolato utilizzando i due coefficienti nel modello, l'intercetta e la pendenza, i quali sono stati stimati dai dati campionari -- si dice che, in questo modo, abbiamo perso due gradi di libertà). Così facendo otteniamo
+
+\begin{equation}
+\hat{\sigma} = \sqrt{\frac{1}{n-2} \sum_{i=1}^n (y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2}\, .
+\end{equation}
+
+Quando $n = 1$ o $2$ l'equazione precedente è priva di significato, il che ha senso: con solo due osservazioni è possibile adattare esattamente una retta al diagramma di dispersione e quindi non c'è modo di stimare l'errore dai dati. 
+
+## Calcolare la somma dei quadrati
+
+Seguendo [Solomon Kurz](https://github.com/ASKurz/Working-through-Regression-and-other-stories/blob/main/08.Rmd), creiamo una funzione per calcolare la somma dei quadrati per diversi valori di $\beta_0$ e $\beta_1$ che, per semplicità, qui verranno chiamati $a$ e $b$:
+
+```{r}
+rss <- function(x, y, a, b) {  
+  # x and y are vectors, 
+  # a and b are scalars 
+  resid <- y - (a + b * x)
+  return(sum(resid^2))
+  }
+```
+
+Per fare un esempio concreto useremo un famoso dataset chiamato `kidiq` [@gelman2020regression] che riporta i dati di un'indagine del 2007 su un campione di donne americane adulte e sui loro bambini di età compresa tra i 3 e i 4 anni. I dati sono costituiti da 434 osservazioni e 4 variabili:
+
+- `kid_score`: QI del bambino; è il punteggio totale del _Peabody Individual Achievement Test_ (PIAT) costituito dalla somma dei punteggi di tre sottoscale (Mathematics, Reading comprehension, Reading recognition);
+- `mom_hs`: variabile dicotomica (0 or 1) che indica se la madre del bambino ha completato le scuole superiori (1) oppure no (0);
+- `mom_iq`: QI della madre;
+- `mom_age`: età della madre.
+
+```{r}
+library("rio")
+df <- rio::import(here::here("data", "kidiq.dta"))
+head(df)
+```
+
+Calcoliamo alcune statistiche descrittive:
+
+```{r}
+summary(df)
+```
+
+Il QI medio dei bambini è di circa 87 mentre quello della madre è di 100. La gamma di età delle madri va da 17 a 29 anni con una media di circa 23 anni. Si noti infine che il 79% delle mamme ha un diploma di scuola superiore.
+
+Ci poniamo ora il problema di descrivere l'associazione tra il QI dei figli, `kid_score`, e il QI delle madri, `mom_iq`, mediante un modello lineare. Le stime dei minimi quadrati sono fornite dalla funzione `lm()`:
+
+```{r}
+fm <- lm(kid_score ~ mom_iq, data = df)
+fm %>%
+  tidy() %>% 
+  filter(term == c("(Intercept)", "mom_iq")) %>% 
+  pull(estimate)
+```
+
+\noindent
+Calcoliamo la somma dei residui quadratici in base al modello di regressione $\hat{y}_i = 25.8 + 0.61 x_i$:
+
+```{r}
+rss(df$mom_iq, df$kid_score, 25.8, 0.61)
+```
+
+Per sviluppare una comprensione intuitiva del metodo dei minimi quadrati, esploriamo  i valori assunti da `rss` per diversi valori di $a$ e $b$. Per semplicità, manteniamo costante `b = 0.61` e variamo i valori `a`.
+
+```{r}
+tibble(a = seq(20, 30, length.out = 30)) %>% 
+  mutate(
+    rss = purrr::map_dbl(
+      a, 
+      rss, 
+      x = df$mom_iq, 
+      y = df$kid_score,  
+      b = 0.61)
+    ) %>% 
+  ggplot(aes(x = a, y = rss)) +
+  geom_point() +
+  labs(subtitle = "Il valore b è tenuto costante (b = 0.61)") 
+```
+
+Il minimo della funzione che qui abbiamo discretizzato costituisce la stima dei minimi quadrati del parametro $\beta_0$. 
+
+Lo stesso può essere fatto per $b$:
+
+```{r}
+tibble(b = seq(0.4, 0.8, length.out = 30)) %>% 
+  mutate(
+    rss = purrr::map_dbl(
+      b, 
+      rss, 
+      x = df$mom_iq, 
+      y = df$kid_score,  
+      a = 25.8)
+    ) %>% 
+  ggplot(aes(x = b, y = rss)) +
+  geom_point() +
+  labs(subtitle = "Il valore a è tenuto costante (a = 25.8)") 
+```
+
+Il minimo della funzione rappresentata qui sopra costituisce la stima dei minimi quadrati del parametro $\beta_1$. 
+
+In generale, possiamo dire che il metodo dei minimi quadrati consente di minimizzare la funzione quadratica $RSS = \sum_{i=1}^n \left(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)\right)^2$ rispetto alle due incognite $\hat{\beta}_0$ e $\hat{\beta}_1$. Numericamente, ciò corrisponde a variare sia `a` che `b` simultaneamente in un listato simile a quello riportato sopra. Anche se il codice $\R$ necessario per ottenere questo risultato è più complesso di quello qui esaminato, l'idea di base non cambia.
+
+::: {.remark}
+Nelle precedenti istruzioni $\R$ abbiamo utilizzato la funzione `purrr::map_dbl()`. Questo oggetto $\R$ consente di applicare una funzione (in questo caso, `rss()`) a ciascun elemento di un vettore in input (nel caso presente, il vettore `a` oppure il vettore `b`). La funzione `purrr::map_dbl()` ritorna un numero reale.
+:::
+
+
+<!-- Ora variamo sia `a` che `b`, facendo assumere a ciascun parametro un insieme di valori in un intevallo, e rappresentiamo i risultati in una heat map che rappresenta l'intensitè di `rss` in funzione dei valori `a` e `b` (il codice non è riportato). -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- d <- -->
+<!--   crossing(a = seq(-20, 70, length.out = 400), -->
+<!--            b = seq(-0.2, 1.4, length.out = 400)) %>%  -->
+<!--   mutate(rss = map2_dbl(a, b, rss, x = df$mom_iq, y = df$kid_score)) -->
+<!-- d %>% -->
+<!--   ggplot(aes(x = a, y = b, fill = rss)) + -->
+<!--   geom_tile() + -->
+<!--   # scale_fill_viridis_c("RSS", option = "A") + -->
+<!--   scale_fill_gradientn(colours = viridis(256, option = "D")) + -->
+<!--   scale_x_continuous(expand = c(0, 0)) + -->
+<!--   scale_y_continuous(expand = c(0, 0)) -->
+<!-- ``` -->
+
+<!-- Poiché la stima dei minimi quadrati enfatizza il valore RSS minimo, la soluzione che cerchiamo corrisponde alle combinazione di `a` e `b` nell'intervallo più scuro rappresentato nella figura. Tra gli `a` e `b` che abbiamo preso in considerazione, la coppia di valori a cui è associato il minimo valore `rss` è data da: -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- d %>%  -->
+<!--   arrange(rss) %>%  -->
+<!--   slice(1) -->
+<!-- ``` -->
+
+<!-- Si noti che i valori trovati in questo modo corrispondono alla soluzione fornita nell'output della funzione `lm()`.  -->
+
+<!-- ## Massima verosimiglianza  -->
+
+<!-- Se gli errori del modello lineare sono indipendenti e distribuiti normalmente, in modo che $y_i \sim \mathcal{N}(a + b x_i, \sigma^2)$ per ogni $i$, allora la stima ai minimi quadrati di (`a`, `b`) è anche la stima di massima verosimiglianza. La *funzione di verosimiglianza* in un modello di regressione è definita come la densità di probabilità delle osservazioni dati i parametri e i predittori; quindi, in questo esempio, -->
+
+<!--  $$ -->
+<!--  p(y \mid a, b, \sigma, x) = \prod_{i=1}^n \mathcal{N}(y_i \mid a + b x_i, \sigma^2), -->
+<!--  $$ -->
+
+<!-- dove $\mathcal{N}(\cdot | \cdot, \cdot)$ è la funzione di densità di probabilità normale, -->
+
+<!-- $$ -->
+<!-- \mathcal{N}(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma}} \exp \left(-\frac{1}{2} \left( \frac{y - \mu}{\sigma} \right)^2 \right). -->
+<!-- $$ -->
+
+<!-- Un studio della funzione precedente rivela che la massimizzazione della verosimiglianza richiede la minimizzazione della somma dei quadrati dei residui; quindi la stima dei minimi quadrati $\hat{\beta} = (\hat{a}, \hat{b})$ può essere vista come una stima di massima verosimiglianza nel modello normale: -->
+
+<!-- ```{r} -->
+<!-- ll <- function(x, y, a, b) { -->
+<!--   resid <- y - (a + b * x) -->
+<!--   sigma <- sqrt(sum(resid^2) / length(x)) -->
+<!--   d <- dnorm(y, mean = a + b * x, sd = sigma, log = TRUE) -->
+<!--   tibble(sigma = sigma, ll = sum(d)) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- \noindent -->
+<!-- Calcoliamo dunque le stime di verosimiglianza logaritmica per varie combinazioni di (`a`, `b`), date due colonne di dati, `x` e `y`. La funzione resituisce anche il valore $\hat{\sigma}$. -->
+
+<!-- ```{r} -->
+<!-- d <- -->
+<!--   crossing(a = seq(-20, 70, length.out = 200), -->
+<!--            b = seq(-0.2, 1.4, length.out = 200)) %>%  -->
+<!--   mutate(ll = map2(a, b, ll, x = df$mom_iq, y = df$kid_score)) %>%  -->
+<!--   unnest(ll) -->
+<!-- p1 <- -->
+<!--   d %>% -->
+<!--   ggplot(aes(x = a, y = b, fill = ll)) + -->
+<!--   geom_tile() + -->
+<!--   scale_fill_gradientn(colours = viridis(256, option = "D")) + -->
+<!--   scale_x_continuous(expand = c(0, 0)) + -->
+<!--   scale_y_continuous(expand = c(0, 0)) + -->
+<!--   labs(subtitle = "Verosimiglianza, p(a, b | y)") -->
+<!-- p1 -->
+<!-- ``` -->
+
+<!-- Le stime di $\hat{a}, \hat{b}$ ottenute mediante il metodo di massima verosimiglianza sono: -->
+
+<!-- ```{r} -->
+<!-- d %>%  -->
+<!--   arrange(desc(ll)) %>%  -->
+<!--   slice(1) -->
+<!-- ``` -->
+
+<!-- ### Inferenza bayesiana -->
+
+<!-- Usiamo ora la funzione `brms::brm()` per eseguire l'analisi mediante un approccio bayesiano: -->
+
+<!-- ```{r} -->
+<!-- m <- -->
+<!--   brm( -->
+<!--     kid_score ~ mom_iq, -->
+<!--     data = df,  -->
+<!--     backend = "cmdstan", -->
+<!--     refresh = 0 -->
+<!--   ) -->
+<!-- ``` -->
+
+<!-- Utilizzando i coefficienti calcolati da `brms::brm()`, aggiungiamo la stima della retta di regressione al diagramma di dispersione dei dati: -->
+
+<!-- ```{r} -->
+<!-- df %>%  -->
+<!--   ggplot(aes(x = mom_iq, y = kid_score)) + -->
+<!--   geom_point() + -->
+<!--   geom_abline( -->
+<!--     intercept = fixef(m, robust = TRUE)[1, 1],  -->
+<!--     slope = fixef(m, robust = TRUE)[2, 1], -->
+<!--     size = 1/3 -->
+<!--   ) + -->
+<!--   annotate( -->
+<!--     geom = "text", -->
+<!--     x = 130, y = 30, -->
+<!--     label = expression(y == 25.7 + 0.61 * x) -->
+<!--   ) + -->
+<!--   labs( -->
+<!--     subtitle = "Dati e retta di regressione", -->
+<!--     x = "x", -->
+<!--     y = "y" -->
+<!--   )  -->
+<!-- ``` -->
+
+<!-- La funzione `brms::posterior_samples()` consente di estrarre molti campioni dalla distribuzione a posteriori del modello `m`. In questo modo otteniamo un vettore di valori per ciascuno dei tre parametri, i quali, in questo output sono chiamati `b_Intercept`, `b_mom_iq` e `sigma`. Abbiamo quindi usato `slice_sample()` per ottenere un sottoinsieme casuale di 50 righe. Per semplicità, qui ne stampiamo solo 5. -->
+
+<!-- ```{r} -->
+<!-- posterior_samples(m) %>%  -->
+<!--   slice_sample(n = 5) -->
+<!-- ``` -->
+
+<!-- Possiamo interpretare i valori `b_Intercept`, `b_mom_iq` come un insieme di valori credibili per i parametri $a$ e $b$. Dati questi valori credibili per i parametri del modello di regressione, possiamo aggiungere al diagramma a dispersione 50 stime possibili della retta di regressione, alla luce dei dati osservati. -->
+
+<!-- ```{r} -->
+<!-- posterior_samples(m) %>%  -->
+<!--   slice_sample(n = 50) %>%  -->
+
+<!--   ggplot() + -->
+<!--   geom_abline( -->
+<!--     aes(intercept = b_Intercept, slope = b_mom_iq), -->
+<!--         size = 1/4, alpha = 1/2, color = "grey25") + -->
+<!--   geom_point( -->
+<!--     data = df, -->
+<!--     aes(x = mom_iq, y = kid_score) -->
+<!--   ) + -->
+<!--   labs( -->
+<!--     subtitle = "Dati e possibili rette di regressione", -->
+<!--     x = "x", -->
+<!--     y = "y" -->
+<!--   )  -->
+<!-- ``` -->
+
+<!-- I minimi quadrati o la massima verosimiglianza trovano i parametri che meglio si adattano ai dati (secondo un criterio prestabilito), ma senza altrimenti vincolare o guidare l'adattamento. Ma di solito abbiamo informazioni preliminari sui parametri del modello. L'inferenza bayesiana produce un compromesso tra informazioni a priori e i dati, moltiplicando la verosimiglianza con una distribuzione a priori che codifica probabilisticamente le informazioni esterne sui parametri. Il prodotto della verosimiglianza $p(y \mid a, b, \sigma)$ e della distribuzione a priori è chiamato _distribuzione a posteriori_ e, dopo aver visto i dati, riassume la nostra credenza sui valori dei parametri.  -->
+
+<!-- La soluzione dei minimi quadrati fornisce una stima puntuale dei coefficienti che producono il miglior adattamento complessivo ai dati. Per un modello bayesiano, la corrispondente stima puntuale è la moda a posteriori, la quale fornisce il miglior adattamento complessivo ai dati e alla distribuzione a priori. La stima dei minimi quadrati o di massima verosimiglianza è la moda a posteriori corrispondente al modello bayesiano che utilizza una distribuzione a priori uniforme. -->
+
+<!-- Ma non vogliamo solo una stima puntuale; vogliamo anche una misura dell'incertezza della stima. La figura precedente fornisce, in forma grafica, una descrizione di tale incertezza. -->
+
+<!-- Gli intervalli di credibilità al 95% si ottengono nel modo seguente:  -->
+
+<!-- ```{r} -->
+<!-- print(m, robust = TRUE) -->
+<!-- ``` -->
+
+<!-- \noindent -->
+<!-- In alternativa, è possibile usare la funzione `posterior_interval()`: -->
+
+<!-- ```{r} -->
+<!-- posterior_interval(m) -->
+<!-- ``` -->
+
+
+## Commenti e considerazioni finali {-}
+
+Se gli errori del modello lineare sono indipendenti e distribuiti normalmente, in modo che $y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)$ per ogni $i$, allora la stima ai minimi quadrati di ($\hat{\beta}_0$, $\hat{\beta}_1$) coincide con la stima di massima verosimiglianza di questi parametri. In un modello lineare, la funzione di verosimiglianza è definita come la densità di probabilità delle osservazioni, dati i parametri e i predittori, ovvero,
+
+\begin{equation}
+ p(y \mid \beta_0, \beta_1, \sigma, x) = \prod_{i=1}^n \mathcal{N}(y_i \mid \beta_0 + \beta_1 x_i, \sigma^2),
+ (\#eq:ml-lin-mod)
+\end{equation}
+
+dove $\mathcal{N}(\cdot | \cdot, \cdot)$ è la funzione gaussiana.
+
+Un studio della \@ref(eq:ml-lin-mod) mostra che la massimizzazione della verosimiglianza richiede la minimizzazione della somma dei quadrati dei residui. Se gli errori sono indipendenti e distribuiti normalmente, quindi, la stima dei minimi quadrati $\hat{\beta} = (\hat{\beta}_0, \hat{\beta}_1)$ coincide con la stima di massima verosimiglianza per i parametri del modello lineare.
+
+
+

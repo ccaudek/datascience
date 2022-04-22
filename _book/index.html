@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="regr-models-intro.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Il modello lineare</b></span></li>
+<li class="chapter" data-level="1" data-path="regr-models-intro.html"><a href="regr-models-intro.html"><i class="fa fa-check"></i><b>1</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>1.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="1.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>1.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>1.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="1.2.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>1.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-models-intro.html"><a href="regr-models-intro.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regr-model-lm.html"><a href="regr-model-lm.html"><i class="fa fa-check"></i><b>2</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>2.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>2.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="2.1.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>2.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="2.1.3" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>2.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>2.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>2.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-model-lm.html"><a href="regr-model-lm.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html"><i class="fa fa-check"></i><b>3</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>3.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="3.2" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>3.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>3.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>3.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>3.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>4</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>4.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="4.2" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>4.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>4.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>4.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="4.4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>4.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html"><i class="fa fa-check"></i><b>5</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>5.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>5.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="5.1.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#un-esempio-concreto"><i class="fa fa-check"></i><b>5.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>5.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>6</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>6.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>6.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>7</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>7.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="7.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>7.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>7.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>7.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>7.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html"><i class="fa fa-check"></i><b>8</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>8.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="8.2" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>8.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="8.3" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>8.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Data Science per psicologi</h1>
+<p class="author"><em>Corrado Caudek</em></p>
+<p class="date"><em>2022-04-22</em></p>
+</div>
+<div id="prefazione" class="section level1 unnumbered hasAnchor">
+<h1>Prefazione<a href="index.html#prefazione" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><em>Data Science per psicologi</em> contiene il materiale delle lezioni dell’insegnamento di <em>Psicometria B000286</em> (A.A. 2021/2022) rivolto agli studenti del primo anno del Corso di Laurea in Scienze e Tecniche Psicologiche dell’Università degli Studi di Firenze. <em>Psicometria</em> si propone di fornire agli studenti un’introduzione all’analisi dei dati in psicologia. Le conoscenze/competenze che verranno sviluppate in questo insegnamento sono quelle della Data science, ovvero un insieme di conoscenze/competenze che si pongono all’intersezione tra statistica (ovvero, richiedono la capacità di comprendere teoremi statistici) e informatica (ovvero, richiedono la capacità di sapere utilizzare un software).</p>
+<div id="la-psicologia-e-la-data-science" class="section level2 unnumbered hasAnchor">
+<h2>La psicologia e la Data science<a href="index.html#la-psicologia-e-la-data-science" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sembra sensato spendere due parole su un tema che è importante per gli studenti: quello indicato dal titolo di questo Capitolo. È ovvio che agli studenti di psicologia la statistica non piace. Se piacesse, forse studierebbero Data science e non psicologia; ma non lo fanno. Di conseguenza, gli studenti di psicologia si chiedono: “perché dobbiamo perdere tanto tempo a studiare queste cose quando in realtà quello che ci interessa è tutt’altro?” Questa è una bella domanda.</p>
+<p>C’è una ragione molto semplice che dovrebbe farci capire perché la Data science è così importante per la psicologia. Infatti, a ben pensarci, la psicologia è una disciplina intrinsecamente statistica, se per statistica intendiamo quella disciplina che studia la variazione delle caratteristiche degli individui nella popolazione. La psicologia studia <em>gli individui</em> ed è proprio la variabilità inter- e intra-individuale ciò che vogliamo descrivere e, in certi casi, predire. In questo senso, la psicologia è molto diversa dall’ingegneria, per esempio. Le proprietà di un determinato ponte sotto certe condizioni, ad esempio, sono molto simili a quelle di un altro ponte, sotto le medesime condizioni. Quindi, per un ingegnere la statistica è poco importante: le proprietà dei materiali sono unicamente dipendenti dalla loro composizione e restano costanti. Ma lo stesso non può dirsi degli individui: ogni individuo è unico e cambia nel tempo. E le variazioni tra gli individui, e di un individuo nel tempo, sono l’oggetto di studio proprio della psicologia: è dunque chiaro che i problemi che la psicologia si pone sono molto diversi da quelli affrontati, per esempio, dagli ingegneri. Questa è la ragione per cui abbiamo tanto bisogno della Data science in psicologia: perché la Data science ci consente di descrivere la variazione e il cambiamento. E queste sono appunto le caratteristiche di base dei fenomeni psicologici.</p>
+<p>Sono sicuro che, leggendo queste righe, a molti studenti sarà venuta in mente la seguente domanda: perché non chiediamo a qualche esperto di fare il “lavoro sporco” (ovvero le analisi statistiche) per noi, mentre noi (gli psicologi) ci occupiamo solo di ciò che ci interessa, ovvero dei problemi psicologici slegati dai dettagli “tecnici” della Data science? La risposta a questa domanda è che non è possibile progettare uno studio psicologico sensato senza avere almeno una comprensione rudimentale della Data science. Le tematiche della Data science non possono essere ignorate né dai ricercatori in psicologia né da coloro che svolgono la professione di psicologo al di fuori dell’Università. Infatti, anche i professionisti al di fuori dall’università non possono fare a meno di leggere la letteratura psicologica più recente: il continuo aggiornamento delle conoscenze è infatti richiesto dalla deontologia della professione. Ma per potere fare questo è necessario conoscere un bel po’ di Data science! Basta aprire a caso una rivista specialistica di psicologia per rendersi conto di quanto ciò sia vero: gli articoli che riportano i risultati delle ricerche psicologiche sono zeppi di analisi statistiche e di modelli formali. E la comprensione della letteratura psicologica rappresenta un requisito minimo nel bagaglio professionale dello psicologo.</p>
+<p>Le considerazioni precedenti cercano di chiarire il seguente punto: la Data science non è qualcosa da studiare a malincuore, in un singolo insegnamento universitario, per poi poterla tranquillamente dimenticare. Nel bene e nel male, gli psicologi usano gli strumenti della Data science in tantissimi ambiti della loro attività professionale: in particolare quando costruiscono, somministrano e interpretano i test psicometrici. È dunque chiaro che possedere delle solide basi di Data science è un tassello imprescindibile del bagaglio professionale dello psicologo. In questo insegnamento verrano trattati i temi base della Data science e verrà adottato un punto di vista bayesiano, che corrisponde all’approccio più recente e sempre più diffuso in psicologia.</p>
+</div>
+<div id="come-studiare" class="section level2 unnumbered hasAnchor">
+<h2>Come studiare<a href="index.html#come-studiare" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Il giusto metodo di studio per prepararsi all’esame di Psicometria è quello di seguire attivamente le lezioni, assimilare i concetti via via che essi vengono presentati e verificare in autonomia le procedure presentate a lezione. Incoraggio gli studenti a farmi domande per chiarire ciò che non è stato capito appieno. Incoraggio gli studenti a utilizzare i forum attivi su Moodle e, soprattutto, a svolgere gli esercizi proposti su Moodle. I problemi forniti su Moodle rappresentano il livello di difficoltà richiesto per superare l’esame e consentono allo studente di comprendere se le competenze sviluppate fino a quel punto sono sufficienti rispetto alle richieste dell’esame.</p>
+<p>La prima fase dello studio, che è sicuramente individuale, è quella in cui è necessario acquisire le conoscenze teoriche relative ai problemi che saranno presentati all’esame. La seconda fase di studio, che può essere facilitata da scambi con altri e da incontri di gruppo, porta ad acquisire la capacità di applicare le conoscenze: è necessario capire come usare un software (<span class="math inline">\(\textsf{R}\)</span>) per applicare i concetti statistici alla specifica situazione del problema che si vuole risolvere. Le due fasi non sono però separate: il saper fare molto spesso ci aiuta a capire meglio.</p>
+</div>
+<div id="sviluppare-un-metodo-di-studio-efficace" class="section level2 unnumbered hasAnchor">
+<h2>Sviluppare un metodo di studio efficace<a href="index.html#sviluppare-un-metodo-di-studio-efficace" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Avendo insegnato molte volte in passato un corso introduttivo di analisi dei dati ho notato nel corso degli anni che gli studenti con l’atteggiamento mentale che descriverò qui sotto generalmente ottengono ottimi risultati. Alcuni studenti sviluppano naturalmente questo approccio allo studio, ma altri hanno bisogno di fare uno sforzo per maturarlo. Fornisco qui sotto una breve descrizione del “metodo di studio” che, nella mia esperienza, è il più efficace per affrontare le richieste di questo insegnamento.</p>
+<ul>
+<li>Dedicate un tempo sufficiente al materiale di base, apparentemente facile; assicuratevi di averlo capito bene. Cercate le lacune nella vostra comprensione. Leggere presentazioni diverse dello stesso materiale (in libri o articoli diversi) può fornire nuove intuizioni.</li>
+<li>Gli errori che facciamo sono i nostri migliori maestri. Istintivamente cerchiamo di dimenticare subito i nostri errori. Ma il miglior modo di imparare è apprendere dagli errori che commettiamo. In questo senso, una soluzione corretta è meno utile di una soluzione sbagliata. Quando commettiamo un errore questo ci fornisce un’informazione importante: ci fa capire qual è il materiale di studio sul quale dobbiamo ritornare e che dobbiamo capire meglio.</li>
+<li>C’è ovviamente un aspetto “psicologico” nello studio. Quando un esercizio o problema ci sembra incomprensibile, la cosa migliore da fare è dire: “mi arrendo”, “non ho idea di cosa fare!”. Questo ci rilassa: ci siamo già arresi, quindi non abbiamo niente da perdere, non dobbiamo più preoccuparci. Ma non dobbiamo fermarci qui. Le cose “migliori” che faccio (se ci sono) le faccio quando non ho voglia di lavorare. Alle volte, quando c’è qualcosa che non so fare e non ho idea di come affontare, mi dico: “oggi non ho proprio voglia di fare fatica”, non ho voglia di mettermi nello stato mentale per cui “in 10 minuti devo risolvere il problema perché dopo devo fare altre cose”. Però ho voglia di <em>divertirmi</em> con quel problema e allora mi dedico a qualche aspetto “marginale” del problema, che so come affrontare, oppure considero l’aspetto più difficile del problema, quello che non so come risolvere, ma invece di cercare di risolverlo, guardo come altre persone hanno affrontato problemi simili, opppure lo stesso problema in un altro contesto. Non mi pongo l’obiettivo “risolvi il problema in 10 minuti”, ma invece quello di farmi un’idea “generale” del problema, o quello di capire un caso più specifico e più semplice del problema. Senza nessuna pressione. Infatti, in quel momento ho deciso di non lavorare (ovvero, di non fare fatica). Va benissimo se “parto per la tangente”, ovvero se mi metto a leggere del materiale che sembra avere poco a che fare con il problema centrale (le nostre intuizioni e la nostra curiosità solitamente ci indirizzano sulla strada giusta). Quando faccio così, molto spesso trovo la soluzione del problema che mi ero posto e, paradossalmente, la trovo in un tempo minore di quello che, in precedenza, avevo dedicato a “lavorare” al problema. Allora perché non faccio sempre così? C’è ovviamente l’aspetto dei “10 minuti” che non è sempre facile da dimenticare. Sotto pressione, possiamo solo agire in maniera automatica, ovvero possiamo solo applicare qualcosa che già sappiamo fare. Ma se dobbiamo imparare qualcosa di nuovo, la pressione è un impedimento.</li>
+<li>È utile farsi da soli delle domande sugli argomenti trattati, senza limitarsi a cercare di risolvere gli esercizi che vengono assegnati. Quando studio qualcosa mi viene in mente: “se questo è vero, allora deve succedere quest’altra cosa”. Allora verifico se questo è vero, di solito con una simulazione. Se i risultati della simulazione sono quelli che mi aspetto, allora vuol dire che ho capito. Se i risultati sono diversi da quelli che mi aspettavo, allora mi rendo conto di non avere capito e ritorno indietro a studiare con più attenzione la teoria che pensavo di avere capito – e ovviamente mi rendo conto che c’era un aspetto che avevo frainteso. Questo tipo di verifica è qualcosa che dobbiamo fare da soli, in prima persona: nessun altro può fare questo al posto nostro.</li>
+<li>Non aspettatevi di capire tutto la prima volta che incontrate un argomento nuovo.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> È utile farsi una nota mentalmente delle lacune nella vostra comprensione e tornare su di esse in seguito per carcare di colmarle. L’atteggiamento naturale, quando non capiamo i dettagli di qualcosa, è quello di pensare: “non importa, ho capito in maniera approssimativa questo punto, non devo preoccuparmi del resto”. Ma in realtà non è vero: se la nostra comprensione è superficiale, quando il problema verrà presentato in una nuova forma, non riusciremo a risolverlo. Per cui i dubbi che ci vengono quando studiamo qualcosa sono il nostro alleato più prezioso: ci dicono esattamente quali sono gli aspetti che dobbiamo approfondire per potere migliorare la nostra preparazione.</li>
+<li>È utile sviluppare una visione d’insieme degli argomenti trattati, capire l’obiettivo generale che si vuole raggiungere e avere chiaro il contributo che i vari pezzi di informazione forniscono al raggiungimento di tale obiettivo. Questa organizzazione mentale del materiale di studio facilita la comprensione. È estremamente utile creare degli schemi di ciò che si sta studiando. Non aspettate che sia io a fornirvi un riepilogo di ciò che dovete imparare: sviluppate da soli tali schemi e tali riassunti.</li>
+<li>Tutti noi dobbiamo imparare l’arte di trovare le informazioni, non solo nel caso di questo insegnamento. Quando vi trovate di fronte a qualcosa che non capite, o ottenete un oscuro messaggio di errore da un software, ricordatevi: “Google is your friend”!</li>
+</ul>
+
+<p class="flushright">
+Corrado Caudek<br />
+Marzo 2022
+</p>
+
+</div>
+</div>
+
+
+
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-horn2021underestimating" class="csl-entry">
+Horn, Samantha, and George Loewenstein. 2021. <span>“Underestimating Learning by Doing.”</span> <em>Available at SSRN 3941441</em>.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Ricordatevi inoltre che gli individui tendono a sottostimare la propria capacità di apprendere <span class="citation">(<a href="#ref-horn2021underestimating" role="doc-biblioref">Horn and Loewenstein 2021</a>)</span>.<a href="index.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="regr-models-intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

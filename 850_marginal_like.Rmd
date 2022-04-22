@@ -1,0 +1,62 @@
+# Verosimiglianza marginale {#appendix:const-norm-bino23}
+
+## Derivazione analitica della costante di normalizzazione
+
+Riportiamo di seguito la derivazione analitica per la costante di normalizzazione discussa nella Sezione \@ref(sec:const-normaliz-bino23), ovvero dell'integrale \@ref(eq:likebino23). 
+
+::: {.proof}
+Sia la distribuzione a priori $\theta \sim \mbox{Beta}(a, b)$ e sia $y = \{y_1, \dots, y_n\} \sim \Bin(\theta, n)$. Scrivendo la _funzione beta_ come
+
+$$
+\B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)},
+$$
+la verosimiglianza marginale diventa
+
+\begin{align}
+p(y) &= \int p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta \notag\\
+&= \int_0^1 \binom{n}{y}\theta^{y} (1 - \theta)^{n- y} \frac{1}{\B(a,b)} \theta^{a-1} (1-\theta)^{b-1} \,\operatorname {d}\!\theta \notag\\
+&= \binom{n}{y}\frac{1}{\B(a,b)} \int_0^1 \theta^{y + a - 1} (1-\theta)^{n- y + b-1}  \,\operatorname {d}\!\theta \notag\\
+&= \binom{n}{y}\frac{\Beta(y + a, n- y + b)}{\Beta(a,b)},
+(\#eq:constant-norm-beta-binom)
+\end{align}
+
+in quanto
+
+\begin{align}
+\int_0^1 \frac{1}{\Beta(a,b)} \theta^{a-1} (1-\theta)^{b-1} \,\operatorname {d}\! \theta &= 1\notag\\
+\frac{1}{\Beta(a,b)} \int_0^1  \theta^{a-1} (1-\theta)^{b-1} \,\operatorname {d}\! \theta &= 1\notag\\
+\int_0^1  \theta^{a-1} (1-\theta)^{b-1} \,\operatorname {d}\!\theta &= \Beta(a,b). \notag
+\end{align}
+
+In conclusione, nel caso di una verosimiglianza binomiale $y = \sim \Bin(\theta, n)$ e di una distribuzione a priori $\theta \sim \mbox{Beta}(a, b)$, la verosimiglianza marginale diventa uguale alla \@ref(eq:constant-norm-beta-binom).
+:::
+
+::: {.exercise}
+Si verifichi la \@ref(eq:constant-norm-beta-binom) mediante di dati di @zetschefuture2019. 
+
+Per replicare mediante la \@ref(eq:constant-norm-beta-binom) il risultato trovato per via numerica nella Sezione \@ref(sec:const-normaliz-bino23) assumiamo una distribuzione a priori uniforme, ovvero $\mbox{Beta}(1, 1)$. I valori del problema dunque diventano i seguenti:
+
+```{r}
+a <- 1
+b <- 1
+y <- 23
+n <- 30
+```
+
+Definiamo
+
+```{r}
+B <- function(a, b) {
+  (gamma(a) * gamma(b)) / gamma(a + b)
+}
+```
+
+Il risultato cercato è
+
+```{r}
+choose(30, 23) * B(y + a, n - y + b) / B(a, b)
+```
+:::
+
+
+

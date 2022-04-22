@@ -1,0 +1,208 @@
+# Il teorema di Bayes {#chapter-teo-bayes}
+
+```{r c017, include = FALSE}
+source("_common.R")
+```
+
+Il teorema di Bayes assume un ruolo fondamentale nell'interpretazione soggettivista della probabilità perché descrive l'aggiornamento della fiducia che si aveva nel verificarsi di una determinata ipotesi $H$ (identificata con la probabilità assegnata all'ipotesi stessa) in conseguenza del verificarsi dell'evidenza $E$. 
+
+## Il teorema di Bayes
+
+::: {.theorem}
+Sia $(H_i)_{i\geq 1}$ una partizione dell'evento certo $\Omega$  e sia $E \subseteq \Omega$ un evento tale che $p(E) > 0$, allora, per $i = 1, \dots, \infty$:
+
+\begin{equation}
+{\mbox{P}}(H_i \mid E) = \frac{{\mbox{P}}(E \mid H_i){\mbox{P}}(H_i)}{\sum_{j=1}^{\infty}{\mbox{P}}(H_j)P(E \mid H_j)}.
+(\#eq:bayes2)
+\end{equation}
+:::
+
+La formula di Bayes contiene tre concetti fondamentali. I primi due distinguono il grado di fiducia precedente al verificarsi dell'evidenza $E$ da quello successivo al verificarsi dell'evidenza $E$. Pertanto, dati gli eventi $H, E \subseteq \Omega$
+
+- si definisce _probabilità a priori_ la probabilità che viene attribuita al verificarsi dell'ipotesi $H$ prima di sapere che si è verificato l'evento $E$,  tenendo conto delle caratteristiche cognitive del decisore (esperienza, modo di pensare, ecc.);
+- si definisce _probabilità a posteriori_ la probabilità assegnata ad $H$ una volta che sia noto $E$, ovvero l'aggiornamento della probabilità a priori alla luce della nuova evidenza $E$. 
+- Il terzo concetto definisce la probabilità che ha l'evento $E$ di verificarsi quando è vera l'ipotesi $H$, ovvero la probabilità dell'evidenza in base all'ipotesi. Pertanto, dati gli eventi $H, E \subseteq \Omega$ si definisce _verosimiglianza_ di $H$ dato $E$ la probabilità condizionata che si verifichi $E$, se è vera $H$: $P (E \mid H)$. 
+
+Si noti che, per il calcolo della quantità a denominatore, si ricorre al teorema della probabilità assoluta.
+
+::: {.exercise}
+Per fare un esempio, considerando una partizione dell'evento certo $\Omega$ in due soli eventi che chiamiamo ipotesi $H_1$ e $H_2$. Supponiamo conosciute le probabilità a priori $P(H_1)$ e $P(H_2)$. Consideriamo un terzo evento $E \subseteq \Omega$ con probabilità non nulla di cui si conosce la verosimiglianza, ovvero si conoscono le probabilità condizionate  ${\mbox{P}}(E \mid H_1)$ e $P(E \mid H_2)$. Supponendo che si sia verificato l'evento $E$, vogliamo conoscere le probabilità a posteriori delle ipotesi, ovvero $P(H_1 \mid E)$ e $P(H_2 \mid E)$. 
+
+```{tikz echo=FALSE, fig.cap="", fig.ext='png', fig.width = 2, cache=TRUE, out.width="45%"}
+\usetikzlibrary{
+  matrix, patterns, calc, fit, shapes, chains, snakes,
+  arrows.meta, arrows, backgrounds, trees, positioning,
+  lindenmayersystems
+}
+\begin{tikzpicture}[scale=.8]
+  % \draw[thick] (0,0) -- (0,5) -- (8,5) -- (8,0) -- (0,0);
+  \draw[thick] (0,0) rectangle (8,5);
+  \draw[thick, color=gray!15, fill] (4,2.5) ellipse (2.7cm and 1.7cm);
+  \draw[thick] (3,0) .. controls (6,2) and (2,4) .. (4,5);
+  \node (n1) at (6,4) {\textcolor{gray}{$E$}};
+  \node (n2) at (0.7,2) {$H_1$};
+  \node (n2) at (3,2.5) {$E\cap H_1$};
+  \node (n2) at (5,2.5) {$E\cap H_2$};
+  \node (n3) at (7.5,2) {$H_2$};
+\end{tikzpicture}
+```
+
+Per trovare le probabilità cercate scriviamo:
+
+$$
+\begin{split}
+P(H_1 \mid E) &= \frac{P(E \cap H_1)}{P(E)}\notag\\
+              &= \frac{P(E \mid H_1) P(H_1)}{P(E)}.
+\end{split}
+$$
+
+Sapendo che $E = (E \cap H_1) \cup (E \cap H_2)$ e che $H_1$ e $H_2$ sono eventi disgiunti, ovvero $H_1 \cap H_2 = \emptyset$, ne segue che possiamo calcolare ${\mbox{P}}(E)$ utilizzando il teorema della probabilità assoluta:
+
+$$
+\begin{split}
+P(E) &= P(E \cap H_1) + P(E \cap H_2)\notag\\
+     &= P(E \mid H_1)P(H_1) + P(E \mid H_2)P(H_2).
+\end{split}
+$$
+
+\noindent
+Sostituendo tale risultato nella formula precedente otteniamo:
+
+\begin{equation}
+P(H_1 \mid E) = \frac{P(E \mid H_1)P(H_1)}{P(E \mid H_1)P(H_1) + P(E \mid H_2)P(H_2)}.
+(\#eq:bayes1)
+\end{equation}
+
+Un lettore attento si sarà reso conto che, in precedenza, abbiamo già applicato il teorema di Bayes quando abbiamo risolto l'esercizio riportato nella Sezione \@ref(sec:bayes-cancer). In quel caso, le due ipotesi erano "malattia", che possiamo denotare con $M$, e "malattia assente", $M^\complement$. L'evidenza $E$ è costituita dal risultato positivo al test, ovvero $+$. Con questa nuova notazione la \@ref(eq:bayes1) diventa:
+
+\begin{equation}
+P(M \mid +) = \frac{P(+ \mid M) P(M)}{P(+ \mid M) P(M) + P(+ \mid M^\complement) P(M^\complement)}\notag
+\end{equation}
+
+Inserendo i dati nella formula, otteniamo 
+
+\begin{align}
+P(M \mid +) &= \frac{0.9 \cdot 0.01}{0.9 \cdot 0.01 + 0.1 \cdot 0.99} \notag\\
+&= \frac{9}{108} \notag\\
+&\approx 0.083.\notag
+\end{align}
+:::
+
+## Commenti e considerazioni finali {-}
+
+Il teorema di Bayes rende esplicito il motivo per cui la probabilità non possa essere pensata come uno stato oggettivo, quanto piuttosto come un'inferenza soggettiva e condizionata. Il denominatore del membro di destra della \@ref(eq:bayes2) è un semplice fattore di normalizzazione. Nel numeratore compaiono invece due quantità: ${\mbox{P}}(H_i$) e ${\mbox{P}}(E \mid H_i)$. La probabilità ${\mbox{P}}(H_i$) è la probabilità _probabilità a priori_ (_prior_) dell'ipotesi $H_i$ e rappresenta l'informazione che l'agente bayesiano possiede a proposito dell'ipotesi $H_i$. Diremo che ${\mbox{P}}(H_i)$ codifica il grado di fiducia che l'agente ripone in $H_i$ precedentemente al verificarsi dell'evidenza $E$. Nell'interpretazione bayesiana, ${\mbox{P}}(H_i)$ rappresenta un giudizio personale dell'agente e non esistono criteri esterni che possano determinare se tale giudizio sia coretto o meno. La probabilità condizionata ${\mbox{P}}(E \mid H_i)$ rappresenta invece la verosimiglianza di $H_i$ dato $E$ e descrive la plausibilità che si verifichi l'evento $E$ se è vera l'ipotesi $H_i$. Il teorema di Bayes descrive la regola che l'agente deve seguire per aggiornare il suo grado di fiducia nell'ipotesi $H_i$ alla luce del verificarsi dell'evento $E$. La ${\mbox{P}}(H_i \mid E)$ è chiamata probabilità a posteriori dato che rappresenta la nuova probabilità che l'agente assegna all'ipotesi $H_i$ affinché rimanga consistente con le nuove informazioni fornitegli da $E$.
+
+La probabilità a posteriori dipende sia dall'evidenza $E$, sia dalla conoscenza a priori dell'agente ${\mbox{P}}(H_i)$. È dunque chiaro come non abbia senso parlare di una probabilità oggettiva: per il teorema di Bayes la probabilità è definita condizionatamente alla probabilità a priori, la quale a sua volta, per definizione, è un'assegnazione soggettiva. Ne segue pertanto che ogni probabilità deve essere considerata come una rappresentazione del grado di fiducia soggettiva dell'agente. Dato che ogni assegnazione probabilistica rappresenta uno stato di conoscenza e che ciascun particolare stato di conoscenza è arbitrario, un accordo tra agenti diversi non è richiesto. Tuttavia, la teoria delle probabilità ci fornisce uno strumento che, alla luce di nuove evidenze, consente di aggiornare in un modo razionale il grado di fiducia che attribuiamo ad un'ipotesi, via via che nuove evidenze vengono raccolte, in modo tale da formulare un'ipotesi a posteriori la quale non è mai definitiva, ma può sempre essere aggiornata in base alle nuove evidenze disponibili. Questo processo si chiama _aggiornamento bayesiano_. Vedremo nel Capitolo \@ref(ch:intro-bayes-inference) come estendere la \@ref(eq:bayes2) al caso continuo.
+
+
+
+<!-- Esercizi uleriori sono proposti nelle Appendici \@ref(appendix:bayes-updating) e \@ref(appendix:exrc-abs-prob). -->
+
+<!-- ::: {.remark} -->
+<!-- Qual è la pronuncia di "Bayesian"? Per saperlo possiamo seguire [questo link](https://bayes-rules.github.io/posts/fun/). -->
+<!-- ::: -->
+
+<!-- Il teorema di Bayes costituisce il fondamento dell'approccio più moderno -->
+<!-- della statistica, quello appunto detto bayesiano. Chi usa il teorema di -->
+<!-- Bayes non è, solo per questo motivo, "bayesiano": ci vuole ben altro. Ci -->
+<!-- vuole un modo diverso per intendere il significato della probabilità e -->
+<!-- un modo diverso per intendere gli obiettivi dell'inferenza statistica. In anni recenti, una gran parte della comunità scientifica ha riconosciuto all'approccio bayesiano il merito di consentire lo sviluppo di modelli anche molto complessi senza richiedere, d'altra parte, conoscenze matematiche troppo avanzate all'utente. Per questa ragione l'approccio bayesiano sta prendendo sempre più piede, anche in psicologia. -->
+
+
+
+
+<!-- <!-- ::: {.exercise} --> 
+<!-- <!-- Consideriamo un'urna che contiene 5 palline rosse e 2 palline verdi. Due --> 
+<!-- <!-- palline vengono estratte, una dopo l'altra. Vogliamo sapere la --> 
+<!-- <!-- probabilità dell'evento "la seconda pallina estratta è rossa". --> 
+
+<!-- <!-- Lo spazio campionario è $\Omega = \{RR, RV, VR, VV\}$. Chiamiamo $R_1$ --> 
+<!-- <!-- l'evento "la prima pallina estratta è rossa", $V_1$ l'evento "la prima --> 
+<!-- <!-- pallina estratta è verde", $R_2$ l'evento "la seconda pallina estratta è -->
+<!-- <!-- rossa" e $V_2$ l'evento "la seconda pallina estratta è verde". Dobbiamo --> 
+<!-- <!-- trovare $P(R_2)$ e possiamo risolvere il problema usando il teorema --> 
+<!-- <!-- della probabilità --> 
+<!-- <!-- totale \@ref(eq:prob-total-1b): --> 
+
+<!-- <!-- $$ --> 
+<!-- <!-- \begin{split} --> 
+<!-- <!-- P(R_2) &= P(R_2 \mid R_1) P(R_1) + P(R_2 \mid V_1)P(V_1)\\ --> 
+<!-- <!-- &= \frac{4}{6} \cdot \frac{5}{7} + \frac{5}{6} \cdot \frac{2}{7} \\ --> 
+<!-- <!-- &= \frac{30}{42} = \frac{5}{7}. --> 
+<!-- <!-- \end{split} --> 
+<!-- <!-- $$ --> 
+
+<!-- <!-- Se la prima estrazione è quella di una pallina rossa, nell'urna restano --> 
+<!-- <!-- 4 palline rosse e due verdi, dunque, la probabilità che la seconda --> 
+<!-- <!-- estrazione produca una pallina rossa è uguale a 4/6. La probabilità di --> 
+<!-- <!-- una pallina rossa nella prima estrazione è 5/7. Se la prima estrazione è --> 
+<!-- <!-- quella di una pallina verde, nell'urna restano 5 palline rosse e una --> 
+<!-- <!-- pallina verde, dunque, la probabilità che la seconda estrazione produca -->
+<!-- <!-- una pallina rossa è uguale a 5/6. La probabilità di una pallina verde --> 
+<!-- <!-- nella prima estrazione è 2/7. --> 
+<!-- <!-- ::: --> 
+
+<!-- ## Il teorema di Bayes -->
+
+<!-- Introduciamo ora il teorema di Bayes considerando un caso specifico per poi esaminarlo nella sua forma più generale. Sia $\{F_1, F_2\}$ una partizione dello spazio campionario $\Omega$. Consideriamo un terzo evento $E \subset \Omega$ con probabilità non nulla di cui si conoscono le probabilità condizionate rispetto ad $F_1$ e a $F_2$, ovvero ${\mbox{P}}(E \mid F_1)$ e $P(E \mid F_2)$. È chiaro per le ipotesi fatte che se si verifica $E$ deve anche essersi verificato almeno uno degli eventi $F_1$ e $F_2$. Supponendo che si sia verificato l'evento $E$, ci chiediamo: qual è la probabilità che si sia verificato $F_1$ piuttosto che $F_2$? -->
+
+<!-- ```{tikz echo=FALSE, fig.cap="", fig.ext='png', fig.width = 2, cache=TRUE, out.width="45%"} -->
+<!-- \usetikzlibrary{ -->
+<!--   matrix, patterns, calc, fit, shapes, chains, snakes, -->
+<!--   arrows.meta, arrows, backgrounds, trees, positioning, -->
+<!--   lindenmayersystems -->
+<!-- } -->
+<!-- \begin{tikzpicture}[scale=.8] -->
+<!--   % \draw[thick] (0,0) -- (0,5) -- (8,5) -- (8,0) -- (0,0); -->
+<!--   \draw[thick] (0,0) rectangle (8,5); -->
+<!--   \draw[thick, color=gray!15, fill] (4,2.5) ellipse (2.7cm and 1.7cm); -->
+<!--   \draw[thick] (3,0) .. controls (6,2) and (2,4) .. (4,5); -->
+<!--   \node (n1) at (6,4) {\textcolor{gray}{$E$}}; -->
+<!--   \node (n2) at (0.7,2) {$F_1$}; -->
+<!--   \node (n2) at (3,2.5) {$E\cap F_1$}; -->
+<!--   \node (n2) at (5,2.5) {$E\cap F_2$}; -->
+<!--   \node (n3) at (7.5,2) {$F_2$}; -->
+<!-- \end{tikzpicture} -->
+<!-- ``` -->
+
+<!-- Per rispondere alla domanda precedente scriviamo: -->
+
+<!-- $$ -->
+<!-- \begin{split} -->
+<!-- {\mbox{P}}(F_1 \mid E) &= \frac{{\mbox{P}}(E \cap F_1)}{{\mbox{P}}(E)}\notag\\ -->
+<!--               &= \frac{{\mbox{P}}(E \mid F_1){\mbox{P}}(F_1)}{{\mbox{P}}(E)}. -->
+<!-- \end{split} -->
+<!-- $$ -->
+
+<!-- Sapendo che $E = (E \cap F_1) \cup (E \cap F_2)$ e che $F_1$ e $F_2$ sono eventi disgiunti, ovvero $F_1 \cap F_2 = \emptyset$, ne segue che possiamo calcolare ${\mbox{P}}(E)$ utilizzando il teorema della probabilità assoluta: -->
+
+<!-- $$ -->
+<!-- \begin{split} -->
+<!-- {\mbox{P}}(E) &= {\mbox{P}}(E \cap F_1) + {\mbox{P}}(E \cap F_2)\notag\\ -->
+<!--      &= {\mbox{P}}(E \mid F_1)P(F_1) + {\mbox{P}}(E \mid F_2){\mbox{P}}(F_2). -->
+<!-- \end{split} -->
+<!-- $$ -->
+
+<!-- \noindent -->
+<!-- Sostituendo il risultato precedente nella formula della probabilità condizionata $P(F_1 \mid E)$ otteniamo: -->
+
+<!-- \begin{equation} -->
+<!-- {\mbox{P}}(F_1 \mid E) = \frac{{\mbox{P}}(E \mid F_1){\mbox{P}}(F_1)}{{\mbox{P}}(E \mid F_1){\mbox{P}}(F_1) + {\mbox{P}}(E \mid F_2)P(F_2)}. -->
+<!-- (\#eq:bayes1) -->
+<!-- \end{equation} -->
+
+<!-- \noindent -->
+<!-- La \@ref(eq:bayes1) si generalizza facilmente al caso di più di due eventi disgiunti, come indicato di seguito. -->
+
+<!-- ::: {.theorem} -->
+<!-- Sia $E$ un evento contenuto in $F_1 \cup \dots \cup F_k$, dove gli eventi $F_j, j=1, \dots, k$ sono a due a due incompatibili e necessari. Allora per ognuno dei suddetti eventi $F_j$ vale la seguente formula: -->
+
+<!-- \begin{equation} -->
+<!-- {\mbox{P}}(F_j \mid E) = \frac{{\mbox{P}}(E \mid F_j){\mbox{P}}(F_j)}{\sum_{j=1}^{k}{\mbox{P}}(F_j)P(E \mid F_j)}. -->
+<!-- (\#eq:bayes2) -->
+<!-- \end{equation} -->
+<!-- ::: -->
+
+<!-- \noindent -->
+<!-- La \@ref(eq:bayes2) prende il nome di *teorema di Bayes* e mostra che la conoscenza del verificarsi dell'evento $E$ modifica la probabilità che avevamo attribuito all'evento $F_j$. Nella \@ref(eq:bayes2) la probabilità condizionata ${\mbox{P}}(F_j \mid E)$ prende il nome di probabilità _a posteriori_ dell'evento $F_j$: il termine "a posteriori" sta a significare "dopo che è noto che si è verificato l'evento $E$". -->
+

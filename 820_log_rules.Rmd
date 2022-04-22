@@ -1,0 +1,157 @@
+# Esponenziali e logaritmi {#funs-exp-log}
+
+```{r, include = FALSE}
+source("_common.R")
+```
+
+## Potenze ad esponente reale {-}
+
+Per un qualsiasi numero razionale $\frac{m}{n}$ (in cui $n > 0$) si ha
+
+$$
+a^{\frac{m}{n}} = \sqrt[n]{a^m}
+$$
+per numeri $a$ reali positivi.
+
+### Proprietà {-}
+
+Se $a$, $b$ sono reali positivi ed $x$, $y$ reali qualsiasi, si ha
+
+- $a^0 = 1$ e $a^{-x} = \frac{1}{a^x}$,
+- $a^x a^y = a^{x+y}$ e $\frac{a^x}{a^y} = a^{x-y}$,
+- $a^x b^x = (ab)^{x}$ e $\frac{a^x}{b^x} = \left(\frac{a}{b}\right)^x$,
+- $(a^x)^y = a^{xy}$.
+
+## Funzione esponenziale
+
+::: {.definition}
+La funzione esponenziale con base $a$ è
+\begin{equation}
+f(x) = a^x
+\end{equation}
+
+dove $a > 0$, $a \neq 1$ e $x$ è qualsiasi numero reale.
+:::
+
+La base $a = 1$ è esclusa perché produce $f(x) = 1^x = 1$, la quale è una costante, non una funzione esponenziale.
+
+Per esempio, un grafico della funzione esponenziale di base 2 si trova con
+
+```{r}
+exp_base2 = function(x){2^x}
+tibble(x = c(-5, 5)) %>%
+ggplot(aes(x = x)) +
+  stat_function(fun = exp_base2)
+```
+
+Se usiamo la base 4 troviamo
+
+```{r}
+exp_base4 = function(x){4^x}
+tibble(x = c(-5, 5)) %>%
+ggplot(aes(x = x)) +
+  stat_function(fun = exp_base4)
+```
+
+Oppure
+
+```{r}
+exp_base4 = function(x){4^-{x}}
+tibble(x = c(-5, 5)) %>%
+ggplot(aes(x = x)) +
+  stat_function(fun = exp_base4)
+```
+
+In molte applicazioni la scelta più conveniente per la base è il numero irrazionale $e = 2.718281828\dots$. Questo numero è chiamato la *base naturale*.  La funzione $f(x) = e^x$ è chiamata *funzione esponenziale naturale*.
+
+Per esempio, abbiamo
+
+```{r}
+exp_base_e= function(x){exp(x)}
+tibble(x = c(-2, 1.5)) %>%
+ggplot(aes(x = x)) +
+  stat_function(fun = exp_base_e)
+```
+
+## Logaritmi {-}
+
+Dati due numeri reali $b > 0$ e $a > 0$ con $a \neq 1$, l'equazione esponenziale $a^x = b$ ammette sempre una ed una sola soluzione. Tale soluzione è detta _logaritmo in base $a$ di $b$_ ed è indicata con la scrittura $\log_a b$, dove $b$ è detto _argomento_ del logaritmo. In altri termini, per definizione si ha
+
+$$
+x = \log_a b \Longleftrightarrow a^x = b
+$$
+
+$$
+\text{dove deve essere } a > 0, \ a \neq 1,\ b > 0.
+$$
+
+Quando valutiamo i logaritmi, dobbiamo ricordare che un logaritmo è un esponente: il logaritmo in base $a$ di $b$, $\log_a b$, è l'esponente da attribuire alla base $a$ per ottenere l'argomento $b$. Le seguenti equazioni sono dunque equivalenti:
+
+\begin{equation}
+y = \log_a x \qquad x = a^y.\notag
+\end{equation}
+
+La prima equazione è in forma logaritmica e la seconda è in forma esponenziale. Ad esempio, l'equazione logaritmica $2 = \log_3 9$ può essere riscritta in forma esponenziale come $9 = 3^2$. 
+
+::: {.example}
+Scrivendo l'argomento come potenza della base si ottiene
+
+- $\log_2 8 = \log_2 2^3 = 3$
+- $\log_3 \sqrt[7]{3^{20}} = \log_3 3^{\frac{20}{7}} = \frac{20}{7}$
+- $\log_{0.1} 0.01 = \log_{\frac{1}{10}}\frac{1}{100} = \log_{\frac{1}{10}}\left(\frac{1}{10}\right)^2 = 2$
+::: 
+
+### Proprietà {-}
+
+Nell'operare con i logaritmi si procede spesso mediante le loro proprietà, che costituiscono una rilettura in termini di logaritmi delle proprietà delle potenze: se $a$, $b$ sono numeri reali positivi diversi da 1 ed $x$, $y$ reali positivi qualunque, allora
+
+- $\log_a (xy) = \log_a x + \log_a y$,
+- $\log_a \left(\frac{x}{y}\right) = \log_a x - \log_a y$,
+- $\log_a \left(x^{\alpha}\right) = \alpha \log_a x, \quad \forall \alpha \ \text{reale}$,
+- $\log_a x = \frac{\log_b x}{\log_b a}$ (cambiamento di base).
+
+::: {.example}
+\begin{align}
+\log_a (x+1) -\log_a x - 2 \log_a 2 &= \log_a (x+1) - (\log_a x+ \log_a 2^2)\notag\\
+&= \log_a (x+1) - \log_a 4x\notag\\
+&= \log_a \frac{x+1}{4x}.\notag
+\end{align}
+:::
+
+
+## Funzione logaritmica
+
+La funzione logaritmica è la funzione inversa della funzione esponenziale. 
+
+::: {.definition}
+Siano $a > 0$, $a \neq 1$. Per $x > 0$
+
+\begin{equation}
+y = \log_a x \quad \text{se e solo se } x = a^y.
+\end{equation}
+
+La funzione data da
+
+\begin{equation}
+f(x) = \log_a x
+\end{equation}
+
+è chiamata funzione logaritmica.
+::: 
+
+Per esempio, abbiamo
+
+```{r}
+log_funct <- function(x){
+  log(x)
+}
+ggplot(tibble(x = c(-0.5, 4)), aes(x = x)) +
+  stat_function(fun = log_funct) + 
+  xlim(c(-1, 4)) + 
+  ylim(-3, 3) +
+  labs(x = "\n x", y = "y \n") +
+  annotate("text", x = 3, y = 3, parse = TRUE, size = 5, fontface = "bold",
+           label="y == log(x)") + 
+  geom_hline(yintercept = 0, colour = "gray") +
+  geom_vline(xintercept = 0, colour = "gray")
+```
