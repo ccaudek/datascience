@@ -39,6 +39,10 @@ Per fare un esempio concreto, consideriamo le variabili BDI-II e CES-D di  @zets
 Dalla figura \@ref(fig:zetsche-scatter) possiamo vedere che i dati mostrano una tendenza a disporsi attorno ad una retta -- nel gergo statistico, questo fatto viene espresso dicendo che i punteggi CES-D tendono ad essere linearmente associati ai punteggi BDI-II. È ovvio, tuttavia, che tale relazione lineare è lungi dall'essere perfetta -- se fosse perfetta, tutti i punti del diagramma a dispersione si disporrebbero esattamente lungo una retta. 
 
 ```{r, zetsche-scatter, fig.cap = "Associazione tra le variabili BDI-II e CES-D nello studio di Zetsche et al. (2019). In grigio sono rappresentate le osservazioni del gruppo di controllo; in nero quelle dei pazienti."}
+df <- rio::import(
+  here("data", "data.mood.csv"),
+  header = TRUE
+)
 bysubj <- df %>%
   group_by(esm_id, group) %>%
   summarise(

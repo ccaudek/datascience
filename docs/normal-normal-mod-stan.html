@@ -852,60 +852,60 @@ p(\mu \mid y) = \frac{1}{{\tau_p \sqrt {2\pi}}}\exp\left\{{-\frac{(\mu - \mu_p)^
 <li>l’incertezza (varianza) a posteriori <span class="math inline">\(\tau_p^2\)</span> è sempre più piccola dell’incertezza a priori <span class="math inline">\(\tau_0^2\)</span> e diminuisce al crescere di <span class="math inline">\(n\)</span>.</li>
 </ul>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-81" class="exercise"><strong>Esercizio 23.1  </strong></span>Per esaminare un esempio pratico, consideriamo i 30 valori BDI-II dei soggetti clinici di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="normal-normal-mod-stan.html#cb275-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb275-2"><a href="normal-normal-mod-stan.html#cb275-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(</span>
-<span id="cb275-3"><a href="normal-normal-mod-stan.html#cb275-3" aria-hidden="true" tabindex="-1"></a>    <span class="fl">26.0</span>, <span class="fl">35.0</span>, <span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">44</span>, <span class="dv">30</span>, <span class="dv">33</span>, <span class="dv">43</span>, <span class="dv">22</span>, <span class="dv">43</span>,</span>
-<span id="cb275-4"><a href="normal-normal-mod-stan.html#cb275-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">24</span>, <span class="dv">19</span>, <span class="dv">39</span>, <span class="dv">31</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">31</span>, <span class="dv">41</span>,</span>
-<span id="cb275-5"><a href="normal-normal-mod-stan.html#cb275-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">36</span>, <span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">33</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">34</span>, <span class="dv">27</span>, <span class="dv">22</span></span>
-<span id="cb275-6"><a href="normal-normal-mod-stan.html#cb275-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb275-7"><a href="normal-normal-mod-stan.html#cb275-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><span id="exr:unlabeled-div-84" class="exercise"><strong>Esercizio 23.1  </strong></span>Per esaminare un esempio pratico, consideriamo i 30 valori BDI-II dei soggetti clinici di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="normal-normal-mod-stan.html#cb279-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb279-2"><a href="normal-normal-mod-stan.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(</span>
+<span id="cb279-3"><a href="normal-normal-mod-stan.html#cb279-3" aria-hidden="true" tabindex="-1"></a>    <span class="fl">26.0</span>, <span class="fl">35.0</span>, <span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">44</span>, <span class="dv">30</span>, <span class="dv">33</span>, <span class="dv">43</span>, <span class="dv">22</span>, <span class="dv">43</span>,</span>
+<span id="cb279-4"><a href="normal-normal-mod-stan.html#cb279-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">24</span>, <span class="dv">19</span>, <span class="dv">39</span>, <span class="dv">31</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">31</span>, <span class="dv">41</span>,</span>
+<span id="cb279-5"><a href="normal-normal-mod-stan.html#cb279-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">36</span>, <span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">33</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">34</span>, <span class="dv">27</span>, <span class="dv">22</span></span>
+<span id="cb279-6"><a href="normal-normal-mod-stan.html#cb279-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb279-7"><a href="normal-normal-mod-stan.html#cb279-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Supponiamo che la varianza <span class="math inline">\(\sigma^2\)</span> della popolazione sia identica alla varianza del campione:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="normal-normal-mod-stan.html#cb276-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y)</span>
-<span id="cb276-2"><a href="normal-normal-mod-stan.html#cb276-2" aria-hidden="true" tabindex="-1"></a>sigma</span>
-<span id="cb276-3"><a href="normal-normal-mod-stan.html#cb276-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6.606858</span></span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="normal-normal-mod-stan.html#cb280-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y)</span>
+<span id="cb280-2"><a href="normal-normal-mod-stan.html#cb280-2" aria-hidden="true" tabindex="-1"></a>sigma</span>
+<span id="cb280-3"><a href="normal-normal-mod-stan.html#cb280-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6.606858</span></span></code></pre></div>
 <p>Per fare un esempio, imponiamo su <span class="math inline">\(\mu\)</span> una distribuzione a priori <span class="math inline">\(\mathcal{N}(25, 2)\)</span>. In tali circostanze, la distribuzione a posteriori del parametro <span class="math inline">\(\mu\)</span> può essere determinata per via analitica e corrisponde ad una Normale di media e varianza definite dalle equazioni <a href="normal-normal-mod-stan.html#eq:post-norm-mup">(23.3)</a> e <a href="normal-normal-mod-stan.html#eq:post-norm-taup2">(23.4)</a>. È possibile visualizzare tale distribuzione a posteriori usando la funzione <code>plot_normal_normal()</code> del pacchetto <code>bayesrules</code>.</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="normal-normal-mod-stan.html#cb277-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_normal_normal</span>(</span>
-<span id="cb277-2"><a href="normal-normal-mod-stan.html#cb277-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="dv">25</span>, <span class="co"># media della distribuzione a priori per mu</span></span>
-<span id="cb277-3"><a href="normal-normal-mod-stan.html#cb277-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">2</span>, <span class="co"># sd della distribuzione a priori per mu</span></span>
-<span id="cb277-4"><a href="normal-normal-mod-stan.html#cb277-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">sd</span>(df<span class="sc">$</span>y), <span class="co"># sd del campione</span></span>
-<span id="cb277-5"><a href="normal-normal-mod-stan.html#cb277-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_bar =</span> <span class="fu">mean</span>(df<span class="sc">$</span>y), <span class="co"># media del campione</span></span>
-<span id="cb277-6"><a href="normal-normal-mod-stan.html#cb277-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">length</span>(df<span class="sc">$</span>y) <span class="co"># ampiezza campionaria</span></span>
-<span id="cb277-7"><a href="normal-normal-mod-stan.html#cb277-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-273-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="normal-normal-mod-stan.html#cb281-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_normal_normal</span>(</span>
+<span id="cb281-2"><a href="normal-normal-mod-stan.html#cb281-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="dv">25</span>, <span class="co"># media della distribuzione a priori per mu</span></span>
+<span id="cb281-3"><a href="normal-normal-mod-stan.html#cb281-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">2</span>, <span class="co"># sd della distribuzione a priori per mu</span></span>
+<span id="cb281-4"><a href="normal-normal-mod-stan.html#cb281-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">sd</span>(df<span class="sc">$</span>y), <span class="co"># sd del campione</span></span>
+<span id="cb281-5"><a href="normal-normal-mod-stan.html#cb281-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_bar =</span> <span class="fu">mean</span>(df<span class="sc">$</span>y), <span class="co"># media del campione</span></span>
+<span id="cb281-6"><a href="normal-normal-mod-stan.html#cb281-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">length</span>(df<span class="sc">$</span>y) <span class="co"># ampiezza campionaria</span></span>
+<span id="cb281-7"><a href="normal-normal-mod-stan.html#cb281-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="050_normal_normal_mod_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La funzione <code>bayesrules::summarize_normal_normal()</code> fornisce una sintesi numerica della distribuzione a posteriori <span class="math inline">\(p(\mu \mid y, \sigma)\)</span>.</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="normal-normal-mod-stan.html#cb278-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">summarize_normal_normal</span>(</span>
-<span id="cb278-2"><a href="normal-normal-mod-stan.html#cb278-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="dv">25</span>, <span class="co"># media della distribuzione a priori per mu</span></span>
-<span id="cb278-3"><a href="normal-normal-mod-stan.html#cb278-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">2</span>, <span class="co"># sd della distribuzione a priori per mu</span></span>
-<span id="cb278-4"><a href="normal-normal-mod-stan.html#cb278-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma=</span> <span class="fu">sd</span>(df<span class="sc">$</span>y), <span class="co"># sd del campione</span></span>
-<span id="cb278-5"><a href="normal-normal-mod-stan.html#cb278-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_bar =</span> <span class="fu">mean</span>(df<span class="sc">$</span>y), <span class="co"># media del campione</span></span>
-<span id="cb278-6"><a href="normal-normal-mod-stan.html#cb278-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">length</span>(df<span class="sc">$</span>y) <span class="co"># ampiezza campionaria</span></span>
-<span id="cb278-7"><a href="normal-normal-mod-stan.html#cb278-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb278-8"><a href="normal-normal-mod-stan.html#cb278-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model     mean     mode      var       sd</span></span>
-<span id="cb278-9"><a href="normal-normal-mod-stan.html#cb278-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior 25.00000 25.00000 4.000000 2.000000</span></span>
-<span id="cb278-10"><a href="normal-normal-mod-stan.html#cb278-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior 29.35073 29.35073 1.066921 1.032919</span></span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="normal-normal-mod-stan.html#cb282-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">summarize_normal_normal</span>(</span>
+<span id="cb282-2"><a href="normal-normal-mod-stan.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="dv">25</span>, <span class="co"># media della distribuzione a priori per mu</span></span>
+<span id="cb282-3"><a href="normal-normal-mod-stan.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">2</span>, <span class="co"># sd della distribuzione a priori per mu</span></span>
+<span id="cb282-4"><a href="normal-normal-mod-stan.html#cb282-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma=</span> <span class="fu">sd</span>(df<span class="sc">$</span>y), <span class="co"># sd del campione</span></span>
+<span id="cb282-5"><a href="normal-normal-mod-stan.html#cb282-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y_bar =</span> <span class="fu">mean</span>(df<span class="sc">$</span>y), <span class="co"># media del campione</span></span>
+<span id="cb282-6"><a href="normal-normal-mod-stan.html#cb282-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">length</span>(df<span class="sc">$</span>y) <span class="co"># ampiezza campionaria</span></span>
+<span id="cb282-7"><a href="normal-normal-mod-stan.html#cb282-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-8"><a href="normal-normal-mod-stan.html#cb282-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model     mean     mode      var       sd</span></span>
+<span id="cb282-9"><a href="normal-normal-mod-stan.html#cb282-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior 25.00000 25.00000 4.000000 2.000000</span></span>
+<span id="cb282-10"><a href="normal-normal-mod-stan.html#cb282-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior 29.35073 29.35073 1.066921 1.032919</span></span></code></pre></div>
 <p>Verifichiamo i risultati forniti da <code>bayesrules::summarize_normal_normal()</code> applicando le formule <a href="normal-normal-mod-stan.html#eq:post-norm-mup">(23.3)</a> e <a href="normal-normal-mod-stan.html#eq:post-norm-taup2">(23.4)</a>. La media della distribuzione a posteriori di <span class="math inline">\(\mu\)</span> è</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="normal-normal-mod-stan.html#cb279-1" aria-hidden="true" tabindex="-1"></a>mu_post <span class="ot">&lt;-</span> <span class="cf">function</span>(tau_0, mu_0, sigma, ybar, n) {</span>
-<span id="cb279-2"><a href="normal-normal-mod-stan.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> mu_0 <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> ybar) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb279-3"><a href="normal-normal-mod-stan.html#cb279-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="normal-normal-mod-stan.html#cb280-1" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">&lt;-</span> <span class="dv">25</span>  <span class="co"># media della distribuzione a priori per mu</span></span>
-<span id="cb280-2"><a href="normal-normal-mod-stan.html#cb280-2" aria-hidden="true" tabindex="-1"></a>tau_0 <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># sd della distribuzione a priori per mu</span></span>
-<span id="cb280-3"><a href="normal-normal-mod-stan.html#cb280-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y) <span class="co"># sd del campione (assunta essere sigma)</span></span>
-<span id="cb280-4"><a href="normal-normal-mod-stan.html#cb280-4" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y) <span class="co"># media del campione</span></span>
-<span id="cb280-5"><a href="normal-normal-mod-stan.html#cb280-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(df<span class="sc">$</span>y)</span>
-<span id="cb280-6"><a href="normal-normal-mod-stan.html#cb280-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb280-7"><a href="normal-normal-mod-stan.html#cb280-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mu_post</span>(tau_0, mu_0, sigma, ybar, n) </span>
-<span id="cb280-8"><a href="normal-normal-mod-stan.html#cb280-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 29.35073</span></span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="normal-normal-mod-stan.html#cb283-1" aria-hidden="true" tabindex="-1"></a>mu_post <span class="ot">&lt;-</span> <span class="cf">function</span>(tau_0, mu_0, sigma, ybar, n) {</span>
+<span id="cb283-2"><a href="normal-normal-mod-stan.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> mu_0 <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> ybar) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb283-3"><a href="normal-normal-mod-stan.html#cb283-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="normal-normal-mod-stan.html#cb284-1" aria-hidden="true" tabindex="-1"></a>mu_0 <span class="ot">&lt;-</span> <span class="dv">25</span>  <span class="co"># media della distribuzione a priori per mu</span></span>
+<span id="cb284-2"><a href="normal-normal-mod-stan.html#cb284-2" aria-hidden="true" tabindex="-1"></a>tau_0 <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># sd della distribuzione a priori per mu</span></span>
+<span id="cb284-3"><a href="normal-normal-mod-stan.html#cb284-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y) <span class="co"># sd del campione (assunta essere sigma)</span></span>
+<span id="cb284-4"><a href="normal-normal-mod-stan.html#cb284-4" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y) <span class="co"># media del campione</span></span>
+<span id="cb284-5"><a href="normal-normal-mod-stan.html#cb284-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(df<span class="sc">$</span>y)</span>
+<span id="cb284-6"><a href="normal-normal-mod-stan.html#cb284-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-7"><a href="normal-normal-mod-stan.html#cb284-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mu_post</span>(tau_0, mu_0, sigma, ybar, n) </span>
+<span id="cb284-8"><a href="normal-normal-mod-stan.html#cb284-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 29.35073</span></span></code></pre></div>
 <p>La deviazione standard della distribuzione a posteriori di <span class="math inline">\(\mu\)</span> è</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="normal-normal-mod-stan.html#cb281-1" aria-hidden="true" tabindex="-1"></a>tau_post <span class="ot">&lt;-</span> <span class="cf">function</span>(tau_0, sigma, n) {</span>
-<span id="cb281-2"><a href="normal-normal-mod-stan.html#cb281-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb281-3"><a href="normal-normal-mod-stan.html#cb281-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="normal-normal-mod-stan.html#cb282-1" aria-hidden="true" tabindex="-1"></a>tau_0 <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># sd della distribuzione a priori per mu</span></span>
-<span id="cb282-2"><a href="normal-normal-mod-stan.html#cb282-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y) <span class="co"># sd del campione (assunta essere sigma)</span></span>
-<span id="cb282-3"><a href="normal-normal-mod-stan.html#cb282-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(df<span class="sc">$</span>y)</span>
-<span id="cb282-4"><a href="normal-normal-mod-stan.html#cb282-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb282-5"><a href="normal-normal-mod-stan.html#cb282-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tau_post</span>(tau_0, sigma, n) </span>
-<span id="cb282-6"><a href="normal-normal-mod-stan.html#cb282-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.032919</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="normal-normal-mod-stan.html#cb285-1" aria-hidden="true" tabindex="-1"></a>tau_post <span class="ot">&lt;-</span> <span class="cf">function</span>(tau_0, sigma, n) {</span>
+<span id="cb285-2"><a href="normal-normal-mod-stan.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>tau_0<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> n<span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb285-3"><a href="normal-normal-mod-stan.html#cb285-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="normal-normal-mod-stan.html#cb286-1" aria-hidden="true" tabindex="-1"></a>tau_0 <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># sd della distribuzione a priori per mu</span></span>
+<span id="cb286-2"><a href="normal-normal-mod-stan.html#cb286-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>y) <span class="co"># sd del campione (assunta essere sigma)</span></span>
+<span id="cb286-3"><a href="normal-normal-mod-stan.html#cb286-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(df<span class="sc">$</span>y)</span>
+<span id="cb286-4"><a href="normal-normal-mod-stan.html#cb286-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb286-5"><a href="normal-normal-mod-stan.html#cb286-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tau_post</span>(tau_0, sigma, n) </span>
+<span id="cb286-6"><a href="normal-normal-mod-stan.html#cb286-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.032919</span></span></code></pre></div>
 <p>I risultati trovati riproducono quelli forniti da <code>bayesrules::summarize_normal_normal()</code>.</p>
 </div>
 </div>
@@ -921,77 +921,77 @@ Y_i &amp;\sim \mathcal{N}(\mu, \sigma) \notag\\
 \sigma &amp;= 6.606858 \notag
 \end{align}\]</span></p>
 <p>In base al modello definito sopra, la variabile casuale <span class="math inline">\(Y\)</span> segue la distribuzione Normale di parametri <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma\)</span>. Il parametro <span class="math inline">\(\mu\)</span> è sconosciuto e abbiamo deciso di descrivere la nostra incertezza relativa ad esso mediante una distribuzione a priori Normale di media 25 e deviazione standard 2. Il parametro <span class="math inline">\(\sigma\)</span> è invece assunto essere noto e uguale a 6.606858. Usando il linguaggio Stan specifico il modello come segue.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="normal-normal-mod-stan.html#cb283-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb283-2"><a href="normal-normal-mod-stan.html#cb283-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb283-3"><a href="normal-normal-mod-stan.html#cb283-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb283-4"><a href="normal-normal-mod-stan.html#cb283-4" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb283-5"><a href="normal-normal-mod-stan.html#cb283-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb283-6"><a href="normal-normal-mod-stan.html#cb283-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb283-7"><a href="normal-normal-mod-stan.html#cb283-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb283-8"><a href="normal-normal-mod-stan.html#cb283-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
-<span id="cb283-9"><a href="normal-normal-mod-stan.html#cb283-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb283-10"><a href="normal-normal-mod-stan.html#cb283-10" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb283-11"><a href="normal-normal-mod-stan.html#cb283-11" aria-hidden="true" tabindex="-1"></a><span class="st">  mu ~ normal(25, 2);</span></span>
-<span id="cb283-12"><a href="normal-normal-mod-stan.html#cb283-12" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
-<span id="cb283-13"><a href="normal-normal-mod-stan.html#cb283-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb283-14"><a href="normal-normal-mod-stan.html#cb283-14" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb283-15"><a href="normal-normal-mod-stan.html#cb283-15" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/normal_normal_1.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="normal-normal-mod-stan.html#cb287-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb287-2"><a href="normal-normal-mod-stan.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb287-3"><a href="normal-normal-mod-stan.html#cb287-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb287-4"><a href="normal-normal-mod-stan.html#cb287-4" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb287-5"><a href="normal-normal-mod-stan.html#cb287-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb287-6"><a href="normal-normal-mod-stan.html#cb287-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb287-7"><a href="normal-normal-mod-stan.html#cb287-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb287-8"><a href="normal-normal-mod-stan.html#cb287-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
+<span id="cb287-9"><a href="normal-normal-mod-stan.html#cb287-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb287-10"><a href="normal-normal-mod-stan.html#cb287-10" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb287-11"><a href="normal-normal-mod-stan.html#cb287-11" aria-hidden="true" tabindex="-1"></a><span class="st">  mu ~ normal(25, 2);</span></span>
+<span id="cb287-12"><a href="normal-normal-mod-stan.html#cb287-12" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb287-13"><a href="normal-normal-mod-stan.html#cb287-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb287-14"><a href="normal-normal-mod-stan.html#cb287-14" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb287-15"><a href="normal-normal-mod-stan.html#cb287-15" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/normal_normal_1.stan&quot;</span>)</span></code></pre></div>
 <p>Sistemo i dati nel formato appropriato per Stan.</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="normal-normal-mod-stan.html#cb284-1" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb284-2"><a href="normal-normal-mod-stan.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>y),</span>
-<span id="cb284-3"><a href="normal-normal-mod-stan.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">sd</span>(df<span class="sc">$</span>y),</span>
-<span id="cb284-4"><a href="normal-normal-mod-stan.html#cb284-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y</span>
-<span id="cb284-5"><a href="normal-normal-mod-stan.html#cb284-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="normal-normal-mod-stan.html#cb288-1" aria-hidden="true" tabindex="-1"></a>dlist <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb288-2"><a href="normal-normal-mod-stan.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>y),</span>
+<span id="cb288-3"><a href="normal-normal-mod-stan.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">sd</span>(df<span class="sc">$</span>y),</span>
+<span id="cb288-4"><a href="normal-normal-mod-stan.html#cb288-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y</span>
+<span id="cb288-5"><a href="normal-normal-mod-stan.html#cb288-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Leggo il file in cui ho salvato il codice Stan.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="normal-normal-mod-stan.html#cb285-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;normal_normal_1.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="normal-normal-mod-stan.html#cb289-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;normal_normal_1.stan&quot;</span>)</span></code></pre></div>
 <p>Compilo il modello.</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="normal-normal-mod-stan.html#cb286-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="normal-normal-mod-stan.html#cb290-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
 <p>Eseguo il campionamento MCMC.</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="normal-normal-mod-stan.html#cb287-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb287-2"><a href="normal-normal-mod-stan.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dlist,</span>
-<span id="cb287-3"><a href="normal-normal-mod-stan.html#cb287-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 100000L,</span>
-<span id="cb287-4"><a href="normal-normal-mod-stan.html#cb287-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb287-5"><a href="normal-normal-mod-stan.html#cb287-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb287-6"><a href="normal-normal-mod-stan.html#cb287-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb287-7"><a href="normal-normal-mod-stan.html#cb287-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="normal-normal-mod-stan.html#cb291-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb291-2"><a href="normal-normal-mod-stan.html#cb291-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dlist,</span>
+<span id="cb291-3"><a href="normal-normal-mod-stan.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 100000L,</span>
+<span id="cb291-4"><a href="normal-normal-mod-stan.html#cb291-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb291-5"><a href="normal-normal-mod-stan.html#cb291-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb291-6"><a href="normal-normal-mod-stan.html#cb291-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb291-7"><a href="normal-normal-mod-stan.html#cb291-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Una sintesi della distribuzione a posteriori dei parametri si ottiene nel modo seguente.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="normal-normal-mod-stan.html#cb288-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>))</span>
-<span id="cb288-2"><a href="normal-normal-mod-stan.html#cb288-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 10</span></span>
-<span id="cb288-3"><a href="normal-normal-mod-stan.html#cb288-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail</span></span>
-<span id="cb288-4"><a href="normal-normal-mod-stan.html#cb288-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb288-5"><a href="normal-normal-mod-stan.html#cb288-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu        29.4   29.4  1.04  1.04  27.6  31.1  1.00  153786.  188314.</span></span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="normal-normal-mod-stan.html#cb292-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>))</span>
+<span id="cb292-2"><a href="normal-normal-mod-stan.html#cb292-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 10</span></span>
+<span id="cb292-3"><a href="normal-normal-mod-stan.html#cb292-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb292-4"><a href="normal-normal-mod-stan.html#cb292-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb292-5"><a href="normal-normal-mod-stan.html#cb292-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu        29.4   29.4  1.04  1.04  27.6  31.1  1.00  153786.  188314.</span></span></code></pre></div>
 <p>Si noti che le stime ottenute sono molto vicine ai valori teorici attesi, ovvero <span class="math inline">\(\mu_p\)</span> = 29.57 contro un valore teorico di 29.35 e <span class="math inline">\(\tau_p\)</span> = 0.96 contro un valore teorico di 1.03.</p>
 <p>Qui sotto è fornita una rappresentazione grafica dell’intera distribuzione a posteriori del parametro <span class="math inline">\(\mu\)</span>.</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="normal-normal-mod-stan.html#cb289-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
-<span id="cb289-2"><a href="normal-normal-mod-stan.html#cb289-2" aria-hidden="true" tabindex="-1"></a>mu_draws <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit,<span class="at">pars =</span><span class="st">&quot;mu&quot;</span>)</span>
-<span id="cb289-3"><a href="normal-normal-mod-stan.html#cb289-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(mu_draws,<span class="at">prob =</span> <span class="fl">0.95</span>) </span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-285-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="normal-normal-mod-stan.html#cb293-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
+<span id="cb293-2"><a href="normal-normal-mod-stan.html#cb293-2" aria-hidden="true" tabindex="-1"></a>mu_draws <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit,<span class="at">pars =</span><span class="st">&quot;mu&quot;</span>)</span>
+<span id="cb293-3"><a href="normal-normal-mod-stan.html#cb293-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(mu_draws,<span class="at">prob =</span> <span class="fl">0.95</span>) </span></code></pre></div>
+<p><img src="050_normal_normal_mod_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Trovo l’intervallo di credibilità al 95%.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="normal-normal-mod-stan.html#cb290-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> fit<span class="sc">$</span><span class="fu">draws</span>()</span>
-<span id="cb290-2"><a href="normal-normal-mod-stan.html#cb290-2" aria-hidden="true" tabindex="-1"></a>post_parms <span class="ot">&lt;-</span> <span class="fu">subset_draws</span>(post, <span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>))</span>
-<span id="cb290-3"><a href="normal-normal-mod-stan.html#cb290-3" aria-hidden="true" tabindex="-1"></a>posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
-<span id="cb290-4"><a href="normal-normal-mod-stan.html#cb290-4" aria-hidden="true" tabindex="-1"></a>  post_parms,</span>
-<span id="cb290-5"><a href="normal-normal-mod-stan.html#cb290-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">quantile</span>(.x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
-<span id="cb290-6"><a href="normal-normal-mod-stan.html#cb290-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb290-7"><a href="normal-normal-mod-stan.html#cb290-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
-<span id="cb290-8"><a href="normal-normal-mod-stan.html#cb290-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable `2.5%` `97.5%`</span></span>
-<span id="cb290-9"><a href="normal-normal-mod-stan.html#cb290-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span id="cb290-10"><a href="normal-normal-mod-stan.html#cb290-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu         27.3    31.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="normal-normal-mod-stan.html#cb294-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> fit<span class="sc">$</span><span class="fu">draws</span>()</span>
+<span id="cb294-2"><a href="normal-normal-mod-stan.html#cb294-2" aria-hidden="true" tabindex="-1"></a>post_parms <span class="ot">&lt;-</span> <span class="fu">subset_draws</span>(post, <span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>))</span>
+<span id="cb294-3"><a href="normal-normal-mod-stan.html#cb294-3" aria-hidden="true" tabindex="-1"></a>posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
+<span id="cb294-4"><a href="normal-normal-mod-stan.html#cb294-4" aria-hidden="true" tabindex="-1"></a>  post_parms,</span>
+<span id="cb294-5"><a href="normal-normal-mod-stan.html#cb294-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">quantile</span>(.x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb294-6"><a href="normal-normal-mod-stan.html#cb294-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb294-7"><a href="normal-normal-mod-stan.html#cb294-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span id="cb294-8"><a href="normal-normal-mod-stan.html#cb294-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable `2.5%` `97.5%`</span></span>
+<span id="cb294-9"><a href="normal-normal-mod-stan.html#cb294-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb294-10"><a href="normal-normal-mod-stan.html#cb294-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu         27.3    31.4</span></span></code></pre></div>
 <p>Le stime così trovate sono molto simili ai quantili di ordine 0.025 e 0.975 della vera distribuzione a posteriori di <span class="math inline">\(\mu\)</span>:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="normal-normal-mod-stan.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="fl">29.35073</span>, <span class="fl">1.032919</span>)</span>
-<span id="cb291-2"><a href="normal-normal-mod-stan.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 27.32625 31.37521</span></span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="normal-normal-mod-stan.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="fl">29.35073</span>, <span class="fl">1.032919</span>)</span>
+<span id="cb295-2"><a href="normal-normal-mod-stan.html#cb295-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 27.32625 31.37521</span></span></code></pre></div>
 </div>
 <div id="versione-2-sigma-incognita" class="section level3 hasAnchor" number="23.3.2">
 <h3><span class="header-section-number">23.3.2</span> Versione 2 (<span class="math inline">\(\sigma\)</span> incognita)<a href="normal-normal-mod-stan.html#versione-2-sigma-incognita" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>È facile estendere il caso precedente alla situazione in cui il parametro <span class="math inline">\(\sigma\)</span> è incognito. Se non conosciamo <span class="math inline">\(\sigma\)</span>, è necessario imporre su tale parametro una distribuzione a priori. Supponiamo di ipotizzare per <span class="math inline">\(\sigma\)</span> una distribuzione a priori <span class="math inline">\(\mbox{Cauchy}(0, 15)\)</span>.</p>
 <p>Mediante una <span class="math inline">\(\mbox{Cauchy}(0, 15)\)</span> descrivo il grado di plausibilità soggettiva che attribuisco ai possibili valori (&gt; 0) del parametro <span class="math inline">\(\sigma\)</span>. Ai valori prossimi allo 0 attribuisco la plausibilità maggiore; la plausibilità dei possibili valori <span class="math inline">\(\sigma\)</span> diminuisce progressivamente quando ci si allontana dallo 0, come indicato dalla curva della figura seguente. Ritengo poco plausibili valori <span class="math inline">\(\sigma\)</span> maggiori di 40, anche se non escludo completamente che <span class="math inline">\(\sigma\)</span> possa assumere un valore di questo tipo.</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="normal-normal-mod-stan.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(</span>
-<span id="cb292-2"><a href="normal-normal-mod-stan.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dcauchy</span>(x, <span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> <span class="dv">15</span>), </span>
-<span id="cb292-3"><a href="normal-normal-mod-stan.html#cb292-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&#39;gray&#39;</span>, <span class="at">lwd =</span> <span class="dv">3</span>,</span>
-<span id="cb292-4"><a href="normal-normal-mod-stan.html#cb292-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
-<span id="cb292-5"><a href="normal-normal-mod-stan.html#cb292-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;sigma&quot;</span></span>
-<span id="cb292-6"><a href="normal-normal-mod-stan.html#cb292-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-288-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="normal-normal-mod-stan.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(</span>
+<span id="cb296-2"><a href="normal-normal-mod-stan.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dcauchy</span>(x, <span class="at">location =</span> <span class="dv">0</span>, <span class="at">scale =</span> <span class="dv">15</span>), </span>
+<span id="cb296-3"><a href="normal-normal-mod-stan.html#cb296-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&#39;gray&#39;</span>, <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb296-4"><a href="normal-normal-mod-stan.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
+<span id="cb296-5"><a href="normal-normal-mod-stan.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;sigma&quot;</span></span>
+<span id="cb296-6"><a href="normal-normal-mod-stan.html#cb296-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="050_normal_normal_mod_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>In questo secondo caso, più realistico, il modello diventa il seguente.</p>
 <p><span class="math display">\[\begin{align}
 Y_i &amp;\sim \mathcal{N}(\mu, \sigma) \notag\\
@@ -1001,61 +1001,61 @@ Y_i &amp;\sim \mathcal{N}(\mu, \sigma) \notag\\
 <p>Il modello precedente è simile a quello esaminato in precedenza, eccetto che abbiamo quantificato la nostra incertezza relativa a <span class="math inline">\(\sigma\)</span> (che è ignota) mediante una distribuzione a priori <span class="math inline">\(\mbox{Cauchy}(0, 15)\)</span>.</p>
 <p>La procedura MCMC utilizzata da Stan è basata su un campionamento Monte Carlo Hamiltoniano che non richiede l’uso di distribuzioni a priori coniugate. Pertanto è possibile scegliere per i parametri una qualunque distribuzione a priori. Nel caso presente, appunto, per <span class="math inline">\(\sigma\)</span> ho scelto una <span class="math inline">\(\mbox{Cauchy}(0, 15)\)</span>. Per un tale caso non è possibile ottenere la derivazione analitica della distribuzione a posteriori di <span class="math inline">\(\mu\)</span>. È dunque necessario procedere con il campionamento MCMC.</p>
 <p>Scrivo il modello in linguaggio in Stan.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="normal-normal-mod-stan.html#cb293-1" aria-hidden="true" tabindex="-1"></a>model_string_2 <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb293-2"><a href="normal-normal-mod-stan.html#cb293-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb293-3"><a href="normal-normal-mod-stan.html#cb293-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb293-4"><a href="normal-normal-mod-stan.html#cb293-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb293-5"><a href="normal-normal-mod-stan.html#cb293-5" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb293-6"><a href="normal-normal-mod-stan.html#cb293-6" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb293-7"><a href="normal-normal-mod-stan.html#cb293-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
-<span id="cb293-8"><a href="normal-normal-mod-stan.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb293-9"><a href="normal-normal-mod-stan.html#cb293-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb293-10"><a href="normal-normal-mod-stan.html#cb293-10" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb293-11"><a href="normal-normal-mod-stan.html#cb293-11" aria-hidden="true" tabindex="-1"></a><span class="st">  mu ~ normal(25, 2);</span></span>
-<span id="cb293-12"><a href="normal-normal-mod-stan.html#cb293-12" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 15);</span></span>
-<span id="cb293-13"><a href="normal-normal-mod-stan.html#cb293-13" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
-<span id="cb293-14"><a href="normal-normal-mod-stan.html#cb293-14" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb293-15"><a href="normal-normal-mod-stan.html#cb293-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb293-16"><a href="normal-normal-mod-stan.html#cb293-16" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(model_string_2, <span class="at">con =</span> <span class="st">&quot;code/normal_mod_2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="normal-normal-mod-stan.html#cb297-1" aria-hidden="true" tabindex="-1"></a>model_string_2 <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb297-2"><a href="normal-normal-mod-stan.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb297-3"><a href="normal-normal-mod-stan.html#cb297-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb297-4"><a href="normal-normal-mod-stan.html#cb297-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb297-5"><a href="normal-normal-mod-stan.html#cb297-5" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb297-6"><a href="normal-normal-mod-stan.html#cb297-6" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb297-7"><a href="normal-normal-mod-stan.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
+<span id="cb297-8"><a href="normal-normal-mod-stan.html#cb297-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb297-9"><a href="normal-normal-mod-stan.html#cb297-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb297-10"><a href="normal-normal-mod-stan.html#cb297-10" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb297-11"><a href="normal-normal-mod-stan.html#cb297-11" aria-hidden="true" tabindex="-1"></a><span class="st">  mu ~ normal(25, 2);</span></span>
+<span id="cb297-12"><a href="normal-normal-mod-stan.html#cb297-12" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 15);</span></span>
+<span id="cb297-13"><a href="normal-normal-mod-stan.html#cb297-13" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb297-14"><a href="normal-normal-mod-stan.html#cb297-14" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb297-15"><a href="normal-normal-mod-stan.html#cb297-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb297-16"><a href="normal-normal-mod-stan.html#cb297-16" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(model_string_2, <span class="at">con =</span> <span class="st">&quot;code/normal_mod_2.stan&quot;</span>)</span></code></pre></div>
 <p>Creo l’oggetto di classe <code>list</code> che contiene i dati.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="normal-normal-mod-stan.html#cb294-1" aria-hidden="true" tabindex="-1"></a>dlist2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb294-2"><a href="normal-normal-mod-stan.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>y),</span>
-<span id="cb294-3"><a href="normal-normal-mod-stan.html#cb294-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y</span>
-<span id="cb294-4"><a href="normal-normal-mod-stan.html#cb294-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="normal-normal-mod-stan.html#cb298-1" aria-hidden="true" tabindex="-1"></a>dlist2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb298-2"><a href="normal-normal-mod-stan.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>y),</span>
+<span id="cb298-3"><a href="normal-normal-mod-stan.html#cb298-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y</span>
+<span id="cb298-4"><a href="normal-normal-mod-stan.html#cb298-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Leggo il file con il codice Stan del modello.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="normal-normal-mod-stan.html#cb295-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;normal_mod_2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="normal-normal-mod-stan.html#cb299-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;normal_mod_2.stan&quot;</span>)</span></code></pre></div>
 <p>Compilo il modello.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="normal-normal-mod-stan.html#cb296-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="normal-normal-mod-stan.html#cb300-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
 <p>Eseguo il campionamento MCMC.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="normal-normal-mod-stan.html#cb297-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb297-2"><a href="normal-normal-mod-stan.html#cb297-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dlist2,</span>
-<span id="cb297-3"><a href="normal-normal-mod-stan.html#cb297-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 50000L,</span>
-<span id="cb297-4"><a href="normal-normal-mod-stan.html#cb297-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb297-5"><a href="normal-normal-mod-stan.html#cb297-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb297-6"><a href="normal-normal-mod-stan.html#cb297-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb297-7"><a href="normal-normal-mod-stan.html#cb297-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="normal-normal-mod-stan.html#cb301-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb301-2"><a href="normal-normal-mod-stan.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dlist2,</span>
+<span id="cb301-3"><a href="normal-normal-mod-stan.html#cb301-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 50000L,</span>
+<span id="cb301-4"><a href="normal-normal-mod-stan.html#cb301-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb301-5"><a href="normal-normal-mod-stan.html#cb301-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb301-6"><a href="normal-normal-mod-stan.html#cb301-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb301-7"><a href="normal-normal-mod-stan.html#cb301-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>In questo modo ottengo le seguenti stime a posteriori dei parametri.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="normal-normal-mod-stan.html#cb298-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
-<span id="cb298-2"><a href="normal-normal-mod-stan.html#cb298-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 10</span></span>
-<span id="cb298-3"><a href="normal-normal-mod-stan.html#cb298-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail</span></span>
-<span id="cb298-4"><a href="normal-normal-mod-stan.html#cb298-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb298-5"><a href="normal-normal-mod-stan.html#cb298-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu       29.2   29.2   1.14 1.12  27.3  31.0   1.00  129256.  114237.</span></span>
-<span id="cb298-6"><a href="normal-normal-mod-stan.html#cb298-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 sigma     7.06   6.95  1.01 0.954  5.63  8.88  1.00  121123.  115765.</span></span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="normal-normal-mod-stan.html#cb302-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb302-2"><a href="normal-normal-mod-stan.html#cb302-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 10</span></span>
+<span id="cb302-3"><a href="normal-normal-mod-stan.html#cb302-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb302-4"><a href="normal-normal-mod-stan.html#cb302-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb302-5"><a href="normal-normal-mod-stan.html#cb302-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mu       29.2   29.2   1.14 1.12  27.3  31.0   1.00  129256.  114237.</span></span>
+<span id="cb302-6"><a href="normal-normal-mod-stan.html#cb302-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 sigma     7.06   6.95  1.01 0.954  5.63  8.88  1.00  121123.  115765.</span></span></code></pre></div>
 <p>Dopo avere trasformato l’oggetto <code>fit2</code> nel formato <code>stanfit</code>, trovo l’intervallo di credibilità al 95%.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="normal-normal-mod-stan.html#cb299-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit2<span class="sc">$</span><span class="fu">output_files</span>())</span>
-<span id="cb299-2"><a href="normal-normal-mod-stan.html#cb299-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
-<span id="cb299-3"><a href="normal-normal-mod-stan.html#cb299-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), </span>
-<span id="cb299-4"><a href="normal-normal-mod-stan.html#cb299-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
-<span id="cb299-5"><a href="normal-normal-mod-stan.html#cb299-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb299-6"><a href="normal-normal-mod-stan.html#cb299-6" aria-hidden="true" tabindex="-1"></a>out</span>
-<span id="cb299-7"><a href="normal-normal-mod-stan.html#cb299-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             2.5%      97.5%</span></span>
-<span id="cb299-8"><a href="normal-normal-mod-stan.html#cb299-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu     26.851295  31.331500</span></span>
-<span id="cb299-9"><a href="normal-normal-mod-stan.html#cb299-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma   5.418299   9.360616</span></span>
-<span id="cb299-10"><a href="normal-normal-mod-stan.html#cb299-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__  -76.415107 -72.666800</span></span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="normal-normal-mod-stan.html#cb303-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit2<span class="sc">$</span><span class="fu">output_files</span>())</span>
+<span id="cb303-2"><a href="normal-normal-mod-stan.html#cb303-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb303-3"><a href="normal-normal-mod-stan.html#cb303-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), </span>
+<span id="cb303-4"><a href="normal-normal-mod-stan.html#cb303-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb303-5"><a href="normal-normal-mod-stan.html#cb303-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb303-6"><a href="normal-normal-mod-stan.html#cb303-6" aria-hidden="true" tabindex="-1"></a>out</span>
+<span id="cb303-7"><a href="normal-normal-mod-stan.html#cb303-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             2.5%      97.5%</span></span>
+<span id="cb303-8"><a href="normal-normal-mod-stan.html#cb303-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mu     26.851295  31.331500</span></span>
+<span id="cb303-9"><a href="normal-normal-mod-stan.html#cb303-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma   5.418299   9.360616</span></span>
+<span id="cb303-10"><a href="normal-normal-mod-stan.html#cb303-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__  -76.415107 -72.666800</span></span></code></pre></div>
 <p>Come in precedenza, uso la funzione <code>mcmc_areas()</code> per creare una rappresentazione grafica della distribuzione a posteriori di <span class="math inline">\(\mu\)</span>.</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="normal-normal-mod-stan.html#cb300-1" aria-hidden="true" tabindex="-1"></a>mu_draws <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit, <span class="at">pars =</span><span class="st">&quot;mu&quot;</span>)</span>
-<span id="cb300-2"><a href="normal-normal-mod-stan.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(mu_draws, <span class="at">prob =</span> <span class="fl">0.95</span>) </span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-296-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="normal-normal-mod-stan.html#cb304-1" aria-hidden="true" tabindex="-1"></a>mu_draws <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit, <span class="at">pars =</span><span class="st">&quot;mu&quot;</span>)</span>
+<span id="cb304-2"><a href="normal-normal-mod-stan.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(mu_draws, <span class="at">prob =</span> <span class="fl">0.95</span>) </span></code></pre></div>
+<p><img src="050_normal_normal_mod_files/figure-html/unnamed-chunk-27-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Considerati i dati osservati e le mie ipotesi a priori sui parametri, posso dunque concludere, con un grado di certezza soggettiva del 95%, che la media della popolazione dei punteggi BDI-II dei pazienti clinici depressi è compresa nell’intervallo [26.85, 31.33].</p>
 <!-- ## Il modello normale con `brms::brm()` -->
 <!-- Ripetiamo qui l'analisi precedente usando la funzione `brms::brm()`. In questo caso non è necessario scrivere il modello in forma esplicita, come abbiamo fatto in precedenza. La sintassi seguente viene trasformata in maniera automatica in linguaggio Stan prima di adattare il modello ai dati: -->
@@ -1137,8 +1137,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/050_normal_normal_mod.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/050_normal_normal_mod.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1154,7 +1154,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

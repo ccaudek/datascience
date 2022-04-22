@@ -800,7 +800,7 @@ div.csl-indent {
 <h2><span class="header-section-number">12.1</span> Una prova Bernoulliana<a href="distr-rv-discr.html#una-prova-bernoulliana" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Se un esperimento casuale ha solo due esiti possibili, allora le repliche indipendenti di questo esperimento sono chiamate “prove Bernoulliane” (il lancio di una moneta è il tipico esempio).</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-55" class="definition"><strong>Definizione 12.1  </strong></span>Viene detta variabile di Bernoulli una variabile casuale discreta <span class="math inline">\(Y = \{0, 1\}\)</span> con la seguente distribuzione di probabilità:</p>
+<p><span id="def:unlabeled-div-58" class="definition"><strong>Definizione 12.1  </strong></span>Viene detta variabile di Bernoulli una variabile casuale discreta <span class="math inline">\(Y = \{0, 1\}\)</span> con la seguente distribuzione di probabilità:</p>
 <p><span class="math display">\[
 P(Y \mid \theta) =
   \begin{cases}
@@ -818,7 +818,7 @@ P(Y \mid \theta) =
 \end{align}\]</span></p>
 <p>Scriviamo <span class="math inline">\(Y \sim \Bernoulli(\theta)\)</span> per indicare che la variabile casuale <span class="math inline">\(Y\)</span> ha una distribuzione Bernoulliana di parametro <span class="math inline">\(\theta\)</span>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-56" class="exercise"><strong>Esercizio 12.1  </strong></span>Nel caso del lancio di una moneta equilibrata la variabile casuale di Bernoulli assume i valori <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>. La distribuzione di massa di probabilità è pari a <span class="math inline">\(\frac{1}{2}\)</span> in corrispondenza di entrambi iv valori. La funzione di distribuzione vale <span class="math inline">\(\frac{1}{2}\)</span> per <span class="math inline">\(Y = 0\)</span> e <span class="math inline">\(1\)</span> per <span class="math inline">\(Y = 1\)</span>.</p>
+<p><span id="exr:unlabeled-div-59" class="exercise"><strong>Esercizio 12.1  </strong></span>Nel caso del lancio di una moneta equilibrata la variabile casuale di Bernoulli assume i valori <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>. La distribuzione di massa di probabilità è pari a <span class="math inline">\(\frac{1}{2}\)</span> in corrispondenza di entrambi iv valori. La funzione di distribuzione vale <span class="math inline">\(\frac{1}{2}\)</span> per <span class="math inline">\(Y = 0\)</span> e <span class="math inline">\(1\)</span> per <span class="math inline">\(Y = 1\)</span>.</p>
 </div>
 </div>
 <div id="una-sequenza-di-prove-bernoulliane" class="section level2 hasAnchor" number="12.2">
@@ -830,7 +830,7 @@ essere osservati in <span class="math inline">\(n\)</span> prove Bernoulliane in
 una stessa moneta o di una serie di estrazioni da un’urna (con
 reintroduzione). La distribuzione binomiale di parametri <span class="math inline">\(n\)</span> e <span class="math inline">\(\theta\)</span> è in realtà una famiglia di distribuzioni: al variare dei parametri <span class="math inline">\(\theta\)</span> e <span class="math inline">\(n\)</span> variano le probabilità.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-57" class="definition"><strong>Definizione 12.2  </strong></span>La probabilità di ottenere <span class="math inline">\(y\)</span> successi e <span class="math inline">\(n-y\)</span> insuccessi in <span class="math inline">\(n\)</span> prove
+<p><span id="def:unlabeled-div-60" class="definition"><strong>Definizione 12.2  </strong></span>La probabilità di ottenere <span class="math inline">\(y\)</span> successi e <span class="math inline">\(n-y\)</span> insuccessi in <span class="math inline">\(n\)</span> prove
 Bernoulliane è data dalla distribuzione binomiale:</p>
 <p><span class="math display" id="eq:binomialdistribution">\[\begin{align}
 P(Y=y) &amp;= \binom{n}{y} \theta^{y} (1-\theta)^{n-y} \notag \\
@@ -840,7 +840,7 @@ P(Y=y) &amp;= \binom{n}{y} \theta^{y} (1-\theta)^{n-y} \notag \\
 <p>dove <span class="math inline">\(n\)</span> = numero di prove Bernoulliane, <span class="math inline">\(\theta\)</span> = probabilità di successo in ciascuna prova e <span class="math inline">\(y\)</span> = numero di successi.</p>
 </div>
 <div class="proof">
-<p><span id="unlabeled-div-58" class="proof"><em>Dimostrazione</em>. </span>La <a href="distr-rv-discr.html#eq:binomialdistribution">(12.2)</a> può essere derivata nel modo seguente. Indichiamo con <span class="math inline">\(S\)</span> il successo e con <span class="math inline">\(I\)</span> l’insuccesso di ciascuna prova. Una sequenza di <span class="math inline">\(n\)</span> prove Bernoulliane darà come esito una sequenza di <span class="math inline">\(n\)</span> elementi <span class="math inline">\(S\)</span> e <span class="math inline">\(I\)</span>. Ad esempio, una sequenza che contiene <span class="math inline">\(y\)</span> successi è la seguente:</p>
+<p><span id="unlabeled-div-61" class="proof"><em>Dimostrazione</em>. </span>La <a href="distr-rv-discr.html#eq:binomialdistribution">(12.2)</a> può essere derivata nel modo seguente. Indichiamo con <span class="math inline">\(S\)</span> il successo e con <span class="math inline">\(I\)</span> l’insuccesso di ciascuna prova. Una sequenza di <span class="math inline">\(n\)</span> prove Bernoulliane darà come esito una sequenza di <span class="math inline">\(n\)</span> elementi <span class="math inline">\(S\)</span> e <span class="math inline">\(I\)</span>. Ad esempio, una sequenza che contiene <span class="math inline">\(y\)</span> successi è la seguente:</p>
 <p><span class="math display">\[
 \overbrace{SS\dots S}^\text{$y$ volte} \overbrace{II\dots I}^\text{$n-y$ volte}
 \]</span>
@@ -861,13 +861,13 @@ Essendo <span class="math inline">\(\theta\)</span> la probabilità di <span cla
 </div>
 <p>La distribuzione di probabilità di alcune distribuzioni binomiali, per due valori di <span class="math inline">\(n\)</span> e <span class="math inline">\(\theta\)</span>, è fornita nella figura <a href="distr-rv-discr.html#fig:example-binomial-distr">12.1</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:example-binomial-distr"></span>
-<img src="ds4psy_files/figure-html/example-binomial-distr-1.png" alt="Alcune distribuzioni binomiali. Nella figura, il parametro $\theta$ è indicato con $p$." width="576" />
+<img src="022_discr_rv_distr_files/figure-html/example-binomial-distr-1.png" alt="Alcune distribuzioni binomiali. Nella figura, il parametro $\theta$ è indicato con $p$." width="576" />
 <p class="caption">
 FIGURA 12.1: Alcune distribuzioni binomiali. Nella figura, il parametro <span class="math inline">\(\theta\)</span> è indicato con <span class="math inline">\(p\)</span>.
 </p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-59" class="exercise"><strong>Esercizio 12.2  </strong></span>Usando la <a href="distr-rv-discr.html#eq:binomialdistribution">(12.2)</a>, si trovi la probabilità di <span class="math inline">\(y = 2\)</span> successi in <span class="math inline">\(n = 4\)</span> prove Bernoulliane indipendenti con <span class="math inline">\(\theta = 0.2\)</span></p>
+<p><span id="exr:unlabeled-div-62" class="exercise"><strong>Esercizio 12.2  </strong></span>Usando la <a href="distr-rv-discr.html#eq:binomialdistribution">(12.2)</a>, si trovi la probabilità di <span class="math inline">\(y = 2\)</span> successi in <span class="math inline">\(n = 4\)</span> prove Bernoulliane indipendenti con <span class="math inline">\(\theta = 0.2\)</span></p>
 <p><span class="math display">\[
 \begin{aligned}
 P(Y=2) &amp;= \frac{4!}{2!(4-2)!} 0.2^{2} (1-0.2)^{4-2} \notag  \\
@@ -911,17 +911,17 @@ P(Y=2) &amp;= \frac{4!}{2!(4-2)!} 0.2^{2} (1-0.2)^{4-2} \notag  \\
 </tbody>
 </table>
 <p>Lo stesso risultato si ottiene usando la sequente istruzione :</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="distr-rv-discr.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.2</span>)</span>
-<span id="cb42-2"><a href="distr-rv-discr.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4096 0.4096 0.1536 0.0256 0.0016</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="distr-rv-discr.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.2</span>)</span>
+<span id="cb46-2"><a href="distr-rv-discr.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4096 0.4096 0.1536 0.0256 0.0016</span></span></code></pre></div>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-60" class="exercise"><strong>Esercizio 12.3  </strong></span>Lanciando <span class="math inline">\(5\)</span> volte una moneta onesta, qual è la probabilità che esca testa almeno tre volte?</p>
+<p><span id="exr:unlabeled-div-63" class="exercise"><strong>Esercizio 12.3  </strong></span>Lanciando <span class="math inline">\(5\)</span> volte una moneta onesta, qual è la probabilità che esca testa almeno tre volte?</p>
 <p>In , la soluzione si trova con</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="distr-rv-discr.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">dbinom</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">dbinom</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb43-2"><a href="distr-rv-discr.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="distr-rv-discr.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">dbinom</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">dbinom</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb47-2"><a href="distr-rv-discr.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
 <p>Alternativamente, possiamo trovare la probabilità dell’evento complementare a quello definito dalla funzione di ripartizione calcolata mediante <code>pbinom()</code>, ovvero</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="distr-rv-discr.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb44-2"><a href="distr-rv-discr.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="distr-rv-discr.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb48-2"><a href="distr-rv-discr.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
 </div>
 <div id="valore-atteso-e-deviazione-standard" class="section level3 hasAnchor" number="12.2.1">
 <h3><span class="header-section-number">12.2.1</span> Valore atteso e deviazione standard<a href="distr-rv-discr.html#valore-atteso-e-deviazione-standard" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -932,14 +932,14 @@ standard di una distribuzione binomiale sono molto semplici:</p>
 \sigma &amp;= \sqrt{n\theta(1-\theta)}.
 \end{align}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-61" class="proof"><em>Dimostrazione</em>. </span>Essendo <span class="math inline">\(Y\)</span> la somma di <span class="math inline">\(n\)</span> prove Bernoulliane indipendenti <span class="math inline">\(Y_i\)</span>, è facile vedere che</p>
+<p><span id="unlabeled-div-64" class="proof"><em>Dimostrazione</em>. </span>Essendo <span class="math inline">\(Y\)</span> la somma di <span class="math inline">\(n\)</span> prove Bernoulliane indipendenti <span class="math inline">\(Y_i\)</span>, è facile vedere che</p>
 <p><span class="math display">\[\begin{align}
 \E(Y) &amp;= \E \left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \E(Y_i) = n\theta, \\
 \Var(Y) &amp;= \Var \left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \Var(Y_i) = n \theta (1-\theta).
 \end{align}\]</span></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-62" class="exercise"><strong>Esercizio 12.4  </strong></span>Si trovino il valore atteso e la varianza del lancio di quattro monete con probabilità di successo pari a <span class="math inline">\(\theta = 0.2\)</span>.</p>
+<p><span id="exr:unlabeled-div-65" class="exercise"><strong>Esercizio 12.4  </strong></span>Si trovino il valore atteso e la varianza del lancio di quattro monete con probabilità di successo pari a <span class="math inline">\(\theta = 0.2\)</span>.</p>
 <p>Il valore atteso è <span class="math inline">\(\mu = n \theta = 4 \cdot 0.2 = 0.8.\)</span> Ciò significa che, se l’esperimento casuale venisse ripetuto infinite volte, l’esito testa verrebbe osservato un numero medio di volte pari a 0.8. La varianza è <span class="math inline">\(n \theta (1-\theta) = 4 \cdot 0.2 \cdot (1 - 0.2) = 0.64\)</span>.</p>
 </div>
 </div>
@@ -948,55 +948,55 @@ standard di una distribuzione binomiale sono molto semplici:</p>
 <h2><span class="header-section-number">12.3</span> Distribuzione di Poisson<a href="distr-rv-discr.html#distribuzione-di-poisson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La distribuzione di Poisson è una distribuzione di probabilità discreta che esprime le probabilità per il numero di eventi che si verificano successivamente ed indipendentemente in un dato intervallo di tempo, sapendo che mediamente se ne verifica un numero <span class="math inline">\(\lambda\)</span>. La distribuzione di Poisson serve dunque per contare il numero di volte in cui un evento ha luogo in un determinato intervallo di tempo. La stessa distribuzione può essere estesa anche per contare gli eventi che hanno luogo in una determinata porzione di spazio.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-63" class="definition"><strong>Definizione 12.3  </strong></span>La distribuzione di Poisson può essere intesa come limite della distribuzione binomiale, dove la probabilità di successo <span class="math inline">\(\theta\)</span> è pari a <span class="math inline">\(\frac{\lambda}{n}\)</span> con <span class="math inline">\(n\)</span> che tende a <span class="math inline">\(\infty\)</span>:</p>
+<p><span id="def:unlabeled-div-66" class="definition"><strong>Definizione 12.3  </strong></span>La distribuzione di Poisson può essere intesa come limite della distribuzione binomiale, dove la probabilità di successo <span class="math inline">\(\theta\)</span> è pari a <span class="math inline">\(\frac{\lambda}{n}\)</span> con <span class="math inline">\(n\)</span> che tende a <span class="math inline">\(\infty\)</span>:</p>
 <p><span class="math display">\[\begin{equation}
 \lim_{y \rightarrow \infty} \binom{n}{y} \theta^y (1-\theta)^{n-y} = \frac{\lambda^y}{y!}e^{-\lambda}.
 \end{equation}\]</span></p>
 </div>
 <p>Alcune distribuzioni di Poisson sono riportate nella figura <a href="distr-rv-discr.html#fig:examples-poisson-distrib">12.2</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:examples-poisson-distrib"></span>
-<img src="ds4psy_files/figure-html/examples-poisson-distrib-1.png" alt="Alcune distribuzioni di Poisson." width="576" />
+<img src="022_discr_rv_distr_files/figure-html/examples-poisson-distrib-1.png" alt="Alcune distribuzioni di Poisson." width="576" />
 <p class="caption">
 FIGURA 12.2: Alcune distribuzioni di Poisson.
 </p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-64" class="exercise"><strong>Esercizio 12.5  </strong></span>Supponiamo che un evento accada 300 volte all’ora e si vuole determinare la probabilità che in un minuto accadano esattamente 3 eventi.</p>
+<p><span id="exr:unlabeled-div-67" class="exercise"><strong>Esercizio 12.5  </strong></span>Supponiamo che un evento accada 300 volte all’ora e si vuole determinare la probabilità che in un minuto accadano esattamente 3 eventi.</p>
 <p>Il numero medio di eventi in un minuto è pari a</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="distr-rv-discr.html#cb45-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">300</span> <span class="sc">/</span> <span class="dv">60</span></span>
-<span id="cb45-2"><a href="distr-rv-discr.html#cb45-2" aria-hidden="true" tabindex="-1"></a>lambda</span>
-<span id="cb45-3"><a href="distr-rv-discr.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="distr-rv-discr.html#cb49-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">300</span> <span class="sc">/</span> <span class="dv">60</span></span>
+<span id="cb49-2"><a href="distr-rv-discr.html#cb49-2" aria-hidden="true" tabindex="-1"></a>lambda</span>
+<span id="cb49-3"><a href="distr-rv-discr.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span></code></pre></div>
 <p>
 Quindi la probabilità che in un minuto si abbiano 3 eventi è pari a</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="distr-rv-discr.html#cb46-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb46-2"><a href="distr-rv-discr.html#cb46-2" aria-hidden="true" tabindex="-1"></a>(lambda<span class="sc">^</span>y <span class="sc">/</span> <span class="fu">factorial</span>(y)) <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>lambda)</span>
-<span id="cb46-3"><a href="distr-rv-discr.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1403739</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="distr-rv-discr.html#cb50-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb50-2"><a href="distr-rv-discr.html#cb50-2" aria-hidden="true" tabindex="-1"></a>(lambda<span class="sc">^</span>y <span class="sc">/</span> <span class="fu">factorial</span>(y)) <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>lambda)</span>
+<span id="cb50-3"><a href="distr-rv-discr.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1403739</span></span></code></pre></div>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-65" class="exercise"><strong>Esercizio 12.6  </strong></span>Per i dati dell’esempio precedente, si trovi la probabilità che un evento accada almeno 8 volte in un minuto.</p>
+<p><span id="exr:unlabeled-div-68" class="exercise"><strong>Esercizio 12.6  </strong></span>Per i dati dell’esempio precedente, si trovi la probabilità che un evento accada almeno 8 volte in un minuto.</p>
 <p>La probabilità cercata è</p>
 <p><span class="math display">\[
 p(y \geq 8) = 1 - p (y \leq 7) = 1- \sum_{i = 0}^7 \frac{\lambda^7}{7!}e^{-\lambda},
 \]</span>
 con <span class="math inline">\(\lambda = 5\)</span>.</p>
 <p>Svolgendo i calcoli in otteniamo:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="distr-rv-discr.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">7</span>, <span class="at">lambda =</span> <span class="dv">5</span>)</span>
-<span id="cb47-2"><a href="distr-rv-discr.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1333717</span></span>
-<span id="cb47-3"><a href="distr-rv-discr.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">7</span>, <span class="at">lambda =</span> <span class="dv">5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb47-4"><a href="distr-rv-discr.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1333717</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="distr-rv-discr.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">7</span>, <span class="at">lambda =</span> <span class="dv">5</span>)</span>
+<span id="cb51-2"><a href="distr-rv-discr.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1333717</span></span>
+<span id="cb51-3"><a href="distr-rv-discr.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">7</span>, <span class="at">lambda =</span> <span class="dv">5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-4"><a href="distr-rv-discr.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1333717</span></span></code></pre></div>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-66" class="exercise"><strong>Esercizio 12.7  </strong></span>Sapendo che un evento avviene in media 6 volte al minuto, si calcoli (a) la probabilità di osservare un numero di eventi uguale o inferiore a 3 in un minuto, e (b) la probabilità di osservare esattamente 2 eventi in 30 secondi.</p>
+<p><span id="exr:unlabeled-div-69" class="exercise"><strong>Esercizio 12.7  </strong></span>Sapendo che un evento avviene in media 6 volte al minuto, si calcoli (a) la probabilità di osservare un numero di eventi uguale o inferiore a 3 in un minuto, e (b) la probabilità di osservare esattamente 2 eventi in 30 secondi.</p>
 <ol style="list-style-type: lower-alpha">
 <li>In questo caso <span class="math inline">\(\lambda = 6\)</span> e la probabilità richiesta è</li>
 </ol>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="distr-rv-discr.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="dv">6</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb48-2"><a href="distr-rv-discr.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1512039</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="distr-rv-discr.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="dv">6</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb52-2"><a href="distr-rv-discr.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1512039</span></span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>In questo caso <span class="math inline">\(\lambda = 6 / 2\)</span> e la probabilità richiesta è</li>
 </ol>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="distr-rv-discr.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb49-2"><a href="distr-rv-discr.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2240418</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="distr-rv-discr.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb53-2"><a href="distr-rv-discr.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2240418</span></span></code></pre></div>
 </div>
 <div id="alcune-proprietà-della-variabile-di-poisson" class="section level3 hasAnchor" number="12.3.1">
 <h3><span class="header-section-number">12.3.1</span> Alcune proprietà della variabile di Poisson<a href="distr-rv-discr.html#alcune-proprietà-della-variabile-di-poisson" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1097,8 +1097,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/022_discr_rv_distr.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/022_discr_rv_distr.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1114,7 +1114,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

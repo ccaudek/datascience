@@ -858,27 +858,27 @@ h(x) = -\log p(x).
 \]</span></p>
 <p>Il segno negativo garantisce che il risultato sia sempre positivo o zero. L’informazione è zero quando la probabilità dell’evento è 1.0, ovvero quando l’evento è certo (assenza di sorpresa).</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-84" class="example"><strong>Esempio 32.1  </strong></span>Consideriamo il lancio di una moneta equilibrata. La probabilità di testa (e croce) è 0.5. La quantità di informazione di ottenere “testa” è dunque</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="entropia.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.5</span>)</span>
-<span id="cb443-2"><a href="entropia.html#cb443-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<p><span id="exm:unlabeled-div-87" class="example"><strong>Esempio 32.1  </strong></span>Consideriamo il lancio di una moneta equilibrata. La probabilità di testa (e croce) è 0.5. La quantità di informazione di ottenere “testa” è dunque</p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="entropia.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.5</span>)</span>
+<span id="cb447-2"><a href="entropia.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>Per rappresentare questo evento abbiamo bisogno di 1 bit di informazione. Se la stessa moneta venisse lanciata <span class="math inline">\(n\)</span> volte, la quantità di informazione necessaria per rappresentare questo evento (ovvero, questa sequenza di lanci) sarebbe pari a <span class="math inline">\(n\)</span> bit. Se la moneta non è equilibrata e la probabilità di testa è 0.1, allora l’evento “testa” è più raro e richiede più di 3 bit di informazione:</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="entropia.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.1</span>)</span>
-<span id="cb444-2"><a href="entropia.html#cb444-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.321928</span></span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="entropia.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.1</span>)</span>
+<span id="cb448-2"><a href="entropia.html#cb448-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.321928</span></span></code></pre></div>
 <p>Consideriamo ora il lancio di un dado. Quanta informazione viene fornita, ad esempio, dall’evento “esce il numero 6”? Dato che la probabilità di ottenere un 6 nel lancio di un dado è più piccola della probabilità di ottenere “testa” nel lancio di una moneta, il risultato del lancio di un dado deve produrre una sorpresa maggiore del risultato del lancio di una moneta. Per cui, la quantità di informazione associata all’evento “è uscito 6”, dovrà essere maggiore di quella associata all’evento “testa”. Infatti, la quantità di informazione dell’evento “è uscito un 6” è più che doppia rispetto alla quantità di informazione dell’evento “testa”:</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="entropia.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
-<span id="cb445-2"><a href="entropia.html#cb445-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.584963</span></span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="entropia.html#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb449-2"><a href="entropia.html#cb449-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.584963</span></span></code></pre></div>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-85" class="example"><strong>Esempio 32.2  </strong></span>Nella figura successiva viene esaminata la relazione tra probabilità e informazione, per valori di probabilità nell’intervallo tra 0 e 1.</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="entropia.html#cb446-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb446-2"><a href="entropia.html#cb446-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(p)</span>
-<span id="cb446-3"><a href="entropia.html#cb446-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(p, h), <span class="fu">aes</span>(p, h)) <span class="sc">+</span></span>
-<span id="cb446-4"><a href="entropia.html#cb446-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb446-5"><a href="entropia.html#cb446-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb446-6"><a href="entropia.html#cb446-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità&quot;</span>,</span>
-<span id="cb446-7"><a href="entropia.html#cb446-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Informazione&quot;</span></span>
-<span id="cb446-8"><a href="entropia.html#cb446-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-447-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><span id="exm:unlabeled-div-88" class="example"><strong>Esempio 32.2  </strong></span>Nella figura successiva viene esaminata la relazione tra probabilità e informazione, per valori di probabilità nell’intervallo tra 0 e 1.</p>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="entropia.html#cb450-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb450-2"><a href="entropia.html#cb450-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(p)</span>
+<span id="cb450-3"><a href="entropia.html#cb450-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(p, h), <span class="fu">aes</span>(p, h)) <span class="sc">+</span></span>
+<span id="cb450-4"><a href="entropia.html#cb450-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb450-5"><a href="entropia.html#cb450-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb450-6"><a href="entropia.html#cb450-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità&quot;</span>,</span>
+<span id="cb450-7"><a href="entropia.html#cb450-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Informazione&quot;</span></span>
+<span id="cb450-8"><a href="entropia.html#cb450-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="090_entropy_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La figura mostra che questa relazione non è lineare, è infatti leggermente sublineare. Questo ha senso dato che abbiamo usato una funzione logaritmica.</p>
 </div>
 </div>
@@ -886,7 +886,7 @@ h(x) = -\log p(x).
 <h3><span class="header-section-number">32.4.2</span> Entropia di una variabile casuale<a href="entropia.html#entropia-di-una-variabile-casuale" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Possiamo estendere questa discussione pensando ad un insieme di eventi, ovvero ad una distribuzione. Nella teoria della probabilità usiamo la nozione di variabile casuale per fare riferimento ad un insieme di eventi e alle probabilità associate a tali eventi. L’entropia quantifica l’informazione che viene fornita da una variabile casuale.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-86" class="definition"><strong>Definizione 32.1  </strong></span>Sia <span class="math inline">\(Y = y_1, \dots, y_n\)</span> una variabile casuale e <span class="math inline">\(p_t(y)\)</span> una distribuzione di probabilità su <span class="math inline">\(Y\)</span>. Si definisce la sua entropia (detta di Shannon) come:</p>
+<p><span id="def:unlabeled-div-89" class="definition"><strong>Definizione 32.1  </strong></span>Sia <span class="math inline">\(Y = y_1, \dots, y_n\)</span> una variabile casuale e <span class="math inline">\(p_t(y)\)</span> una distribuzione di probabilità su <span class="math inline">\(Y\)</span>. Si definisce la sua entropia (detta di Shannon) come:</p>
 <p><span class="math display" id="eq:entropy">\[\begin{equation}
 H(Y) = - \sum_{i=1}^n p_t(y_i) \cdot \log_2 p_t(y_i).
 \tag{32.1}
@@ -902,19 +902,19 @@ FIGURA 32.1: Funzioni di massa di probabilità e associata entropia.
 <p>Nella figura <a href="entropia.html#fig:entropy-example">32.1</a> sono rappresentate sei distribuzioni. viene anche riportato il valore di entropia di ciascuna distribuzione. La distribuzione con il picco più pronunciato o con la dispersione minore è <code>q</code>, e questa è la distribuzione con il valore di entropia più basso tra le sei distribuzioni considerate. Per <code>q</code> la distribuzione è <code>q ~ binom(n = 10, p = 0.75)</code>; quindi ci sono 11 possibili eventi. <code>qu</code> ha una distribuzione uniforme sugli stessi 11 possibili eventi. L’entropia di <code>qu</code> è maggiore dell’entropia di <code>q</code>. Infatti, se calcoliamo l’entropia di distribuzioni binomiali con <span class="math inline">\(n = 10\)</span> (con valori diversi di <span class="math inline">\(p\)</span>) ci rendiamo conto che nessuna di tali distribuzioni ha un’entropia maggiore di <code>qu</code>. Dobbiamo aumentare <span class="math inline">\(n ≈ 3\)</span> volte per trovare la prima distribuzione binomiale con entropia maggiore di <code>qu</code>. Passiamo alla riga successiva. Generiamo la distribuzione <code>r</code> spostando a destra <code>q</code> e normalizzando (per garantire che la somma di tutte le probabilità sia 1). Poiché <code>r</code> ha una dispersione maggiore di <code>q</code>, la sua entropia è maggiore. <code>ru</code> è una distribuzione uniforme con lo stesso numero di eventi possibili come <code>r</code> (ovvero 22) – si noti che sono stati inclusi come valori possibili anche quelli nella “valle” tra i due picchi. Ancora una volta, la distribuzione uniforme ha l’entropia più grande.</p>
 <p>Gli esempi discussi finora sembrano suggerire che l’entropia è proporzionale alla varianza della distribuzione. Verifichiamo questa intuizione esaminiamo le ultime due distribuzioni della figura <a href="entropia.html#fig:entropy-example">32.1</a>. La distribuzione <code>s</code> è simile a <code>r</code> ma presenta una separazione maggiore tra i due picchi della distribuzione – dunque, ha una varianza più grande. Ciò nonostante, l’entropia non varia. Quindi la relazione tra entropia e varianza non è così semplice come ci sembrava. Il risultato che abbiamo trovato può essere spiegato dicendo che, nel calcolo dell’entropia, non vengono considerati gli eventi con probabilità nulla (per questa ragione, nell’esempio, è stato possibile aumentare la varianza senza cambiare l’entropia). La distribuzione <code>su</code> è stata costruita sostituendo i due picchi in <code>s</code> con <code>qu</code> (e normalizzando). Possiamo vedere che <code>su</code> ha un’entropia minore di <code>ru</code>, anche se <code>su</code> ha una dispersione maggiore di <code>ru</code>. Questo è dovuto al fatto che <code>su</code> distribuisce la probabilità totale tra un numero minore di eventi (22) di <code>ru</code> (che ne conta 23); quindi è sensato attribuire a <code>su</code> un’entropia minore di <code>ru</code>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-87" class="example"><strong>Esempio 32.3  </strong></span>Consideriamo ora un esempio riguardante le previsioni del tempo. Supponiamo che le probabilità di pioggia e sole siano, rispettivamente, <span class="math inline">\(p_1 = 0.3\)</span> e <span class="math inline">\(p_2 = 0.7\)</span>. Quindi</p>
+<p><span id="exm:unlabeled-div-90" class="example"><strong>Esempio 32.3  </strong></span>Consideriamo ora un esempio riguardante le previsioni del tempo. Supponiamo che le probabilità di pioggia e sole siano, rispettivamente, <span class="math inline">\(p_1 = 0.3\)</span> e <span class="math inline">\(p_2 = 0.7\)</span>. Quindi</p>
 <p><span class="math display">\[
 H(p) = − [p(y_1) \log_2 p(y_1) + p(y_2) \log_2 p(y_2)] \approx 0.61.
 \]</span></p>
 <p>Se però viviamo a Las Vegas, allora le probabilità di pioggia e sole saranno simili a <span class="math inline">\(p(y_1) = 0.01\)</span> e <span class="math inline">\(p(y_2) = 0.99\)</span>. In questo secondo caso, l’entropia è 0.06, ovvero, molto minore di prima. Infatti, a Las Vegas non piove quasi mai, per cui quando abbiamo imparato che, in un certo giorno, non ha piovuto, abbiamo imparato molto poco rispetto a quello che già sapevamo in precedenza.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-88" class="example"><strong>Esempio 32.4  </strong></span>Nell’esempio precedente abbiamo visto che, se gli esiti possibili sono pioggia o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.3\)</span>, allora l’entropia è</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="entropia.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.3</span>))</span>
-<span id="cb447-2"><a href="entropia.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6108643</span></span></code></pre></div>
+<p><span id="exm:unlabeled-div-91" class="example"><strong>Esempio 32.4  </strong></span>Nell’esempio precedente abbiamo visto che, se gli esiti possibili sono pioggia o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.3\)</span>, allora l’entropia è</p>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="entropia.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.3</span>))</span>
+<span id="cb451-2"><a href="entropia.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6108643</span></span></code></pre></div>
 <p>Ma se gli esiti possibili sono pioggia, neve o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.15\)</span> e <span class="math inline">\(p(y_3) = 0.15\)</span>, rispettivamente, allora l’entropia cresce:</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="entropia.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>))</span>
-<span id="cb448-2"><a href="entropia.html#cb448-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8188085</span></span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="entropia.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>))</span>
+<span id="cb452-2"><a href="entropia.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8188085</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -989,8 +989,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/090_entropy.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/090_entropy.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1006,7 +1006,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

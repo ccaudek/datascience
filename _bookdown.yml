@@ -60,8 +60,8 @@ rmd_files:
     - "090_entropy.Rmd"
     - "091_kl.Rmd"
     - "092_info_criterion.Rmd"
-    # # - "093_projpred.Rmd"
-    # ## APPENDIX
+    # - "093_projpred.Rmd"
+    ## APPENDIX
     - "800_appendix.Rmd"
     - "801_math_symbols.Rmd"
     - "802_number_sets.Rmd"
@@ -83,4 +83,5 @@ rmd_files:
     - "928_R_tidyverse.Rmd"
     - "929_R_markdown.Rmd"
     - "930_R_missing_data.Rmd"
+new_session: true
 delete_merged_file: true

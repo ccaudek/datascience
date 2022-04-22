@@ -863,125 +863,125 @@ div.csl-indent {
 <!-- I metodi basati sulla simulazione consentono di stimare le probabilità degli eventi in un modo diretto, se siamo in grado di generare molteplici e casuali realizzazioni delle variabili casuali coinvolte nelle definizioni degli eventi. -->
 <p>In questa dispensa verrà adottata l’interpretazione bayesiana delle probabilità. Tuttavia, le regole di base della teoria delle probabilità sono le stesse, indipendentemente dall’interpretazione adottata. Pertanto, negli esempi seguenti, possiamo utilizzare la simulazione per stimare le probabilità degli eventi in un modo diretto, ovvero mediante la generazione di molteplici osservazioni delle variabili casuali derivate dagli eventi di interesse.</p>
 <p>Ad esempio, per simulare in <span class="math inline">\(\R\)</span> il lancio di una moneta equilibrata iniziamo con il definire un vettore che contiene i risultati possibili del lancio della moneta (ovvero i valori possibili della variabile casuale <span class="math inline">\(Y\)</span>):</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="intro-prob-1.html#cb16-1" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="intro-prob-1.html#cb20-1" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
 <p>L’estrazione casuale di uno di questi due possibili valori (ovvero, la simulazione di uno specifico lancio di una moneta) si realizza con la funzione <code>sample()</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro-prob-1.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>)</span>
-<span id="cb17-2"><a href="intro-prob-1.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="intro-prob-1.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb21-2"><a href="intro-prob-1.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 <p>In maniera equivalente, la stessa operazione si può realizzare mediante l’istruzione</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro-prob-1.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb18-2"><a href="intro-prob-1.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="intro-prob-1.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb22-2"><a href="intro-prob-1.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>Supponiamo di ripetere questo esperimento casuale 100 volte e di registrare i risultati così ottenuti. La stima della probabilità dell’evento <span class="math inline">\(P(Y = 1)\)</span> è data dalla frequenza relativa del numero di volte in cui abbiamo osservato l’evento di interesse (<span class="math inline">\(Y = 1\)</span>):</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro-prob-1.html#cb19-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb19-2"><a href="intro-prob-1.html#cb19-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
-<span id="cb19-3"><a href="intro-prob-1.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
-<span id="cb19-4"><a href="intro-prob-1.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  y[m] <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb19-5"><a href="intro-prob-1.html#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-6"><a href="intro-prob-1.html#cb19-6" aria-hidden="true" tabindex="-1"></a>estimate <span class="ot">=</span> <span class="fu">sum</span>(y) <span class="sc">/</span> M</span>
-<span id="cb19-7"><a href="intro-prob-1.html#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="intro-prob-1.html#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;estimated P[Y = 1] =&quot;</span>, estimate)</span>
-<span id="cb19-9"><a href="intro-prob-1.html#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.53</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="intro-prob-1.html#cb23-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb23-2"><a href="intro-prob-1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
+<span id="cb23-3"><a href="intro-prob-1.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
+<span id="cb23-4"><a href="intro-prob-1.html#cb23-4" aria-hidden="true" tabindex="-1"></a>  y[m] <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb23-5"><a href="intro-prob-1.html#cb23-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-6"><a href="intro-prob-1.html#cb23-6" aria-hidden="true" tabindex="-1"></a>estimate <span class="ot">=</span> <span class="fu">sum</span>(y) <span class="sc">/</span> M</span>
+<span id="cb23-7"><a href="intro-prob-1.html#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="intro-prob-1.html#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;estimated P[Y = 1] =&quot;</span>, estimate)</span>
+<span id="cb23-9"><a href="intro-prob-1.html#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.53</span></span></code></pre></div>
 <p>Ripetiamo questa procedura 10 volte.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="intro-prob-1.html#cb20-1" aria-hidden="true" tabindex="-1"></a>flip_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(M) {</span>
-<span id="cb20-2"><a href="intro-prob-1.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
-<span id="cb20-3"><a href="intro-prob-1.html#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
-<span id="cb20-4"><a href="intro-prob-1.html#cb20-4" aria-hidden="true" tabindex="-1"></a>    y[m] <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb20-5"><a href="intro-prob-1.html#cb20-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb20-6"><a href="intro-prob-1.html#cb20-6" aria-hidden="true" tabindex="-1"></a>  estimate <span class="ot">&lt;-</span> <span class="fu">sum</span>(y) <span class="sc">/</span> M</span>
-<span id="cb20-7"><a href="intro-prob-1.html#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;estimated P[Y = 1] =&quot;</span>, estimate, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb20-8"><a href="intro-prob-1.html#cb20-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="intro-prob-1.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb21-2"><a href="intro-prob-1.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="dv">100</span>)</span>
-<span id="cb21-3"><a href="intro-prob-1.html#cb21-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-4"><a href="intro-prob-1.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.44 </span></span>
-<span id="cb21-5"><a href="intro-prob-1.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.52 </span></span>
-<span id="cb21-6"><a href="intro-prob-1.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.46 </span></span>
-<span id="cb21-7"><a href="intro-prob-1.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.57 </span></span>
-<span id="cb21-8"><a href="intro-prob-1.html#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.47 </span></span>
-<span id="cb21-9"><a href="intro-prob-1.html#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.46 </span></span>
-<span id="cb21-10"><a href="intro-prob-1.html#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.48 </span></span>
-<span id="cb21-11"><a href="intro-prob-1.html#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.49 </span></span>
-<span id="cb21-12"><a href="intro-prob-1.html#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.47 </span></span>
-<span id="cb21-13"><a href="intro-prob-1.html#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.62</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="intro-prob-1.html#cb24-1" aria-hidden="true" tabindex="-1"></a>flip_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(M) {</span>
+<span id="cb24-2"><a href="intro-prob-1.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
+<span id="cb24-3"><a href="intro-prob-1.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
+<span id="cb24-4"><a href="intro-prob-1.html#cb24-4" aria-hidden="true" tabindex="-1"></a>    y[m] <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb24-5"><a href="intro-prob-1.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-6"><a href="intro-prob-1.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  estimate <span class="ot">&lt;-</span> <span class="fu">sum</span>(y) <span class="sc">/</span> M</span>
+<span id="cb24-7"><a href="intro-prob-1.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;estimated P[Y = 1] =&quot;</span>, estimate, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb24-8"><a href="intro-prob-1.html#cb24-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="intro-prob-1.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb25-2"><a href="intro-prob-1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="dv">100</span>)</span>
+<span id="cb25-3"><a href="intro-prob-1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-4"><a href="intro-prob-1.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.44 </span></span>
+<span id="cb25-5"><a href="intro-prob-1.html#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.52 </span></span>
+<span id="cb25-6"><a href="intro-prob-1.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.46 </span></span>
+<span id="cb25-7"><a href="intro-prob-1.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.57 </span></span>
+<span id="cb25-8"><a href="intro-prob-1.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.47 </span></span>
+<span id="cb25-9"><a href="intro-prob-1.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.46 </span></span>
+<span id="cb25-10"><a href="intro-prob-1.html#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.48 </span></span>
+<span id="cb25-11"><a href="intro-prob-1.html#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.49 </span></span>
+<span id="cb25-12"><a href="intro-prob-1.html#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.47 </span></span>
+<span id="cb25-13"><a href="intro-prob-1.html#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.62</span></span></code></pre></div>
 <p>Dato che la moneta è equilibrata, la stima delle probabilità dell’evento <span class="math inline">\(P(Y = 1)\)</span> è simile a al valore che ci aspettiamo, ovvero <span class="math inline">\(P(Y = 1) = 0.5\)</span>, ma il risultato ottenuto nelle simulazioni non è esatto. Proviamo ad aumentare il numero di lanci in ciascuna simulazione:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="intro-prob-1.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb22-2"><a href="intro-prob-1.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="dv">1000</span>)</span>
-<span id="cb22-3"><a href="intro-prob-1.html#cb22-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-4"><a href="intro-prob-1.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.497 </span></span>
-<span id="cb22-5"><a href="intro-prob-1.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.529 </span></span>
-<span id="cb22-6"><a href="intro-prob-1.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.493 </span></span>
-<span id="cb22-7"><a href="intro-prob-1.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.511 </span></span>
-<span id="cb22-8"><a href="intro-prob-1.html#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.506 </span></span>
-<span id="cb22-9"><a href="intro-prob-1.html#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.52 </span></span>
-<span id="cb22-10"><a href="intro-prob-1.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.49 </span></span>
-<span id="cb22-11"><a href="intro-prob-1.html#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.495 </span></span>
-<span id="cb22-12"><a href="intro-prob-1.html#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.489 </span></span>
-<span id="cb22-13"><a href="intro-prob-1.html#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.496</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="intro-prob-1.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb26-2"><a href="intro-prob-1.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="dv">1000</span>)</span>
+<span id="cb26-3"><a href="intro-prob-1.html#cb26-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-4"><a href="intro-prob-1.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.497 </span></span>
+<span id="cb26-5"><a href="intro-prob-1.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.529 </span></span>
+<span id="cb26-6"><a href="intro-prob-1.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.493 </span></span>
+<span id="cb26-7"><a href="intro-prob-1.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.511 </span></span>
+<span id="cb26-8"><a href="intro-prob-1.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.506 </span></span>
+<span id="cb26-9"><a href="intro-prob-1.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.52 </span></span>
+<span id="cb26-10"><a href="intro-prob-1.html#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.49 </span></span>
+<span id="cb26-11"><a href="intro-prob-1.html#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.495 </span></span>
+<span id="cb26-12"><a href="intro-prob-1.html#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.489 </span></span>
+<span id="cb26-13"><a href="intro-prob-1.html#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.496</span></span></code></pre></div>
 <p>In questo secondo caso, gli errori tendono ad essere più piccoli che nel caso precedente. Cosa succede se in ciascuna simulazione esaminiamo i risultati di 10,000 lanci della moneta?</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="intro-prob-1.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb23-2"><a href="intro-prob-1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="fl">1e4</span>)</span>
-<span id="cb23-3"><a href="intro-prob-1.html#cb23-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-4"><a href="intro-prob-1.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4885 </span></span>
-<span id="cb23-5"><a href="intro-prob-1.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4957 </span></span>
-<span id="cb23-6"><a href="intro-prob-1.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4902 </span></span>
-<span id="cb23-7"><a href="intro-prob-1.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.5032 </span></span>
-<span id="cb23-8"><a href="intro-prob-1.html#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.5048 </span></span>
-<span id="cb23-9"><a href="intro-prob-1.html#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4931 </span></span>
-<span id="cb23-10"><a href="intro-prob-1.html#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4965 </span></span>
-<span id="cb23-11"><a href="intro-prob-1.html#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.499 </span></span>
-<span id="cb23-12"><a href="intro-prob-1.html#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4979 </span></span>
-<span id="cb23-13"><a href="intro-prob-1.html#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4973</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="intro-prob-1.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb27-2"><a href="intro-prob-1.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flip_coin</span>(<span class="fl">1e4</span>)</span>
+<span id="cb27-3"><a href="intro-prob-1.html#cb27-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-4"><a href="intro-prob-1.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4885 </span></span>
+<span id="cb27-5"><a href="intro-prob-1.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4957 </span></span>
+<span id="cb27-6"><a href="intro-prob-1.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4902 </span></span>
+<span id="cb27-7"><a href="intro-prob-1.html#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.5032 </span></span>
+<span id="cb27-8"><a href="intro-prob-1.html#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.5048 </span></span>
+<span id="cb27-9"><a href="intro-prob-1.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4931 </span></span>
+<span id="cb27-10"><a href="intro-prob-1.html#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4965 </span></span>
+<span id="cb27-11"><a href="intro-prob-1.html#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.499 </span></span>
+<span id="cb27-12"><a href="intro-prob-1.html#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4979 </span></span>
+<span id="cb27-13"><a href="intro-prob-1.html#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; estimated P[Y = 1] = 0.4973</span></span></code></pre></div>
 <p>Ora le stime ottenute sono molto vicine alla vera probabilità che vogliamo stimare (cioè 0.5, perché la moneta è equilibrata).</p>
 <p>I risultati delle simulazioni precedenti pongono dunque il problema di determinare quale sia il numero di lanci di cui abbiamo bisogno per assicurarci che le stime siano accurate (ovvero, vicine al valore corretto della probabilità)</p>
 </div>
 <div id="la-legge-dei-grandi-numeri" class="section level2 hasAnchor" number="6.5">
 <h2><span class="header-section-number">6.5</span> La legge dei grandi numeri<a href="intro-prob-1.html#la-legge-dei-grandi-numeri" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La visualizzazione mediante grafici contribuisce alla comprensione dei concetti della statistica e della teoria delle probabilità. Un modo per descrivere ciò che accade all’aumentare del numero <span class="math inline">\(M\)</span> di ripetizioni del lancio della moneta consiste nel registrare la stima della probabilità dell’evento <span class="math inline">\(P(Y = 1)\)</span> in funzione del numero di ripetizioni dell’esperimento casuale per ogni <span class="math inline">\(m \in 1:M\)</span>. Possiamo ottenere un grafico dell’andamento della stima di <span class="math inline">\(P(Y = 1)\)</span> in funzione di <span class="math inline">\(m\)</span> nel modo seguente:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="intro-prob-1.html#cb24-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb24-2"><a href="intro-prob-1.html#cb24-2" aria-hidden="true" tabindex="-1"></a>estimate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb24-3"><a href="intro-prob-1.html#cb24-3" aria-hidden="true" tabindex="-1"></a>flip_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
-<span id="cb24-4"><a href="intro-prob-1.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(m, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb24-5"><a href="intro-prob-1.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">sum</span>(y) <span class="sc">/</span> m</span>
-<span id="cb24-6"><a href="intro-prob-1.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  phat</span>
-<span id="cb24-7"><a href="intro-prob-1.html#cb24-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-8"><a href="intro-prob-1.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb24-9"><a href="intro-prob-1.html#cb24-9" aria-hidden="true" tabindex="-1"></a>  estimate[i] <span class="ot">&lt;-</span> <span class="fu">flip_coin</span>(i)</span>
-<span id="cb24-10"><a href="intro-prob-1.html#cb24-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-11"><a href="intro-prob-1.html#cb24-11" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb24-12"><a href="intro-prob-1.html#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span>nrep, </span>
-<span id="cb24-13"><a href="intro-prob-1.html#cb24-13" aria-hidden="true" tabindex="-1"></a>  estimate</span>
-<span id="cb24-14"><a href="intro-prob-1.html#cb24-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-15"><a href="intro-prob-1.html#cb24-15" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
-<span id="cb24-16"><a href="intro-prob-1.html#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb24-17"><a href="intro-prob-1.html#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb24-18"><a href="intro-prob-1.html#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-19"><a href="intro-prob-1.html#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Numero di lanci della moneta&quot;</span>, </span>
-<span id="cb24-20"><a href="intro-prob-1.html#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Stima di P(Y = 1)&quot;</span></span>
-<span id="cb24-21"><a href="intro-prob-1.html#cb24-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="intro-prob-1.html#cb28-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb28-2"><a href="intro-prob-1.html#cb28-2" aria-hidden="true" tabindex="-1"></a>estimate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb28-3"><a href="intro-prob-1.html#cb28-3" aria-hidden="true" tabindex="-1"></a>flip_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<span id="cb28-4"><a href="intro-prob-1.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(m, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb28-5"><a href="intro-prob-1.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">sum</span>(y) <span class="sc">/</span> m</span>
+<span id="cb28-6"><a href="intro-prob-1.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  phat</span>
+<span id="cb28-7"><a href="intro-prob-1.html#cb28-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-8"><a href="intro-prob-1.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb28-9"><a href="intro-prob-1.html#cb28-9" aria-hidden="true" tabindex="-1"></a>  estimate[i] <span class="ot">&lt;-</span> <span class="fu">flip_coin</span>(i)</span>
+<span id="cb28-10"><a href="intro-prob-1.html#cb28-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-11"><a href="intro-prob-1.html#cb28-11" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb28-12"><a href="intro-prob-1.html#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span>nrep, </span>
+<span id="cb28-13"><a href="intro-prob-1.html#cb28-13" aria-hidden="true" tabindex="-1"></a>  estimate</span>
+<span id="cb28-14"><a href="intro-prob-1.html#cb28-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-15"><a href="intro-prob-1.html#cb28-15" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
+<span id="cb28-16"><a href="intro-prob-1.html#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb28-17"><a href="intro-prob-1.html#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb28-18"><a href="intro-prob-1.html#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-19"><a href="intro-prob-1.html#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Numero di lanci della moneta&quot;</span>, </span>
+<span id="cb28-20"><a href="intro-prob-1.html#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Stima di P(Y = 1)&quot;</span></span>
+<span id="cb28-21"><a href="intro-prob-1.html#cb28-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:legge-grandi-n-1"></span>
-<img src="ds4psy_files/figure-html/legge-grandi-n-1-1.png" alt="Stima della probabilità di successo in funzione del numero dei lanci di una moneta." width="576" />
+<img src="015_prob_intro_files/figure-html/legge-grandi-n-1-1.png" alt="Stima della probabilità di successo in funzione del numero dei lanci di una moneta." width="576" />
 <p class="caption">
 FIGURA 6.1: Stima della probabilità di successo in funzione del numero dei lanci di una moneta.
 </p>
 </div>
 <p>La figura <a href="intro-prob-1.html#fig:legge-grandi-n-1">6.1</a>, quando è espressa su una scala lineare, non rivela chiaramente l’andamento della simulazione. Imponiamo dunque una scala logaritmica sull’asse delle ascisse (<span class="math inline">\(x\)</span>). Su scala logaritmica, i valori tra 1 e 10 vengono tracciati all’incirca con la stessa ampiezza che si osserva tra i valori 50 e 700, eccetera.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="intro-prob-1.html#cb25-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="intro-prob-1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="intro-prob-1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb25-4"><a href="intro-prob-1.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
-<span id="cb25-5"><a href="intro-prob-1.html#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span></span>
-<span id="cb25-6"><a href="intro-prob-1.html#cb25-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-7"><a href="intro-prob-1.html#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(</span>
-<span id="cb25-8"><a href="intro-prob-1.html#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(</span>
-<span id="cb25-9"><a href="intro-prob-1.html#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">200</span>,</span>
-<span id="cb25-10"><a href="intro-prob-1.html#cb25-10" aria-hidden="true" tabindex="-1"></a>      <span class="dv">700</span>, <span class="dv">2500</span>, <span class="dv">10000</span></span>
-<span id="cb25-11"><a href="intro-prob-1.html#cb25-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-12"><a href="intro-prob-1.html#cb25-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-13"><a href="intro-prob-1.html#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-14"><a href="intro-prob-1.html#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Numero dei lanci della moneta (scala logaritmica)&quot;</span>,</span>
-<span id="cb25-15"><a href="intro-prob-1.html#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Stima di P(Y = 1)&quot;</span></span>
-<span id="cb25-16"><a href="intro-prob-1.html#cb25-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="intro-prob-1.html#cb29-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="intro-prob-1.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="intro-prob-1.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="intro-prob-1.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb29-5"><a href="intro-prob-1.html#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span></span>
+<span id="cb29-6"><a href="intro-prob-1.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="intro-prob-1.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(</span>
+<span id="cb29-8"><a href="intro-prob-1.html#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(</span>
+<span id="cb29-9"><a href="intro-prob-1.html#cb29-9" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">200</span>,</span>
+<span id="cb29-10"><a href="intro-prob-1.html#cb29-10" aria-hidden="true" tabindex="-1"></a>      <span class="dv">700</span>, <span class="dv">2500</span>, <span class="dv">10000</span></span>
+<span id="cb29-11"><a href="intro-prob-1.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-12"><a href="intro-prob-1.html#cb29-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="intro-prob-1.html#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-14"><a href="intro-prob-1.html#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Numero dei lanci della moneta (scala logaritmica)&quot;</span>,</span>
+<span id="cb29-15"><a href="intro-prob-1.html#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Stima di P(Y = 1)&quot;</span></span>
+<span id="cb29-16"><a href="intro-prob-1.html#cb29-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:legge-grandi-n-2"></span>
-<img src="ds4psy_files/figure-html/legge-grandi-n-2-1.png" alt="Stima della probabilità di successo in funzione del numero dei lanci di una moneta." width="576" />
+<img src="015_prob_intro_files/figure-html/legge-grandi-n-2-1.png" alt="Stima della probabilità di successo in funzione del numero dei lanci di una moneta." width="576" />
 <p class="caption">
 FIGURA 6.2: Stima della probabilità di successo in funzione del numero dei lanci di una moneta.
 </p>
@@ -996,54 +996,54 @@ FIGURA 6.2: Stima della probabilità di successo in funzione del numero dei lanc
 Z = Y_1 + Y_2 + Y_3.
 \]</span></p>
 <p>Possiamo simulare i valori assunti dalla variabile casuale <em>Z</em> simulando i valori di <span class="math inline">\(Y_1, Y_2, Y_3\)</span> per poi sommarli.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="intro-prob-1.html#cb26-1" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb26-2"><a href="intro-prob-1.html#cb26-2" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb26-3"><a href="intro-prob-1.html#cb26-3" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb26-4"><a href="intro-prob-1.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(y1, y2, y3)</span>
-<span id="cb26-5"><a href="intro-prob-1.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 0 1</span></span>
-<span id="cb26-6"><a href="intro-prob-1.html#cb26-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">c</span>(y1, y2, y3))</span>
-<span id="cb26-7"><a href="intro-prob-1.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb26-8"><a href="intro-prob-1.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="intro-prob-1.html#cb30-1" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb30-2"><a href="intro-prob-1.html#cb30-2" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb30-3"><a href="intro-prob-1.html#cb30-3" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb30-4"><a href="intro-prob-1.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(y1, y2, y3)</span>
+<span id="cb30-5"><a href="intro-prob-1.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 0 1</span></span>
+<span id="cb30-6"><a href="intro-prob-1.html#cb30-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">c</span>(y1, y2, y3))</span>
+<span id="cb30-7"><a href="intro-prob-1.html#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb30-8"><a href="intro-prob-1.html#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
 <p>ovvero,</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="intro-prob-1.html#cb27-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>)</span>
-<span id="cb27-2"><a href="intro-prob-1.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
-<span id="cb27-3"><a href="intro-prob-1.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb27-4"><a href="intro-prob-1.html#cb27-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-5"><a href="intro-prob-1.html#cb27-5" aria-hidden="true" tabindex="-1"></a>y</span>
-<span id="cb27-6"><a href="intro-prob-1.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 1</span></span>
-<span id="cb27-7"><a href="intro-prob-1.html#cb27-7" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
-<span id="cb27-8"><a href="intro-prob-1.html#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb27-9"><a href="intro-prob-1.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="intro-prob-1.html#cb31-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>)</span>
+<span id="cb31-2"><a href="intro-prob-1.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb31-3"><a href="intro-prob-1.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb31-4"><a href="intro-prob-1.html#cb31-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-5"><a href="intro-prob-1.html#cb31-5" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb31-6"><a href="intro-prob-1.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 1</span></span>
+<span id="cb31-7"><a href="intro-prob-1.html#cb31-7" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
+<span id="cb31-8"><a href="intro-prob-1.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb31-9"><a href="intro-prob-1.html#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
 <p>oppure, ancora più semplicemente:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="intro-prob-1.html#cb28-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb28-2"><a href="intro-prob-1.html#cb28-2" aria-hidden="true" tabindex="-1"></a>y</span>
-<span id="cb28-3"><a href="intro-prob-1.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 0 1</span></span>
-<span id="cb28-4"><a href="intro-prob-1.html#cb28-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
-<span id="cb28-5"><a href="intro-prob-1.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb28-6"><a href="intro-prob-1.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="intro-prob-1.html#cb32-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb32-2"><a href="intro-prob-1.html#cb32-2" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb32-3"><a href="intro-prob-1.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 0 1</span></span>
+<span id="cb32-4"><a href="intro-prob-1.html#cb32-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
+<span id="cb32-5"><a href="intro-prob-1.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;z =&quot;</span>, z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb32-6"><a href="intro-prob-1.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z = 2</span></span></code></pre></div>
 <p>Possiamo ripetere questa simulazione <span class="math inline">\(M = 1e5\)</span> volte:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="intro-prob-1.html#cb29-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb29-2"><a href="intro-prob-1.html#cb29-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
-<span id="cb29-3"><a href="intro-prob-1.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
-<span id="cb29-4"><a href="intro-prob-1.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb29-5"><a href="intro-prob-1.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  z[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
-<span id="cb29-6"><a href="intro-prob-1.html#cb29-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="intro-prob-1.html#cb33-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb33-2"><a href="intro-prob-1.html#cb33-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
+<span id="cb33-3"><a href="intro-prob-1.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
+<span id="cb33-4"><a href="intro-prob-1.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb33-5"><a href="intro-prob-1.html#cb33-5" aria-hidden="true" tabindex="-1"></a>  z[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
+<span id="cb33-6"><a href="intro-prob-1.html#cb33-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>e calcolare una stima della probabilità che la variabile casuale <span class="math inline">\(Z\)</span> assuma ciascuno dei possibili valori 0, 1, 2, 3:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="intro-prob-1.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(z) <span class="sc">/</span> M</span>
-<span id="cb30-2"><a href="intro-prob-1.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z</span></span>
-<span id="cb30-3"><a href="intro-prob-1.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       1       2       3 </span></span>
-<span id="cb30-4"><a href="intro-prob-1.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.12585 0.37495 0.37480 0.12440</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="intro-prob-1.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(z) <span class="sc">/</span> M</span>
+<span id="cb34-2"><a href="intro-prob-1.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z</span></span>
+<span id="cb34-3"><a href="intro-prob-1.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       1       2       3 </span></span>
+<span id="cb34-4"><a href="intro-prob-1.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.12585 0.37495 0.37480 0.12440</span></span></code></pre></div>
 <p>Nel caso di 4 monete equilibrate, avremo:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="intro-prob-1.html#cb31-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb31-2"><a href="intro-prob-1.html#cb31-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
-<span id="cb31-3"><a href="intro-prob-1.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
-<span id="cb31-4"><a href="intro-prob-1.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb31-5"><a href="intro-prob-1.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  z[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
-<span id="cb31-6"><a href="intro-prob-1.html#cb31-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-7"><a href="intro-prob-1.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(z) <span class="sc">/</span> M</span>
-<span id="cb31-8"><a href="intro-prob-1.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z</span></span>
-<span id="cb31-9"><a href="intro-prob-1.html#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       1       2       3       4 </span></span>
-<span id="cb31-10"><a href="intro-prob-1.html#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.06340 0.24917 0.37360 0.25022 0.06361</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="intro-prob-1.html#cb35-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb35-2"><a href="intro-prob-1.html#cb35-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, M)</span>
+<span id="cb35-3"><a href="intro-prob-1.html#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M) {</span>
+<span id="cb35-4"><a href="intro-prob-1.html#cb35-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb35-5"><a href="intro-prob-1.html#cb35-5" aria-hidden="true" tabindex="-1"></a>  z[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(y)</span>
+<span id="cb35-6"><a href="intro-prob-1.html#cb35-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-7"><a href="intro-prob-1.html#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(z) <span class="sc">/</span> M</span>
+<span id="cb35-8"><a href="intro-prob-1.html#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; z</span></span>
+<span id="cb35-9"><a href="intro-prob-1.html#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       1       2       3       4 </span></span>
+<span id="cb35-10"><a href="intro-prob-1.html#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.06340 0.24917 0.37360 0.25022 0.06361</span></span></code></pre></div>
 <p>Una variabile casuale le cui modalità possono essere costituite solo da numeri interi è detta <em>variabile casuale discreta</em>:</p>
 <p><span class="math display">\[
 \mathbb{Z} = \dots, -2, -1, 0, 1, 2, \dots
@@ -1073,29 +1073,29 @@ P_Z(z) = P(Z = z).
 \]</span></p>
 <p>La parte a destra dell’uguale si può leggere come: “la probabilità che la variabile casuale <span class="math inline">\(Z\)</span> assuma il valore <span class="math inline">\(z\)</span>”. Una funzione definita come sopra è detta <em>funzione di massa di probabilità</em> della variabile casuale <span class="math inline">\(Z\)</span>. Ad ogni variabile casuale discreta è associata un’unica funzione di massa di probabilità.</p>
 <p>Una rappresentazione grafica della stima della funzione di massa di probabilità per l’esperimento casuale del lancio di quattro monete equilibrate è fornita nella figura <a href="intro-prob-1.html#fig:barplot-mdf-4coins">6.3</a>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="intro-prob-1.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb32-2"><a href="intro-prob-1.html#cb32-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb32-3"><a href="intro-prob-1.html#cb32-3" aria-hidden="true" tabindex="-1"></a>nflips <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb32-4"><a href="intro-prob-1.html#cb32-4" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(M, nflips, <span class="fl">0.5</span>)</span>
-<span id="cb32-5"><a href="intro-prob-1.html#cb32-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>nflips</span>
-<span id="cb32-6"><a href="intro-prob-1.html#cb32-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nflips <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb32-7"><a href="intro-prob-1.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>nflips) {</span>
-<span id="cb32-8"><a href="intro-prob-1.html#cb32-8" aria-hidden="true" tabindex="-1"></a>  y[n <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(u <span class="sc">==</span> n) <span class="sc">/</span> M</span>
-<span id="cb32-9"><a href="intro-prob-1.html#cb32-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-10"><a href="intro-prob-1.html#cb32-10" aria-hidden="true" tabindex="-1"></a>bar_plot <span class="ot">&lt;-</span></span>
-<span id="cb32-11"><a href="intro-prob-1.html#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Z =</span> x, <span class="at">count =</span> y) <span class="sc">%&gt;%</span></span>
-<span id="cb32-12"><a href="intro-prob-1.html#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Z, <span class="at">y =</span> count)) <span class="sc">+</span></span>
-<span id="cb32-13"><a href="intro-prob-1.html#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb32-14"><a href="intro-prob-1.html#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb32-15"><a href="intro-prob-1.html#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb32-16"><a href="intro-prob-1.html#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
-<span id="cb32-17"><a href="intro-prob-1.html#cb32-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb32-18"><a href="intro-prob-1.html#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb32-19"><a href="intro-prob-1.html#cb32-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Probabilità stimata P(Z = z)&quot;</span></span>
-<span id="cb32-20"><a href="intro-prob-1.html#cb32-20" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb32-21"><a href="intro-prob-1.html#cb32-21" aria-hidden="true" tabindex="-1"></a>bar_plot</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="intro-prob-1.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb36-2"><a href="intro-prob-1.html#cb36-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb36-3"><a href="intro-prob-1.html#cb36-3" aria-hidden="true" tabindex="-1"></a>nflips <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb36-4"><a href="intro-prob-1.html#cb36-4" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(M, nflips, <span class="fl">0.5</span>)</span>
+<span id="cb36-5"><a href="intro-prob-1.html#cb36-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>nflips</span>
+<span id="cb36-6"><a href="intro-prob-1.html#cb36-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nflips <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb36-7"><a href="intro-prob-1.html#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>nflips) {</span>
+<span id="cb36-8"><a href="intro-prob-1.html#cb36-8" aria-hidden="true" tabindex="-1"></a>  y[n <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(u <span class="sc">==</span> n) <span class="sc">/</span> M</span>
+<span id="cb36-9"><a href="intro-prob-1.html#cb36-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-10"><a href="intro-prob-1.html#cb36-10" aria-hidden="true" tabindex="-1"></a>bar_plot <span class="ot">&lt;-</span></span>
+<span id="cb36-11"><a href="intro-prob-1.html#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Z =</span> x, <span class="at">count =</span> y) <span class="sc">%&gt;%</span></span>
+<span id="cb36-12"><a href="intro-prob-1.html#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Z, <span class="at">y =</span> count)) <span class="sc">+</span></span>
+<span id="cb36-13"><a href="intro-prob-1.html#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-14"><a href="intro-prob-1.html#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb36-15"><a href="intro-prob-1.html#cb36-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb36-16"><a href="intro-prob-1.html#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb36-17"><a href="intro-prob-1.html#cb36-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-18"><a href="intro-prob-1.html#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-19"><a href="intro-prob-1.html#cb36-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Probabilità stimata P(Z = z)&quot;</span></span>
+<span id="cb36-20"><a href="intro-prob-1.html#cb36-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb36-21"><a href="intro-prob-1.html#cb36-21" aria-hidden="true" tabindex="-1"></a>bar_plot</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:barplot-mdf-4coins"></span>
-<img src="ds4psy_files/figure-html/barplot-mdf-4coins-1.png" alt="Grafico di $M = 100,000$ simulazioni della funzione di massa di probabilità di una variabile casuale definita come il numero di teste in quattro lanci di una moneta equilibrata." width="576" />
+<img src="015_prob_intro_files/figure-html/barplot-mdf-4coins-1.png" alt="Grafico di $M = 100,000$ simulazioni della funzione di massa di probabilità di una variabile casuale definita come il numero di teste in quattro lanci di una moneta equilibrata." width="576" />
 <p class="caption">
 FIGURA 6.3: Grafico di <span class="math inline">\(M = 100,000\)</span> simulazioni della funzione di massa di probabilità di una variabile casuale definita come il numero di teste in quattro lanci di una moneta equilibrata.
 </p>
@@ -1114,7 +1114,7 @@ P_{z}(A) = \sum_{z \in A} P_{z}(Z = z).
 <li><span class="math inline">\(\sum_{x \in X} P(x) = 1\)</span>.</li>
 </ul>
 <div class="example">
-<p><span id="exm:unlabeled-div-25" class="example"><strong>Esempio 6.1  </strong></span>Nel caso dell’esempio discusso nel Paragrafo <a href="intro-prob-1.html#sec:fun-mass-prob">6.7</a>, la probabilità che la variabile casuale <span class="math inline">\(Z\)</span> sia un numero dispari è</p>
+<p><span id="exm:unlabeled-div-28" class="example"><strong>Esempio 6.1  </strong></span>Nel caso dell’esempio discusso nel Paragrafo <a href="intro-prob-1.html#sec:fun-mass-prob">6.7</a>, la probabilità che la variabile casuale <span class="math inline">\(Z\)</span> sia un numero dispari è</p>
 <p><span class="math display">\[
 P(\text{Z è un numero dispari}) = P_{z}(Z = 1) + P_{z}(Z = 3) = \frac{4}{16} + \frac{4}{16} = \frac{1}{2}.
 \]</span></p>
@@ -1182,8 +1182,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/015_prob_intro.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/015_prob_intro.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1199,7 +1199,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

@@ -837,16 +837,29 @@ di una distribuzione. In particolare, ciò non accade quando la
 distribuzione è asimmetrica, o in presenza di valori anomali (<em>outlier</em>)
 – si veda il pannello di destra della figura <a href="variabili-e-distribuzioni-di-frequenza.html#fig:violin-zetsche">3.6</a>. In tali circostanze, la tendenza centrale della distribuzione è meglio rappresentata dalla mediana o dalla media spuntata.</p>
 </div>
-<!-- ::: {.exercise} -->
-<!-- Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
-<!-- ```{r} -->
-<!-- bysubj %>%  -->
-<!--   group_by(group) %>%  -->
-<!--   summarise( -->
-<!--     avg_bdi = mean(bdi) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+<div class="exercise">
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Esercizio 4.1  </strong></span>Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="indici-di-posizione-e-di-scala.html#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
+<span id="cb12-2"><a href="indici-di-posizione-e-di-scala.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data.mood.csv&quot;</span>),</span>
+<span id="cb12-3"><a href="indici-di-posizione-e-di-scala.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span></span>
+<span id="cb12-4"><a href="indici-di-posizione-e-di-scala.html#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-5"><a href="indici-di-posizione-e-di-scala.html#cb12-5" aria-hidden="true" tabindex="-1"></a>bysubj <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="indici-di-posizione-e-di-scala.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, esm_id) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="indici-di-posizione-e-di-scala.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-8"><a href="indici-di-posizione-e-di-scala.html#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">bdi =</span> <span class="fu">mean</span>(bdi)</span>
+<span id="cb12-9"><a href="indici-di-posizione-e-di-scala.html#cb12-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="indici-di-posizione-e-di-scala.html#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="indici-di-posizione-e-di-scala.html#cb13-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="indici-di-posizione-e-di-scala.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="indici-di-posizione-e-di-scala.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-4"><a href="indici-di-posizione-e-di-scala.html#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_bdi =</span> <span class="fu">mean</span>(bdi)</span>
+<span id="cb13-5"><a href="indici-di-posizione-e-di-scala.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-6"><a href="indici-di-posizione-e-di-scala.html#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb13-7"><a href="indici-di-posizione-e-di-scala.html#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   group avg_bdi</span></span>
+<span id="cb13-8"><a href="indici-di-posizione-e-di-scala.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span></span>
+<span id="cb13-9"><a href="indici-di-posizione-e-di-scala.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 ctl      1.61</span></span>
+<span id="cb13-10"><a href="indici-di-posizione-e-di-scala.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 mdd     30.9</span></span></code></pre></div>
+</div>
 </div>
 <div id="media-spuntata" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Media spuntata<a href="indici-di-posizione-e-di-scala.html#media-spuntata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -856,16 +869,19 @@ dei dati centrali. Per calcolare <span class="math inline">\(\bar{x}_t\)</span> 
 una sequenza crescente, <span class="math inline">\(x_1 \leq x_2 \leq x_3 \leq \dots \leq x_n\)</span>, per
 poi eliminare il primo 5% e l’ultimo 5% dei dati della serie così
 ordinata. La media spuntata è data dalla media aritmetica dei dati rimanenti.</p>
-<!-- ::: {.exercise} -->
-<!-- Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019 escludendo il 10% dei valori più estremi in ciascun gruppo. -->
-<!-- ```{r} -->
-<!-- bysubj %>% -->
-<!--   group_by(group) %>% -->
-<!--   summarise( -->
-<!--     avg_trim_bdi = mean(bdi, trim = 0.1) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+<div class="exercise">
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Esercizio 4.2  </strong></span>Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> escludendo il 10% dei valori più estremi in ciascun gruppo.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="indici-di-posizione-e-di-scala.html#cb14-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="indici-di-posizione-e-di-scala.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="indici-di-posizione-e-di-scala.html#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb14-4"><a href="indici-di-posizione-e-di-scala.html#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_trim_bdi =</span> <span class="fu">mean</span>(bdi, <span class="at">trim =</span> <span class="fl">0.1</span>)</span>
+<span id="cb14-5"><a href="indici-di-posizione-e-di-scala.html#cb14-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-6"><a href="indici-di-posizione-e-di-scala.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb14-7"><a href="indici-di-posizione-e-di-scala.html#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   group avg_trim_bdi</span></span>
+<span id="cb14-8"><a href="indici-di-posizione-e-di-scala.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;</span></span>
+<span id="cb14-9"><a href="indici-di-posizione-e-di-scala.html#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 ctl            1  </span></span>
+<span id="cb14-10"><a href="indici-di-posizione-e-di-scala.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 mdd           30.6</span></span></code></pre></div>
+</div>
 </div>
 <div id="moda-e-mediana" class="section level3 hasAnchor" number="4.1.3">
 <h3><span class="header-section-number">4.1.3</span> Moda e mediana<a href="indici-di-posizione-e-di-scala.html#moda-e-mediana" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -875,20 +891,23 @@ classe con la frequenza massima (può succedere che una distribuzione
 abbia più mode; in tal caso si dice <em>multimodale</em> e questo operatore
 perde il suo significato di indice di tendenza centrale) e la <em>mediana</em>
 <span class="math inline">\(\tilde{x}\)</span>.</p>
-<!-- ::: {.exercise} -->
-<!-- Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
-<!-- ```{r} -->
-<!-- bysubj %>% -->
-<!--   group_by(group) %>% -->
-<!--   summarise( -->
-<!--     q25 = quantile(bdi, probs = 0.25), -->
-<!--     q50 = quantile(bdi, probs = 0.50), -->
-<!--     q75 = quantile(bdi, probs = 0.75) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+<div class="exercise">
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Esercizio 4.3  </strong></span>Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="indici-di-posizione-e-di-scala.html#cb15-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="indici-di-posizione-e-di-scala.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="indici-di-posizione-e-di-scala.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-4"><a href="indici-di-posizione-e-di-scala.html#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">q25 =</span> <span class="fu">quantile</span>(bdi, <span class="at">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb15-5"><a href="indici-di-posizione-e-di-scala.html#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">q50 =</span> <span class="fu">quantile</span>(bdi, <span class="at">probs =</span> <span class="fl">0.50</span>),</span>
+<span id="cb15-6"><a href="indici-di-posizione-e-di-scala.html#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">q75 =</span> <span class="fu">quantile</span>(bdi, <span class="at">probs =</span> <span class="fl">0.75</span>)</span>
+<span id="cb15-7"><a href="indici-di-posizione-e-di-scala.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-8"><a href="indici-di-posizione-e-di-scala.html#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb15-9"><a href="indici-di-posizione-e-di-scala.html#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   group   q25   q50   q75</span></span>
+<span id="cb15-10"><a href="indici-di-posizione-e-di-scala.html#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb15-11"><a href="indici-di-posizione-e-di-scala.html#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 ctl       0     1     2</span></span>
+<span id="cb15-12"><a href="indici-di-posizione-e-di-scala.html#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 mdd      26    30    35</span></span></code></pre></div>
+</div>
 <div class="remark">
-<p><span id="unlabeled-div-18" class="remark"><em>Osservazione</em>. </span>Si noti che solitamente i software restituiscono un valore <em>interpolato</em> del <span class="math inline">\(p\)</span>-esimo quantile <span class="math inline">\(q_p\)</span> <span class="math inline">\((0 &lt; p &lt; 1)\)</span>, il quale viene calcolato mediante specifiche procedure. Il risultato fornito dai software, dunque, non sarà identico a quello trovato utilizzando la definizione non interpolata di quantile che abbiamo presentato qui. Se, per qualche ragione, vogliamo conoscere l’algoritmo usato per la determinazione dei quantili interpolati, dobbiamo leggere la documentazione del software.</p>
+<p><span id="unlabeled-div-21" class="remark"><em>Osservazione</em>. </span>Si noti che solitamente i software restituiscono un valore <em>interpolato</em> del <span class="math inline">\(p\)</span>-esimo quantile <span class="math inline">\(q_p\)</span> <span class="math inline">\((0 &lt; p &lt; 1)\)</span>, il quale viene calcolato mediante specifiche procedure. Il risultato fornito dai software, dunque, non sarà identico a quello trovato utilizzando la definizione non interpolata di quantile che abbiamo presentato qui. Se, per qualche ragione, vogliamo conoscere l’algoritmo usato per la determinazione dei quantili interpolati, dobbiamo leggere la documentazione del software.</p>
 </div>
 </div>
 </div>
@@ -903,7 +922,7 @@ sintetizzare la distribuzione di una variabile statistica oltre che con
 le misure di posizione anche tramite l’utilizzo di indicatori che
 valutino la dispersione delle unità statistice.</p>
 <div class="remark">
-<p><span id="unlabeled-div-19" class="remark"><em>Osservazione</em>. </span>Un’introduzione “soft” al tema degli indici di posizione è fornita nel seguente <a href="https://tinystats.github.io/teacups-giraffes-and-statistics/04_variance.html">link</a>.</p>
+<p><span id="unlabeled-div-22" class="remark"><em>Osservazione</em>. </span>Un’introduzione “soft” al tema degli indici di posizione è fornita nel seguente <a href="https://tinystats.github.io/teacups-giraffes-and-statistics/04_variance.html">link</a>.</p>
 </div>
 <div id="indici-basati-sullordinamento-dei-dati" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Indici basati sull’ordinamento dei dati<a href="indici-di-posizione-e-di-scala.html#indici-basati-sullordinamento-dei-dati" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -927,10 +946,10 @@ s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \end{equation}\]</span></p>
 <p>è la media dei quadrati degli scarti <span class="math inline">\(x_i - \bar{x}\)</span> tra ogni valore e la media della distribuzione. La varianza è una misura di dispersione più complessa di quelle esaminate in precedenza. È appropriata solo nel caso di distribuzioni simmetriche e, anch’essa, è fortemente influenzata dai valori anomali. Inoltre, è espressa in un’unità di misura che è il quadrato dell’unità di misura dei dati originari e quindi ad essa non può essere assegnata un’interpretazione intuitiva.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Esercizio 4.1  </strong></span>Si calcoli la varianza dei valori BDI-II per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Esercizio 4.4  </strong></span>Si calcoli la varianza dei valori BDI-II per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="indici-di-posizione-e-di-scala.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(bysubj<span class="sc">$</span>bdi)</span>
-<span id="cb12-2"><a href="indici-di-posizione-e-di-scala.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 241.9408</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="indici-di-posizione-e-di-scala.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(bysubj<span class="sc">$</span>bdi)</span>
+<span id="cb16-2"><a href="indici-di-posizione-e-di-scala.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 239.8732</span></span></code></pre></div>
 </div>
 </div>
 <div id="precisione" class="section level3 hasAnchor" number="4.2.3">
@@ -955,10 +974,10 @@ anziché come</p>
 <p>Per le ragioni espresse sopra, la misura più usata della dispersione di una distribuzione di dati è lo <em>scarto quadratico medio</em> (o <em>scarto tipo</em>, o <em>deviazione standard</em>), ovvero la radice quadrata della varianza<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. A differenza della varianza, dunque, lo scarto tipo è espresso nella stessa unità di misura dei dati. Come nel caso della varianza, anche lo scarto tipo <span class="math inline">\(s\)</span> dovrebbe essere usato soltanto quando la media è adeguata per misurare il centro della distribuzione, ovvero, nel caso di distribuzioni simmetriche. Come nel caso della media <span class="math inline">\(\bar{x}\)</span>, anche lo scarto tipo è fortemente influenzato dai dati anomali (<em>outlier</em>), ovvero dalla presenza di uno o di pochi dati che sono molto più distanti dalla media rispetto agli altri valori della distribuzione. Quando tutte le osservazioni sono uguali, <span class="math inline">\(s = 0\)</span>, altrimenti <span class="math inline">\(s &gt; 0\)</span>.</p>
 <p>Allo scarto tipo può essere assegnata una semplice interpretazione: lo scarto tipo è <em>simile</em> (ma non identico) allo scarto semplice medio campionario, ovvero alla media aritmetica dei valori assoluti degli scarti dalla media. Lo scarto tipo ci dice, dunque, quanto sono distanti, in media, le singole osservazioni dal centro della distribuzione. Un’interpretazione più precisa del significato dello scarto tipo è fornita nel Paragrafo successivo.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-21" class="exercise"><strong>Esercizio 4.2  </strong></span>Si calcoli lo scarto tipo per i valori BDI-II di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Esercizio 4.5  </strong></span>Si calcoli lo scarto tipo per i valori BDI-II di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="indici-di-posizione-e-di-scala.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(bysubj<span class="sc">$</span>bdi)</span>
-<span id="cb13-2"><a href="indici-di-posizione-e-di-scala.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15.55445</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="indici-di-posizione-e-di-scala.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(bysubj<span class="sc">$</span>bdi)</span>
+<span id="cb17-2"><a href="indici-di-posizione-e-di-scala.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15.48784</span></span></code></pre></div>
 </div>
 </div>
 <div id="deviazione-mediana-assoluta" class="section level3 hasAnchor" number="4.2.5">
@@ -973,10 +992,11 @@ Nel caso di una distribuzione dei dati unimodale simmetrica di forma campanulare
 \]</span>
 Pertanto, solitamente i software restituiscono il valore MAD moltiplicato per una tale costante.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-22" class="exercise"><strong>Esercizio 4.3  </strong></span>Si calcoli il valore MAD per i valori BDI-II riportati da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Esercizio 4.6  </strong></span>Si calcoli il valore MAD per i valori BDI-II riportati da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="indici-di-posizione-e-di-scala.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.4826</span> <span class="sc">*</span> <span class="fu">median</span>(<span class="fu">abs</span>(bysubj<span class="sc">$</span>bdi <span class="sc">-</span> <span class="fu">median</span>(bysubj<span class="sc">$</span>bdi)))</span>
-<span id="cb14-2"><a href="indici-di-posizione-e-di-scala.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15.5673</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="indici-di-posizione-e-di-scala.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.4826</span> <span class="sc">*</span> <span class="fu">median</span>(<span class="fu">abs</span>(bysubj<span class="sc">$</span>bdi <span class="sc">-</span> <span class="fu">median</span>(bysubj<span class="sc">$</span>bdi)))</span>
+<span id="cb18-2"><a href="indici-di-posizione-e-di-scala.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8.8956</span></span></code></pre></div>
+<p>Nel caso presente, i dati seguono una distribuzione bimodale, dunque <span class="math inline">\(1.4826\ \operatorname {MAD}\)</span> produce un valore piuttosto diverso dalla deviazione standard.</p>
 </div>
 </div>
 <div id="indici-di-variabilità-relativi" class="section level3 hasAnchor" number="4.2.6">
@@ -1046,8 +1066,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/011_loc_scale.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/011_loc_scale.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1063,7 +1083,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

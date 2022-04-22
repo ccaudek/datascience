@@ -857,16 +857,16 @@ stato calcolato, laddove per probabilità soggettiva intendiamo “il grado di f
 <div id="un-esempio-concreto" class="section level2 hasAnchor" number="21.3">
 <h2><span class="header-section-number">21.3</span> Un esempio concreto<a href="chapter-sintesi-distr-post.html#un-esempio-concreto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Per fare un esempio pratico, consideriamo nuovamente i valori del BDI-II dei 30 soggetti clinici di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="chapter-sintesi-distr-post.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(<span class="st">&quot;bayesrules&quot;</span>)) </span>
-<span id="cb219-2"><a href="chapter-sintesi-distr-post.html#cb219-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb219-3"><a href="chapter-sintesi-distr-post.html#cb219-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb219-4"><a href="chapter-sintesi-distr-post.html#cb219-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">44</span>, <span class="dv">30</span>, <span class="dv">33</span>, <span class="dv">43</span>, <span class="dv">22</span>, <span class="dv">43</span>, </span>
-<span id="cb219-5"><a href="chapter-sintesi-distr-post.html#cb219-5" aria-hidden="true" tabindex="-1"></a>        <span class="dv">24</span>, <span class="dv">19</span>, <span class="dv">39</span>, <span class="dv">31</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">31</span>, </span>
-<span id="cb219-6"><a href="chapter-sintesi-distr-post.html#cb219-6" aria-hidden="true" tabindex="-1"></a>        <span class="dv">41</span>, <span class="dv">36</span>, <span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">33</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">34</span>, <span class="dv">27</span>, <span class="dv">22</span>)</span>
-<span id="cb219-7"><a href="chapter-sintesi-distr-post.html#cb219-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter-sintesi-distr-post.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(<span class="st">&quot;bayesrules&quot;</span>)) </span>
+<span id="cb223-2"><a href="chapter-sintesi-distr-post.html#cb223-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb223-3"><a href="chapter-sintesi-distr-post.html#cb223-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb223-4"><a href="chapter-sintesi-distr-post.html#cb223-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">44</span>, <span class="dv">30</span>, <span class="dv">33</span>, <span class="dv">43</span>, <span class="dv">22</span>, <span class="dv">43</span>, </span>
+<span id="cb223-5"><a href="chapter-sintesi-distr-post.html#cb223-5" aria-hidden="true" tabindex="-1"></a>        <span class="dv">24</span>, <span class="dv">19</span>, <span class="dv">39</span>, <span class="dv">31</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">31</span>, </span>
+<span id="cb223-6"><a href="chapter-sintesi-distr-post.html#cb223-6" aria-hidden="true" tabindex="-1"></a>        <span class="dv">41</span>, <span class="dv">36</span>, <span class="dv">26</span>, <span class="dv">35</span>, <span class="dv">33</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">34</span>, <span class="dv">27</span>, <span class="dv">22</span>)</span>
+<span id="cb223-7"><a href="chapter-sintesi-distr-post.html#cb223-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Un valore BDI-II <span class="math inline">\(\geq 30\)</span> indica la presenza di un livello “grave” di depressione. Nel campione clinico di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>,</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="chapter-sintesi-distr-post.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(df<span class="sc">$</span>y <span class="sc">&gt;</span> <span class="dv">29</span>)</span>
-<span id="cb220-2"><a href="chapter-sintesi-distr-post.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 17</span></span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter-sintesi-distr-post.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(df<span class="sc">$</span>y <span class="sc">&gt;</span> <span class="dv">29</span>)</span>
+<span id="cb224-2"><a href="chapter-sintesi-distr-post.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 17</span></span></code></pre></div>
 <p>17 pazienti su 30 manifestano un livello grave di depressione.</p>
 <p>Supponiamo di volere stimare la distribuzione a posteriori della probabilità <span class="math inline">\(\theta\)</span> di depressione “grave” nei pazienti clinici, così come viene misurata dal test BDI-II, imponendo su <span class="math inline">\(\theta\)</span> una distribuzione a priori <span class="math inline">\(\mbox{Beta}(8, 2)\)</span>.</p>
 <p>Sappiamo che il modello Beta-Binomiale può essere espresso nella forma seguente:</p>
@@ -879,8 +879,8 @@ Y | \theta &amp; \sim \mbox{Bin}(30, \theta) \notag\\
 f(\theta | y = 17) = \frac{\Gamma(25 + 15)}{\Gamma(25)\Gamma(15)}\theta^{25-1} (1-\theta)^{15-1} \;\; \text{ for } \theta \in [0,1] \; .
 \tag{21.2}
 \end{equation}\]</span></p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="chapter-sintesi-distr-post.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-215-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter-sintesi-distr-post.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span></code></pre></div>
+<p><img src="045_summarize_posterior_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 <div id="stime-puntuali-della-distribuzione-a-posteriori" class="section level3 hasAnchor" number="21.3.1">
 <h3><span class="header-section-number">21.3.1</span> Stime puntuali della distribuzione a posteriori<a href="chapter-sintesi-distr-post.html#stime-puntuali-della-distribuzione-a-posteriori" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Una volta trovata l’intera distribuzione a posteriori, quale valore di
@@ -895,40 +895,40 @@ in realtà è una domanda a cui è difficile rispondere. La stima bayesiana dei 
 \Mo(\pi \mid y = 17) = \frac{\alpha-1}{\alpha + \beta-2} = \frac{25-1}{25+15-2} = 0.6316.
 \]</span></p>
 <p>Gli stessi risultati si ottiengono usando la chiamata a <code>bayesrules::summarize_beta_binomial()</code>:</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="chapter-sintesi-distr-post.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
-<span id="cb222-2"><a href="chapter-sintesi-distr-post.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model alpha beta  mean      mode         var        sd</span></span>
-<span id="cb222-3"><a href="chapter-sintesi-distr-post.html#cb222-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior     8    2 0.800 0.8750000 0.014545455 0.1206045</span></span>
-<span id="cb222-4"><a href="chapter-sintesi-distr-post.html#cb222-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior    25   15 0.625 0.6315789 0.005716463 0.0756073</span></span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter-sintesi-distr-post.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
+<span id="cb226-2"><a href="chapter-sintesi-distr-post.html#cb226-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model alpha beta  mean      mode         var        sd</span></span>
+<span id="cb226-3"><a href="chapter-sintesi-distr-post.html#cb226-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior     8    2 0.800 0.8750000 0.014545455 0.1206045</span></span>
+<span id="cb226-4"><a href="chapter-sintesi-distr-post.html#cb226-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior    25   15 0.625 0.6315789 0.005716463 0.0756073</span></span></code></pre></div>
 <p>La mediana si ottiene con</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter-sintesi-distr-post.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(.<span class="dv">5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>)</span>
-<span id="cb223-2"><a href="chapter-sintesi-distr-post.html#cb223-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6271031</span></span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="chapter-sintesi-distr-post.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(.<span class="dv">5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>)</span>
+<span id="cb227-2"><a href="chapter-sintesi-distr-post.html#cb227-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6271031</span></span></code></pre></div>
 </div>
 <div id="intervallo-di-credibilità-1" class="section level3 hasAnchor" number="21.3.2">
 <h3><span class="header-section-number">21.3.2</span> Intervallo di credibilità<a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>È più comune sintetizzare la distribuzione a posteriori mediante l’intervallo di credibilità. Per esempio, l’intervallo di credibilità a code uguali al 95%</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter-sintesi-distr-post.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_ci</span>(<span class="at">alpha =</span> <span class="dv">25</span>, <span class="at">beta =</span> <span class="dv">15</span>, <span class="at">ci_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-218-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="chapter-sintesi-distr-post.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_ci</span>(<span class="at">alpha =</span> <span class="dv">25</span>, <span class="at">beta =</span> <span class="dv">15</span>, <span class="at">ci_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<p><img src="045_summarize_posterior_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>è dato dalla chiamata</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter-sintesi-distr-post.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">25</span>, <span class="dv">15</span>)</span>
-<span id="cb225-2"><a href="chapter-sintesi-distr-post.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4717951 0.7663607</span></span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chapter-sintesi-distr-post.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">25</span>, <span class="dv">15</span>)</span>
+<span id="cb229-2"><a href="chapter-sintesi-distr-post.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4717951 0.7663607</span></span></code></pre></div>
 <p>Il calcolo precedente evidenzia l’interpretazione intuitiva dell’intervallo di credibilità. Tale intervallo, infatti, può essere interpretato come la probabilità che <span class="math inline">\(\theta\)</span> assuma valori compresi tra 0.472 e 0.766:</p>
 <p><span class="math display">\[
 P(\theta \in (0.472, 0.766) | Y = 17) = \int_{0.472}^{0.766} f(\theta \mid y=17) d\theta = 0.95,
 \]</span></p>
 <p>ovvero</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter-sintesi-distr-post.html#cb226-1" aria-hidden="true" tabindex="-1"></a>postFun <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb226-2"><a href="chapter-sintesi-distr-post.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gamma</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">15</span>) <span class="sc">/</span> </span>
-<span id="cb226-3"><a href="chapter-sintesi-distr-post.html#cb226-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">gamma</span>(<span class="dv">25</span>) <span class="sc">*</span> <span class="fu">gamma</span>(<span class="dv">15</span>)) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">24</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">14</span></span>
-<span id="cb226-4"><a href="chapter-sintesi-distr-post.html#cb226-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb226-5"><a href="chapter-sintesi-distr-post.html#cb226-5" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(</span>
-<span id="cb226-6"><a href="chapter-sintesi-distr-post.html#cb226-6" aria-hidden="true" tabindex="-1"></a>  postFun, </span>
-<span id="cb226-7"><a href="chapter-sintesi-distr-post.html#cb226-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> <span class="fl">0.4717951</span>, </span>
-<span id="cb226-8"><a href="chapter-sintesi-distr-post.html#cb226-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="fl">0.7663607</span></span>
-<span id="cb226-9"><a href="chapter-sintesi-distr-post.html#cb226-9" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>value</span>
-<span id="cb226-10"><a href="chapter-sintesi-distr-post.html#cb226-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.95</span></span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="chapter-sintesi-distr-post.html#cb230-1" aria-hidden="true" tabindex="-1"></a>postFun <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb230-2"><a href="chapter-sintesi-distr-post.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gamma</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">15</span>) <span class="sc">/</span> </span>
+<span id="cb230-3"><a href="chapter-sintesi-distr-post.html#cb230-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">gamma</span>(<span class="dv">25</span>) <span class="sc">*</span> <span class="fu">gamma</span>(<span class="dv">15</span>)) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">24</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">14</span></span>
+<span id="cb230-4"><a href="chapter-sintesi-distr-post.html#cb230-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb230-5"><a href="chapter-sintesi-distr-post.html#cb230-5" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(</span>
+<span id="cb230-6"><a href="chapter-sintesi-distr-post.html#cb230-6" aria-hidden="true" tabindex="-1"></a>  postFun, </span>
+<span id="cb230-7"><a href="chapter-sintesi-distr-post.html#cb230-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> <span class="fl">0.4717951</span>, </span>
+<span id="cb230-8"><a href="chapter-sintesi-distr-post.html#cb230-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="fl">0.7663607</span></span>
+<span id="cb230-9"><a href="chapter-sintesi-distr-post.html#cb230-9" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>value</span>
+<span id="cb230-10"><a href="chapter-sintesi-distr-post.html#cb230-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.95</span></span></code></pre></div>
 <p>Possiamo costruire diversi intervalli di credibilità a code equivalenti. Ad esempio, l’intervallo di credibilità compreso tra il 25-esimo e il 75-esimo percentile è</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="chapter-sintesi-distr-post.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="dv">25</span>, <span class="dv">15</span>)</span>
-<span id="cb227-2"><a href="chapter-sintesi-distr-post.html#cb227-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5743878 0.6778673</span></span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="chapter-sintesi-distr-post.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="dv">25</span>, <span class="dv">15</span>)</span>
+<span id="cb231-2"><a href="chapter-sintesi-distr-post.html#cb231-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.5743878 0.6778673</span></span></code></pre></div>
 <p>ovvero, abbiamo una certezza a posteriori del 50% che la probabilità di depressione grave tra i pazienti clinici sia un valore compreso tra 0.57 e 0.68.</p>
 <p>Non esiste un livello credibile “corretto”. I ricercatori, utilizzano vari livelli, ad esempio 50%, 80% o 95%, a seconda del contesto dell’analisi. Ciascuno di questi intervalli fornisce un’immagine diversa della nostra comprensione della distribuzione a posteriori del parametro di interesse.</p>
 <p>Non è inoltre necessario riportare l’intervallo di credibilità a code uguali. Se la distribuzione a posteriori è fortemente asimmetrica è più sensato riportare l’intervallo di credibilità a densità a posteriori più alta.
@@ -941,60 +941,60 @@ L’intervallo HPD risulta più semplice da determinare quando la distribuzione 
 P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta \;,
 \]</span></p>
 <p>dove <span class="math inline">\(f(\cdot)\)</span> è la distribuzione <span class="math inline">\(\mbox{\Beta}(25, 15)\)</span>:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="chapter-sintesi-distr-post.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb228-2"><a href="chapter-sintesi-distr-post.html#cb228-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chapter-sintesi-distr-post.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb232-2"><a href="chapter-sintesi-distr-post.html#cb232-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
 <p>il che è equivalente a:</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chapter-sintesi-distr-post.html#cb229-1" aria-hidden="true" tabindex="-1"></a>postFun <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb229-2"><a href="chapter-sintesi-distr-post.html#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gamma</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">15</span>) <span class="sc">/</span> (<span class="fu">gamma</span>(<span class="dv">25</span>) <span class="sc">*</span> <span class="fu">gamma</span>(<span class="dv">15</span>)) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">24</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">14</span></span>
-<span id="cb229-3"><a href="chapter-sintesi-distr-post.html#cb229-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb229-4"><a href="chapter-sintesi-distr-post.html#cb229-4" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(</span>
-<span id="cb229-5"><a href="chapter-sintesi-distr-post.html#cb229-5" aria-hidden="true" tabindex="-1"></a>  postFun, </span>
-<span id="cb229-6"><a href="chapter-sintesi-distr-post.html#cb229-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> <span class="fl">0.5</span>, </span>
-<span id="cb229-7"><a href="chapter-sintesi-distr-post.html#cb229-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="dv">1</span></span>
-<span id="cb229-8"><a href="chapter-sintesi-distr-post.html#cb229-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>value</span>
-<span id="cb229-9"><a href="chapter-sintesi-distr-post.html#cb229-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="chapter-sintesi-distr-post.html#cb233-1" aria-hidden="true" tabindex="-1"></a>postFun <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb233-2"><a href="chapter-sintesi-distr-post.html#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gamma</span>(<span class="dv">25</span> <span class="sc">+</span> <span class="dv">15</span>) <span class="sc">/</span> (<span class="fu">gamma</span>(<span class="dv">25</span>) <span class="sc">*</span> <span class="fu">gamma</span>(<span class="dv">15</span>)) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">24</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">14</span></span>
+<span id="cb233-3"><a href="chapter-sintesi-distr-post.html#cb233-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb233-4"><a href="chapter-sintesi-distr-post.html#cb233-4" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(</span>
+<span id="cb233-5"><a href="chapter-sintesi-distr-post.html#cb233-5" aria-hidden="true" tabindex="-1"></a>  postFun, </span>
+<span id="cb233-6"><a href="chapter-sintesi-distr-post.html#cb233-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> <span class="fl">0.5</span>, </span>
+<span id="cb233-7"><a href="chapter-sintesi-distr-post.html#cb233-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="dv">1</span></span>
+<span id="cb233-8"><a href="chapter-sintesi-distr-post.html#cb233-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>value</span>
+<span id="cb233-9"><a href="chapter-sintesi-distr-post.html#cb233-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
 <p>È anche possibile formulare un test di ipotesi contrastando due ipotesi contrapposte. Per esempio, <span class="math inline">\(H_1: \theta \geq 0.5\)</span> e <span class="math inline">\(H_2: \theta &lt; 0.5\)</span>. Ciò consente di calcolare l’<em>odds a posteriori</em> di <span class="math inline">\(\theta &gt; 0.5\)</span>:</p>
 <p><span class="math display">\[\begin{equation}
 \text{poterior odds} = \frac{H_1 \mid y = 17}{H_2 \mid y = 17}
 \end{equation}\]</span></p>
 <p>ovvero</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="chapter-sintesi-distr-post.html#cb230-1" aria-hidden="true" tabindex="-1"></a>posterior_odds <span class="ot">&lt;-</span> </span>
-<span id="cb230-2"><a href="chapter-sintesi-distr-post.html#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
-<span id="cb230-3"><a href="chapter-sintesi-distr-post.html#cb230-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb230-4"><a href="chapter-sintesi-distr-post.html#cb230-4" aria-hidden="true" tabindex="-1"></a>posterior_odds</span>
-<span id="cb230-5"><a href="chapter-sintesi-distr-post.html#cb230-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 17.49642</span></span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="chapter-sintesi-distr-post.html#cb234-1" aria-hidden="true" tabindex="-1"></a>posterior_odds <span class="ot">&lt;-</span> </span>
+<span id="cb234-2"><a href="chapter-sintesi-distr-post.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
+<span id="cb234-3"><a href="chapter-sintesi-distr-post.html#cb234-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb234-4"><a href="chapter-sintesi-distr-post.html#cb234-4" aria-hidden="true" tabindex="-1"></a>posterior_odds</span>
+<span id="cb234-5"><a href="chapter-sintesi-distr-post.html#cb234-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 17.49642</span></span></code></pre></div>
 <p>L’odds a posteriori rappresenta l’aggiornamento delle nostre credenze dopo avere osservato <span class="math inline">\(y = 17\)</span> in <span class="math inline">\(n = 30\)</span>. L’odds a priori di <span class="math inline">\(\theta &gt; 0.5\)</span> era:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="chapter-sintesi-distr-post.html#cb231-1" aria-hidden="true" tabindex="-1"></a>prior_odds <span class="ot">&lt;-</span> </span>
-<span id="cb231-2"><a href="chapter-sintesi-distr-post.html#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">8</span>, <span class="at">shape2 =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
-<span id="cb231-3"><a href="chapter-sintesi-distr-post.html#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">8</span>, <span class="at">shape2 =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb231-4"><a href="chapter-sintesi-distr-post.html#cb231-4" aria-hidden="true" tabindex="-1"></a>prior_odds</span>
-<span id="cb231-5"><a href="chapter-sintesi-distr-post.html#cb231-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 50.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter-sintesi-distr-post.html#cb235-1" aria-hidden="true" tabindex="-1"></a>prior_odds <span class="ot">&lt;-</span> </span>
+<span id="cb235-2"><a href="chapter-sintesi-distr-post.html#cb235-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">8</span>, <span class="at">shape2 =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
+<span id="cb235-3"><a href="chapter-sintesi-distr-post.html#cb235-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">8</span>, <span class="at">shape2 =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb235-4"><a href="chapter-sintesi-distr-post.html#cb235-4" aria-hidden="true" tabindex="-1"></a>prior_odds</span>
+<span id="cb235-5"><a href="chapter-sintesi-distr-post.html#cb235-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 50.2</span></span></code></pre></div>
 <p>Il <em>fattore di Bayes</em> (<em>Bayes Factor</em>; BF) confronta gli odds a posteriori con gli odds a priori e quindi fornisce informazioni su quanto sia mutata la nostra comprensione relativa a <span class="math inline">\(\theta\)</span> dopo avere osservato i nostri dati del campione:</p>
 <p><span class="math display">\[
 \text{BF} = \frac{\text{odds a posteriori}}{\text{odds a priori}}.
 \]</span></p>
 <p>Nel caso presente abbiamo</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chapter-sintesi-distr-post.html#cb232-1" aria-hidden="true" tabindex="-1"></a>BF <span class="ot">&lt;-</span> posterior_odds <span class="sc">/</span> prior_odds</span>
-<span id="cb232-2"><a href="chapter-sintesi-distr-post.html#cb232-2" aria-hidden="true" tabindex="-1"></a>BF</span>
-<span id="cb232-3"><a href="chapter-sintesi-distr-post.html#cb232-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3485343</span></span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="chapter-sintesi-distr-post.html#cb236-1" aria-hidden="true" tabindex="-1"></a>BF <span class="ot">&lt;-</span> posterior_odds <span class="sc">/</span> prior_odds</span>
+<span id="cb236-2"><a href="chapter-sintesi-distr-post.html#cb236-2" aria-hidden="true" tabindex="-1"></a>BF</span>
+<span id="cb236-3"><a href="chapter-sintesi-distr-post.html#cb236-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3485343</span></span></code></pre></div>
 <p>Quindi, dopo avere osservato i dati, gli odds a posteriori della nostra ipotesi a proposito di <span class="math inline">\(\theta\)</span> sono pari a solo il 34% degli odds a priori.</p>
 <p>Per fare un altro esempio, consideriamo invece il caso in cui le credenze a priori rivelano una credenza diametralmente opposta rispetto a <span class="math inline">\(\theta\)</span> che nel caso considerato in precedenza, ovvero <span class="math inline">\(\mbox{Beta}(2, 8)\)</span>. In questo secondo caso, la distribuzione a posteriori diventa</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="chapter-sintesi-distr-post.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">8</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
-<span id="cb233-2"><a href="chapter-sintesi-distr-post.html#cb233-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model alpha beta  mean      mode         var         sd</span></span>
-<span id="cb233-3"><a href="chapter-sintesi-distr-post.html#cb233-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior     2    8 0.200 0.1250000 0.014545455 0.12060454</span></span>
-<span id="cb233-4"><a href="chapter-sintesi-distr-post.html#cb233-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior    19   21 0.475 0.4736842 0.006082317 0.07798921</span></span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="chapter-sintesi-distr-post.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">8</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
+<span id="cb237-2"><a href="chapter-sintesi-distr-post.html#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model alpha beta  mean      mode         var         sd</span></span>
+<span id="cb237-3"><a href="chapter-sintesi-distr-post.html#cb237-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior     2    8 0.200 0.1250000 0.014545455 0.12060454</span></span>
+<span id="cb237-4"><a href="chapter-sintesi-distr-post.html#cb237-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior    19   21 0.475 0.4736842 0.006082317 0.07798921</span></span></code></pre></div>
 <p>e il BF è</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="chapter-sintesi-distr-post.html#cb234-1" aria-hidden="true" tabindex="-1"></a>posterior_odds <span class="ot">&lt;-</span> </span>
-<span id="cb234-2"><a href="chapter-sintesi-distr-post.html#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
-<span id="cb234-3"><a href="chapter-sintesi-distr-post.html#cb234-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb234-4"><a href="chapter-sintesi-distr-post.html#cb234-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb234-5"><a href="chapter-sintesi-distr-post.html#cb234-5" aria-hidden="true" tabindex="-1"></a>prior_odds <span class="ot">&lt;-</span> </span>
-<span id="cb234-6"><a href="chapter-sintesi-distr-post.html#cb234-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
-<span id="cb234-7"><a href="chapter-sintesi-distr-post.html#cb234-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb234-8"><a href="chapter-sintesi-distr-post.html#cb234-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb234-9"><a href="chapter-sintesi-distr-post.html#cb234-9" aria-hidden="true" tabindex="-1"></a>BF <span class="ot">&lt;-</span> posterior_odds <span class="sc">/</span> prior_odds</span>
-<span id="cb234-10"><a href="chapter-sintesi-distr-post.html#cb234-10" aria-hidden="true" tabindex="-1"></a>BF</span>
-<span id="cb234-11"><a href="chapter-sintesi-distr-post.html#cb234-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30.07239</span></span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="chapter-sintesi-distr-post.html#cb238-1" aria-hidden="true" tabindex="-1"></a>posterior_odds <span class="ot">&lt;-</span> </span>
+<span id="cb238-2"><a href="chapter-sintesi-distr-post.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
+<span id="cb238-3"><a href="chapter-sintesi-distr-post.html#cb238-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb238-4"><a href="chapter-sintesi-distr-post.html#cb238-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-5"><a href="chapter-sintesi-distr-post.html#cb238-5" aria-hidden="true" tabindex="-1"></a>prior_odds <span class="ot">&lt;-</span> </span>
+<span id="cb238-6"><a href="chapter-sintesi-distr-post.html#cb238-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
+<span id="cb238-7"><a href="chapter-sintesi-distr-post.html#cb238-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb238-8"><a href="chapter-sintesi-distr-post.html#cb238-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb238-9"><a href="chapter-sintesi-distr-post.html#cb238-9" aria-hidden="true" tabindex="-1"></a>BF <span class="ot">&lt;-</span> posterior_odds <span class="sc">/</span> prior_odds</span>
+<span id="cb238-10"><a href="chapter-sintesi-distr-post.html#cb238-10" aria-hidden="true" tabindex="-1"></a>BF</span>
+<span id="cb238-11"><a href="chapter-sintesi-distr-post.html#cb238-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30.07239</span></span></code></pre></div>
 <p>In alre parole, in questo secondo esempio gli odds a posteriori della nostra ipotesi a proposito di <span class="math inline">\(\theta\)</span> sono aumentati di 30 volte rispetto agli odds a priori.</p>
 <p>In generale, in un test di ipotesi che contrappone un’ipotesi sostantiva <span class="math inline">\(H_a\)</span> ad un’ipotesi nulla <span class="math inline">\(H_0\)</span> il BF è un rapporto di odds per l’ipotesi sostantiva:</p>
 <p><span class="math display">\[
@@ -1072,52 +1072,52 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 <p>Un modo razionale per giungere ad una decisione statistica utilizzando l’intera distribuzione a posteriori è quello di usare la <em>funzione di perdita</em> (<em>loss function</em>). La funzione di perdita è concetto nella teoria delle decisioni statistiche che consente di quantificare il costo derivante dalla decisione di scegliere quale stima del parametro il valore <span class="math inline">\(\theta_0\)</span> quando esso in realtà ha il valore <span class="math inline">\(\theta\)</span>.</p>
 <p>Per chiarire che cosa si intende per funzione di perdita, esaminiamo qui un semplice esempio nel quale vengono considerati due soli valori di probabilità per l’evento target, anziché l’intera distribuzione a posteriori <span class="citation">(il codice è ricavato da <a href="#ref-schmettow2021new" role="doc-biblioref">Schmettow 2021</a>)</span>.</p>
 <p>Si consideri la scelta di prendere o meno l’ombrello nell’uscire di casa. Le previsioni del tempo sono le seguenti:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter-sintesi-distr-post.html#cb235-1" aria-hidden="true" tabindex="-1"></a>Risultato <span class="ot">&lt;-</span></span>
-<span id="cb235-2"><a href="chapter-sintesi-distr-post.html#cb235-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb235-3"><a href="chapter-sintesi-distr-post.html#cb235-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">risultato =</span> <span class="fu">c</span>(<span class="st">&quot;piove&quot;</span>, <span class="st">&quot;non piove&quot;</span>),</span>
-<span id="cb235-4"><a href="chapter-sintesi-distr-post.html#cb235-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</span>
-<span id="cb235-5"><a href="chapter-sintesi-distr-post.html#cb235-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb235-6"><a href="chapter-sintesi-distr-post.html#cb235-6" aria-hidden="true" tabindex="-1"></a>Risultato</span>
-<span id="cb235-7"><a href="chapter-sintesi-distr-post.html#cb235-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
-<span id="cb235-8"><a href="chapter-sintesi-distr-post.html#cb235-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   risultato  prob</span></span>
-<span id="cb235-9"><a href="chapter-sintesi-distr-post.html#cb235-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></span>
-<span id="cb235-10"><a href="chapter-sintesi-distr-post.html#cb235-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 piove       0.6</span></span>
-<span id="cb235-11"><a href="chapter-sintesi-distr-post.html#cb235-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non piove   0.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="chapter-sintesi-distr-post.html#cb239-1" aria-hidden="true" tabindex="-1"></a>Risultato <span class="ot">&lt;-</span></span>
+<span id="cb239-2"><a href="chapter-sintesi-distr-post.html#cb239-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb239-3"><a href="chapter-sintesi-distr-post.html#cb239-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">risultato =</span> <span class="fu">c</span>(<span class="st">&quot;piove&quot;</span>, <span class="st">&quot;non piove&quot;</span>),</span>
+<span id="cb239-4"><a href="chapter-sintesi-distr-post.html#cb239-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>)</span>
+<span id="cb239-5"><a href="chapter-sintesi-distr-post.html#cb239-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb239-6"><a href="chapter-sintesi-distr-post.html#cb239-6" aria-hidden="true" tabindex="-1"></a>Risultato</span>
+<span id="cb239-7"><a href="chapter-sintesi-distr-post.html#cb239-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb239-8"><a href="chapter-sintesi-distr-post.html#cb239-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   risultato  prob</span></span>
+<span id="cb239-9"><a href="chapter-sintesi-distr-post.html#cb239-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></span>
+<span id="cb239-10"><a href="chapter-sintesi-distr-post.html#cb239-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 piove       0.6</span></span>
+<span id="cb239-11"><a href="chapter-sintesi-distr-post.html#cb239-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non piove   0.4</span></span></code></pre></div>
 <p>Le azioni possibili sono: prendo / non prendo l’ombrello:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="chapter-sintesi-distr-post.html#cb236-1" aria-hidden="true" tabindex="-1"></a>Azione <span class="ot">&lt;-</span></span>
-<span id="cb236-2"><a href="chapter-sintesi-distr-post.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">azione =</span> <span class="fu">c</span>(<span class="st">&quot;prendo l&#39;ombrello&quot;</span>, <span class="st">&quot;non prendo l&#39;ombrello&quot;</span>))</span>
-<span id="cb236-3"><a href="chapter-sintesi-distr-post.html#cb236-3" aria-hidden="true" tabindex="-1"></a>Azione</span>
-<span id="cb236-4"><a href="chapter-sintesi-distr-post.html#cb236-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 1</span></span>
-<span id="cb236-5"><a href="chapter-sintesi-distr-post.html#cb236-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   azione               </span></span>
-<span id="cb236-6"><a href="chapter-sintesi-distr-post.html#cb236-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                </span></span>
-<span id="cb236-7"><a href="chapter-sintesi-distr-post.html#cb236-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 prendo l&#39;ombrello    </span></span>
-<span id="cb236-8"><a href="chapter-sintesi-distr-post.html#cb236-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello</span></span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="chapter-sintesi-distr-post.html#cb240-1" aria-hidden="true" tabindex="-1"></a>Azione <span class="ot">&lt;-</span></span>
+<span id="cb240-2"><a href="chapter-sintesi-distr-post.html#cb240-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">azione =</span> <span class="fu">c</span>(<span class="st">&quot;prendo l&#39;ombrello&quot;</span>, <span class="st">&quot;non prendo l&#39;ombrello&quot;</span>))</span>
+<span id="cb240-3"><a href="chapter-sintesi-distr-post.html#cb240-3" aria-hidden="true" tabindex="-1"></a>Azione</span>
+<span id="cb240-4"><a href="chapter-sintesi-distr-post.html#cb240-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 1</span></span>
+<span id="cb240-5"><a href="chapter-sintesi-distr-post.html#cb240-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   azione               </span></span>
+<span id="cb240-6"><a href="chapter-sintesi-distr-post.html#cb240-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                </span></span>
+<span id="cb240-7"><a href="chapter-sintesi-distr-post.html#cb240-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 prendo l&#39;ombrello    </span></span>
+<span id="cb240-8"><a href="chapter-sintesi-distr-post.html#cb240-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello</span></span></code></pre></div>
 <p>Assegniamo un costo massimo (4) alla conseguenza peggiore (“non prendo l’ombrello e piove”) e uno minimo (0) alla conseguenza migliore (“non prendo l’ombrello e non piove”):</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="chapter-sintesi-distr-post.html#cb237-1" aria-hidden="true" tabindex="-1"></a>Costi <span class="ot">&lt;-</span></span>
-<span id="cb237-2"><a href="chapter-sintesi-distr-post.html#cb237-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand.grid</span>(</span>
-<span id="cb237-3"><a href="chapter-sintesi-distr-post.html#cb237-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">azione =</span> Azione<span class="sc">$</span>azione,</span>
-<span id="cb237-4"><a href="chapter-sintesi-distr-post.html#cb237-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">risultato =</span> Risultato<span class="sc">$</span>risultato</span>
-<span id="cb237-5"><a href="chapter-sintesi-distr-post.html#cb237-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb237-6"><a href="chapter-sintesi-distr-post.html#cb237-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(Risultato) <span class="sc">%&gt;%</span></span>
-<span id="cb237-7"><a href="chapter-sintesi-distr-post.html#cb237-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">costo =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
-<span id="cb237-8"><a href="chapter-sintesi-distr-post.html#cb237-8" aria-hidden="true" tabindex="-1"></a>Costi</span>
-<span id="cb237-9"><a href="chapter-sintesi-distr-post.html#cb237-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  azione risultato prob costo</span></span>
-<span id="cb237-10"><a href="chapter-sintesi-distr-post.html#cb237-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prendo l&#39;ombrello     piove  0.6     2</span></span>
-<span id="cb237-11"><a href="chapter-sintesi-distr-post.html#cb237-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello     piove  0.6     4</span></span>
-<span id="cb237-12"><a href="chapter-sintesi-distr-post.html#cb237-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     prendo l&#39;ombrello non piove  0.4     2</span></span>
-<span id="cb237-13"><a href="chapter-sintesi-distr-post.html#cb237-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 non prendo l&#39;ombrello non piove  0.4     0</span></span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="chapter-sintesi-distr-post.html#cb241-1" aria-hidden="true" tabindex="-1"></a>Costi <span class="ot">&lt;-</span></span>
+<span id="cb241-2"><a href="chapter-sintesi-distr-post.html#cb241-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand.grid</span>(</span>
+<span id="cb241-3"><a href="chapter-sintesi-distr-post.html#cb241-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">azione =</span> Azione<span class="sc">$</span>azione,</span>
+<span id="cb241-4"><a href="chapter-sintesi-distr-post.html#cb241-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">risultato =</span> Risultato<span class="sc">$</span>risultato</span>
+<span id="cb241-5"><a href="chapter-sintesi-distr-post.html#cb241-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb241-6"><a href="chapter-sintesi-distr-post.html#cb241-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(Risultato) <span class="sc">%&gt;%</span></span>
+<span id="cb241-7"><a href="chapter-sintesi-distr-post.html#cb241-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">costo =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb241-8"><a href="chapter-sintesi-distr-post.html#cb241-8" aria-hidden="true" tabindex="-1"></a>Costi</span>
+<span id="cb241-9"><a href="chapter-sintesi-distr-post.html#cb241-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  azione risultato prob costo</span></span>
+<span id="cb241-10"><a href="chapter-sintesi-distr-post.html#cb241-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prendo l&#39;ombrello     piove  0.6     2</span></span>
+<span id="cb241-11"><a href="chapter-sintesi-distr-post.html#cb241-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello     piove  0.6     4</span></span>
+<span id="cb241-12"><a href="chapter-sintesi-distr-post.html#cb241-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     prendo l&#39;ombrello non piove  0.4     2</span></span>
+<span id="cb241-13"><a href="chapter-sintesi-distr-post.html#cb241-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 non prendo l&#39;ombrello non piove  0.4     0</span></span></code></pre></div>
 <p>Calcoliamo ora il costo atteso delle due azioni tenuto conto delle probabilità che si verifichi l’uno o l’altro stato del mondo (ricordiamo che piove/non piove hanno una probabilità rispettivamente del 40% e del 60%), ovvero ponderiamo il costo di ogni azione con la probabilità che si verifichi l’evento corrispondente:</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="chapter-sintesi-distr-post.html#cb238-1" aria-hidden="true" tabindex="-1"></a>Util <span class="ot">&lt;-</span></span>
-<span id="cb238-2"><a href="chapter-sintesi-distr-post.html#cb238-2" aria-hidden="true" tabindex="-1"></a>  Costi <span class="sc">%&gt;%</span></span>
-<span id="cb238-3"><a href="chapter-sintesi-distr-post.html#cb238-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">costo_condizionato =</span> prob <span class="sc">*</span> costo) <span class="sc">%&gt;%</span></span>
-<span id="cb238-4"><a href="chapter-sintesi-distr-post.html#cb238-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(azione) <span class="sc">%&gt;%</span></span>
-<span id="cb238-5"><a href="chapter-sintesi-distr-post.html#cb238-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">costo_atteso =</span> <span class="fu">sum</span>(costo_condizionato))</span>
-<span id="cb238-6"><a href="chapter-sintesi-distr-post.html#cb238-6" aria-hidden="true" tabindex="-1"></a>Util</span>
-<span id="cb238-7"><a href="chapter-sintesi-distr-post.html#cb238-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
-<span id="cb238-8"><a href="chapter-sintesi-distr-post.html#cb238-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   azione                costo_atteso</span></span>
-<span id="cb238-9"><a href="chapter-sintesi-distr-post.html#cb238-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;                        &lt;dbl&gt;</span></span>
-<span id="cb238-10"><a href="chapter-sintesi-distr-post.html#cb238-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 prendo l&#39;ombrello              2  </span></span>
-<span id="cb238-11"><a href="chapter-sintesi-distr-post.html#cb238-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello          2.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="chapter-sintesi-distr-post.html#cb242-1" aria-hidden="true" tabindex="-1"></a>Util <span class="ot">&lt;-</span></span>
+<span id="cb242-2"><a href="chapter-sintesi-distr-post.html#cb242-2" aria-hidden="true" tabindex="-1"></a>  Costi <span class="sc">%&gt;%</span></span>
+<span id="cb242-3"><a href="chapter-sintesi-distr-post.html#cb242-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">costo_condizionato =</span> prob <span class="sc">*</span> costo) <span class="sc">%&gt;%</span></span>
+<span id="cb242-4"><a href="chapter-sintesi-distr-post.html#cb242-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(azione) <span class="sc">%&gt;%</span></span>
+<span id="cb242-5"><a href="chapter-sintesi-distr-post.html#cb242-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">costo_atteso =</span> <span class="fu">sum</span>(costo_condizionato))</span>
+<span id="cb242-6"><a href="chapter-sintesi-distr-post.html#cb242-6" aria-hidden="true" tabindex="-1"></a>Util</span>
+<span id="cb242-7"><a href="chapter-sintesi-distr-post.html#cb242-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb242-8"><a href="chapter-sintesi-distr-post.html#cb242-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   azione                costo_atteso</span></span>
+<span id="cb242-9"><a href="chapter-sintesi-distr-post.html#cb242-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;                        &lt;dbl&gt;</span></span>
+<span id="cb242-10"><a href="chapter-sintesi-distr-post.html#cb242-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 prendo l&#39;ombrello              2  </span></span>
+<span id="cb242-11"><a href="chapter-sintesi-distr-post.html#cb242-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello          2.4</span></span></code></pre></div>
 <p>La regola di minimizzazione dei costi induce a scegliere l’alternativa che comporta il valore più basso: nel nostro esempio “prendere l’ombrello”.</p>
 <p>La stessa logica dell’esempio può essere usata anche nel momento in cui, anziché avere solo due valori per la probabilità dello stato del mondo in questione (per esempio, pioverà / non pioverà), utilizziamo l’intera distribuzione a posteriori (per esempio, quella relativa alla previsione di pioggia). Concludiamo questi brevi accenni relativi alla funzione di perdita con una considerazione di <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> il quale nota che, anche se gli statistici e i teorici dei giochi sono da tempo interessati alle funzioni di perdita e alle relazioni che intercorrono tra esse e l’inferenza bayesiana, i ricercatori non le usano quasi mai in modo esplicito.</p>
 </div>
@@ -1183,8 +1183,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/045_summarize_posterior.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/045_summarize_posterior.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1200,7 +1200,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

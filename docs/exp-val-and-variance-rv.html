@@ -807,7 +807,7 @@ div.csl-indent {
 <p>Per esempio, la media di <span class="math inline">\(\{3, 1, 4, 1, 5\}\)</span> è <span class="math inline">\(\frac{3+1+4+1+5}{5} = 2.8\)</span>, la mediana è <span class="math inline">\(3\)</span> e la moda è <span class="math inline">\(1\)</span>. Tuttavia, la teoria delle probabilità si occupa di variabili casuali piuttosto che di sequenze di numeri. Diventa dunque necessario precisare che cosa intendiamo per “valore tipico” quando facciamo riferimento alle variabili casuali. Giungiamo così alla seguente definizione.
 <!-- Supponiamo di ripetere un esperimento casuale molte volte in modo tale che ciascun valore $Y$ si presenti con una frequenza approssimativamente uguale alla sua probabilità. Per esempio, possiamo lanciare una coppia di dadi e osservare i valori di $S$ = "somma dei punti" e di $P$ = "prodotto dei punti". Ci poniamo il problema di definire il "risultato tipico" di questo esperimento in modo tale che esso corrisponda al valore medio dei valori della variabile casuale, quando l'esperimento casuale viene ripetuto tante volte.  --></p>
 <div class="definition">
-<p><span id="def:unlabeled-div-39" class="definition"><strong>Definizione 11.1  </strong></span>Sia <span class="math inline">\(Y\)</span> è una variabile casuale discreta che assume i valori <span class="math inline">\(y_1, \dots, y_n\)</span> con distribuzione <span class="math inline">\(p(y)\)</span>,
+<p><span id="def:unlabeled-div-42" class="definition"><strong>Definizione 11.1  </strong></span>Sia <span class="math inline">\(Y\)</span> è una variabile casuale discreta che assume i valori <span class="math inline">\(y_1, \dots, y_n\)</span> con distribuzione <span class="math inline">\(p(y)\)</span>,
 ossia</p>
 <p><span class="math display">\[
 P(Y = y_i) = p(y_i),
@@ -820,13 +820,13 @@ P(Y = y_i) = p(y_i),
 </div>
 <p>A parole: il valore atteso (o speranza matematica, o aspettazione, o valor medio) di una variabile casuale è definito come la somma di tutti i valori che la variabile casuale può prendere, ciascuno pesato dalla probabilità con cui il valore è preso.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Esercizio 11.1  </strong></span>Calcoliamo il valore atteso della variabile casuale <span class="math inline">\(Y\)</span> corrispondente al lancio di una moneta equilibrata (testa: <em>Y</em> = 1; croce: <em>Y</em> = 0).</p>
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Esercizio 11.1  </strong></span>Calcoliamo il valore atteso della variabile casuale <span class="math inline">\(Y\)</span> corrispondente al lancio di una moneta equilibrata (testa: <em>Y</em> = 1; croce: <em>Y</em> = 0).</p>
 <p><span class="math display">\[
 \E(Y) = \sum_{i=1}^{2} y_i \cdot P(y_i) = 0 \cdot \frac{1}{5} + 1 \cdot \frac{1}{5} = 0.5.
 \]</span></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Esercizio 11.2  </strong></span>Supponiamo ora che <em>Y</em> sia il risultato del lancio di un dado equilibrato. Il valore atteso di <em>Y</em> diventa:</p>
+<p><span id="exr:unlabeled-div-44" class="exercise"><strong>Esercizio 11.2  </strong></span>Supponiamo ora che <em>Y</em> sia il risultato del lancio di un dado equilibrato. Il valore atteso di <em>Y</em> diventa:</p>
 <p><span class="math display">\[
 \E(Y) = \sum_{i=1}^{6} y_i \cdot P(y_i) = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + \dots + 6 \cdot \frac{1}{6} = \frac{21}{6} = 3.5.
 \]</span></p>
@@ -853,7 +853,7 @@ P(Y = y_i) = p(y_i),
 \tag{11.4}
 \end{equation}\]</span></p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-42" class="exercise"><strong>Esercizio 11.3  </strong></span>Si considerino le seguenti variabili casuali: <span class="math inline">\(Y\)</span>, ovvero il numero che si ottiene dal lancio di un dado equilibrato, e <span class="math inline">\(Y\)</span>, il numero di teste prodotto dal lancio di una moneta equilibrata.
+<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Esercizio 11.3  </strong></span>Si considerino le seguenti variabili casuali: <span class="math inline">\(Y\)</span>, ovvero il numero che si ottiene dal lancio di un dado equilibrato, e <span class="math inline">\(Y\)</span>, il numero di teste prodotto dal lancio di una moneta equilibrata.
 Poniamoci il problema di trovare il valore atteso di <span class="math inline">\(X+Y\)</span>.</p>
 <p>Per risolvere il problema iniziamo a costruire lo spazio campionario dell’esperimento casuale consistente nel lancio di un dado e di una moneta.</p>
 <table>
@@ -935,7 +935,7 @@ Il risultato del lancio del dado è indipendente dal risultato del lancio della 
 \]</span></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Esercizio 11.4  </strong></span>Si considerino le variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> definite nel caso del lancio di tre monete equilibrate, dove <span class="math inline">\(X\)</span> conta il numero delle teste nei tre lanci e <span class="math inline">\(Y\)</span> conta il numero delle teste al primo lancio. Si calcoli il valore atteso del prodotto delle variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Esercizio 11.4  </strong></span>Si considerino le variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> definite nel caso del lancio di tre monete equilibrate, dove <span class="math inline">\(X\)</span> conta il numero delle teste nei tre lanci e <span class="math inline">\(Y\)</span> conta il numero delle teste al primo lancio. Si calcoli il valore atteso del prodotto delle variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
 <p>La distribuzione di probabilità congiunta <span class="math inline">\(P(X, Y)\)</span> è fornita nella tabella seguente.</p>
 <table>
 <thead>
@@ -1017,7 +1017,7 @@ Dunque</p>
 <h2><span class="header-section-number">11.2</span> Varianza<a href="exp-val-and-variance-rv.html#varianza-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La seconda più importante proprietà di una variabile casuale, dopo che conosciamo il suo valore atteso, è la <em>varianza</em>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-44" class="definition"><strong>Definizione 11.2  </strong></span>Se <span class="math inline">\(Y\)</span> è una variabile casuale discreta con distribuzione <span class="math inline">\(p(y)\)</span>, per definizione la varianza di <span class="math inline">\(Y\)</span>, <span class="math inline">\(\mathbb{V}(Y)\)</span>, è</p>
+<p><span id="def:unlabeled-div-47" class="definition"><strong>Definizione 11.2  </strong></span>Se <span class="math inline">\(Y\)</span> è una variabile casuale discreta con distribuzione <span class="math inline">\(p(y)\)</span>, per definizione la varianza di <span class="math inline">\(Y\)</span>, <span class="math inline">\(\mathbb{V}(Y)\)</span>, è</p>
 <p><span class="math display" id="eq:def-var-rv">\[\begin{equation}
 \mathbb{V}(Y) = \E\Big[\big(Y - \E(Y)\big)^2\Big].
 \tag{11.7}
@@ -1025,7 +1025,7 @@ Dunque</p>
 </div>
 <p>A parole: la varianza è la deviazione media quadratica della variabile dalla sua media.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> Se denotiamo <span class="math inline">\(\E(Y) = \mu\)</span>, la varianza <span class="math inline">\(\mathbb{V}(Y)\)</span> diventa il valore atteso di <span class="math inline">\((Y - \mu)^2\)</span>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Esercizio 11.5  </strong></span>Posta <span class="math inline">\(S\)</span> uguale alla somma dei punti ottenuti nel lancio di due dadi equilibrati, poniamoci il problema di calcolare la varianza di <span class="math inline">\(S\)</span>.</p>
+<p><span id="exr:unlabeled-div-48" class="exercise"><strong>Esercizio 11.5  </strong></span>Posta <span class="math inline">\(S\)</span> uguale alla somma dei punti ottenuti nel lancio di due dadi equilibrati, poniamoci il problema di calcolare la varianza di <span class="math inline">\(S\)</span>.</p>
 <p>La variabile casuale <span class="math inline">\(S\)</span> ha la seguente distribuzione di probabilità:</p>
 <table>
 <thead>
@@ -1083,7 +1083,7 @@ Essendo <span class="math inline">\(\E(S) = 7\)</span>, la varianza diventa</p>
 \end{equation}\]</span></p>
 <p>A parole: la varianza è la media dei quadrati meno il quadrato della media.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-46" class="exercise"><strong>Esercizio 11.6  </strong></span>Consideriamo la variabile casuale <span class="math inline">\(Y\)</span> che corrisponde al numero di teste che si osservano nel lancio di una moneta truccata con probabilità di testa uguale a 0.8.
+<p><span id="exr:unlabeled-div-49" class="exercise"><strong>Esercizio 11.6  </strong></span>Consideriamo la variabile casuale <span class="math inline">\(Y\)</span> che corrisponde al numero di teste che si osservano nel lancio di una moneta truccata con probabilità di testa uguale a 0.8.
 Il valore atteso di <span class="math inline">\(Y\)</span> è</p>
 <p><span class="math display">\[
 \E(Y) = 0 \cdot 0.2 + 1 \cdot 0.8 = 0.8.
@@ -1116,7 +1116,7 @@ e la varianza diventa</p>
 <h2><span class="header-section-number">11.3</span> Deviazione standard<a href="exp-val-and-variance-rv.html#deviazione-standard" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Quando lavoriamo con le varianze, i termini sono innalzati al quadrato e quindi i numeri possono diventare molto grandi (o molto piccoli). Per trasformare nuovamente i valori nell’unità di misura della scala originaria si prende la radice quadrata. Il valore risultante viene chiamato <em>deviazione standard</em> e solitamente è denotato dalla lettera greca <span class="math inline">\(\sigma\)</span>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-47" class="definition"><strong>Definizione 11.3  </strong></span>Si definisce scarto quadratico medio (o deviazione standard o scarto tipo) la radice quadrata della varianza:</p>
+<p><span id="def:unlabeled-div-50" class="definition"><strong>Definizione 11.3  </strong></span>Si definisce scarto quadratico medio (o deviazione standard o scarto tipo) la radice quadrata della varianza:</p>
 <p><span class="math display" id="eq:def-sd">\[\begin{equation}
 \sigma_Y = \sqrt{\mathbb{V}(Y)}.
 \tag{11.10}
@@ -1124,13 +1124,13 @@ e la varianza diventa</p>
 </div>
 <p>Interpretiamo la deviazione standard di una variabile casuale come nella statistica descrittiva: misura approssimativamente la distanza tipica o prevista dei possibili valori <span class="math inline">\(y\)</span> dalla loro media.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-48" class="exercise"><strong>Esercizio 11.7  </strong></span>Per i dadi equilibrati dell’esempio precedente, la deviazione standard della variabile casuale <span class="math inline">\(S\)</span> è uguale a <span class="math inline">\(\sqrt{5.833} = 2.415\)</span>.</p>
+<p><span id="exr:unlabeled-div-51" class="exercise"><strong>Esercizio 11.7  </strong></span>Per i dadi equilibrati dell’esempio precedente, la deviazione standard della variabile casuale <span class="math inline">\(S\)</span> è uguale a <span class="math inline">\(\sqrt{5.833} = 2.415\)</span>.</p>
 </div>
 </div>
 <div id="standardizzazione" class="section level2 hasAnchor" number="11.4">
 <h2><span class="header-section-number">11.4</span> Standardizzazione<a href="exp-val-and-variance-rv.html#standardizzazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="definition">
-<p><span id="def:unlabeled-div-49" class="definition"><strong>Definizione 11.4  </strong></span>Data una variabile casuale <span class="math inline">\(Y\)</span>, si dice variabile standardizzata di <span class="math inline">\(Y\)</span> l’espressione</p>
+<p><span id="def:unlabeled-div-52" class="definition"><strong>Definizione 11.4  </strong></span>Data una variabile casuale <span class="math inline">\(Y\)</span>, si dice variabile standardizzata di <span class="math inline">\(Y\)</span> l’espressione</p>
 <p><span class="math display" id="eq:standardization">\[\begin{equation}
 Z = \frac{Y - \E(Y)}{\sigma_Y}.
 \tag{11.11}
@@ -1141,7 +1141,7 @@ Z = \frac{Y - \E(Y)}{\sigma_Y}.
 <div id="momenti-di-variabili-casuali" class="section level2 hasAnchor" number="11.5">
 <h2><span class="header-section-number">11.5</span> Momenti di variabili casuali<a href="exp-val-and-variance-rv.html#momenti-di-variabili-casuali" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="definition">
-<p><span id="def:unlabeled-div-50" class="definition"><strong>Definizione 11.5  </strong></span>Si chiama <em>momento</em> di ordine <span class="math inline">\(q\)</span> di una v.c. <span class="math inline">\(X\)</span>, dotata di densità <span class="math inline">\(p(x)\)</span>, la
+<p><span id="def:unlabeled-div-53" class="definition"><strong>Definizione 11.5  </strong></span>Si chiama <em>momento</em> di ordine <span class="math inline">\(q\)</span> di una v.c. <span class="math inline">\(X\)</span>, dotata di densità <span class="math inline">\(p(x)\)</span>, la
 quantità</p>
 <p><span class="math display">\[\begin{equation}
 \E(X^q) = \int_{-\infty}^{+\infty} x^q p(x) \; dx.
@@ -1158,7 +1158,7 @@ noti sono senza dubbio quelli per <span class="math inline">\(q = 1\)</span> e <
 <h2><span class="header-section-number">11.6</span> Covarianza<a href="exp-val-and-variance-rv.html#covarianza-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La covarianza quantifica la tendenza delle variabili aleatorie <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> a ``variare assieme’’. Per esempio, l’altezza e il peso delle giraffe producono una covarianza positiva perché all’aumentare di una di queste due quantità tende ad aumentare anche l’altra. La covarianza misura la forza e la direzione del legame lineare tra due variabili aleatorie <span class="math inline">\(X\)</span> ed <span class="math inline">\(Y\)</span>. Si utilizza la notazione <span class="math inline">\(\mbox{Cov}(X,Y)=\sigma_{xy}\)</span>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-51" class="definition"><strong>Definizione 11.6  </strong></span>Date due variabili aleatorie <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, chiamiamo covarianza tra <span class="math inline">\(X\)</span> ed <span class="math inline">\(Y\)</span> il numero</p>
+<p><span id="def:unlabeled-div-54" class="definition"><strong>Definizione 11.6  </strong></span>Date due variabili aleatorie <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, chiamiamo covarianza tra <span class="math inline">\(X\)</span> ed <span class="math inline">\(Y\)</span> il numero</p>
 <p><span class="math display">\[\begin{equation}
 \mbox{Cov}(X,Y) = \mathbb{E}\Bigl(\bigl(X - \mathbb{E}(X)\bigr) \bigl(Y - \mathbb{E}(Y)\bigr)\Bigr),
 \end{equation}\]</span></p>
@@ -1179,7 +1179,7 @@ noti sono senza dubbio quelli per <span class="math inline">\(q = 1\)</span> e <
 \label{eq:cov_vc_alt}
 \end{equation}\]</span></p>
 <div class="proof">
-<p><span id="unlabeled-div-52" class="proof"><em>Dimostrazione</em>. </span>La proprietà precedente si dimostra nel modo seguente:</p>
+<p><span id="unlabeled-div-55" class="proof"><em>Dimostrazione</em>. </span>La proprietà precedente si dimostra nel modo seguente:</p>
 <p><span class="math display">\[\begin{align}
 \mbox{Cov}(X,Y) &amp;= \mathbb{E}\Bigl(\bigl(X-\mathbb{E}(X)\bigr) \bigl(Y-\mathbb{E}(Y)\bigr)\Bigr)\notag\\
           %&amp;= \mathbb{E}(XY) - \mathbb{E}(Y)X -\mathbb{E}(X)Y + \mathbb{E}(X)\mathbb{E}(Y) )\notag\\
@@ -1188,7 +1188,7 @@ noti sono senza dubbio quelli per <span class="math inline">\(q = 1\)</span> e <
 \end{align}\]</span></p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-53" class="exercise"><strong>Esercizio 11.8  </strong></span>Consideriamo le variabili casuali definite nell’Esercizio 2.4. Si calcoli la covarianza di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+<p><span id="exr:unlabeled-div-56" class="exercise"><strong>Esercizio 11.8  </strong></span>Consideriamo le variabili casuali definite nell’Esercizio 2.4. Si calcoli la covarianza di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
 <p>Abbiamo che <span class="math inline">\(\mu_X = 1.5\)</span> e <span class="math inline">\(\mu_Y = 0.5\)</span>. Ne segue che la covarianza di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> è:</p>
 <p><span class="math display">\[\begin{equation}
 \begin{split}
@@ -1302,7 +1302,7 @@ dipende dall’unità di misura delle variabili, e assume valori compresi tra -1
 \end{equation}\]</span></p>
 <p>Si introduce così un secondo tipo di indipendenza, più debole, dopo quello di indipendenza stocastica. Viceversa, però, se <span class="math inline">\(\mbox{Cov}(X, Y) = 0\)</span>, non è detto che <span class="math inline">\(X\)</span> ed <span class="math inline">\(Y\)</span> siano indipendenti.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-54" class="exercise"><strong>Esercizio 11.9  </strong></span>Siano <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> due variabili aleatorie discrete avente una distribuzione di massa di probabilità congiunta pari a</p>
+<p><span id="exr:unlabeled-div-57" class="exercise"><strong>Esercizio 11.9  </strong></span>Siano <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> due variabili aleatorie discrete avente una distribuzione di massa di probabilità congiunta pari a</p>
 <p><span class="math display">\[
 f_{XY}(x,y) = \frac{1}{4} \quad (x,y) \in \{(0,0), (1,1), (1, -1), (2,0) \}
 \]</span></p>
@@ -1416,8 +1416,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/020_expval_var.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/020_expval_var.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1433,7 +1433,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

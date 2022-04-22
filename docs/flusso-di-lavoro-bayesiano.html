@@ -832,10 +832,10 @@ p(\theta \mid y) = \frac{p(y \mid \theta) p(\theta)}{\int_{\Theta}p(y \mid \thet
 <li>distribuzione <em>fortemente informativa</em>: <span class="math inline">\(\theta_c \sim \mbox{Beta}(50,20)\)</span>;</li>
 <li><em>valore puntuale</em>: <span class="math inline">\(\theta_c \sim \mbox{Beta}(\alpha, \beta)\)</span> con <span class="math inline">\(\alpha, \beta \rightarrow \infty\)</span> e <span class="math inline">\(\frac{\alpha}{\beta} = \frac{5}{2}\)</span>.</li>
 </ul>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-80"></span>
-<img src="ds4psy_files/figure-html/unnamed-chunk-80-1.png" alt="Esempi di distribuzioni a priori per il parametro $\theta_c$ nel Modello Binomiale." width="576" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="025_intro_bayes_files/figure-html/unnamed-chunk-2-1.png" alt="Esempi di distribuzioni a priori per il parametro $\theta_c$ nel Modello Binomiale." width="576" />
 <p class="caption">
-FIGURA 14.1: Esempi di distribuzioni a priori per il parametro <span class="math inline">\(\theta_c\)</span> nel Modello Binomiale.
+FIGURA 10.3: Esempi di distribuzioni a priori per il parametro <span class="math inline">\(\theta_c\)</span> nel Modello Binomiale.
 </p>
 </div>
 </div>
@@ -850,8 +850,8 @@ FIGURA 14.1: Esempi di distribuzioni a priori per il parametro <span class="math
 <p><span class="math display">\[
 p(\theta) = \frac{\Gamma(12)}{\Gamma(2)\Gamma(10)}\theta^{2-1} (1-\theta)^{10-1}.
 \]</span></p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="flusso-di-lavoro-bayesiano.html#cb80-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_beta</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="cn">TRUE</span>, <span class="at">mode =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-81-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="flusso-di-lavoro-bayesiano.html#cb84-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_beta</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="cn">TRUE</span>, <span class="at">mode =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="025_intro_bayes_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La <span class="math inline">\(\mbox{Beta}(2, 10)\)</span> esprime la credenza che <span class="math inline">\(\theta\)</span> assume valori <span class="math inline">\(&lt; 0.5\)</span>, con il valore più plausibile pari a circa 0.1. Questo è assolutamente implausibile per il caso dell’esempio in discussione: la <span class="math inline">\(\mbox{Beta}(2, 10)\)</span> verrà usata solo per scopi didattici, ovvero, per esplorare le conseguenze di tale scelta sulla distribuzione a posteriori.</p>
 </div>
 </div>
@@ -859,7 +859,7 @@ p(\theta) = \frac{\Gamma(12)}{\Gamma(2)\Gamma(10)}\theta^{2-1} (1-\theta)^{10-1}
 <h2><span class="header-section-number">14.3</span> La funzione di verosimiglianza<a href="flusso-di-lavoro-bayesiano.html#la-funzione-di-verosimiglianza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Iniziamo con una definizione.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-75" class="definition"><strong>Definizione 14.1  </strong></span>La <em>funzione di verosimiglianza</em> <span class="math inline">\(\mathcal{L}(\theta \mid y) = f(y \mid \theta), \theta \in \Theta,\)</span> è la funzione di massa o di densità di probabilità dei dati <span class="math inline">\(y\)</span> vista come una funzione del parametro sconosciuto (o dei parametri sconosciuti) <span class="math inline">\(\theta\)</span>.</p>
+<p><span id="def:unlabeled-div-78" class="definition"><strong>Definizione 14.1  </strong></span>La <em>funzione di verosimiglianza</em> <span class="math inline">\(\mathcal{L}(\theta \mid y) = f(y \mid \theta), \theta \in \Theta,\)</span> è la funzione di massa o di densità di probabilità dei dati <span class="math inline">\(y\)</span> vista come una funzione del parametro sconosciuto (o dei parametri sconosciuti) <span class="math inline">\(\theta\)</span>.</p>
 </div>
 <p>Detto in altre parole, le funzioni di verosimiglianza e di (massa o densità di) probabilità sono formalmente identiche, ma è completamente diversa la loro interpretazione. Nel caso della funzione di massa o di densità di probabilità la distribuzione del vettore casuale delle osservazioni campionarie <span class="math inline">\(y\)</span> dipende dai valori assunti dal parametro (o dai parametri) <span class="math inline">\(\theta\)</span>; nel caso della la funzione di verosimiglianza la credibilità assegnata a ciascun possibile valore <span class="math inline">\(\theta\)</span> viene determinata avendo acquisita l’informazione campionaria <span class="math inline">\(y\)</span> che rappresenta l’elemento condizionante. In altri termini, la funzione di verosimiglianza descrive in termini relativi il sostegno empirico che <span class="math inline">\(\theta \in \Theta\)</span> riceve da <span class="math inline">\(y\)</span>. Infatti, la funzione di verosimiglianza assume forme diverse al variare di <span class="math inline">\(y\)</span>. Possiamo dunque pensare alla funzione di verosimiglianza come alla risposta alla seguente domanda: avendo osservato i dati <span class="math inline">\(y\)</span>, quanto risultano (relativamente) credibili i diversi valori del parametro <span class="math inline">\(\theta\)</span>? In termini più formali possiamo dire: sulla base dei dati, <span class="math inline">\(\theta_1 \in \Theta\)</span> risulta più credibile di <span class="math inline">\(\theta_2 \in \Theta\)</span> quale indice del modello probabilistico generatore dei dati se <span class="math inline">\(\mathcal{L}(\theta_1) &gt; \mathcal{L}(\theta_1)\)</span>.</p>
 <p>Notiamo un punto importante: la funzione <span class="math inline">\(\mathcal{L}(\theta \mid y)\)</span> non è una funzione di densità. Infatti, essa non racchiude un’area unitaria.</p>
@@ -907,31 +907,31 @@ p(y \mid \theta)
 \mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} 0.1^{23} + (1-0.1)^7
 \]</span></p>
 <p>otteniamo</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="flusso-di-lavoro-bayesiano.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">23</span>, <span class="dv">30</span>, <span class="fl">0.1</span>)</span>
-<span id="cb81-2"><a href="flusso-di-lavoro-bayesiano.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9.737168e-18</span></span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="flusso-di-lavoro-bayesiano.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">23</span>, <span class="dv">30</span>, <span class="fl">0.1</span>)</span>
+<span id="cb85-2"><a href="flusso-di-lavoro-bayesiano.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9.737168e-18</span></span></code></pre></div>
 <p>Se poniamo <span class="math inline">\(\theta = 0.2\)</span></p>
 <p><span class="math display">\[
 \mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} 0.2^{23} + (1-0.2)^7
 \]</span></p>
 <p>otteniamo</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="flusso-di-lavoro-bayesiano.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">23</span>, <span class="dv">30</span>, <span class="fl">0.2</span>)</span>
-<span id="cb82-2"><a href="flusso-di-lavoro-bayesiano.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.581417e-11</span></span></code></pre></div>
-<p>e così via. La figura <a href="flusso-di-lavoro-bayesiano.html#fig:likefutexpect">14.2</a> — costruita utilizzando 100 valori equispaziati <span class="math inline">\(\theta \in [0, 1]\)</span> — fornisce una rappresentazione grafica della funzione di verosimiglianza.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="flusso-di-lavoro-bayesiano.html#cb83-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb83-2"><a href="flusso-di-lavoro-bayesiano.html#cb83-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb83-3"><a href="flusso-di-lavoro-bayesiano.html#cb83-3" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb83-4"><a href="flusso-di-lavoro-bayesiano.html#cb83-4" aria-hidden="true" tabindex="-1"></a>like <span class="ot">&lt;-</span> <span class="fu">choose</span>(n, y) <span class="sc">*</span> theta<span class="sc">^</span>y <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span>(n <span class="sc">-</span> y)</span>
-<span id="cb83-5"><a href="flusso-di-lavoro-bayesiano.html#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(theta, like) <span class="sc">%&gt;%</span></span>
-<span id="cb83-6"><a href="flusso-di-lavoro-bayesiano.html#cb83-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> like)) <span class="sc">+</span></span>
-<span id="cb83-7"><a href="flusso-di-lavoro-bayesiano.html#cb83-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb83-8"><a href="flusso-di-lavoro-bayesiano.html#cb83-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb83-9"><a href="flusso-di-lavoro-bayesiano.html#cb83-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">L</span>(theta)),</span>
-<span id="cb83-10"><a href="flusso-di-lavoro-bayesiano.html#cb83-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;Valori possibili di&quot;</span> <span class="sc">~</span> theta)</span>
-<span id="cb83-11"><a href="flusso-di-lavoro-bayesiano.html#cb83-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="flusso-di-lavoro-bayesiano.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">23</span>, <span class="dv">30</span>, <span class="fl">0.2</span>)</span>
+<span id="cb86-2"><a href="flusso-di-lavoro-bayesiano.html#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.581417e-11</span></span></code></pre></div>
+<p>e così via. La figura <a href="flusso-di-lavoro-bayesiano.html#fig:likefutexpect">14.1</a> — costruita utilizzando 100 valori equispaziati <span class="math inline">\(\theta \in [0, 1]\)</span> — fornisce una rappresentazione grafica della funzione di verosimiglianza.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="flusso-di-lavoro-bayesiano.html#cb87-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb87-2"><a href="flusso-di-lavoro-bayesiano.html#cb87-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb87-3"><a href="flusso-di-lavoro-bayesiano.html#cb87-3" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb87-4"><a href="flusso-di-lavoro-bayesiano.html#cb87-4" aria-hidden="true" tabindex="-1"></a>like <span class="ot">&lt;-</span> <span class="fu">choose</span>(n, y) <span class="sc">*</span> theta<span class="sc">^</span>y <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span>(n <span class="sc">-</span> y)</span>
+<span id="cb87-5"><a href="flusso-di-lavoro-bayesiano.html#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(theta, like) <span class="sc">%&gt;%</span></span>
+<span id="cb87-6"><a href="flusso-di-lavoro-bayesiano.html#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> like)) <span class="sc">+</span></span>
+<span id="cb87-7"><a href="flusso-di-lavoro-bayesiano.html#cb87-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb87-8"><a href="flusso-di-lavoro-bayesiano.html#cb87-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb87-9"><a href="flusso-di-lavoro-bayesiano.html#cb87-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">L</span>(theta)),</span>
+<span id="cb87-10"><a href="flusso-di-lavoro-bayesiano.html#cb87-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(<span class="st">&quot;Valori possibili di&quot;</span> <span class="sc">~</span> theta)</span>
+<span id="cb87-11"><a href="flusso-di-lavoro-bayesiano.html#cb87-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:likefutexpect"></span>
-<img src="ds4psy_files/figure-html/likefutexpect-1.png" alt="Funzione di verosimiglianza nel caso di 23 successi in 30 prove." width="576" />
+<img src="025_intro_bayes_files/figure-html/likefutexpect-1.png" alt="Funzione di verosimiglianza nel caso di 23 successi in 30 prove." width="576" />
 <p class="caption">
-FIGURA 14.2: Funzione di verosimiglianza nel caso di 23 successi in 30 prove.
+FIGURA 14.1: Funzione di verosimiglianza nel caso di 23 successi in 30 prove.
 </p>
 </div>
 <p>Come possiamo interpretare la curva che abbiamo ottenuto? Per alcuni valori <span class="math inline">\(\theta\)</span> la funzione di verosimiglianza assume valori piccoli; per altri valori <span class="math inline">\(\theta\)</span> la funzione di verosimiglianza assume valori più grandi. Questi ultimi sono i valori di <span class="math inline">\(\theta\)</span> più credibili e il valore 23/30 (la moda della funzione di verosimiglianza) è il valore più credibile di tutti.</p>
@@ -949,11 +949,11 @@ p(y = 23, n = 30) = \int_0^1 \binom{30}{23} \theta^{23} (1-\theta)^{7} \,\operat
 \tag{14.4}
 \end{equation}\]</span></p>
 <p>Una soluzione numerica si trova facilmente usando <span class="math inline">\(\R\)</span>:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="flusso-di-lavoro-bayesiano.html#cb84-1" aria-hidden="true" tabindex="-1"></a>like_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb84-2"><a href="flusso-di-lavoro-bayesiano.html#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">23</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">7</span></span>
-<span id="cb84-3"><a href="flusso-di-lavoro-bayesiano.html#cb84-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb84-4"><a href="flusso-di-lavoro-bayesiano.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(like_bin, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)<span class="sc">$</span>value</span>
-<span id="cb84-5"><a href="flusso-di-lavoro-bayesiano.html#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="flusso-di-lavoro-bayesiano.html#cb88-1" aria-hidden="true" tabindex="-1"></a>like_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb88-2"><a href="flusso-di-lavoro-bayesiano.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">23</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">7</span></span>
+<span id="cb88-3"><a href="flusso-di-lavoro-bayesiano.html#cb88-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-4"><a href="flusso-di-lavoro-bayesiano.html#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(like_bin, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)<span class="sc">$</span>value</span>
+<span id="cb88-5"><a href="flusso-di-lavoro-bayesiano.html#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
 <p>La derivazione analitica è fornita nell’Appendice <a href="appendix:const-norm-bino23.html#appendix:const-norm-bino23">G</a>.</p>
 </div>
 </div>
@@ -1050,8 +1050,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/025_intro_bayes.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/025_intro_bayes.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1067,7 +1067,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

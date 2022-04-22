@@ -814,57 +814,57 @@ div.csl-indent {
 </ul>
 </blockquote>
 <p>Leggo i dati in <span class="math inline">\(\mathsf{R}\)</span>.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="regr-model-lm.html#cb301-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(</span>
-<span id="cb301-2"><a href="regr-model-lm.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span></span>
-<span id="cb301-3"><a href="regr-model-lm.html#cb301-3" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb301-4"><a href="regr-model-lm.html#cb301-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(kidiq)</span>
-<span id="cb301-5"><a href="regr-model-lm.html#cb301-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 434</span></span>
-<span id="cb301-6"><a href="regr-model-lm.html#cb301-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 5</span></span>
-<span id="cb301-7"><a href="regr-model-lm.html#cb301-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ kid_score &lt;dbl&gt; 65, 98, 85, 83, 115, 98, 69, 106, 102, 95, 91, 58, 84, 78, 1…</span></span>
-<span id="cb301-8"><a href="regr-model-lm.html#cb301-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_hs    &lt;dbl&gt; 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, …</span></span>
-<span id="cb301-9"><a href="regr-model-lm.html#cb301-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_iq    &lt;dbl&gt; 121.11753, 89.36188, 115.44316, 99.44964, 92.74571, 107.9018…</span></span>
-<span id="cb301-10"><a href="regr-model-lm.html#cb301-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_work  &lt;dbl&gt; 4, 4, 4, 3, 4, 1, 4, 3, 1, 1, 1, 4, 4, 4, 2, 1, 3, 3, 4, 3, …</span></span>
-<span id="cb301-11"><a href="regr-model-lm.html#cb301-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_age   &lt;dbl&gt; 27, 25, 27, 25, 27, 18, 20, 23, 24, 19, 23, 24, 27, 26, 24, …</span></span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="regr-model-lm.html#cb305-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb305-2"><a href="regr-model-lm.html#cb305-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span></span>
+<span id="cb305-3"><a href="regr-model-lm.html#cb305-3" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb305-4"><a href="regr-model-lm.html#cb305-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(kidiq)</span>
+<span id="cb305-5"><a href="regr-model-lm.html#cb305-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 434</span></span>
+<span id="cb305-6"><a href="regr-model-lm.html#cb305-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 5</span></span>
+<span id="cb305-7"><a href="regr-model-lm.html#cb305-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ kid_score &lt;dbl&gt; 65, 98, 85, 83, 115, 98, 69, 106, 102, 95, 91, 58, 84, 78, 1…</span></span>
+<span id="cb305-8"><a href="regr-model-lm.html#cb305-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_hs    &lt;dbl&gt; 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, …</span></span>
+<span id="cb305-9"><a href="regr-model-lm.html#cb305-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_iq    &lt;dbl&gt; 121.11753, 89.36188, 115.44316, 99.44964, 92.74571, 107.9018…</span></span>
+<span id="cb305-10"><a href="regr-model-lm.html#cb305-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_work  &lt;dbl&gt; 4, 4, 4, 3, 4, 1, 4, 3, 1, 1, 1, 4, 4, 4, 2, 1, 3, 3, 4, 3, …</span></span>
+<span id="cb305-11"><a href="regr-model-lm.html#cb305-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ mom_age   &lt;dbl&gt; 27, 25, 27, 25, 27, 18, 20, 23, 24, 19, 23, 24, 27, 26, 24, …</span></span></code></pre></div>
 <p>In questo esercizio considererò la relazione tra <code>kid_score</code> e <code>mom_iq</code>.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="regr-model-lm.html#cb302-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
-<span id="cb302-2"><a href="regr-model-lm.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span></span>
-<span id="cb302-3"><a href="regr-model-lm.html#cb302-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-300-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="regr-model-lm.html#cb306-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
+<span id="cb306-2"><a href="regr-model-lm.html#cb306-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span></span>
+<span id="cb306-3"><a href="regr-model-lm.html#cb306-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>I dati rappresentati nel diagramma a dispersione suggeriscono che, in questo campione, sembra esserci un’associazione positiva tra l’intelligenza del bambino (kid_score) e l’intelligenza della madre (mom_iq). Mi pongo il problema di descrivere questa associazione mediante una relazione lineare.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="regr-model-lm.html#cb303-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
-<span id="cb303-2"><a href="regr-model-lm.html#cb303-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
-<span id="cb303-3"><a href="regr-model-lm.html#cb303-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb303-4"><a href="regr-model-lm.html#cb303-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-301-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="regr-model-lm.html#cb307-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
+<span id="cb307-2"><a href="regr-model-lm.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
+<span id="cb307-3"><a href="regr-model-lm.html#cb307-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb307-4"><a href="regr-model-lm.html#cb307-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Ci sono infinite rette che, in linea di principio, possono essere usate per “approssimare” la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste rette.</p>
 <p>Un vincolo che viene spesso usato è quello di costringere la retta a passare per il punto <span class="math inline">\((\bar{x}, \bar{y})\)</span>.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="regr-model-lm.html#cb304-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
-<span id="cb304-2"><a href="regr-model-lm.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
-<span id="cb304-3"><a href="regr-model-lm.html#cb304-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb304-4"><a href="regr-model-lm.html#cb304-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb304-5"><a href="regr-model-lm.html#cb304-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb304-6"><a href="regr-model-lm.html#cb304-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
-<span id="cb304-7"><a href="regr-model-lm.html#cb304-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
-<span id="cb304-8"><a href="regr-model-lm.html#cb304-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-302-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="regr-model-lm.html#cb308-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
+<span id="cb308-2"><a href="regr-model-lm.html#cb308-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
+<span id="cb308-3"><a href="regr-model-lm.html#cb308-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb308-4"><a href="regr-model-lm.html#cb308-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb308-5"><a href="regr-model-lm.html#cb308-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb308-6"><a href="regr-model-lm.html#cb308-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
+<span id="cb308-7"><a href="regr-model-lm.html#cb308-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb308-8"><a href="regr-model-lm.html#cb308-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Una retta che passa per il punto <span class="math inline">\((\bar{x}, \bar{y})\)</span> ha la proprietà descritta di seguito.</p>
 <p>Iniziamo a descrivere ciascuna osservazione inserita nel diagramma a dispersione con un’equazione:</p>
 <p><span class="math display">\[
 y_i = a + b x_i + e_i
 \]</span>
 Le osservazioni <span class="math inline">\(y\)</span> sono <code>kid_score</code>. I primi 10 valori sono i seguenti:</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="regr-model-lm.html#cb305-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb305-2"><a href="regr-model-lm.html#cb305-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  65  98  85  83 115  98  69 106 102  95</span></span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="regr-model-lm.html#cb309-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb309-2"><a href="regr-model-lm.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  65  98  85  83 115  98  69 106 102  95</span></span></code></pre></div>
 <p>Per fare riferimento a ciascun valore usiamo l’indice <span class="math inline">\(i\)</span>. Quindi, ad esempio, <span class="math inline">\(y_3\)</span> è uguale a</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="regr-model-lm.html#cb306-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">3</span>]</span>
-<span id="cb306-2"><a href="regr-model-lm.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 85</span></span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="regr-model-lm.html#cb310-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">3</span>]</span>
+<span id="cb310-2"><a href="regr-model-lm.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 85</span></span></code></pre></div>
 <p>La variabile <span class="math inline">\(x\)</span>, nel caso presente, è <code>mom_iq</code>. I primi 10 valori di <span class="math inline">\(x\)</span> sono</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="regr-model-lm.html#cb307-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb307-2"><a href="regr-model-lm.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 121.11753  89.36188 115.44316  99.44964  92.74571 107.90184 138.89311</span></span>
-<span id="cb307-3"><a href="regr-model-lm.html#cb307-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 125.14512  81.61953  95.07307</span></span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="regr-model-lm.html#cb311-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb311-2"><a href="regr-model-lm.html#cb311-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 121.11753  89.36188 115.44316  99.44964  92.74571 107.90184 138.89311</span></span>
+<span id="cb311-3"><a href="regr-model-lm.html#cb311-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 125.14512  81.61953  95.07307</span></span></code></pre></div>
 <p>In maniera corrispondente alla <span class="math inline">\(y\)</span>, uso un indice per fare riferimento ai singoli valori della variabile. Ad esempio, <span class="math inline">\(x_3\)</span> è</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="regr-model-lm.html#cb308-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>mom_iq[<span class="dv">3</span>]</span>
-<span id="cb308-2"><a href="regr-model-lm.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 115.4432</span></span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="regr-model-lm.html#cb312-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>mom_iq[<span class="dv">3</span>]</span>
+<span id="cb312-2"><a href="regr-model-lm.html#cb312-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 115.4432</span></span></code></pre></div>
 <p>L’equazione precedente ci dice che ciascun valore <span class="math inline">\(y\)</span> è dato dalla somma di due componenti: una componente deterministica e una componente aleatoria. Consideriamo il primo valore <span class="math inline">\(y\)</span>. Per esso diciamo che</p>
 <p><span class="math display">\[
 y_1 = a + b x_1 + e_1,
@@ -925,17 +925,17 @@ b = \frac{\mbox{Cov}(x, y)}{\mbox{Var}(x)}
 \]</span></p>
 <p>Le due precedenti equazioni corrispondono alla stima dei minimi quadrati dei coefficienti di regressione della retta che minimizza la somma dei quadrati dei residui.</p>
 <p>Nel caso presente, tali coefficienti sono uguali a:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="regr-model-lm.html#cb309-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">cov</span>(kidiq<span class="sc">$</span>kid_score, kidiq<span class="sc">$</span>mom_iq) <span class="sc">/</span> <span class="fu">var</span>(kidiq<span class="sc">$</span>mom_iq)</span>
-<span id="cb309-2"><a href="regr-model-lm.html#cb309-2" aria-hidden="true" tabindex="-1"></a>b</span>
-<span id="cb309-3"><a href="regr-model-lm.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099746</span></span></code></pre></div>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="regr-model-lm.html#cb310-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score) <span class="sc">-</span> b <span class="sc">*</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>mom_iq)</span>
-<span id="cb310-2"><a href="regr-model-lm.html#cb310-2" aria-hidden="true" tabindex="-1"></a>a</span>
-<span id="cb310-3"><a href="regr-model-lm.html#cb310-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 25.79978</span></span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="regr-model-lm.html#cb313-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">cov</span>(kidiq<span class="sc">$</span>kid_score, kidiq<span class="sc">$</span>mom_iq) <span class="sc">/</span> <span class="fu">var</span>(kidiq<span class="sc">$</span>mom_iq)</span>
+<span id="cb313-2"><a href="regr-model-lm.html#cb313-2" aria-hidden="true" tabindex="-1"></a>b</span>
+<span id="cb313-3"><a href="regr-model-lm.html#cb313-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099746</span></span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="regr-model-lm.html#cb314-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score) <span class="sc">-</span> b <span class="sc">*</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>mom_iq)</span>
+<span id="cb314-2"><a href="regr-model-lm.html#cb314-2" aria-hidden="true" tabindex="-1"></a>a</span>
+<span id="cb314-3"><a href="regr-model-lm.html#cb314-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 25.79978</span></span></code></pre></div>
 <p>In R li possiamo trovare con la seguente funzione:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="regr-model-lm.html#cb311-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> mom_iq, <span class="at">data =</span> kidiq)</span>
-<span id="cb311-2"><a href="regr-model-lm.html#cb311-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm)</span>
-<span id="cb311-3"><a href="regr-model-lm.html#cb311-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      mom_iq </span></span>
-<span id="cb311-4"><a href="regr-model-lm.html#cb311-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  25.7997778   0.6099746</span></span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="regr-model-lm.html#cb315-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> mom_iq, <span class="at">data =</span> kidiq)</span>
+<span id="cb315-2"><a href="regr-model-lm.html#cb315-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm)</span>
+<span id="cb315-3"><a href="regr-model-lm.html#cb315-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      mom_iq </span></span>
+<span id="cb315-4"><a href="regr-model-lm.html#cb315-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  25.7997778   0.6099746</span></span></code></pre></div>
 <p>In precedenza abbiamo soltanto accennato al problema di come si possono trovano i coefficienti dei minimi quadrati; ritorneremo su questo punto in seguito. Per ora, chiediamoci cosa significano i due coefficienti che abbiamo calcolato.</p>
 <p>Il coefficiente <span class="math inline">\(a\)</span> si chiama <em>intercetta</em>. L’intercetta, all’interno del diagramma a dispersione, specifica il punto in cui la retta di regressione interseca l’asse <span class="math inline">\(y\)</span> del sistema di assi cartesiani.</p>
 <p>Nel caso presente questo valore non è di alcun interesse, perché corrisponde al valore della retta di regressione quando <span class="math inline">\(x = 0\)</span>, ovvero quando l’intelligenza della madre è uguale a 0. Vedremo in seguito come, trasformando i dati, è possibile assegnare al coefficiente <span class="math inline">\(a\)</span> un’interpretazione più utile. Per ora mi limito a fornire l’interpretazione del coefficiente.</p>
@@ -946,16 +946,16 @@ b = \frac{\mbox{Cov}(x, y)}{\mbox{Var}(x)}
 <p>Il modello statistico della regressione lineare non può in alcun modo prevedere il valore assunto da ciascuna delle possibili osservazioni che fanno parte della distribuzione <span class="math inline">\(p(y \mid x_i)\)</span>. Il modello della regressione lineare ha un obiettivo più limitato, ovvero si propone di prevedere <em>le medie</em> delle distribuzioni <span class="math inline">\(p(y \mid x_i)\)</span> conoscendo i valori <span class="math inline">\(x\)</span>.</p>
 <p>Dunque, quando il coefficiente <span class="math inline">\(b\)</span> è uguale a 0.61, questo significa che il modello di regressione predice che <em>la medie</em> della distribuzione condizionata <span class="math inline">\(p(y \mid x_i)\)</span> aumenta di 0.61 punti se la variabile <span class="math inline">\(x\)</span> (QI delle madri) aumenta di un punto. Questo significa che il modello di regressione non fa una predizione sul punteggio di ciascun valore <span class="math inline">\(y_i\)</span> (in funzione di <span class="math inline">\(x\)</span>), ma solo della media delle distribuzioni condizionate <span class="math inline">\(p(y \mid x_i)\)</span> di cui il valore osservato <span class="math inline">\(y_i\)</span> è una realizzazione casuale.</p>
 <p>Possiamo dire la stessa cosa con parole diverse dicendo che il modello di regressione fa delle predizioni sulla componente deterministica di ciascuna osservazione. È più semplice capire questo aspetto se rappresentiamo in maniera grafica la componente “deterministica” <span class="math inline">\(\hat{y}_i = a + b x_i\)</span> predetta dal modello di regressione.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="regr-model-lm.html#cb312-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>yhat <span class="ot">&lt;-</span> fm<span class="sc">$</span>fitted.values</span>
-<span id="cb312-2"><a href="regr-model-lm.html#cb312-2" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
-<span id="cb312-3"><a href="regr-model-lm.html#cb312-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> yhat)) <span class="sc">+</span> </span>
-<span id="cb312-4"><a href="regr-model-lm.html#cb312-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb312-5"><a href="regr-model-lm.html#cb312-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb312-6"><a href="regr-model-lm.html#cb312-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb312-7"><a href="regr-model-lm.html#cb312-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
-<span id="cb312-8"><a href="regr-model-lm.html#cb312-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
-<span id="cb312-9"><a href="regr-model-lm.html#cb312-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-310-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="regr-model-lm.html#cb316-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>yhat <span class="ot">&lt;-</span> fm<span class="sc">$</span>fitted.values</span>
+<span id="cb316-2"><a href="regr-model-lm.html#cb316-2" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
+<span id="cb316-3"><a href="regr-model-lm.html#cb316-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> yhat)) <span class="sc">+</span> </span>
+<span id="cb316-4"><a href="regr-model-lm.html#cb316-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb316-5"><a href="regr-model-lm.html#cb316-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb316-6"><a href="regr-model-lm.html#cb316-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb316-7"><a href="regr-model-lm.html#cb316-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
+<span id="cb316-8"><a href="regr-model-lm.html#cb316-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb316-9"><a href="regr-model-lm.html#cb316-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il diagramma precedente presenta ciascun valore <span class="math inline">\(\hat{y}_i = a + b x_i\)</span> in funzione di <span class="math inline">\(x_i\)</span>. Si vede che i valori predetti dal modello di regressione sono i punti che stanno sulla retta di regressione. Dunque, il residuo, ovvero la componente di ciascuna osservazione <span class="math inline">\(y_i\)</span> che non viene predetta dal modello di regressione corrisponde alla distanza verticale tra i punti del diagramma a dispersione e la retta di regressione</p>
 <p><span class="math display">\[
 e_i = y_i - (a + b x_i).
@@ -965,41 +965,41 @@ e_i = y_i - (a + b x_i).
 y_1 = (a + b x_1) + e_1
 \]</span></p>
 <p>Abbiamo</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="regr-model-lm.html#cb313-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span>]</span>
-<span id="cb313-2"><a href="regr-model-lm.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 65</span></span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="regr-model-lm.html#cb317-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span>]</span>
+<span id="cb317-2"><a href="regr-model-lm.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 65</span></span></code></pre></div>
 <p>Dunque</p>
 <p><span class="math display">\[
 e_1 = (a + b x_1) - y_1
 \]</span></p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="regr-model-lm.html#cb314-1" aria-hidden="true" tabindex="-1"></a>e_1 <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span>] <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span>])</span>
-<span id="cb314-2"><a href="regr-model-lm.html#cb314-2" aria-hidden="true" tabindex="-1"></a>e_1</span>
-<span id="cb314-3"><a href="regr-model-lm.html#cb314-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -34.67839</span></span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="regr-model-lm.html#cb318-1" aria-hidden="true" tabindex="-1"></a>e_1 <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>kid_score[<span class="dv">1</span>] <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span>])</span>
+<span id="cb318-2"><a href="regr-model-lm.html#cb318-2" aria-hidden="true" tabindex="-1"></a>e_1</span>
+<span id="cb318-3"><a href="regr-model-lm.html#cb318-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -34.67839</span></span></code></pre></div>
 <p>Ciò significa che il valore osservato <span class="math inline">\(y_1 = 65\)</span> viene scomposto dal modello di regressione in due componenti. La componente deterministica <span class="math inline">\(\hat{y}_1\)</span>, predicibile da <span class="math inline">\(x_1\)</span>, è</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="regr-model-lm.html#cb315-1" aria-hidden="true" tabindex="-1"></a>yhat_1 <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span>]</span>
-<span id="cb315-2"><a href="regr-model-lm.html#cb315-2" aria-hidden="true" tabindex="-1"></a>yhat_1</span>
-<span id="cb315-3"><a href="regr-model-lm.html#cb315-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 99.67839</span></span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="regr-model-lm.html#cb319-1" aria-hidden="true" tabindex="-1"></a>yhat_1 <span class="ot">&lt;-</span> a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq[<span class="dv">1</span>]</span>
+<span id="cb319-2"><a href="regr-model-lm.html#cb319-2" aria-hidden="true" tabindex="-1"></a>yhat_1</span>
+<span id="cb319-3"><a href="regr-model-lm.html#cb319-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 99.67839</span></span></code></pre></div>
 <p>La somma della componente deterministica e della componente erratica, ovviamente, riproduce il valore osservato.</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="regr-model-lm.html#cb316-1" aria-hidden="true" tabindex="-1"></a>yhat_1 <span class="sc">+</span> e_1</span>
-<span id="cb316-2"><a href="regr-model-lm.html#cb316-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 65</span></span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="regr-model-lm.html#cb320-1" aria-hidden="true" tabindex="-1"></a>yhat_1 <span class="sc">+</span> e_1</span>
+<span id="cb320-2"><a href="regr-model-lm.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 65</span></span></code></pre></div>
 <div id="trasformazione-dei-dati" class="section level3 hasAnchor" number="25.1.1">
 <h3><span class="header-section-number">25.1.1</span> Trasformazione dei dati<a href="regr-model-lm.html#trasformazione-dei-dati" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consideriamo ora i dati <span class="math inline">\(y\)</span> espressi come differenze dalla media:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="regr-model-lm.html#cb317-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>xd <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>mom_iq <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>mom_iq)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="regr-model-lm.html#cb321-1" aria-hidden="true" tabindex="-1"></a>kidiq<span class="sc">$</span>xd <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>mom_iq <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>mom_iq)</span></code></pre></div>
 <p>Il diagramma a dispersione diventa il seguente.</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="regr-model-lm.html#cb318-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
-<span id="cb318-2"><a href="regr-model-lm.html#cb318-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> xd, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
-<span id="cb318-3"><a href="regr-model-lm.html#cb318-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb318-4"><a href="regr-model-lm.html#cb318-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb318-5"><a href="regr-model-lm.html#cb318-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb318-6"><a href="regr-model-lm.html#cb318-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(xd), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
-<span id="cb318-7"><a href="regr-model-lm.html#cb318-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
-<span id="cb318-8"><a href="regr-model-lm.html#cb318-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-316-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="regr-model-lm.html#cb322-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
+<span id="cb322-2"><a href="regr-model-lm.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> xd, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
+<span id="cb322-3"><a href="regr-model-lm.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb322-4"><a href="regr-model-lm.html#cb322-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb322-5"><a href="regr-model-lm.html#cb322-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb322-6"><a href="regr-model-lm.html#cb322-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(xd), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
+<span id="cb322-7"><a href="regr-model-lm.html#cb322-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb322-8"><a href="regr-model-lm.html#cb322-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Nel diagramma precedente, la pendenza della retta di regressione è uguale alla precedente, ma in questo grafico all’intercetta può essere assegnata un’interpretazione dotata di senso.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="regr-model-lm.html#cb319-1" aria-hidden="true" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> xd, <span class="at">data =</span> kidiq)</span>
-<span id="cb319-2"><a href="regr-model-lm.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm1)</span>
-<span id="cb319-3"><a href="regr-model-lm.html#cb319-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)          xd </span></span>
-<span id="cb319-4"><a href="regr-model-lm.html#cb319-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  86.7972350   0.6099746</span></span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="regr-model-lm.html#cb323-1" aria-hidden="true" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> xd, <span class="at">data =</span> kidiq)</span>
+<span id="cb323-2"><a href="regr-model-lm.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm1)</span>
+<span id="cb323-3"><a href="regr-model-lm.html#cb323-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)          xd </span></span>
+<span id="cb323-4"><a href="regr-model-lm.html#cb323-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  86.7972350   0.6099746</span></span></code></pre></div>
 <p>Nel caso di dati così trasformati, l’intercetta è sempre il punto sull’asse <span class="math inline">\(y\)</span> dove la retta di regressione interseca l’ordinata. Ma, in questo caso, dato che abbiamo traslato i dati di una quantità pari a <span class="math inline">\(x - \bar{x}\)</span>, il valore <span class="math inline">\(x = 0\)</span> corrisponde al valore <span class="math inline">\(\bar{x}\)</span> nel caso dei dati grezzi. Dunque, l’intercetta avrà la seguente interpretazione:</p>
 <p>nel caso di dati nei quali <span class="math inline">\(x\)</span> è espresso come differenze dalla media, l’intercetta corrisponde al valore atteso della <span class="math inline">\(y\)</span> in corrispondenza di <span class="math inline">\(\bar{x}\)</span>.</p>
 <p>In altre parole, per i dati così trasformati, l’intercetta corrisponde al QI atteso (ovvero, medio) dei bambini in corrispondenza del QI medio delle madri.</p>
@@ -1010,28 +1010,28 @@ e_1 = (a + b x_1) - y_1
 <p>La procedura generale è stata brevemente descritta in precedenza. Vediamo ora come si giunge alla stessa conclusione usando una simulazione.</p>
 <p>Il problema è di trovare i valori <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> tali per cui la quantità <span class="math inline">\(\sum_{i=1}^{n}{(y_i - (a + b x_i))^2}\)</span> assume il valore minore possibile. Questo è un problema di minimizzazione rispetto a due parametri. Per dare un’idea di come si fa, semplifichiamo il problema e supponiamo che uno dei due parametri sia noto, ad esempio <span class="math inline">\(a\)</span>, così ci resta una sola incognita.</p>
 <p>Credo una griglia di valori <code>b_grid</code> possibili, ad esempio:</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="regr-model-lm.html#cb320-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb320-2"><a href="regr-model-lm.html#cb320-2" aria-hidden="true" tabindex="-1"></a>b_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> nrep)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="regr-model-lm.html#cb324-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb324-2"><a href="regr-model-lm.html#cb324-2" aria-hidden="true" tabindex="-1"></a>b_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> nrep)</span></code></pre></div>
 <p>Definisco una funzione che calcola la quantità <span class="math inline">\(\sum_{i=1}^{n}{(y_i - (a + b x_i))^2}\)</span>:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="regr-model-lm.html#cb321-1" aria-hidden="true" tabindex="-1"></a>sse <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, x, y) {</span>
-<span id="cb321-2"><a href="regr-model-lm.html#cb321-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((y <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> x))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb321-3"><a href="regr-model-lm.html#cb321-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="regr-model-lm.html#cb325-1" aria-hidden="true" tabindex="-1"></a>sse <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, x, y) {</span>
+<span id="cb325-2"><a href="regr-model-lm.html#cb325-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((y <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> x))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb325-3"><a href="regr-model-lm.html#cb325-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Calcolo la somma degli errori quadratici per ciascun possibile valore <code>b_grid</code>, fissando <span class="math inline">\(a = 25.79978\)</span>.</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="regr-model-lm.html#cb322-1" aria-hidden="true" tabindex="-1"></a>sse_res <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb322-2"><a href="regr-model-lm.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb322-3"><a href="regr-model-lm.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  sse_res[i] <span class="ot">&lt;-</span> <span class="fu">sse</span>(<span class="at">a =</span> <span class="fl">25.79978</span>, <span class="at">b =</span> b_grid[i], <span class="at">x =</span> kidiq<span class="sc">$</span>mom_iq, <span class="at">y =</span> kidiq<span class="sc">$</span>kid_score)</span>
-<span id="cb322-4"><a href="regr-model-lm.html#cb322-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="regr-model-lm.html#cb326-1" aria-hidden="true" tabindex="-1"></a>sse_res <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb326-2"><a href="regr-model-lm.html#cb326-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb326-3"><a href="regr-model-lm.html#cb326-3" aria-hidden="true" tabindex="-1"></a>  sse_res[i] <span class="ot">&lt;-</span> <span class="fu">sse</span>(<span class="at">a =</span> <span class="fl">25.79978</span>, <span class="at">b =</span> b_grid[i], <span class="at">x =</span> kidiq<span class="sc">$</span>mom_iq, <span class="at">y =</span> kidiq<span class="sc">$</span>kid_score)</span>
+<span id="cb326-4"><a href="regr-model-lm.html#cb326-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Esaminiamo il risultato ottenuto.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="regr-model-lm.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb323-2"><a href="regr-model-lm.html#cb323-2" aria-hidden="true" tabindex="-1"></a>  b_grid, sse_res, <span class="at">type =</span> <span class="st">&#39;l&#39;</span></span>
-<span id="cb323-3"><a href="regr-model-lm.html#cb323-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-321-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="regr-model-lm.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb327-2"><a href="regr-model-lm.html#cb327-2" aria-hidden="true" tabindex="-1"></a>  b_grid, sse_res, <span class="at">type =</span> <span class="st">&#39;l&#39;</span></span>
+<span id="cb327-3"><a href="regr-model-lm.html#cb327-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="052_reglin2_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il risultato ottenuto con la simulazione</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="regr-model-lm.html#cb324-1" aria-hidden="true" tabindex="-1"></a>b_grid[<span class="fu">which.min</span>(sse_res)]</span>
-<span id="cb324-2"><a href="regr-model-lm.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099761</span></span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="regr-model-lm.html#cb328-1" aria-hidden="true" tabindex="-1"></a>b_grid[<span class="fu">which.min</span>(sse_res)]</span>
+<span id="cb328-2"><a href="regr-model-lm.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099761</span></span></code></pre></div>
 <p>riproduce quello ottenuto per via analitica:</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="regr-model-lm.html#cb325-1" aria-hidden="true" tabindex="-1"></a>b</span>
-<span id="cb325-2"><a href="regr-model-lm.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099746</span></span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="regr-model-lm.html#cb329-1" aria-hidden="true" tabindex="-1"></a>b</span>
+<span id="cb329-2"><a href="regr-model-lm.html#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099746</span></span></code></pre></div>
 <p>Una simulazione simile, ma computazionalmente più complessa, può essere usata per stimare simultaneamente entrambi i parametri. Ci siamo limitati qui ad una <em>proof of concept</em> del caso più semplice.</p>
 </div>
 <div id="il-coefficiente-di-determinazione" class="section level3 hasAnchor" number="25.1.3">
@@ -1050,43 +1050,43 @@ s_e = \sqrt{\frac{\sum e_i^2}{n-2}}.
 <p>Si noti che la formula precedente non fornisce la “deviazione standard dei residui nel campione” (quella formula avrebbe <span class="math inline">\(n\)</span> al denominatore). Invece, fornisce una <em>stima</em> della deviazione standard dei residui nella popolazione da cui il campione è stato estratto.</p>
 <p>Verifichiamo quanto detto con i dati a disposizione.</p>
 <p>I residui possono essere trovati nel modo seguente.</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="regr-model-lm.html#cb326-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>kid_score <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq)</span>
-<span id="cb326-2"><a href="regr-model-lm.html#cb326-2" aria-hidden="true" tabindex="-1"></a>e[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb326-3"><a href="regr-model-lm.html#cb326-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -34.678390  17.691747 -11.217173  -3.461529  32.627697   6.382845</span></span>
-<span id="cb326-4"><a href="regr-model-lm.html#cb326-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] -41.521041   3.864881  26.414387  11.208068</span></span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="regr-model-lm.html#cb330-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> kidiq<span class="sc">$</span>kid_score <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> kidiq<span class="sc">$</span>mom_iq)</span>
+<span id="cb330-2"><a href="regr-model-lm.html#cb330-2" aria-hidden="true" tabindex="-1"></a>e[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb330-3"><a href="regr-model-lm.html#cb330-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -34.678390  17.691747 -11.217173  -3.461529  32.627697   6.382845</span></span>
+<span id="cb330-4"><a href="regr-model-lm.html#cb330-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] -41.521041   3.864881  26.414387  11.208068</span></span></code></pre></div>
 <p>Oppure nel modo seguente.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="regr-model-lm.html#cb327-1" aria-hidden="true" tabindex="-1"></a>fm<span class="sc">$</span>residuals[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb327-2"><a href="regr-model-lm.html#cb327-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          1          2          3          4          5          6          7 </span></span>
-<span id="cb327-3"><a href="regr-model-lm.html#cb327-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -34.678390  17.691747 -11.217173  -3.461529  32.627697   6.382845 -41.521041 </span></span>
-<span id="cb327-4"><a href="regr-model-lm.html#cb327-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          8          9         10 </span></span>
-<span id="cb327-5"><a href="regr-model-lm.html#cb327-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3.864881  26.414387  11.208068</span></span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="regr-model-lm.html#cb331-1" aria-hidden="true" tabindex="-1"></a>fm<span class="sc">$</span>residuals[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb331-2"><a href="regr-model-lm.html#cb331-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          1          2          3          4          5          6          7 </span></span>
+<span id="cb331-3"><a href="regr-model-lm.html#cb331-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -34.678390  17.691747 -11.217173  -3.461529  32.627697   6.382845 -41.521041 </span></span>
+<span id="cb331-4"><a href="regr-model-lm.html#cb331-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          8          9         10 </span></span>
+<span id="cb331-5"><a href="regr-model-lm.html#cb331-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   3.864881  26.414387  11.208068</span></span></code></pre></div>
 <p>Calcolo il residuo medio, prendendo il valore assoluto.</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="regr-model-lm.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(e))</span>
-<span id="cb328-2"><a href="regr-model-lm.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.4686</span></span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="regr-model-lm.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(e))</span>
+<span id="cb332-2"><a href="regr-model-lm.html#cb332-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.4686</span></span></code></pre></div>
 <p>L’errore standard della regressione è</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="regr-model-lm.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">sum</span>(e<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">length</span>(e) <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb329-2"><a href="regr-model-lm.html#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 18.26612</span></span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="regr-model-lm.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">sum</span>(e<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">length</span>(e) <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb333-2"><a href="regr-model-lm.html#cb333-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 18.26612</span></span></code></pre></div>
 <p>I due numeri non sono uguali, ma possiamo dire che hanno lo stesso ordine di grandezza.</p>
 <p>Se usiamo la funzione <code>lm()</code> otteniamo lo stesso valore, chiamato <code>Residual standard error</code>.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="regr-model-lm.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm)</span>
-<span id="cb330-2"><a href="regr-model-lm.html#cb330-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb330-3"><a href="regr-model-lm.html#cb330-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb330-4"><a href="regr-model-lm.html#cb330-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = kid_score ~ mom_iq, data = kidiq)</span></span>
-<span id="cb330-5"><a href="regr-model-lm.html#cb330-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb330-6"><a href="regr-model-lm.html#cb330-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
-<span id="cb330-7"><a href="regr-model-lm.html#cb330-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb330-8"><a href="regr-model-lm.html#cb330-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -56.753 -12.074   2.217  11.710  47.691 </span></span>
-<span id="cb330-9"><a href="regr-model-lm.html#cb330-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb330-10"><a href="regr-model-lm.html#cb330-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb330-11"><a href="regr-model-lm.html#cb330-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb330-12"><a href="regr-model-lm.html#cb330-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 25.79978    5.91741    4.36 1.63e-05 ***</span></span>
-<span id="cb330-13"><a href="regr-model-lm.html#cb330-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mom_iq       0.60997    0.05852   10.42  &lt; 2e-16 ***</span></span>
-<span id="cb330-14"><a href="regr-model-lm.html#cb330-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb330-15"><a href="regr-model-lm.html#cb330-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb330-16"><a href="regr-model-lm.html#cb330-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb330-17"><a href="regr-model-lm.html#cb330-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 18.27 on 432 degrees of freedom</span></span>
-<span id="cb330-18"><a href="regr-model-lm.html#cb330-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.201,  Adjusted R-squared:  0.1991 </span></span>
-<span id="cb330-19"><a href="regr-model-lm.html#cb330-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 108.6 on 1 and 432 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="regr-model-lm.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm)</span>
+<span id="cb334-2"><a href="regr-model-lm.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb334-3"><a href="regr-model-lm.html#cb334-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb334-4"><a href="regr-model-lm.html#cb334-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = kid_score ~ mom_iq, data = kidiq)</span></span>
+<span id="cb334-5"><a href="regr-model-lm.html#cb334-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb334-6"><a href="regr-model-lm.html#cb334-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb334-7"><a href="regr-model-lm.html#cb334-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb334-8"><a href="regr-model-lm.html#cb334-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -56.753 -12.074   2.217  11.710  47.691 </span></span>
+<span id="cb334-9"><a href="regr-model-lm.html#cb334-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb334-10"><a href="regr-model-lm.html#cb334-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb334-11"><a href="regr-model-lm.html#cb334-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb334-12"><a href="regr-model-lm.html#cb334-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 25.79978    5.91741    4.36 1.63e-05 ***</span></span>
+<span id="cb334-13"><a href="regr-model-lm.html#cb334-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mom_iq       0.60997    0.05852   10.42  &lt; 2e-16 ***</span></span>
+<span id="cb334-14"><a href="regr-model-lm.html#cb334-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb334-15"><a href="regr-model-lm.html#cb334-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb334-16"><a href="regr-model-lm.html#cb334-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb334-17"><a href="regr-model-lm.html#cb334-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 18.27 on 432 degrees of freedom</span></span>
+<span id="cb334-18"><a href="regr-model-lm.html#cb334-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.201,  Adjusted R-squared:  0.1991 </span></span>
+<span id="cb334-19"><a href="regr-model-lm.html#cb334-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 108.6 on 1 and 432 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
 </div>
 </div>
 <div id="indice-di-determinazione" class="section level2 hasAnchor" number="25.2">
@@ -1123,37 +1123,37 @@ R^2 \triangleq \frac{\mbox{dev_R}}{\mbox{dev_T}} = 1 - \frac{\mbox{dev_E}}{\mbox
 devianza residua è nulla ed <span class="math inline">\(r^2 = 1\)</span>; nel caso opposto, la variabilità totale coincide con quella residua, per cui <span class="math inline">\(r^2 = 0\)</span>.
 Tra questi due estremi, <span class="math inline">\(r\)</span> indica l’intensità della relazione lineare tra le due variabili e <span class="math inline">\(r^2\)</span>, con <span class="math inline">\(0 \leq r^2 \leq 1\)</span>, esprime la porzione della devianza totale della <span class="math inline">\(y\)</span> che è spiegata dalla regressione lineare sulla <span class="math inline">\(x\)</span>.</p>
 <p>Per l’esempio in discussione abbiamo quanto segue. La devianza totale è</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="regr-model-lm.html#cb331-1" aria-hidden="true" tabindex="-1"></a>dev_t <span class="ot">&lt;-</span> <span class="fu">sum</span>((kidiq<span class="sc">$</span>kid_score <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb331-2"><a href="regr-model-lm.html#cb331-2" aria-hidden="true" tabindex="-1"></a>dev_t</span>
-<span id="cb331-3"><a href="regr-model-lm.html#cb331-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 180386.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="regr-model-lm.html#cb335-1" aria-hidden="true" tabindex="-1"></a>dev_t <span class="ot">&lt;-</span> <span class="fu">sum</span>((kidiq<span class="sc">$</span>kid_score <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb335-2"><a href="regr-model-lm.html#cb335-2" aria-hidden="true" tabindex="-1"></a>dev_t</span>
+<span id="cb335-3"><a href="regr-model-lm.html#cb335-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 180386.2</span></span></code></pre></div>
 <p>La devianza spiegata è</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="regr-model-lm.html#cb332-1" aria-hidden="true" tabindex="-1"></a>dev_r <span class="ot">&lt;-</span> <span class="fu">sum</span>((fm<span class="sc">$</span>fitted.values <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb332-2"><a href="regr-model-lm.html#cb332-2" aria-hidden="true" tabindex="-1"></a>dev_r</span>
-<span id="cb332-3"><a href="regr-model-lm.html#cb332-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 36248.82</span></span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="regr-model-lm.html#cb336-1" aria-hidden="true" tabindex="-1"></a>dev_r <span class="ot">&lt;-</span> <span class="fu">sum</span>((fm<span class="sc">$</span>fitted.values <span class="sc">-</span> <span class="fu">mean</span>(kidiq<span class="sc">$</span>kid_score))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb336-2"><a href="regr-model-lm.html#cb336-2" aria-hidden="true" tabindex="-1"></a>dev_r</span>
+<span id="cb336-3"><a href="regr-model-lm.html#cb336-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 36248.82</span></span></code></pre></div>
 <p>L’indice di determinazione è</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="regr-model-lm.html#cb333-1" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> dev_r <span class="sc">/</span> dev_t</span>
-<span id="cb333-2"><a href="regr-model-lm.html#cb333-2" aria-hidden="true" tabindex="-1"></a>R2</span>
-<span id="cb333-3"><a href="regr-model-lm.html#cb333-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2009512</span></span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="regr-model-lm.html#cb337-1" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> dev_r <span class="sc">/</span> dev_t</span>
+<span id="cb337-2"><a href="regr-model-lm.html#cb337-2" aria-hidden="true" tabindex="-1"></a>R2</span>
+<span id="cb337-3"><a href="regr-model-lm.html#cb337-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2009512</span></span></code></pre></div>
 <p>Nell’output di <code>lm()</code> un tale valore è chiamato <code>Multiple R-squared</code>.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="regr-model-lm.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm)</span>
-<span id="cb334-2"><a href="regr-model-lm.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb334-3"><a href="regr-model-lm.html#cb334-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb334-4"><a href="regr-model-lm.html#cb334-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = kid_score ~ mom_iq, data = kidiq)</span></span>
-<span id="cb334-5"><a href="regr-model-lm.html#cb334-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb334-6"><a href="regr-model-lm.html#cb334-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
-<span id="cb334-7"><a href="regr-model-lm.html#cb334-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb334-8"><a href="regr-model-lm.html#cb334-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -56.753 -12.074   2.217  11.710  47.691 </span></span>
-<span id="cb334-9"><a href="regr-model-lm.html#cb334-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb334-10"><a href="regr-model-lm.html#cb334-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb334-11"><a href="regr-model-lm.html#cb334-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb334-12"><a href="regr-model-lm.html#cb334-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 25.79978    5.91741    4.36 1.63e-05 ***</span></span>
-<span id="cb334-13"><a href="regr-model-lm.html#cb334-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mom_iq       0.60997    0.05852   10.42  &lt; 2e-16 ***</span></span>
-<span id="cb334-14"><a href="regr-model-lm.html#cb334-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb334-15"><a href="regr-model-lm.html#cb334-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb334-16"><a href="regr-model-lm.html#cb334-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb334-17"><a href="regr-model-lm.html#cb334-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 18.27 on 432 degrees of freedom</span></span>
-<span id="cb334-18"><a href="regr-model-lm.html#cb334-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.201,  Adjusted R-squared:  0.1991 </span></span>
-<span id="cb334-19"><a href="regr-model-lm.html#cb334-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 108.6 on 1 and 432 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="regr-model-lm.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm)</span>
+<span id="cb338-2"><a href="regr-model-lm.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb338-3"><a href="regr-model-lm.html#cb338-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb338-4"><a href="regr-model-lm.html#cb338-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = kid_score ~ mom_iq, data = kidiq)</span></span>
+<span id="cb338-5"><a href="regr-model-lm.html#cb338-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb338-6"><a href="regr-model-lm.html#cb338-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb338-7"><a href="regr-model-lm.html#cb338-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb338-8"><a href="regr-model-lm.html#cb338-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -56.753 -12.074   2.217  11.710  47.691 </span></span>
+<span id="cb338-9"><a href="regr-model-lm.html#cb338-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb338-10"><a href="regr-model-lm.html#cb338-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb338-11"><a href="regr-model-lm.html#cb338-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb338-12"><a href="regr-model-lm.html#cb338-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 25.79978    5.91741    4.36 1.63e-05 ***</span></span>
+<span id="cb338-13"><a href="regr-model-lm.html#cb338-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mom_iq       0.60997    0.05852   10.42  &lt; 2e-16 ***</span></span>
+<span id="cb338-14"><a href="regr-model-lm.html#cb338-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb338-15"><a href="regr-model-lm.html#cb338-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb338-16"><a href="regr-model-lm.html#cb338-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb338-17"><a href="regr-model-lm.html#cb338-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 18.27 on 432 degrees of freedom</span></span>
+<span id="cb338-18"><a href="regr-model-lm.html#cb338-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.201,  Adjusted R-squared:  0.1991 </span></span>
+<span id="cb338-19"><a href="regr-model-lm.html#cb338-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 108.6 on 1 and 432 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
 <p>Il risultato ottenuto si può interpretare dicendo che circa il 20% della variabilità dei punteggi del QI dei bambini può essere predetto conoscendo il QI delle madri.</p>
 <div id="inferenza-sul-modello-di-regressione" class="section level3 hasAnchor" number="25.2.1">
 <h3><span class="header-section-number">25.2.1</span> Inferenza sul modello di regressione<a href="regr-model-lm.html#inferenza-sul-modello-di-regressione" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1206,8 +1206,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/052_reglin2.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/052_reglin2.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1223,7 +1223,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

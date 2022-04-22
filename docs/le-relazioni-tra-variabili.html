@@ -824,46 +824,50 @@ diagramma a dispersione.</p>
 <p>Il diagramma di dispersione è la rappresentazione grafica delle coppie di punti individuati da due variabili <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
 <p>Per fare un esempio concreto, consideriamo le variabili BDI-II e CES-D di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Il diagramma di dispersione per tali variabili si ottiene ponendo, ad esempio, i valori BDI-II sull’asse delle ascisse e quelli del CES-D sull’asse delle ordinate. In tale grafico, fornito dalla figura <a href="le-relazioni-tra-variabili.html#fig:zetsche-scatter">5.1</a>, cascun punto corrisponde ad un individuo del quale, nel caso presente, conosciamo il livello di depressione misurato dalle due scale psicometriche.</p>
 <p>Dalla figura <a href="le-relazioni-tra-variabili.html#fig:zetsche-scatter">5.1</a> possiamo vedere che i dati mostrano una tendenza a disporsi attorno ad una retta – nel gergo statistico, questo fatto viene espresso dicendo che i punteggi CES-D tendono ad essere linearmente associati ai punteggi BDI-II. È ovvio, tuttavia, che tale relazione lineare è lungi dall’essere perfetta – se fosse perfetta, tutti i punti del diagramma a dispersione si disporrebbero esattamente lungo una retta.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="le-relazioni-tra-variabili.html#cb15-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="le-relazioni-tra-variabili.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(esm_id, group) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="le-relazioni-tra-variabili.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb15-4"><a href="le-relazioni-tra-variabili.html#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">bdi =</span> <span class="fu">mean</span>(bdi),</span>
-<span id="cb15-5"><a href="le-relazioni-tra-variabili.html#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cesd =</span> <span class="fu">mean</span>(cesd_sum)</span>
-<span id="cb15-6"><a href="le-relazioni-tra-variabili.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-7"><a href="le-relazioni-tra-variabili.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-8"><a href="le-relazioni-tra-variabili.html#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb15-9"><a href="le-relazioni-tra-variabili.html#cb15-9" aria-hidden="true" tabindex="-1"></a>m_cesd <span class="ot">&lt;-</span> bysubj <span class="sc">%&gt;%</span></span>
-<span id="cb15-10"><a href="le-relazioni-tra-variabili.html#cb15-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(cesd) <span class="sc">%&gt;%</span></span>
-<span id="cb15-11"><a href="le-relazioni-tra-variabili.html#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
-<span id="cb15-12"><a href="le-relazioni-tra-variabili.html#cb15-12" aria-hidden="true" tabindex="-1"></a>m_bdi <span class="ot">&lt;-</span> bysubj <span class="sc">%&gt;%</span></span>
-<span id="cb15-13"><a href="le-relazioni-tra-variabili.html#cb15-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(bdi) <span class="sc">%&gt;%</span></span>
-<span id="cb15-14"><a href="le-relazioni-tra-variabili.html#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
-<span id="cb15-15"><a href="le-relazioni-tra-variabili.html#cb15-15" aria-hidden="true" tabindex="-1"></a>FONT_SIZE <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb15-16"><a href="le-relazioni-tra-variabili.html#cb15-16" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
-<span id="cb15-17"><a href="le-relazioni-tra-variabili.html#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb15-18"><a href="le-relazioni-tra-variabili.html#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> bdi, <span class="at">y =</span> cesd, <span class="at">color =</span> group)</span>
-<span id="cb15-19"><a href="le-relazioni-tra-variabili.html#cb15-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-20"><a href="le-relazioni-tra-variabili.html#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> .<span class="dv">9</span>) <span class="sc">+</span></span>
-<span id="cb15-21"><a href="le-relazioni-tra-variabili.html#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> m_cesd, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
-<span id="cb15-22"><a href="le-relazioni-tra-variabili.html#cb15-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-23"><a href="le-relazioni-tra-variabili.html#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> m_bdi, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
-<span id="cb15-24"><a href="le-relazioni-tra-variabili.html#cb15-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-25"><a href="le-relazioni-tra-variabili.html#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">y =</span> <span class="dv">16</span>, <span class="at">label =</span> <span class="st">&quot;I&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
-<span id="cb15-26"><a href="le-relazioni-tra-variabili.html#cb15-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
-<span id="cb15-27"><a href="le-relazioni-tra-variabili.html#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">46</span>, <span class="at">label =</span> <span class="st">&quot;IV&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
-<span id="cb15-28"><a href="le-relazioni-tra-variabili.html#cb15-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
-<span id="cb15-29"><a href="le-relazioni-tra-variabili.html#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">18</span>, <span class="at">y =</span> <span class="dv">46</span>, <span class="at">label =</span> <span class="st">&quot;III&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
-<span id="cb15-30"><a href="le-relazioni-tra-variabili.html#cb15-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
-<span id="cb15-31"><a href="le-relazioni-tra-variabili.html#cb15-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">18</span>, <span class="at">y =</span> <span class="dv">16</span>, <span class="at">label =</span> <span class="st">&quot;II&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
-<span id="cb15-32"><a href="le-relazioni-tra-variabili.html#cb15-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
-<span id="cb15-33"><a href="le-relazioni-tra-variabili.html#cb15-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-34"><a href="le-relazioni-tra-variabili.html#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;BDI-II&quot;</span>,</span>
-<span id="cb15-35"><a href="le-relazioni-tra-variabili.html#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;CESD&quot;</span></span>
-<span id="cb15-36"><a href="le-relazioni-tra-variabili.html#cb15-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-37"><a href="le-relazioni-tra-variabili.html#cb15-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-38"><a href="le-relazioni-tra-variabili.html#cb15-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_grey</span>(<span class="at">start =</span> <span class="fl">0.7</span>, <span class="at">end =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="le-relazioni-tra-variabili.html#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
+<span id="cb19-2"><a href="le-relazioni-tra-variabili.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data.mood.csv&quot;</span>),</span>
+<span id="cb19-3"><a href="le-relazioni-tra-variabili.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span></span>
+<span id="cb19-4"><a href="le-relazioni-tra-variabili.html#cb19-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-5"><a href="le-relazioni-tra-variabili.html#cb19-5" aria-hidden="true" tabindex="-1"></a>bysubj <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="le-relazioni-tra-variabili.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(esm_id, group) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="le-relazioni-tra-variabili.html#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-8"><a href="le-relazioni-tra-variabili.html#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">bdi =</span> <span class="fu">mean</span>(bdi),</span>
+<span id="cb19-9"><a href="le-relazioni-tra-variabili.html#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">cesd =</span> <span class="fu">mean</span>(cesd_sum)</span>
+<span id="cb19-10"><a href="le-relazioni-tra-variabili.html#cb19-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-11"><a href="le-relazioni-tra-variabili.html#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="le-relazioni-tra-variabili.html#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb19-13"><a href="le-relazioni-tra-variabili.html#cb19-13" aria-hidden="true" tabindex="-1"></a>m_cesd <span class="ot">&lt;-</span> bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a href="le-relazioni-tra-variabili.html#cb19-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(cesd) <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a href="le-relazioni-tra-variabili.html#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
+<span id="cb19-16"><a href="le-relazioni-tra-variabili.html#cb19-16" aria-hidden="true" tabindex="-1"></a>m_bdi <span class="ot">&lt;-</span> bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb19-17"><a href="le-relazioni-tra-variabili.html#cb19-17" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(bdi) <span class="sc">%&gt;%</span></span>
+<span id="cb19-18"><a href="le-relazioni-tra-variabili.html#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
+<span id="cb19-19"><a href="le-relazioni-tra-variabili.html#cb19-19" aria-hidden="true" tabindex="-1"></a>FONT_SIZE <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb19-20"><a href="le-relazioni-tra-variabili.html#cb19-20" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
+<span id="cb19-21"><a href="le-relazioni-tra-variabili.html#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb19-22"><a href="le-relazioni-tra-variabili.html#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> bdi, <span class="at">y =</span> cesd, <span class="at">color =</span> group)</span>
+<span id="cb19-23"><a href="le-relazioni-tra-variabili.html#cb19-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-24"><a href="le-relazioni-tra-variabili.html#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> .<span class="dv">9</span>) <span class="sc">+</span></span>
+<span id="cb19-25"><a href="le-relazioni-tra-variabili.html#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> m_cesd, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb19-26"><a href="le-relazioni-tra-variabili.html#cb19-26" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-27"><a href="le-relazioni-tra-variabili.html#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> m_bdi, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb19-28"><a href="le-relazioni-tra-variabili.html#cb19-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-29"><a href="le-relazioni-tra-variabili.html#cb19-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">y =</span> <span class="dv">16</span>, <span class="at">label =</span> <span class="st">&quot;I&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
+<span id="cb19-30"><a href="le-relazioni-tra-variabili.html#cb19-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
+<span id="cb19-31"><a href="le-relazioni-tra-variabili.html#cb19-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">46</span>, <span class="at">label =</span> <span class="st">&quot;IV&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
+<span id="cb19-32"><a href="le-relazioni-tra-variabili.html#cb19-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
+<span id="cb19-33"><a href="le-relazioni-tra-variabili.html#cb19-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">18</span>, <span class="at">y =</span> <span class="dv">46</span>, <span class="at">label =</span> <span class="st">&quot;III&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
+<span id="cb19-34"><a href="le-relazioni-tra-variabili.html#cb19-34" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
+<span id="cb19-35"><a href="le-relazioni-tra-variabili.html#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">18</span>, <span class="at">y =</span> <span class="dv">16</span>, <span class="at">label =</span> <span class="st">&quot;II&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, </span>
+<span id="cb19-36"><a href="le-relazioni-tra-variabili.html#cb19-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> FONT_SIZE) <span class="sc">+</span></span>
+<span id="cb19-37"><a href="le-relazioni-tra-variabili.html#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-38"><a href="le-relazioni-tra-variabili.html#cb19-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;BDI-II&quot;</span>,</span>
+<span id="cb19-39"><a href="le-relazioni-tra-variabili.html#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;CESD&quot;</span></span>
+<span id="cb19-40"><a href="le-relazioni-tra-variabili.html#cb19-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-41"><a href="le-relazioni-tra-variabili.html#cb19-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-42"><a href="le-relazioni-tra-variabili.html#cb19-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_grey</span>(<span class="at">start =</span> <span class="fl">0.7</span>, <span class="at">end =</span> <span class="dv">0</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:zetsche-scatter"></span>
-<img src="ds4psy_files/figure-html/zetsche-scatter-1.png" alt="Associazione tra le variabili BDI-II e CES-D nello studio di Zetsche et al. (2019). In grigio sono rappresentate le osservazioni del gruppo di controllo; in nero quelle dei pazienti." width="576" />
+<img src="012_correlation_files/figure-html/zetsche-scatter-1.png" alt="Associazione tra le variabili BDI-II e CES-D nello studio di Zetsche et al. (2019). In grigio sono rappresentate le osservazioni del gruppo di controllo; in nero quelle dei pazienti." width="576" />
 <p class="caption">
 FIGURA 5.1: Associazione tra le variabili BDI-II e CES-D nello studio di Zetsche et al. (2019). In grigio sono rappresentate le osservazioni del gruppo di controllo; in nero quelle dei pazienti.
 </p>
@@ -960,7 +964,7 @@ di intensità diversa;</li>
 <span class="math inline">\(Y\)</span>.</li>
 </ol>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Esercizio 5.1  </strong></span>Per i dati della figura <a href="le-relazioni-tra-variabili.html#fig:zetsche-scatter">5.1</a>, la covarianza è 207.426. Il segno positivo della covarianza ci dice che tra le due variabili c’è un’associazione lineare positiva. Per capire qual è l’intensità della relazione lineare tra le due variabili calcoliamo la correlazione.
+<p><span id="exr:unlabeled-div-26" class="exercise"><strong>Esercizio 5.1  </strong></span>Per i dati della figura <a href="le-relazioni-tra-variabili.html#fig:zetsche-scatter">5.1</a>, la covarianza è 207.426. Il segno positivo della covarianza ci dice che tra le due variabili c’è un’associazione lineare positiva. Per capire qual è l’intensità della relazione lineare tra le due variabili calcoliamo la correlazione.
 Essendo le deviazioni standard del BDI-II e del CES-D rispettavamente uguali a 15.37 e 14.93, la correlazione diventa uguale a <span class="math inline">\(\frac{207.426}{15.38 \cdot 14.93} = 0.904.\)</span> Tale valore è prossimo a 1.0, il che vuol dire che i punti del diagramma a dispersione non si discostano troppo da una retta con una pendenza positiva.</p>
 </div>
 </div>
@@ -1010,9 +1014,9 @@ distribuzione di frequenze per le varie modalità della risposta.</p>
 <h2><span class="header-section-number">5.7</span> Correlazione nulla<a href="le-relazioni-tra-variabili.html#correlazione-nulla" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Un ultimo aspetto da mettere in evidenza a proposito della correlazione riguarda il fatto che la correlazione descrive la direzione e l’intensità della relazione lineare tra due variabili. Relazioni non lineari tra le variabili, anche se sono molto forti, non vengono catturate dalla correlazione. È importante rendersi conto che una correlazione pari a zero non significa che non c’è relazione tra le due variabili, ma solo che tra esse non c’è una relazione <em>lineare</em>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Esercizio 5.2  </strong></span>La figura <a href="le-relazioni-tra-variabili.html#fig:zerocorr">5.2</a> fornisce un esempio di correlazione nulla in presenza di una chiara relazione (non lineare) tra due variabili.</p>
+<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Esercizio 5.2  </strong></span>La figura <a href="le-relazioni-tra-variabili.html#fig:zerocorr">5.2</a> fornisce un esempio di correlazione nulla in presenza di una chiara relazione (non lineare) tra due variabili.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:zerocorr"></span>
-<img src="ds4psy_files/figure-html/zerocorr-1.png" alt="Due insiemi di dati (fittizi) per i quali i coefficienti di correlazione di Pearson sono entrambi 0. Ma questo non significa che non vi sia alcuna relazione tra le variabili." width="576" />
+<img src="012_correlation_files/figure-html/zerocorr-1.png" alt="Due insiemi di dati (fittizi) per i quali i coefficienti di correlazione di Pearson sono entrambi 0. Ma questo non significa che non vi sia alcuna relazione tra le variabili." width="576" />
 <p class="caption">
 FIGURA 5.2: Due insiemi di dati (fittizi) per i quali i coefficienti di correlazione di Pearson sono entrambi 0. Ma questo non significa che non vi sia alcuna relazione tra le variabili.
 </p>
@@ -1071,8 +1075,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/012_correlation.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/012_correlation.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1088,7 +1092,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });

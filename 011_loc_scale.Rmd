@@ -60,17 +60,31 @@ distribuzione è asimmetrica, o in presenza di valori anomali (_outlier_)
 -- si veda il pannello di destra della figura \@ref(fig:violin-zetsche). In tali circostanze, la tendenza centrale della distribuzione è meglio rappresentata dalla mediana o dalla media spuntata.
 :::
 
-<!-- ::: {.exercise} -->
-<!-- Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
+::: {.exercise}
+Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019.
 
-<!-- ```{r} -->
-<!-- bysubj %>%  -->
-<!--   group_by(group) %>%  -->
-<!--   summarise( -->
-<!--     avg_bdi = mean(bdi) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+
+```{r}
+df <- rio::import(
+  here("data", "data.mood.csv"),
+  header = TRUE
+)
+bysubj <- df %>%
+  group_by(group, esm_id) %>%
+  summarise(
+    bdi = mean(bdi)
+  ) %>%
+  na.omit()
+```
+
+```{r}
+bysubj %>%
+  group_by(group) %>%
+  summarise(
+    avg_bdi = mean(bdi)
+  )
+```
+:::
 
 ### Media spuntata
 
@@ -81,17 +95,17 @@ una sequenza crescente, $x_1 \leq x_2 \leq x_3 \leq \dots \leq x_n$, per
 poi eliminare il primo 5% e l'ultimo 5% dei dati della serie così
 ordinata. La media spuntata è data dalla media aritmetica dei dati rimanenti.
 
-<!-- ::: {.exercise} -->
-<!-- Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019 escludendo il 10% dei valori più estremi in ciascun gruppo. -->
+::: {.exercise}
+Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019 escludendo il 10% dei valori più estremi in ciascun gruppo.
 
-<!-- ```{r} -->
-<!-- bysubj %>% -->
-<!--   group_by(group) %>% -->
-<!--   summarise( -->
-<!--     avg_trim_bdi = mean(bdi, trim = 0.1) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+```{r}
+bysubj %>%
+  group_by(group) %>%
+  summarise(
+    avg_trim_bdi = mean(bdi, trim = 0.1)
+  )
+```
+:::
 
 ### Moda e mediana
 
@@ -102,19 +116,19 @@ abbia più mode; in tal caso si dice *multimodale* e questo operatore
 perde il suo significato di indice di tendenza centrale) e la *mediana*
 $\tilde{x}$.
 
-<!-- ::: {.exercise} -->
-<!-- Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019. -->
+::: {.exercise}
+Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di @zetschefuture2019.
 
-<!-- ```{r} -->
-<!-- bysubj %>% -->
-<!--   group_by(group) %>% -->
-<!--   summarise( -->
-<!--     q25 = quantile(bdi, probs = 0.25), -->
-<!--     q50 = quantile(bdi, probs = 0.50), -->
-<!--     q75 = quantile(bdi, probs = 0.75) -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ::: -->
+```{r}
+bysubj %>%
+  group_by(group) %>%
+  summarise(
+    q25 = quantile(bdi, probs = 0.25),
+    q50 = quantile(bdi, probs = 0.50),
+    q75 = quantile(bdi, probs = 0.75)
+  )
+```
+:::
 
 ::: {.remark}
 Si noti che solitamente i software restituiscono un valore *interpolato* del $p$-esimo quantile $q_p$ $(0 < p < 1)$, il quale viene calcolato mediante specifiche procedure. Il risultato fornito dai software, dunque, non sarà identico a quello trovato utilizzando la definizione non interpolata di quantile che abbiamo presentato qui. Se, per qualche ragione, vogliamo conoscere l'algoritmo usato per la determinazione dei quantili interpolati, dobbiamo leggere la documentazione del software.
@@ -229,6 +243,8 @@ Applicando la formula precedente, per tutto il campione abbiamo
 ```{r}
 1.4826 * median(abs(bysubj$bdi - median(bysubj$bdi)))
 ```
+
+Nel caso presente, i dati seguono una distribuzione bimodale, dunque $1.4826\ \operatorname {MAD}$ produce un valore piuttosto diverso dalla deviazione standard.
 :::
 
 ### Indici di variabilità relativi

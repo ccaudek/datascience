@@ -910,7 +910,7 @@ P(X = 3, Y = 1) &amp;= P(\omega_1 = TTT) = 1/8; \notag
 </table>
 <p>In generale, possiamo dire che, dato uno spazio campione discreto <span class="math inline">\(\Omega\)</span>, è possibile associare ad ogni evento elementare <span class="math inline">\(\omega_i\)</span> dello spazio campione una coppia di numeri reali <span class="math inline">\((x, y)\)</span>, essendo <span class="math inline">\(x = X(\omega)\)</span> e <span class="math inline">\(y = Y(\omega)\)</span>, il che ci conduce alla seguente definizione.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-35" class="definition"><strong>Definizione 9.1  </strong></span>Siano <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> due variabili casuali. La funzione che associa ad ogni coppia <span class="math inline">\((x, y)\)</span> un valore di probabilità prende il nome di funzione di probabilità congiunta:</p>
+<p><span id="def:unlabeled-div-38" class="definition"><strong>Definizione 9.1  </strong></span>Siano <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> due variabili casuali. La funzione che associa ad ogni coppia <span class="math inline">\((x, y)\)</span> un valore di probabilità prende il nome di funzione di probabilità congiunta:</p>
 <p><span class="math display">\[\begin{equation}
 P(x, y) = P(X = x, Y = y).
 \end{equation}\]</span></p>
@@ -937,7 +937,7 @@ P(x, y) = P(X = x, Y = y).
 <h3><span class="header-section-number">9.1.2</span> Eventi<a href="chapter-prob-congiunta.html#eventi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Si noti che dalla probabilità congiunta possiamo calcolare la probabilità di qualsiasi evento definito in base alle variabili aleatorie <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>. Per capire come questo possa essere fatto, consideriamo nuovamente l’esperimento casuale discusso in precedenza.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-36" class="exercise"><strong>Esercizio 9.1  </strong></span>Per la distribuzione di massa di probabilità congiunta riportata nella tabella <a href="chapter-prob-congiunta.html#tab:ditr-cong-biv-1">9.2</a> si trovi la probabilità dell’evento <span class="math inline">\(X+Y \leq 1\)</span>.</p>
+<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Esercizio 9.1  </strong></span>Per la distribuzione di massa di probabilità congiunta riportata nella tabella <a href="chapter-prob-congiunta.html#tab:ditr-cong-biv-1">9.2</a> si trovi la probabilità dell’evento <span class="math inline">\(X+Y \leq 1\)</span>.</p>
 <p>Per trovare la probabilità richiesta dobbiamo sommare le probabilità associate a tutte le coppie <span class="math inline">\((x,y)\)</span> che soddisfano la condizione <span class="math inline">\(X+Y \leq 1\)</span>, ovvero</p>
 <p><span class="math display">\[\begin{equation}
 P_{XY}(X+Y \leq 1) = P_{XY}(0, 0)+ P_{XY}(0, 1) + P_{XY}(1, 0) = 3/8.\notag
@@ -958,7 +958,7 @@ P(X = x) = \sum_y P(X, Y = y) = \sum_y P(X \mid Y = y) P(Y = y),
 \]</span></p>
 <p>Nel caso continuo si sostituisce l’integrazione alla somma – si veda la Sezione <a href="chapter-prob-congiunta.html#sec:margin-vc-cont">9.2</a>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Esercizio 9.2  </strong></span>Per l’esperimento casuale consistente nel lancio di tre monete equilibrate, si calcolino le probabilità marginali di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+<p><span id="exr:unlabeled-div-40" class="exercise"><strong>Esercizio 9.2  </strong></span>Per l’esperimento casuale consistente nel lancio di tre monete equilibrate, si calcolino le probabilità marginali di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
 <p>Nell’ultima colonna a destra e nell’ultima riga in basso della tabella <a href="chapter-prob-congiunta.html#tab:ditr-cong-biv">9.3</a> sono riportate le distribuzioni di probabilità marginali di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>. <span class="math inline">\(P_X\)</span> si ottiene sommando su ciascuna riga fissata la colonna <span class="math inline">\(j\)</span>, <span class="math inline">\(P_X(X = j) = \sum_y p_{xy}(x = j, y)\)</span>. <span class="math inline">\(P_Y\)</span> si trova sommando su ciascuna colonna fissata la riga <span class="math inline">\(i,\)</span> <span class="math inline">\(P_Y (Y = i) = \sum_x p_{xy}(x, y = i)\)</span>.</p>
 <table>
 <caption><span id="tab:ditr-cong-biv">TABELLA 9.3: </span> Distribuzione di probabilità congiunta <span class="math inline">\(p(x,y)\)</span> per i risultati dell’esperimento consistente nel lancio di tre monete equilibrate e probabilità marginali <span class="math inline">\(P(x)\)</span> e <span class="math inline">\(P(y)\)</span>.</caption>
@@ -1092,8 +1092,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/018_joint_prob.Rmd",
-"text": "Edit"
+"link": "https://github.com/ccaudek/datascience/edit/master/018_joint_prob.Rmd",
+"text": "Suggest an edit"
 },
 "history": {
 "link": null,
@@ -1109,7 +1109,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });
