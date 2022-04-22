@@ -1,4 +1,4 @@
-# La divergenza di Kullback-Leibler {#ch:kl-div}
+# La divergenza di Kullback-Leibler 
 
 ```{r, echo=FALSE}
 source("_common.R")
@@ -12,7 +12,7 @@ source("_stan_options.R")
 Intuitivamente, per quantificare l'informazione che si perde quando una distribuzione approssimata $q$ viene usata in luogo della distribuzione corretta $p$ sembra necessaria una quantità che ha valore zero quando $q = p$, e un valore positivo altrimenti. Seguendo la definizione \@ref(eq:entropy) di entropia, possiamo quantificare una tale perdita di informazione mediante il valore atteso della differenza tra $\log(p)$ e $\log(q)$. Questa quantità è chiamata _entropia relativa_ o _divergenza di Kullback-Leibler_:
 
 \begin{equation}
-\mathbb{KL} (p \mid\mid q) = \E (\log p - \log q).
+\mathbb{KL} (p \mid\mid q) = \mathbb{E} (\log p - \log q).
 (\#eq:kldivergence)
 \end{equation}
 
@@ -34,7 +34,7 @@ ovvero,
 \mathbb{KL} (p \mid\mid q) = \underbrace{-\sum_i^n p_i \log q_i}_{h(p, q)} - \underbrace{\left(-\sum_i^n p_i \log p_i\right)}_{h(p)},
 \end{equation}
 
-laddove $h(p)$ è l'entropia di $p$ e $h(p, q) = −\E [\log q]$ può essere intesa come l'entropia di $q$, ma valutata secondo i valori di probabilità $p$.
+laddove $h(p)$ è l'entropia di $p$ e $h(p, q) = − \mathbb{E} [\log q]$ può essere intesa come l'entropia di $q$, ma valutata secondo i valori di probabilità $p$.
 
 Riarrangiando l'equazione precedente otteniamo:
 
@@ -47,7 +47,7 @@ il che mostra come la divergenza $\mathbb{KL}$ possa essere interpretata come  l
 ::: {.example}
 [da @McElreath_rethinking] Sia la distribuzione target $p = \{0.3, 0.7\}$. Supponiamo  che la distribuzione approssimata $q$ possa assumere valori da $q = \{0.01, 0.99\}$ a $q = \{0.99, 0.01\}$. Calcoliamo la divergenza KL.
 
-Le istruzioni $\R$ sono le seguenti:
+Le istruzioni $\mathsf{R}$ sono le seguenti:
 
 ```{r}
 t <-
@@ -80,7 +80,7 @@ t %>%
        y = "Divergenza di q da p")
 ```
 
-Tanto meglio la distribuzione $q$ approssima la distribuzione target tanto più piccolo è il valore di divergenza KL.
+Tanto meglio la distribuzione $q$ approssima la distribuzione target tanto più piccolo è il valore di divergenza $\mathbb{KL}$.
 :::
 
 ::: {.example}
@@ -108,13 +108,13 @@ q2 <- rep(0.2, 5)
 q2
 ```
 
-La divergenza KL di $q_1$ da $p$ è
+La divergenza $\mathbb{KL}$ di $q_1$ da $p$ è
 
 ```{r}
 sum(true_py * log(true_py / q1))
 ```
 
-La divergenza KL di $q_2$ da $p$ è:
+La divergenza $\mathbb{KL}$ di $q_2$ da $p$ è:
 
 ```{r}
 sum(true_py * log(true_py / q2))
@@ -125,10 +125,10 @@ sum(true_py * log(true_py / q2))
 
 ## La divergenza dipende dalla direzione
 
-La divergenza KL non è una vera e propria metrica: per esempio, non è simmetrica. In generale, $\mathbb{KL}(p \mid\mid q) \neq \mathbb{KL}(q \mid\mid p)$, ovvero la $\mathbb{KL}$ da $p$ a $q$ è diversa dalla $\mathbb{KL}$ da $q$ a $p$.
+La divergenza $\mathbb{KL}$ non è una vera e propria metrica: per esempio, non è simmetrica. In generale, $\mathbb{KL}(p \mid\mid q) \neq \mathbb{KL}(q \mid\mid p)$, ovvero la $\mathbb{KL}$ da $p$ a $q$ è diversa dalla $\mathbb{KL}$ da $q$ a $p$.
 
 ::: {.example}
-Usando le seguenti istruzioni $\R$ otteniamo:
+Usando le seguenti istruzioni $\mathsf{R}$ otteniamo:
 
 ```{r}
 tibble(direction = c("Da q a p", "Da p a q"),
@@ -142,9 +142,9 @@ tibble(direction = c("Da q a p", "Da p a q"),
 
 ## Confronto tra modelli
 
-La divergenza KL viene utilizzata nel confronto tra modelli, ovvero ci consente di quantificare l'informazione che viene perduta quando utilizziamo la distribuzione di probabilità ipotizzata da un modello, chiamiamola $p_{\mathcal{M}}$, per approssimare la distribuzione di probabilità del vero modello generatore dei dati, $p_t$. 
+La divergenza $\mathbb{KL}$ viene utilizzata nel confronto tra modelli, ovvero ci consente di quantificare l'informazione che viene perduta quando utilizziamo la distribuzione di probabilità ipotizzata da un modello, chiamiamola $p_{\mathcal{M}}$, per approssimare la distribuzione di probabilità del vero modello generatore dei dati, $p_t$. 
 
-Nel Capitolo \@ref(ch:intro-bayes-inference) abbiamo introdotto il concetto di distribuzione predittiva a posteriori:
+In precedenza abbiamo introdotto il concetto di distribuzione predittiva a posteriori:
 
 $$
 p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\operatorname {d}\!\theta .
@@ -155,17 +155,17 @@ La distribuzione predittiva a posteriori descrive il tipo di dati che ci aspetti
 Una misura della "somiglianza" tra la distribuzione $q_{\mathcal{M}}$ ipotizzata dal modello $\mathcal{M}$ e la distribuzione $p_t$ del vero modello generatore dei dati è fornita dalla divergenza di Kullback-Leibler $\mathbb{KL}(p_t \mid\mid q_{\mathcal{M}})$. Supponendo di avere $k$ modelli della distribuzione a posteriori, $\{q_{\mathcal{M}_1}, q_{\mathcal{M}_2}, \dots, q_{\mathcal{M}_k}\}$, e di conoscere il vero modello generatore dei dati, possiamo scrivere
 
 \begin{align}
-\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_1}) &= \E (\log p_{\mathcal{M}_0}) - \E (\log q_{\mathcal{M}_1})\notag\\
-\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_2}) &= \E (\log p_t) - \E (\log q_{\mathcal{M}_2})\notag\\
+\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_1}) &= \mathbb{E} (\log p_{\mathcal{M}_0}) - \mathbb{E} (\log q_{\mathcal{M}_1})\notag\\
+\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_2}) &= \mathbb{E} (\log p_t) - \E (\log q_{\mathcal{M}_2})\notag\\
 &\cdots\notag\\
-\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_k}) &= \E (\log p_{\mathcal{M}_0}) - \E (\log q_{\mathcal{M}_k}).
+\mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_k}) &= \mathbb{E} (\log p_{\mathcal{M}_0}) - \mathbb{E} (\log q_{\mathcal{M}_k}).
 (\#eq:kl-mod-comp)
 \end{align}
 
 La \@ref(eq:kl-mod-comp) può sembrare un esercizio futile poiché nella vita reale non conosciamo il vero modello generatore dei dati. È però facile rendersi conto che, poiché $p_t$ è la stessa per tutti i confronti, diventa possibile costruire un ordinamento dei modelli basato unicamente sul secondo termine della \@ref(eq:kl-mod-comp), ovvero senza nessun riferimento al vero modello generatore dei dati. Per un generico modello $\mathcal{M}$, il secondo termine della \@ref(eq:kl-mod-comp) può essere scritto come: 
 
 \begin{equation}
-\E \log p_{\mathcal{M}}(y) = \int_{-\infty}^{+\infty}p_{t}(y)\log p_{\mathcal{M}}(y) \,\operatorname {d}\!y .
+\mathbb{E} \log p_{\mathcal{M}}(y) = \int_{-\infty}^{+\infty}p_{t}(y)\log p_{\mathcal{M}}(y) \,\operatorname {d}\!y .
 (\#eq:kl-div-cont-t2)
 \end{equation}
 
@@ -174,13 +174,13 @@ La \@ref(eq:kl-mod-comp) può sembrare un esercizio futile poiché nella vita re
 Le previsioni del modello $\mathcal{M}$ sui nuovi dati futuri sono date dalla distribuzione predittiva a posteriori. Possiamo dunque riscrivere la \@ref(eq:kl-div-cont-t2) come
 
 \begin{equation}
-\elpd = \int_{\tilde{y}} p_{t}(\tilde{y}) \log p(\tilde{y} \mid y) \,\operatorname {d}\!\tilde{y}.
+\mbox{elpd} = \int_{\tilde{y}} p_{t}(\tilde{y}) \log p(\tilde{y} \mid y) \,\operatorname {d}\!\tilde{y}.
 (\#eq:elpd)
 \end{equation}
 
-La \@ref(eq:elpd) è chiamata _expected log predictive density_ ($\elpd$) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla \@ref(eq:elpd) dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri ($\tilde{y}$) con la vera distribuzione $p_t$. Di conseguenza, valori $\elpd$ più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.
+La \@ref(eq:elpd) è chiamata _expected log predictive density_ ($\mbox{elpd}$) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla \@ref(eq:elpd) dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri ($\tilde{y}$) con la vera distribuzione $p_t$. Di conseguenza, valori $\mbox{elpd}$ più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.
 
-Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori $p(\tilde{y} \mid y)$ perché, come abbiamo visto nel Capitolo \@ref(chapter-ppc), è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la \@ref(eq:elpd) include un termine, $p_t(\tilde{y})$, il quale descrive la distribuzione dei dati futuri $\tilde{y}$ secondo il vero modello generatore dei dati. Il termine $p_t$, ovviamente, è ignoto.^[Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché $p_t$ è il modello migliore.] Di conseguenza, la quantità $\elpd$ non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la \@ref(eq:elpd) possa essere stimata utilizzando un campione di osservazioni.
+Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori $p(\tilde{y} \mid y)$ perché è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la \@ref(eq:elpd) include un termine, $p_t(\tilde{y})$, il quale descrive la distribuzione dei dati futuri $\tilde{y}$ secondo il vero modello generatore dei dati. Il termine $p_t$, ovviamente, è ignoto.^[Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché $p_t$ è il modello migliore.] Di conseguenza, la quantità $\mbox{elpd}$ non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la \@ref(eq:elpd) possa essere stimata utilizzando un campione di osservazioni.
 
 ### Log pointwise predictive density{}
 
@@ -196,22 +196,22 @@ Questo conduce alla seguente equazione:^[In riferimento alla notazione, ricordia
 (\#eq:1n-lppd)
 \end{equation}
 
-La quantità \@ref(eq:1n-lppd), senza il passaggio finale della divisione per il numero di osservazioni, è chiamata _log pointwise predictive density_ ($\lppd$)
+La quantità \@ref(eq:1n-lppd), senza il passaggio finale della divisione per il numero di osservazioni, è chiamata _log pointwise predictive density_ ($\mbox{lppd}$)
 
 \begin{equation}
-\lppd = \sum_{i=1}^n \log p(y_i^{rep} \mid y)
+\mbox{lppd} = \sum_{i=1}^n \log p(y_i^{rep} \mid y)
 (\#eq:lppd)
 \end{equation}
 
-e corrisponde alla somma delle densità predittive logaritmiche delle $n$ osservazioni. Valori più grandi della \@ref(eq:lppd) sono da preferire perché indicano una maggiore accuratezza media. È anche comune vedere espressa la quantità precedente nei termini della _devianza_, ovvero alla $\lppd$ moltiplicata per -2. In questo secondo caso sono da preferire valori piccoli.
+e corrisponde alla somma delle densità predittive logaritmiche delle $n$ osservazioni. Valori più grandi della \@ref(eq:lppd) sono da preferire perché indicano una maggiore accuratezza media. È anche comune vedere espressa la quantità precedente nei termini della _devianza_, ovvero alla $\mbox{lppd}$ moltiplicata per -2. In questo secondo caso sono da preferire valori piccoli.
 
-È importante notare che $\lppd$ fornisce una _sovrastima_ della \@ref(eq:elpd). Tale sovrastima è dovuta al fatto che, nel calcolo della \@ref(eq:lppd), abbiamo usato $p(y^{rep} \mid y)$ al posto di $p(\tilde{y} \mid y)$: in altri termini, abbiamo considerato le osservazioni del campione come se fossero un nuovo campione di dati. In una serie di simulazioni, @McElreath_rethinking esamina il significato di questa sovrastima. Nelle simulazioni la devianza viene calcolata come funzione della complessità (ovvero, il numero di parametri) del modello. La simulazione mostra che $\lppd$ aumenta al crescere del numero di parametri del modello. Ciò significa che $\lppd$ mostra lo stesso limite del coefficiente di determinazione: aumenta all'aumentare della complessità del modello.
+È importante notare che $\lppd$ fornisce una _sovrastima_ della \@ref(eq:elpd). Tale sovrastima è dovuta al fatto che, nel calcolo della \@ref(eq:lppd), abbiamo usato $p(y^{rep} \mid y)$ al posto di $p(\tilde{y} \mid y)$: in altri termini, abbiamo considerato le osservazioni del campione come se fossero un nuovo campione di dati. In una serie di simulazioni, @McElreath_rethinking esamina il significato di questa sovrastima. Nelle simulazioni la devianza viene calcolata come funzione della complessità (ovvero, il numero di parametri) del modello. La simulazione mostra che $\mbox{lppd}$ aumenta al crescere del numero di parametri del modello. Ciò significa che $\mbox{lppd}$ mostra lo stesso limite del coefficiente di determinazione: aumenta all'aumentare della complessità del modello.
 
 ::: {.example}
-Esaminiamo un esempio tratto da [Bayesian Data Analysis for Cognitive Science](https://vasishth.github.io/bayescogsci/book/expected-log-predictive-density-of-a-model.html) nel quale la $\elpd$ viene calcolata in forma esatta oppure mediante approssimazione. Supponiamo di disporre di un campione di $n$ osservazioni. Supponiamo inoltre di conoscere il vero processo generativo dei dati (qualcosa che in pratica non è mai possibile), ovvero:
+Esaminiamo un esempio tratto da [Bayesian Data Analysis for Cognitive Science](https://vasishth.github.io/bayescogsci/book/expected-log-predictive-density-of-a-model.html) nel quale la $\mbox{lppd}$ viene calcolata in forma esatta oppure mediante approssimazione. Supponiamo di disporre di un campione di $n$ osservazioni. Supponiamo inoltre di conoscere il vero processo generativo dei dati (qualcosa che in pratica non è mai possibile), ovvero:
 
 $$
-p_t(y) = \Beta(1, 3).
+p_t(y) = \mbox{Beta}(1, 3).
 $$
 I dati sono
 
@@ -225,18 +225,18 @@ head(y_data)
 Supponiamo inoltre di avere adattato ai dati un modello bayesiano $\mathcal{M}$ e di avere ottenuto la distribuzione a posteriori per i parametri del modello. Inoltre, supponiamo di avere derivato la forma analitica della distribuzione predittiva a posteriori per il modello:
 
 $$
-p(y^{rep} \mid y) \sim \Beta(2, 2).
+p(y^{rep} \mid y) \sim \mbox{Beta}(2, 2).
 $$
 
 Questa distribuzione ci dice quanto sono credibili i possibili dati futuri.
 
-Conoscendo la vera distribuzione dei dati $p_t(y)$ possiamo calcolare in forma esatta la quantità $\elpd$, ovvero
+Conoscendo la vera distribuzione dei dati $p_t(y)$ possiamo calcolare in forma esatta la quantità $\mbox{elpd}$, ovvero
 
 $$
-\elpd = \int_{y^{rep}}p_{t}(y^{rep})\log p(y^{rep} \mid y) \,\operatorname {d}\!y^{rep}.
+\mbox{elpd} = \int_{y^{rep}}p_{t}(y^{rep})\log p(y^{rep} \mid y) \,\operatorname {d}\!y^{rep}.
 $$
 
-Svolgiamo i calcoli in $\R$ otteniamo:
+Svolgiamo i calcoli in $\mathsf{R}$ otteniamo:
 
 ```{r}
 # True distribution
@@ -248,13 +248,13 @@ integrand <- function(y) p_t(y) * log(p(y))
 integrate(f = integrand, lower = 0, upper = 1)
 ```
 
-Tuttavia, in pratica non conosciamo mai $p_t(y)$. Quindi approssimiamo $\elpd$ usando la \@ref(eq:elpd):
+Tuttavia, in pratica non conosciamo mai $p_t(y)$. Quindi approssimiamo $\mbox{elpd}$ usando la \@ref(eq:elpd):
 
 $$
 \frac{1}{n} \sum_{i=1}^n \log p(y_i \mid y).
 $$
 
-Così facendo, e svolgendo i calcoli in $\R$, otteniamo un valore diverso da quello trovato in precedenza:
+Così facendo, e svolgendo i calcoli in $\mathsf{R}$, otteniamo un valore diverso da quello trovato in precedenza:
 
 ```{r}
 1/n * sum(log(p(y_data)))
@@ -263,4 +263,4 @@ Così facendo, e svolgendo i calcoli in $\R$, otteniamo un valore diverso da que
 
 ## Commenti e considerazioni finali {-}
 
-Dato che non conosciamo il vero meccanismo generatore dei dati $p$, possiamo usare la distribuzione dei dati osservata come proxy per la vera distribuzione $p$. Quindi, invece di ponderare la distribuzione predittiva in base alla densità reale di tutti i possibili dati futuri, utilizziamo semplicemente le $n$ osservazioni che abbiamo. Possiamo farlo perché assumiamo che le nostre osservazioni costituiscano un campione dalla vera distribuzione dei dati: in base a questa ipotesi, nel campione ci aspettiamo di osservare più frequentemente quelle osservazioni che hanno una maggiore verosimiglianza nella vera distribuzione $p$. È così possibile giungere ad una stima numerica della $\elpd$ chiamata _log pointwise predictive density_ ($\lppd$).
+Dato che non conosciamo il vero meccanismo generatore dei dati $p$, possiamo usare la distribuzione dei dati osservata come proxy per la vera distribuzione $p$. Quindi, invece di ponderare la distribuzione predittiva in base alla densità reale di tutti i possibili dati futuri, utilizziamo semplicemente le $n$ osservazioni che abbiamo. Possiamo farlo perché assumiamo che le nostre osservazioni costituiscano un campione dalla vera distribuzione dei dati: in base a questa ipotesi, nel campione ci aspettiamo di osservare più frequentemente quelle osservazioni che hanno una maggiore verosimiglianza nella vera distribuzione $p$. È così possibile giungere ad una stima numerica della $\mbox{elpd}$ chiamata _log pointwise predictive density_ ($\mbox{lppd}$).

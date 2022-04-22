@@ -1,4 +1,4 @@
-# Criterio di informazione e convalida incrociata {#ch:info-criterion}
+# Criterio di informazione e convalida incrociata 
 
 ```{r, echo=FALSE}
 source("_common.R")
@@ -92,15 +92,15 @@ La sovrastima della \@ref(eq:lppd) può anche essere evitata usando una tecnica 
 
 La strategia LOO-CV è computazionalmente onerosa (ovvero, richiede un tempo di esecuzione molto lungo). È però possibile approssimare LOO-CV mediante un metodo chiamato _Pareto-smoothed importance sampling cross-validation_ [PSIS; @vehtari2017practical]. Tralasciando qui i dettagli matematici, l'intuizione di base è che PSIS fa leva sul punteggio di "importanza" posseduto da ciascuna osservazione all'interno della distribuzione a posteriori. Per "importanza" si intende il fatto che alcune osservazioni hanno un impatto maggiore sulle proprietà della distribuzione a posteriori di altre: se viene rimossa un'osservazione importante, le proprietà della distribuzione a posteriori cambiano molto; se viene rimossa un'osservazione poco importante, la distribuzione a posteriori cambia poco. L'"importanza" così intesa viene chiamata "peso" (_weight_) e tali pesi vengono utilizzati per stimare l'accuratezza _out-of-sample_ del modello. PSIS-LOO-CV richiede che il modello venga adattato una volta soltanto ai dati e fornisce una stima della devianza _out-of-sample_ che evita la sovrastima della \@ref(eq:lppd). Inoltre, PSIS-LOO-CV fornisce un feedback sulla propria affidabilità identificando le osservazioni i cui pesi molto elevati potrebbero rendere imprecisa la predizione.
 
-Valori $\widehat{\elpd}_{\LOO}$ più grandi indicano una maggiore accuratezza predittiva. In alternativa, anziché considerare $\widehat{\elpd}$, è possibile usare la quantità $-2 \cdot \widehat{\elpd}$, la quale è chiamata _LOO Information Criterion_ (LOOIC). In questo secondo caso,  valori LOOIC più piccoli sono da preferire.
+Valori $\widehat{elpd}_{LOO}$ più grandi indicano una maggiore accuratezza predittiva. In alternativa, anziché considerare $\widehat{elpd}$, è possibile usare la quantità $-2 \cdot \widehat{elpd}$, la quale è chiamata _LOO Information Criterion_ (LOOIC). In questo secondo caso,  valori LOOIC più piccoli sono da preferire.
 
-La quantità $\widehat{\elpd}_{\LOO}$ viene calcolata dai pacchetti `loo` e `brms` ed è chiamata `elpd_loo` o `elpd_kfold`. È anche possibile calcolare la differenza della quantità `elpd_loo` per modelli alternativi, insieme alla deviazione standard della distribuzione campionaria di tale differenza.
+La quantità $\widehat{elpd}_{LOO}$ viene calcolata dai pacchetti `loo` e `brms` ed è chiamata `elpd_loo` o `elpd_kfold`. È anche possibile calcolare la differenza della quantità `elpd_loo` per modelli alternativi, insieme alla deviazione standard della distribuzione campionaria di tale differenza.
 
 ## Confronto tra AIC e LOO-CV
 
-Per fare un esempio, faremo qui un confronto tra $\widehat{\elpd}_{AIC}$ e $\widehat{\elpd}_{LOO-CV}$. Esaminiamo nuovamente l'associazione tra il QI dei figli e il QI delle madri nel campione di dati discusso da @gelman2020regression. Una tale relazione può essere descritta da un modello di regressione nel quale la $y$ corrisponde al QI dei figli e la $x$ al QI delle madri.
+Per fare un esempio, faremo qui un confronto tra $\widehat{elpd}_{AIC}$ e $\widehat{elpd}_{LOO-CV}$. Esaminiamo nuovamente l'associazione tra il QI dei figli e il QI delle madri nel campione di dati discusso da @gelman2020regression. Una tale relazione può essere descritta da un modello di regressione nel quale la $y$ corrisponde al QI dei figli e la $x$ al QI delle madri.
 
-Leggiamo i dati in \R:
+Leggiamo i dati in \mathsf{R}:
 
 ```{r}
 library("foreign")
@@ -194,7 +194,7 @@ loo1_result <- fit1$loo(cores = 4)
 print(loo1_result)
 ```
 
-Si noti la somiglianza tra $\widehat{\elpd}_{LOO-CV}$ e $\widehat{\elpd}_{AIC}$. In conclusione, possiamo dunque dire che $\widehat{\elpd}_{LOO-CV}$ è la risposta bayesiana allo stesso problema che trova una soluzione frequentista nella statistica $\widehat{\elpd}_{AIC}$.
+Si noti la somiglianza tra $\widehat{elpd}_{LOO-CV}$ e $\widehat{elpd}_{AIC}$. In conclusione, possiamo dunque dire che $\widehat{elpd}_{LOO-CV}$ è la risposta bayesiana allo stesso problema che trova una soluzione frequentista nella statistica $\widehat{elpd}_{AIC}$.
 
 ## Confronto tra modelli mediante LOO-CV
 
@@ -372,7 +372,7 @@ loo3_result <- fit3$loo(cores = 4)
 print(loo3_result)
 ```
 
-Per eseguire un confronto tra modelli in termini della loro capacità predittiva esaminiamo la differenza di LOO-CV tra coppie di modelli. Le seguenti istruzioni $\R$ producono la quantità `elpd_diff`, ovvero la differenza tra stime della $\elpd$ fornite da due modelli. Il primo argomento della funzione `loo_compare()` specifica il modello che viene usato come confronto. Nella prima riga dell'output, il valore `elpd_diff` è 0 (cioè, $x − x = 0$). Nelle righe successive sono riportate le differenze rispetto al modello di confronto (in questo caso, il modello 1). La colonna `se_diff` riporta l'errore standard di tali differenze.
+Per eseguire un confronto tra modelli in termini della loro capacità predittiva esaminiamo la differenza di LOO-CV tra coppie di modelli. Le seguenti istruzioni $\mathsf{R}$ producono la quantità `elpd_diff`, ovvero la differenza tra stime della $elpd$ fornite da due modelli. Il primo argomento della funzione `loo_compare()` specifica il modello che viene usato come confronto. Nella prima riga dell'output, il valore `elpd_diff` è 0 (cioè, $x − x = 0$). Nelle righe successive sono riportate le differenze rispetto al modello di confronto (in questo caso, il modello 1). La colonna `se_diff` riporta l'errore standard di tali differenze.
 
 L'incertezza della stima dell'accuratezza _out-of-sample_ si distribuisce in maniera approssimativamente normale con media uguale al valore riportato dal software e deviazione standard uguale a ciò che è indicato nell'output come errore standard. Quando il campione è piccolo, questa approssimazione produce una forte sottostima dell'incertezza, ma fornisce comunque una stima migliore di AIC, DIC e WAIC.
 

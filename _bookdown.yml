@@ -24,7 +24,7 @@ rmd_files:
     ## PART I
     - "001_key_notions.Rmd"
     - "005_measurement.Rmd"
-    - "010_freq_distr.Rmd"
+    - "007_freq_distr.Rmd"
     - "011_loc_scale.Rmd"
     - "012_correlation.Rmd"
     ## PART II
@@ -56,10 +56,10 @@ rmd_files:
     - "056_pred_check.Rmd"
     - "060_anova.Rmd"
     - "070_mod_hier.Rmd"
-    # ## PART V
-    # - "090_entropy.Rmd"
-    # - "091_kl.Rmd"
-    # - "092_info_criterion.Rmd"
+    ## PART V
+    - "090_entropy.Rmd"
+    - "091_kl.Rmd"
+    - "092_info_criterion.Rmd"
     # # - "093_projpred.Rmd"
     # ## APPENDIX
     - "800_appendix.Rmd"
@@ -67,13 +67,13 @@ rmd_files:
     - "802_number_sets.Rmd"
     - "803_set_theory.Rmd"
     - "804_summation_notation.Rmd"
-    - "811_ind_cond.Rmd"
-    - "820_log_rules.Rmd"
-    - "830_gauss.Rmd"
+    # - "811_ind_cond.Rmd"
+    # - "820_log_rules.Rmd"
+    # - "830_gauss.Rmd"
     - "845_future_expect.Rmd"
     - "846_plot_beta_bin.Rmd"
     - "850_marginal_like.Rmd"
-    - "913_markov_chains.Rmd"
+    # - "913_markov_chains.Rmd"
     # - "917_reglin2.Rmd"
     - "922_R_intro.Rmd"
     - "924_R_basic_syntax.Rmd"

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capitolo 2 La divergenza di Kullback-Leibler | Data Science per psicologi</title>
+  <title>Capitolo 3 La divergenza di Kullback-Leibler | Data Science per psicologi</title>
   <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
   <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capitolo 2 La divergenza di Kullback-Leibler | Data Science per psicologi" />
+  <meta property="og:title" content="Capitolo 3 La divergenza di Kullback-Leibler | Data Science per psicologi" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capitolo 2 La divergenza di Kullback-Leibler | Data Science per psicologi" />
+  <meta name="twitter:title" content="Capitolo 3 La divergenza di Kullback-Leibler | Data Science per psicologi" />
   
   <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ch:entropy.html"/>
+<link rel="prev" href="entropia.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -164,31 +164,46 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
 </ul></li>
-<li class="part"><span><b>I Il confronto bayesiano di modelli</b></span></li>
-<li class="chapter" data-level="1" data-path="ch:entropy.html"><a href="ch:entropy.html"><i class="fa fa-check"></i><b>1</b> Entropia</a>
+<li class="part"><span><b>I Nozioni preliminari</b></span></li>
+<li class="chapter" data-level="1" data-path="concetti-chiave.html"><a href="concetti-chiave.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="ch:entropy.html"><a href="ch:entropy.html#la-generalizzabilità-dei-modelli"><i class="fa fa-check"></i><b>1.1</b> La generalizzabilità dei modelli</a></li>
-<li class="chapter" data-level="1.2" data-path="ch:entropy.html"><a href="ch:entropy.html#capacità-predittiva"><i class="fa fa-check"></i><b>1.2</b> Capacità predittiva</a></li>
-<li class="chapter" data-level="1.3" data-path="ch:entropy.html"><a href="ch:entropy.html#il-rasoio-di-ockham"><i class="fa fa-check"></i><b>1.3</b> Il rasoio di Ockham</a>
+<li class="chapter" data-level="1.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#popolazioni-e-campioni"><i class="fa fa-check"></i><b>1.1</b> Popolazioni e campioni</a></li>
+<li class="chapter" data-level="1.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-e-costanti"><i class="fa fa-check"></i><b>1.2</b> Variabili e costanti</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="ch:entropy.html"><a href="ch:entropy.html#sovra-adattamento-e-sotto-adattamento"><i class="fa fa-check"></i><b>1.3.1</b> Sovra-adattamento e sotto-adattamento</a></li>
-<li class="chapter" data-level="1.3.2" data-path="ch:entropy.html"><a href="ch:entropy.html#stargazing"><i class="fa fa-check"></i><b>1.3.2</b> Stargazing</a></li>
+<li class="chapter" data-level="1.2.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-casuali"><i class="fa fa-check"></i><b>1.2.1</b> Variabili casuali</a></li>
+<li class="chapter" data-level="1.2.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-indipendenti-e-variabili-dipendenti"><i class="fa fa-check"></i><b>1.2.2</b> Variabili indipendenti e variabili dipendenti</a></li>
+<li class="chapter" data-level="1.2.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#la-matrice-dei-dati"><i class="fa fa-check"></i><b>1.2.3</b> La matrice dei dati</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="ch:entropy.html"><a href="ch:entropy.html#la-misura-del-disordine"><i class="fa fa-check"></i><b>1.4</b> La misura del disordine</a>
-<ul>
-<li class="chapter" data-level="1.4.1" data-path="ch:entropy.html"><a href="ch:entropy.html#entropia-di-un-singolo-evento"><i class="fa fa-check"></i><b>1.4.1</b> Entropia di un singolo evento</a></li>
-<li class="chapter" data-level="1.4.2" data-path="ch:entropy.html"><a href="ch:entropy.html#entropia-di-una-variabile-casuale"><i class="fa fa-check"></i><b>1.4.2</b> Entropia di una variabile casuale</a></li>
+<li class="chapter" data-level="1.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#parametri-e-modelli"><i class="fa fa-check"></i><b>1.3</b> Parametri e modelli</a></li>
+<li class="chapter" data-level="1.4" data-path="concetti-chiave.html"><a href="concetti-chiave.html#effetto"><i class="fa fa-check"></i><b>1.4</b> Effetto</a></li>
+<li class="chapter" data-level="1.5" data-path="concetti-chiave.html"><a href="concetti-chiave.html#stima-e-inferenza"><i class="fa fa-check"></i><b>1.5</b> Stima e inferenza</a></li>
+<li class="chapter" data-level="1.6" data-path="concetti-chiave.html"><a href="concetti-chiave.html#metodi-e-procedure-della-psicologia"><i class="fa fa-check"></i><b>1.6</b> Metodi e procedure della psicologia</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="ch:entropy.html"><a href="ch:entropy.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+<li class="part"><span><b>II Il confronto bayesiano di modelli</b></span></li>
+<li class="chapter" data-level="2" data-path="entropia.html"><a href="entropia.html"><i class="fa fa-check"></i><b>2</b> Entropia</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="entropia.html"><a href="entropia.html#la-generalizzabilità-dei-modelli"><i class="fa fa-check"></i><b>2.1</b> La generalizzabilità dei modelli</a></li>
+<li class="chapter" data-level="2.2" data-path="entropia.html"><a href="entropia.html#capacità-predittiva"><i class="fa fa-check"></i><b>2.2</b> Capacità predittiva</a></li>
+<li class="chapter" data-level="2.3" data-path="entropia.html"><a href="entropia.html#il-rasoio-di-ockham"><i class="fa fa-check"></i><b>2.3</b> Il rasoio di Ockham</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="entropia.html"><a href="entropia.html#sovra-adattamento-e-sotto-adattamento"><i class="fa fa-check"></i><b>2.3.1</b> Sovra-adattamento e sotto-adattamento</a></li>
+<li class="chapter" data-level="2.3.2" data-path="entropia.html"><a href="entropia.html#stargazing"><i class="fa fa-check"></i><b>2.3.2</b> Stargazing</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="ch:kl-div.html"><a href="ch:kl-div.html"><i class="fa fa-check"></i><b>2</b> La divergenza di Kullback-Leibler</a>
+<li class="chapter" data-level="2.4" data-path="entropia.html"><a href="entropia.html#la-misura-del-disordine"><i class="fa fa-check"></i><b>2.4</b> La misura del disordine</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-perdita-di-informazione"><i class="fa fa-check"></i><b>2.1</b> La perdita di informazione</a></li>
-<li class="chapter" data-level="2.2" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-divergenza-dipende-dalla-direzione"><i class="fa fa-check"></i><b>2.2</b> La divergenza dipende dalla direzione</a></li>
-<li class="chapter" data-level="2.3" data-path="ch:kl-div.html"><a href="ch:kl-div.html#confronto-tra-modelli"><i class="fa fa-check"></i><b>2.3</b> Confronto tra modelli</a></li>
-<li class="chapter" data-level="2.4" data-path="ch:kl-div.html"><a href="ch:kl-div.html#expected-log-predictive-density"><i class="fa fa-check"></i><b>2.4</b> Expected log predictive density</a>
+<li class="chapter" data-level="2.4.1" data-path="entropia.html"><a href="entropia.html#entropia-di-un-singolo-evento"><i class="fa fa-check"></i><b>2.4.1</b> Entropia di un singolo evento</a></li>
+<li class="chapter" data-level="2.4.2" data-path="entropia.html"><a href="entropia.html#entropia-di-una-variabile-casuale"><i class="fa fa-check"></i><b>2.4.2</b> Entropia di una variabile casuale</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="entropia.html"><a href="entropia.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch:kl-div.html"><a href="ch:kl-div.html"><i class="fa fa-check"></i><b>3</b> La divergenza di Kullback-Leibler</a>
 <ul>
-<li class="chapter" data-level="2.4.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#log-pointwise-predictive-density"><i class="fa fa-check"></i><b>2.4.1</b> Log pointwise predictive density</a></li>
+<li class="chapter" data-level="3.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-perdita-di-informazione"><i class="fa fa-check"></i><b>3.1</b> La perdita di informazione</a></li>
+<li class="chapter" data-level="3.2" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-divergenza-dipende-dalla-direzione"><i class="fa fa-check"></i><b>3.2</b> La divergenza dipende dalla direzione</a></li>
+<li class="chapter" data-level="3.3" data-path="ch:kl-div.html"><a href="ch:kl-div.html#confronto-tra-modelli"><i class="fa fa-check"></i><b>3.3</b> Confronto tra modelli</a></li>
+<li class="chapter" data-level="3.4" data-path="ch:kl-div.html"><a href="ch:kl-div.html#expected-log-predictive-density"><i class="fa fa-check"></i><b>3.4</b> Expected log predictive density</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#log-pointwise-predictive-density"><i class="fa fa-check"></i><b>3.4.1</b> Log pointwise predictive density</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch:kl-div.html"><a href="ch:kl-div.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -212,15 +227,15 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch:kl-div" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Capitolo 2</span> La divergenza di Kullback-Leibler<a href="ch:kl-div.html#ch:kl-div" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="ch:kl-div" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capitolo 3</span> La divergenza di Kullback-Leibler<a href="ch:kl-div.html#ch:kl-div" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>È comune in statistica utilizzare una distribuzione di probabilità <span class="math inline">\(q\)</span> per approssimare un’altra distribuzione <span class="math inline">\(p\)</span> – generalmente, questo viene fatto se <span class="math inline">\(p\)</span> non è conosciuta o è troppo complessa. In questi casi possiamo chiederci quanta informazione venga perduta usando <span class="math inline">\(q\)</span> al posto di <span class="math inline">\(p\)</span>, o equivalentemente, quanta incertezza aggiuntiva viene introdotta nell’analisi statistica. La quantificazione di questo incremento di incertezza è fornita dalla divergenza di Kullback-Leibler.</p>
-<div id="la-perdita-di-informazione" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> La perdita di informazione<a href="ch:kl-div.html#la-perdita-di-informazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Intuitivamente, per quantificare l’informazione che si perde quando una distribuzione approssimata <span class="math inline">\(q\)</span> viene usata in luogo della distribuzione corretta <span class="math inline">\(p\)</span> sembra necessaria una quantità che ha valore zero quando <span class="math inline">\(q = p\)</span>, e un valore positivo altrimenti. Seguendo la definizione <a href="ch:entropy.html#eq:entropy">(1.1)</a> di entropia, possiamo quantificare una tale perdita di informazione mediante il valore atteso della differenza tra <span class="math inline">\(\log(p)\)</span> e <span class="math inline">\(\log(q)\)</span>. Questa quantità è chiamata <em>entropia relativa</em> o <em>divergenza di Kullback-Leibler</em>:</p>
+<div id="la-perdita-di-informazione" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> La perdita di informazione<a href="ch:kl-div.html#la-perdita-di-informazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Intuitivamente, per quantificare l’informazione che si perde quando una distribuzione approssimata <span class="math inline">\(q\)</span> viene usata in luogo della distribuzione corretta <span class="math inline">\(p\)</span> sembra necessaria una quantità che ha valore zero quando <span class="math inline">\(q = p\)</span>, e un valore positivo altrimenti. Seguendo la definizione <a href="entropia.html#eq:entropy">(2.1)</a> di entropia, possiamo quantificare una tale perdita di informazione mediante il valore atteso della differenza tra <span class="math inline">\(\log(p)\)</span> e <span class="math inline">\(\log(q)\)</span>. Questa quantità è chiamata <em>entropia relativa</em> o <em>divergenza di Kullback-Leibler</em>:</p>
 <p><span class="math display" id="eq:kldivergence">\[\begin{equation}
 \mathbb{KL} (p \mid\mid q) = \E (\log p - \log q).
-\tag{2.1}
+\tag{3.1}
 \end{equation}\]</span></p>
 <p>La divergenza <span class="math inline">\(\mathbb{KL} (p \mid\mid q)\)</span> corrisponde alla differenza media nelle probabilità logaritmiche quando <span class="math inline">\(q\)</span> viene usato per approssimare <span class="math inline">\(p\)</span>. Poiché gli eventi si manifestano secondo <span class="math inline">\(p\)</span>, è necessario calcolare il valore atteso rispetto a <span class="math inline">\(p\)</span>. Per distribuzioni discrete dunque abbiamo:</p>
 <p><span class="math display">\[\begin{equation}
@@ -241,7 +256,7 @@ h(p, q) = h(p) + \mathbb{KL} (p \mid\mid q),
 \end{equation}\]</span></p>
 <p>il che mostra come la divergenza <span class="math inline">\(\mathbb{KL}\)</span> possa essere interpretata come l’incremento di entropia, rispetto a <span class="math inline">\(h(p)\)</span>, quando <span class="math inline">\(q\)</span> viene usata per rappresentare <span class="math inline">\(p\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-6" class="example"><strong>Esempio 2.1  </strong></span><span class="citation">(da <a href="#ref-McElreath_rethinking" role="doc-biblioref">McElreath 2020</a>)</span> Sia la distribuzione target <span class="math inline">\(p = \{0.3, 0.7\}\)</span>. Supponiamo che la distribuzione approssimata <span class="math inline">\(q\)</span> possa assumere valori da <span class="math inline">\(q = \{0.01, 0.99\}\)</span> a <span class="math inline">\(q = \{0.99, 0.01\}\)</span>. Calcoliamo la divergenza KL.</p>
+<p><span id="exm:unlabeled-div-10" class="example"><strong>Esempio 3.1  </strong></span><span class="citation">(da <a href="#ref-McElreath_rethinking" role="doc-biblioref">McElreath 2020</a>)</span> Sia la distribuzione target <span class="math inline">\(p = \{0.3, 0.7\}\)</span>. Supponiamo che la distribuzione approssimata <span class="math inline">\(q\)</span> possa assumere valori da <span class="math inline">\(q = \{0.01, 0.99\}\)</span> a <span class="math inline">\(q = \{0.99, 0.01\}\)</span>. Calcoliamo la divergenza KL.</p>
 <p>Le istruzioni <span class="math inline">\(\R\)</span> sono le seguenti:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="ch:kl-div.html#cb7-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span></span>
 <span id="cb7-2"><a href="ch:kl-div.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
@@ -280,7 +295,7 @@ Nella figura seguente sull’asse delle ascisse sono rappresentati i valori <spa
 <p>Tanto meglio la distribuzione <span class="math inline">\(q\)</span> approssima la distribuzione target tanto più piccolo è il valore di divergenza KL.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-7" class="example"><strong>Esempio 2.2  </strong></span>Sia <span class="math inline">\(p\)</span> una distribuzione binomiale di parametri <span class="math inline">\(\theta = 0.2\)</span> e <span class="math inline">\(n = 5\)</span></p>
+<p><span id="exm:unlabeled-div-11" class="example"><strong>Esempio 3.2  </strong></span>Sia <span class="math inline">\(p\)</span> una distribuzione binomiale di parametri <span class="math inline">\(\theta = 0.2\)</span> e <span class="math inline">\(n = 5\)</span></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ch:kl-div.html#cb9-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb9-2"><a href="ch:kl-div.html#cb9-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
 <span id="cb9-3"><a href="ch:kl-div.html#cb9-3" aria-hidden="true" tabindex="-1"></a>true_py <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, <span class="fl">0.2</span>)</span>
@@ -304,11 +319,11 @@ Sia <span class="math inline">\(q_1\)</span> una approssimazione a <span class="
 <p>È chiaro che perdiamo una quantità maggiore di informazioni se, per descrivere la distribuzione binomiale <span class="math inline">\(p\)</span>, usiamo la distribuzione uniforme <span class="math inline">\(q_2\)</span> anziché <span class="math inline">\(q_1\)</span>.</p>
 </div>
 </div>
-<div id="la-divergenza-dipende-dalla-direzione" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> La divergenza dipende dalla direzione<a href="ch:kl-div.html#la-divergenza-dipende-dalla-direzione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="la-divergenza-dipende-dalla-direzione" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> La divergenza dipende dalla direzione<a href="ch:kl-div.html#la-divergenza-dipende-dalla-direzione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La divergenza KL non è una vera e propria metrica: per esempio, non è simmetrica. In generale, <span class="math inline">\(\mathbb{KL}(p \mid\mid q) \neq \mathbb{KL}(q \mid\mid p)\)</span>, ovvero la <span class="math inline">\(\mathbb{KL}\)</span> da <span class="math inline">\(p\)</span> a <span class="math inline">\(q\)</span> è diversa dalla <span class="math inline">\(\mathbb{KL}\)</span> da <span class="math inline">\(q\)</span> a <span class="math inline">\(p\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-8" class="example"><strong>Esempio 2.3  </strong></span>Usando le seguenti istruzioni <span class="math inline">\(\R\)</span> otteniamo:</p>
+<p><span id="exm:unlabeled-div-12" class="example"><strong>Esempio 3.3  </strong></span>Usando le seguenti istruzioni <span class="math inline">\(\R\)</span> otteniamo:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="ch:kl-div.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">direction =</span> <span class="fu">c</span>(<span class="st">&quot;Da q a p&quot;</span>, <span class="st">&quot;Da p a q&quot;</span>),</span>
 <span id="cb14-2"><a href="ch:kl-div.html#cb14-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">p_1 =</span> <span class="fu">c</span>(.<span class="dv">01</span>, .<span class="dv">7</span>),</span>
 <span id="cb14-3"><a href="ch:kl-div.html#cb14-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">q_1 =</span> <span class="fu">c</span>(.<span class="dv">7</span>, .<span class="dv">01</span>)) <span class="sc">%&gt;%</span></span>
@@ -322,8 +337,8 @@ Sia <span class="math inline">\(q_1\)</span> una approssimazione a <span class="
 <span id="cb14-11"><a href="ch:kl-div.html#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Da p a q   0.7   0.01  0.3   0.99  2.62</span></span></code></pre></div>
 </div>
 </div>
-<div id="confronto-tra-modelli" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Confronto tra modelli<a href="ch:kl-div.html#confronto-tra-modelli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="confronto-tra-modelli" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Confronto tra modelli<a href="ch:kl-div.html#confronto-tra-modelli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La divergenza KL viene utilizzata nel confronto tra modelli, ovvero ci consente di quantificare l’informazione che viene perduta quando utilizziamo la distribuzione di probabilità ipotizzata da un modello, chiamiamola <span class="math inline">\(p_{\mathcal{M}}\)</span>, per approssimare la distribuzione di probabilità del vero modello generatore dei dati, <span class="math inline">\(p_t\)</span>.</p>
 <p>Nel Capitolo <a href="#ch:intro-bayes-inference"><strong>??</strong></a> abbiamo introdotto il concetto di distribuzione predittiva a posteriori:</p>
 <p><span class="math display">\[
@@ -336,44 +351,44 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 \mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_2}) &amp;= \E (\log p_t) - \E (\log q_{\mathcal{M}_2})\notag\\
 &amp;\cdots\notag\\
 \mathbb{KL} (p_t \mid\mid q_{\mathcal{M}_k}) &amp;= \E (\log p_{\mathcal{M}_0}) - \E (\log q_{\mathcal{M}_k}).
-\tag{2.2}
+\tag{3.2}
 \end{align}\]</span></p>
-<p>La <a href="ch:kl-div.html#eq:kl-mod-comp">(2.2)</a> può sembrare un esercizio futile poiché nella vita reale non conosciamo il vero modello generatore dei dati. È però facile rendersi conto che, poiché <span class="math inline">\(p_t\)</span> è la stessa per tutti i confronti, diventa possibile costruire un ordinamento dei modelli basato unicamente sul secondo termine della <a href="ch:kl-div.html#eq:kl-mod-comp">(2.2)</a>, ovvero senza nessun riferimento al vero modello generatore dei dati. Per un generico modello <span class="math inline">\(\mathcal{M}\)</span>, il secondo termine della <a href="ch:kl-div.html#eq:kl-mod-comp">(2.2)</a> può essere scritto come:</p>
+<p>La <a href="ch:kl-div.html#eq:kl-mod-comp">(3.2)</a> può sembrare un esercizio futile poiché nella vita reale non conosciamo il vero modello generatore dei dati. È però facile rendersi conto che, poiché <span class="math inline">\(p_t\)</span> è la stessa per tutti i confronti, diventa possibile costruire un ordinamento dei modelli basato unicamente sul secondo termine della <a href="ch:kl-div.html#eq:kl-mod-comp">(3.2)</a>, ovvero senza nessun riferimento al vero modello generatore dei dati. Per un generico modello <span class="math inline">\(\mathcal{M}\)</span>, il secondo termine della <a href="ch:kl-div.html#eq:kl-mod-comp">(3.2)</a> può essere scritto come:</p>
 <p><span class="math display" id="eq:kl-div-cont-t2">\[\begin{equation}
 \E \log p_{\mathcal{M}}(y) = \int_{-\infty}^{+\infty}p_{t}(y)\log p_{\mathcal{M}}(y) \,\operatorname {d}\!y .
-\tag{2.3}
+\tag{3.3}
 \end{equation}\]</span></p>
 </div>
-<div id="expected-log-predictive-density" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Expected log predictive density<a href="ch:kl-div.html#expected-log-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Le previsioni del modello <span class="math inline">\(\mathcal{M}\)</span> sui nuovi dati futuri sono date dalla distribuzione predittiva a posteriori. Possiamo dunque riscrivere la <a href="ch:kl-div.html#eq:kl-div-cont-t2">(2.3)</a> come</p>
+<div id="expected-log-predictive-density" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Expected log predictive density<a href="ch:kl-div.html#expected-log-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Le previsioni del modello <span class="math inline">\(\mathcal{M}\)</span> sui nuovi dati futuri sono date dalla distribuzione predittiva a posteriori. Possiamo dunque riscrivere la <a href="ch:kl-div.html#eq:kl-div-cont-t2">(3.3)</a> come</p>
 <p><span class="math display" id="eq:elpd">\[\begin{equation}
 \elpd = \int_{\tilde{y}} p_{t}(\tilde{y}) \log p(\tilde{y} \mid y) \,\operatorname {d}\!\tilde{y}.
-\tag{2.4}
+\tag{3.4}
 \end{equation}\]</span></p>
-<p>La <a href="ch:kl-div.html#eq:elpd">(2.4)</a> è chiamata <em>expected log predictive density</em> (<span class="math inline">\(\elpd\)</span>) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla <a href="ch:kl-div.html#eq:elpd">(2.4)</a> dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri (<span class="math inline">\(\tilde{y}\)</span>) con la vera distribuzione <span class="math inline">\(p_t\)</span>. Di conseguenza, valori <span class="math inline">\(\elpd\)</span> più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.</p>
-<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché, come abbiamo visto nel Capitolo <a href="#chapter-ppc"><strong>??</strong></a>, è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch:kl-div.html#eq:elpd">(2.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> Di conseguenza, la quantità <span class="math inline">\(\elpd\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch:kl-div.html#eq:elpd">(2.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
-<div id="log-pointwise-predictive-density" class="section level3 hasAnchor" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Log pointwise predictive density<a href="ch:kl-div.html#log-pointwise-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Ingenuamente, potremmo pensare di stimare la <a href="ch:kl-div.html#eq:elpd">(2.4)</a> ipotizzando che la distribuzione del campione coincida con <span class="math inline">\(p_t\)</span>. Usare la distribuzione del campione come proxy del vero modello generatore dei dati (ovvero, ipotizzare che la distribuzione del campione rappresenti fedelmente <span class="math inline">\(p_t\)</span>) comporta due conseguenze:</p>
+<p>La <a href="ch:kl-div.html#eq:elpd">(3.4)</a> è chiamata <em>expected log predictive density</em> (<span class="math inline">\(\elpd\)</span>) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla <a href="ch:kl-div.html#eq:elpd">(3.4)</a> dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri (<span class="math inline">\(\tilde{y}\)</span>) con la vera distribuzione <span class="math inline">\(p_t\)</span>. Di conseguenza, valori <span class="math inline">\(\elpd\)</span> più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.</p>
+<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché, come abbiamo visto nel Capitolo <a href="#chapter-ppc"><strong>??</strong></a>, è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch:kl-div.html#eq:elpd">(3.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> Di conseguenza, la quantità <span class="math inline">\(\elpd\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch:kl-div.html#eq:elpd">(3.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
+<div id="log-pointwise-predictive-density" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Log pointwise predictive density<a href="ch:kl-div.html#log-pointwise-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Ingenuamente, potremmo pensare di stimare la <a href="ch:kl-div.html#eq:elpd">(3.4)</a> ipotizzando che la distribuzione del campione coincida con <span class="math inline">\(p_t\)</span>. Usare la distribuzione del campione come proxy del vero modello generatore dei dati (ovvero, ipotizzare che la distribuzione del campione rappresenti fedelmente <span class="math inline">\(p_t\)</span>) comporta due conseguenze:</p>
 <ul>
 <li>non è necessario ponderare per <span class="math inline">\(p_t\)</span>, in quanto assumiamo che la distribuzione empirica del campione corrisponda a <span class="math inline">\(p_t\)</span> (ciò significa assumere che i valori più comunemente osservati nel campione siano anche quelli più verosimili nella vera distribuzione <span class="math inline">\(p_t\)</span>);</li>
 <li>dato che il campione è finito, anziché eseguire un’operazione di integrazione possiamo semplicemente sommare la densità predittiva a posteriori delle osservazioni.</li>
 </ul>
-<p>Questo conduce alla seguente equazione:<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<p>Questo conduce alla seguente equazione:<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <p><span class="math display" id="eq:1n-lppd">\[\begin{equation}
 \frac{1}{n} \sum_{i=1}^n \log p(y_i^{rep} \mid y).
-\tag{2.5}
+\tag{3.5}
 \end{equation}\]</span></p>
-<p>La quantità <a href="ch:kl-div.html#eq:1n-lppd">(2.5)</a>, senza il passaggio finale della divisione per il numero di osservazioni, è chiamata <em>log pointwise predictive density</em> (<span class="math inline">\(\lppd\)</span>)</p>
+<p>La quantità <a href="ch:kl-div.html#eq:1n-lppd">(3.5)</a>, senza il passaggio finale della divisione per il numero di osservazioni, è chiamata <em>log pointwise predictive density</em> (<span class="math inline">\(\lppd\)</span>)</p>
 <p><span class="math display" id="eq:lppd">\[\begin{equation}
 \lppd = \sum_{i=1}^n \log p(y_i^{rep} \mid y)
-\tag{2.6}
+\tag{3.6}
 \end{equation}\]</span></p>
-<p>e corrisponde alla somma delle densità predittive logaritmiche delle <span class="math inline">\(n\)</span> osservazioni. Valori più grandi della <a href="ch:kl-div.html#eq:lppd">(2.6)</a> sono da preferire perché indicano una maggiore accuratezza media. È anche comune vedere espressa la quantità precedente nei termini della <em>devianza</em>, ovvero alla <span class="math inline">\(\lppd\)</span> moltiplicata per -2. In questo secondo caso sono da preferire valori piccoli.</p>
-<p>È importante notare che <span class="math inline">\(\lppd\)</span> fornisce una <em>sovrastima</em> della <a href="ch:kl-div.html#eq:elpd">(2.4)</a>. Tale sovrastima è dovuta al fatto che, nel calcolo della <a href="ch:kl-div.html#eq:lppd">(2.6)</a>, abbiamo usato <span class="math inline">\(p(y^{rep} \mid y)\)</span> al posto di <span class="math inline">\(p(\tilde{y} \mid y)\)</span>: in altri termini, abbiamo considerato le osservazioni del campione come se fossero un nuovo campione di dati. In una serie di simulazioni, <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> esamina il significato di questa sovrastima. Nelle simulazioni la devianza viene calcolata come funzione della complessità (ovvero, il numero di parametri) del modello. La simulazione mostra che <span class="math inline">\(\lppd\)</span> aumenta al crescere del numero di parametri del modello. Ciò significa che <span class="math inline">\(\lppd\)</span> mostra lo stesso limite del coefficiente di determinazione: aumenta all’aumentare della complessità del modello.</p>
+<p>e corrisponde alla somma delle densità predittive logaritmiche delle <span class="math inline">\(n\)</span> osservazioni. Valori più grandi della <a href="ch:kl-div.html#eq:lppd">(3.6)</a> sono da preferire perché indicano una maggiore accuratezza media. È anche comune vedere espressa la quantità precedente nei termini della <em>devianza</em>, ovvero alla <span class="math inline">\(\lppd\)</span> moltiplicata per -2. In questo secondo caso sono da preferire valori piccoli.</p>
+<p>È importante notare che <span class="math inline">\(\lppd\)</span> fornisce una <em>sovrastima</em> della <a href="ch:kl-div.html#eq:elpd">(3.4)</a>. Tale sovrastima è dovuta al fatto che, nel calcolo della <a href="ch:kl-div.html#eq:lppd">(3.6)</a>, abbiamo usato <span class="math inline">\(p(y^{rep} \mid y)\)</span> al posto di <span class="math inline">\(p(\tilde{y} \mid y)\)</span>: in altri termini, abbiamo considerato le osservazioni del campione come se fossero un nuovo campione di dati. In una serie di simulazioni, <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> esamina il significato di questa sovrastima. Nelle simulazioni la devianza viene calcolata come funzione della complessità (ovvero, il numero di parametri) del modello. La simulazione mostra che <span class="math inline">\(\lppd\)</span> aumenta al crescere del numero di parametri del modello. Ciò significa che <span class="math inline">\(\lppd\)</span> mostra lo stesso limite del coefficiente di determinazione: aumenta all’aumentare della complessità del modello.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-9" class="example"><strong>Esempio 2.4  </strong></span>Esaminiamo un esempio tratto da <a href="https://vasishth.github.io/bayescogsci/book/expected-log-predictive-density-of-a-model.html">Bayesian Data Analysis for Cognitive Science</a> nel quale la <span class="math inline">\(\elpd\)</span> viene calcolata in forma esatta oppure mediante approssimazione. Supponiamo di disporre di un campione di <span class="math inline">\(n\)</span> osservazioni. Supponiamo inoltre di conoscere il vero processo generativo dei dati (qualcosa che in pratica non è mai possibile), ovvero:</p>
+<p><span id="exm:unlabeled-div-13" class="example"><strong>Esempio 3.4  </strong></span>Esaminiamo un esempio tratto da <a href="https://vasishth.github.io/bayescogsci/book/expected-log-predictive-density-of-a-model.html">Bayesian Data Analysis for Cognitive Science</a> nel quale la <span class="math inline">\(\elpd\)</span> viene calcolata in forma esatta oppure mediante approssimazione. Supponiamo di disporre di un campione di <span class="math inline">\(n\)</span> osservazioni. Supponiamo inoltre di conoscere il vero processo generativo dei dati (qualcosa che in pratica non è mai possibile), ovvero:</p>
 <p><span class="math display">\[
 p_t(y) = \Beta(1, 3).
 \]</span>
@@ -401,7 +416,7 @@ p(y^{rep} \mid y) \sim \Beta(2, 2).
 <span id="cb16-6"><a href="ch:kl-div.html#cb16-6" aria-hidden="true" tabindex="-1"></a>integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">p_t</span>(y) <span class="sc">*</span> <span class="fu">log</span>(<span class="fu">p</span>(y))</span>
 <span id="cb16-7"><a href="ch:kl-div.html#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(<span class="at">f =</span> integrand, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
 <span id="cb16-8"><a href="ch:kl-div.html#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.3749072 with absolute error &lt; 6.8e-07</span></span></code></pre></div>
-<p>Tuttavia, in pratica non conosciamo mai <span class="math inline">\(p_t(y)\)</span>. Quindi approssimiamo <span class="math inline">\(\elpd\)</span> usando la <a href="ch:kl-div.html#eq:elpd">(2.4)</a>:</p>
+<p>Tuttavia, in pratica non conosciamo mai <span class="math inline">\(p_t(y)\)</span>. Quindi approssimiamo <span class="math inline">\(\elpd\)</span> usando la <a href="ch:kl-div.html#eq:elpd">(3.4)</a>:</p>
 <p><span class="math display">\[
 \frac{1}{n} \sum_{i=1}^n \log p(y_i \mid y).
 \]</span></p>
@@ -440,9 +455,13 @@ McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayes
 <div class="csl-entry">
 Song, Q Chelsea, Chen Tang, and Serena Wee. 2021. <span>“Making Sense of Model Generalizability: A Tutorial on Cross-Validation in r and Shiny.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 4 (1): 2515245920947067.
 </div>
+<div class="csl-entry">
+Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“Future Expectations in Clinical Depression: <span>Biased</span> or Realistic?”</span> <em>Journal of Abnormal Psychology</em> 128 (7): 678–88.
 </div>
 </div>
 </div>
+</div>
+
 
 
 
@@ -464,9 +483,9 @@ McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayes
 </div>
 <div class="footnotes">
 <hr />
-<ol start="4">
-<li id="fn4"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch:kl-div.html#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch:kl-div.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<ol start="5">
+<li id="fn5"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch:kl-div.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch:kl-div.html#fnref6" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -474,7 +493,7 @@ McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayes
           </div>
         </div>
       </div>
-<a href="ch:entropy.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="entropia.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

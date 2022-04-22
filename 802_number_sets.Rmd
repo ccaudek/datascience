@@ -4,7 +4,7 @@
 
 I numeri più semplici sono quelli binari, cioè zero o uno. Useremo spesso
 numeri binari per indicare se qualcosa è vero o falso, presente o
-assente. I numeri binari sono molto utili per ottenere facilmente delle statistiche riassuntive in $\R$.Supponiamo di chiedere a 10 studenti "Ti piacciono i mirtilli?" Poniamo che le risposte siano le seguenti:
+assente. I numeri binari sono molto utili per ottenere facilmente delle statistiche riassuntive in $\mathsf{R}$.Supponiamo di chiedere a 10 studenti "Ti piacciono i mirtilli?" Poniamo che le risposte siano le seguenti:
 
 ```{r}
 opinion <- c(

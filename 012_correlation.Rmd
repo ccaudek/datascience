@@ -1,4 +1,4 @@
-# Le relazioni tra variabili {#ch:correlation}
+# Le relazioni tra variabili 
 
 ```{r, include = FALSE}
 source("_common.R")
@@ -30,7 +30,7 @@ essere tra loro _linearmente associati_. Per capire cosa si intende con
 utilizziamo una rappresentazione grafica che va sotto il nome di
 diagramma a dispersione.
 
-### Diagramma a dispersione
+## Diagramma a dispersione
 
 Il diagramma di dispersione è la rappresentazione grafica delle coppie di punti individuati da due variabili $X$ e $Y$.
 
@@ -79,7 +79,7 @@ bysubj %>%
   scale_colour_grey(start = 0.7, end = 0)
 ```
 
-### Covarianza
+## Covarianza
 
 Il problema che ci poniamo ora è quello di trovare un indice numerico che
 descrive di quanto la nube di punti si discosta da una perfetta
@@ -143,7 +143,7 @@ l'altezza viene misurata in metri e il peso in chilogrammi. Dunque, il
 valore della covarianza cambia al mutare dell'unità di misura delle
 variabili anche se l'associazione tra le variabili resta costante.
 
-### Correlazione
+## Correlazione
 
 Dato che il valore assoluto della covarianza è di difficile
 interpretazione -- in pratica, non viene mai interpretato -- è
@@ -200,7 +200,7 @@ seconda domanda possono risultare molte preziose conoscenze."*
 Che alla seconda domanda posta da Pearson sia facile rispondere è indubbio. Che la nostra comprensione di un fenomeno possa aumentare sulla base delle
 informazioni fornite unicamente dalle correlazioni, invece, è molto dubbio e quasi certamente falso.
 
-### Usi della correlazione
+## Usi della correlazione
 
 Anche se non può essere usata per studiare le relazioni causali, la
 correlazione viene usata per molti altri scopi tra i quali, per esempio,
@@ -215,7 +215,7 @@ psicometrici che misurano costrutti diversi dovrebbero essere poco
 associati tra loro. In altre parole, in questo secondo caso dovremmo
 aspettarci che la correlazione sia bassa.
 
-### Correlazione di Spearman
+## Correlazione di Spearman
 
 Una misura alternativa della relazione lineare tra due variabili è
 fornita dal coefficiente di correlazione di Spearman e dipende soltanto
@@ -230,7 +230,7 @@ abbiamo introdotto in questo capitolo, quali ad esempio la media e la
 varianza, ma è invece solo possibile riassumere i dati mediante una
 distribuzione di frequenze per le varie modalità della risposta.
 
-### Correlazione nulla
+## Correlazione nulla
 
 Un ultimo aspetto da mettere in evidenza a proposito della correlazione riguarda il fatto che la correlazione descrive la direzione e l'intensità della relazione lineare tra due variabili. Relazioni non lineari tra le variabili, anche se sono molto forti, non vengono catturate dalla correlazione. È importante rendersi conto che una correlazione pari a zero non significa che non c'è relazione tra le due variabili, ma solo che tra esse non c'è una relazione *lineare*.
 

@@ -1,4 +1,4 @@
-# L'influenza della distribuzione a priori  {#chapter-balance}
+# L'influenza della distribuzione a priori  
 
 ```{r c027, include = FALSE}
 source("_common.R")

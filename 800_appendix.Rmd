@@ -1,6 +1,6 @@
-\mainmatter
+# Bibliografia
 
-# (PART) Appendici {-}
+<div id="refs"></div>
 
 # (APPENDIX) Appendici {-} 
 

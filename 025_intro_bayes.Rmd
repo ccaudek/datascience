@@ -2,7 +2,7 @@
 
 # (PART) Inferenza bayesiana {-}
 
-# Flusso di lavoro bayesiano {#ch:intro-bayes-inference}
+# Flusso di lavoro bayesiano 
 
 ```{r, include = FALSE}
 source("_common.R")

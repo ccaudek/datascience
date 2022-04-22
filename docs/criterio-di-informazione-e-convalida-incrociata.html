@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 34 Criterio di informazione e convalida incrociata | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 34 Criterio di informazione e convalida incrociata | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 34 Criterio di informazione e convalida incrociata | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="la-divergenza-di-kullback-leibler.html"/>
+<link rel="next" href="bibliografia.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Nozioni preliminari</b></span></li>
+<li class="chapter" data-level="1" data-path="concetti-chiave.html"><a href="concetti-chiave.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#popolazioni-e-campioni"><i class="fa fa-check"></i><b>1.1</b> Popolazioni e campioni</a></li>
+<li class="chapter" data-level="1.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-e-costanti"><i class="fa fa-check"></i><b>1.2</b> Variabili e costanti</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-casuali"><i class="fa fa-check"></i><b>1.2.1</b> Variabili casuali</a></li>
+<li class="chapter" data-level="1.2.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-indipendenti-e-variabili-dipendenti"><i class="fa fa-check"></i><b>1.2.2</b> Variabili indipendenti e variabili dipendenti</a></li>
+<li class="chapter" data-level="1.2.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#la-matrice-dei-dati"><i class="fa fa-check"></i><b>1.2.3</b> La matrice dei dati</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#parametri-e-modelli"><i class="fa fa-check"></i><b>1.3</b> Parametri e modelli</a></li>
+<li class="chapter" data-level="1.4" data-path="concetti-chiave.html"><a href="concetti-chiave.html#effetto"><i class="fa fa-check"></i><b>1.4</b> Effetto</a></li>
+<li class="chapter" data-level="1.5" data-path="concetti-chiave.html"><a href="concetti-chiave.html#stima-e-inferenza"><i class="fa fa-check"></i><b>1.5</b> Stima e inferenza</a></li>
+<li class="chapter" data-level="1.6" data-path="concetti-chiave.html"><a href="concetti-chiave.html#metodi-e-procedure-della-psicologia"><i class="fa fa-check"></i><b>1.6</b> Metodi e procedure della psicologia</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html"><i class="fa fa-check"></i><b>2</b> La misurazione in psicologia</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#le-scale-di-misura"><i class="fa fa-check"></i><b>2.1</b> Le scale di misura</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-nominale"><i class="fa fa-check"></i><b>2.1.1</b> Scala nominale</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ordinale"><i class="fa fa-check"></i><b>2.1.2</b> Scala ordinale</a></li>
+<li class="chapter" data-level="2.1.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ad-intervalli"><i class="fa fa-check"></i><b>2.1.3</b> Scala ad intervalli</a></li>
+<li class="chapter" data-level="2.1.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-di-rapporti"><i class="fa fa-check"></i><b>2.1.4</b> Scala di rapporti</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#gerarchia-dei-livelli-di-scala-di-misura"><i class="fa fa-check"></i><b>2.2</b> Gerarchia dei livelli di scala di misura</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#variabili-discrete-o-continue"><i class="fa fa-check"></i><b>2.3</b> Variabili discrete o continue</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#alcune-misure-sono-migliori-di-altre"><i class="fa fa-check"></i><b>2.4</b> Alcune misure sono migliori di altre</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#tipologie-di-errori"><i class="fa fa-check"></i><b>2.4.1</b> Tipologie di errori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>II Analisi esplorativa dei dati</b></span></li>
+<li class="chapter" data-level="3" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html"><i class="fa fa-check"></i><b>3</b> Variabili e distribuzioni di frequenza</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#chapter-descript"><i class="fa fa-check"></i><b>3.1</b> Introduzione all’esplorazione dei dati</a></li>
+<li class="chapter" data-level="3.2" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#un-excursus-storico"><i class="fa fa-check"></i><b>3.2</b> Un excursus storico</a></li>
+<li class="chapter" data-level="3.3" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#riassumere-i-dati"><i class="fa fa-check"></i><b>3.3</b> Riassumere i dati</a></li>
+<li class="chapter" data-level="3.4" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#i-dati-grezzi"><i class="fa fa-check"></i><b>3.4</b> I dati grezzi</a></li>
+<li class="chapter" data-level="3.5" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#distribuzioni-di-frequenze"><i class="fa fa-check"></i><b>3.5</b> Distribuzioni di frequenze</a></li>
+<li class="chapter" data-level="3.6" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#istogramma"><i class="fa fa-check"></i><b>3.6</b> Istogramma</a></li>
+<li class="chapter" data-level="3.7" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#kernel-density-plot"><i class="fa fa-check"></i><b>3.7</b> Kernel density plot</a></li>
+<li class="chapter" data-level="3.8" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#forma-di-una-distribuzione"><i class="fa fa-check"></i><b>3.8</b> Forma di una distribuzione</a></li>
+<li class="chapter" data-level="3.9" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#indici-di-posizione"><i class="fa fa-check"></i><b>3.9</b> Indici di posizione</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#quantili"><i class="fa fa-check"></i><b>3.9.1</b> Quantili</a></li>
+<li class="chapter" data-level="3.9.2" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#diagramma-a-scatola"><i class="fa fa-check"></i><b>3.9.2</b> Diagramma a scatola</a></li>
+<li class="chapter" data-level="3.9.3" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#sina-plot"><i class="fa fa-check"></i><b>3.9.3</b> Sina plot</a></li>
+<li class="chapter" data-level="3.9.4" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#leccellenza-grafica"><i class="fa fa-check"></i><b>3.9.4</b> L’eccellenza grafica</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="variabili-e-distribuzioni-di-frequenza.html"><a href="variabili-e-distribuzioni-di-frequenza.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html"><i class="fa fa-check"></i><b>4</b> Indici di posizione e di scala</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#indici-di-tendenza-centrale"><i class="fa fa-check"></i><b>4.1</b> Indici di tendenza centrale</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#media"><i class="fa fa-check"></i><b>4.1.1</b> Media</a></li>
+<li class="chapter" data-level="4.1.2" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#media-spuntata"><i class="fa fa-check"></i><b>4.1.2</b> Media spuntata</a></li>
+<li class="chapter" data-level="4.1.3" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#moda-e-mediana"><i class="fa fa-check"></i><b>4.1.3</b> Moda e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#indici-di-dispersione"><i class="fa fa-check"></i><b>4.2</b> Indici di dispersione</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#indici-basati-sullordinamento-dei-dati"><i class="fa fa-check"></i><b>4.2.1</b> Indici basati sull’ordinamento dei dati</a></li>
+<li class="chapter" data-level="4.2.2" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#varianza"><i class="fa fa-check"></i><b>4.2.2</b> Varianza</a></li>
+<li class="chapter" data-level="4.2.3" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#precisione"><i class="fa fa-check"></i><b>4.2.3</b> Precisione</a></li>
+<li class="chapter" data-level="4.2.4" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#scarto-tipo"><i class="fa fa-check"></i><b>4.2.4</b> Scarto tipo</a></li>
+<li class="chapter" data-level="4.2.5" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#deviazione-mediana-assoluta"><i class="fa fa-check"></i><b>4.2.5</b> Deviazione mediana assoluta</a></li>
+<li class="chapter" data-level="4.2.6" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#indici-di-variabilità-relativi"><i class="fa fa-check"></i><b>4.2.6</b> Indici di variabilità relativi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="indici-di-posizione-e-di-scala.html"><a href="indici-di-posizione-e-di-scala.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html"><i class="fa fa-check"></i><b>5</b> Le relazioni tra variabili</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#diagramma-a-dispersione"><i class="fa fa-check"></i><b>5.1</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="5.2" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#covarianza"><i class="fa fa-check"></i><b>5.2</b> Covarianza</a></li>
+<li class="chapter" data-level="5.3" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#correlazione"><i class="fa fa-check"></i><b>5.3</b> Correlazione</a></li>
+<li class="chapter" data-level="5.4" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#correlazione-e-causazione"><i class="fa fa-check"></i><b>5.4</b> Correlazione e causazione</a></li>
+<li class="chapter" data-level="5.5" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#usi-della-correlazione"><i class="fa fa-check"></i><b>5.5</b> Usi della correlazione</a></li>
+<li class="chapter" data-level="5.6" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#correlazione-di-spearman"><i class="fa fa-check"></i><b>5.6</b> Correlazione di Spearman</a></li>
+<li class="chapter" data-level="5.7" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#correlazione-nulla"><i class="fa fa-check"></i><b>5.7</b> Correlazione nulla</a></li>
+<li class="chapter" data-level="" data-path="le-relazioni-tra-variabili.html"><a href="le-relazioni-tra-variabili.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>III Il calcolo delle probabilità</b></span></li>
+<li class="chapter" data-level="6" data-path="intro-prob-1.html"><a href="intro-prob-1.html"><i class="fa fa-check"></i><b>6</b> La logica dell’incerto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#che-cosè-la-probabilità"><i class="fa fa-check"></i><b>6.1</b> Che cos’è la probabilità?</a></li>
+<li class="chapter" data-level="6.2" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-e-probabilità-di-un-evento"><i class="fa fa-check"></i><b>6.2</b> Variabili casuali e probabilità di un evento</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#eventi-e-probabilità"><i class="fa fa-check"></i><b>6.2.1</b> Eventi e probabilità</a></li>
+<li class="chapter" data-level="6.2.2" data-path="intro-prob-1.html"><a href="intro-prob-1.html#spazio-campione-e-risultati-possibili"><i class="fa fa-check"></i><b>6.2.2</b> Spazio campione e risultati possibili</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-1"><i class="fa fa-check"></i><b>6.3</b> Variabili casuali</a></li>
+<li class="chapter" data-level="6.4" data-path="intro-prob-1.html"><a href="intro-prob-1.html#usare-la-simulazione-per-stimare-le-probabilità"><i class="fa fa-check"></i><b>6.4</b> Usare la simulazione per stimare le probabilità</a></li>
+<li class="chapter" data-level="6.5" data-path="intro-prob-1.html"><a href="intro-prob-1.html#la-legge-dei-grandi-numeri"><i class="fa fa-check"></i><b>6.5</b> La legge dei grandi numeri</a></li>
+<li class="chapter" data-level="6.6" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-multiple"><i class="fa fa-check"></i><b>6.6</b> Variabili casuali multiple</a></li>
+<li class="chapter" data-level="6.7" data-path="intro-prob-1.html"><a href="intro-prob-1.html#sec:fun-mass-prob"><i class="fa fa-check"></i><b>6.7</b> Funzione di massa di probabilità</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#funzione-di-ripartizione"><i class="fa fa-check"></i><b>6.7.1</b> Funzione di ripartizione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="intro-prob-1.html"><a href="intro-prob-1.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html"><i class="fa fa-check"></i><b>7</b> Probabilità condizionata</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#sec:bayes-cancer"><i class="fa fa-check"></i><b>7.1</b> Probabilità condizionata su altri eventi</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#la-regola-moltiplicativa"><i class="fa fa-check"></i><b>7.2</b> La regola moltiplicativa</a></li>
+<li class="chapter" data-level="7.3" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#lindipendendenza-stocastica"><i class="fa fa-check"></i><b>7.3</b> L’indipendendenza stocastica</a></li>
+<li class="chapter" data-level="7.4" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#il-teorema-della-probabilità-totale"><i class="fa fa-check"></i><b>7.4</b> Il teorema della probabilità totale</a></li>
+<li class="chapter" data-level="7.5" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#il-teorema-della-probabilità-assoluta"><i class="fa fa-check"></i><b>7.5</b> Il teorema della probabilità assoluta</a></li>
+<li class="chapter" data-level="7.6" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#indipendenza-condizionale"><i class="fa fa-check"></i><b>7.6</b> Indipendenza condizionale</a></li>
+<li class="chapter" data-level="" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html"><i class="fa fa-check"></i><b>8</b> Il teorema di Bayes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html#il-teorema-di-bayes"><i class="fa fa-check"></i><b>8.1</b> Il teorema di Bayes</a></li>
+<li class="chapter" data-level="" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html#commenti-e-considerazioni-finali-6"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html"><i class="fa fa-check"></i><b>9</b> Probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#funzione-di-probabilità-congiunta"><i class="fa fa-check"></i><b>9.1</b> Funzione di probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#proprietà"><i class="fa fa-check"></i><b>9.1.1</b> Proprietà</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#eventi"><i class="fa fa-check"></i><b>9.1.2</b> Eventi</a></li>
+<li class="chapter" data-level="9.1.3" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#sec:marg-distr-discr"><i class="fa fa-check"></i><b>9.1.3</b> Funzioni di probabilità marginali</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#sec:margin-vc-cont"><i class="fa fa-check"></i><b>9.2</b> Marginalizzazione di variabili casuali continue</a></li>
+<li class="chapter" data-level="" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#commenti-e-considerazioni-finali-7"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html"><i class="fa fa-check"></i><b>10</b> La densità di probabilità</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#spinner-e-variabili-casuali-continue-uniformi"><i class="fa fa-check"></i><b>10.1</b> Spinner e variabili casuali continue uniformi</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#il-paradosso-delle-variabili-casuali-continue"><i class="fa fa-check"></i><b>10.1.1</b> Il paradosso delle variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-funzione-di-ripartizione-per-una-variabile-casuale-continua"><i class="fa fa-check"></i><b>10.2</b> La funzione di ripartizione per una variabile casuale continua</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-distribuzione-uniforme"><i class="fa fa-check"></i><b>10.3</b> La distribuzione uniforme</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#dagli-istogrammi-alle-densità"><i class="fa fa-check"></i><b>10.4</b> Dagli istogrammi alle densità</a></li>
+<li class="chapter" data-level="10.5" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#funzione-di-densità-di-probabilità"><i class="fa fa-check"></i><b>10.5</b> Funzione di densità di probabilità</a></li>
+<li class="chapter" data-level="10.6" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-funzione-di-ripartizione"><i class="fa fa-check"></i><b>10.6</b> La funzione di ripartizione</a></li>
+<li class="chapter" data-level="10.7" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#media-e-mediana"><i class="fa fa-check"></i><b>10.7</b> Media e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html"><i class="fa fa-check"></i><b>11</b> Valore atteso e varianza</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#valore-atteso"><i class="fa fa-check"></i><b>11.1</b> Valore atteso</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#interpretazione"><i class="fa fa-check"></i><b>11.1.1</b> Interpretazione</a></li>
+<li class="chapter" data-level="11.1.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#proprietà-del-valore-atteso"><i class="fa fa-check"></i><b>11.1.2</b> Proprietà del valore atteso</a></li>
+<li class="chapter" data-level="11.1.3" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#variabili-casuali-continue"><i class="fa fa-check"></i><b>11.1.3</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#varianza-1"><i class="fa fa-check"></i><b>11.2</b> Varianza</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#formula-alternativa-per-la-varianza"><i class="fa fa-check"></i><b>11.2.1</b> Formula alternativa per la varianza</a></li>
+<li class="chapter" data-level="11.2.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#variabili-casuali-continue-1"><i class="fa fa-check"></i><b>11.2.2</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#deviazione-standard"><i class="fa fa-check"></i><b>11.3</b> Deviazione standard</a></li>
+<li class="chapter" data-level="11.4" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#standardizzazione"><i class="fa fa-check"></i><b>11.4</b> Standardizzazione</a></li>
+<li class="chapter" data-level="11.5" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#momenti-di-variabili-casuali"><i class="fa fa-check"></i><b>11.5</b> Momenti di variabili casuali</a></li>
+<li class="chapter" data-level="11.6" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#covarianza-1"><i class="fa fa-check"></i><b>11.6</b> Covarianza</a></li>
+<li class="chapter" data-level="11.7" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#correlazione-1"><i class="fa fa-check"></i><b>11.7</b> Correlazione</a></li>
+<li class="chapter" data-level="11.8" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#proprietà-1"><i class="fa fa-check"></i><b>11.8</b> Proprietà</a>
+<ul>
+<li class="chapter" data-level="11.8.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#incorrelazione"><i class="fa fa-check"></i><b>11.8.1</b> Incorrelazione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#conclusioni"><i class="fa fa-check"></i>Conclusioni</a></li>
+</ul></li>
+<li class="part"><span><b>IV Distribuzioni teoriche di probabilità</b></span></li>
+<li class="chapter" data-level="12" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html"><i class="fa fa-check"></i><b>12</b> Distribuzioni di v.c. discrete</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#una-prova-bernoulliana"><i class="fa fa-check"></i><b>12.1</b> Una prova Bernoulliana</a></li>
+<li class="chapter" data-level="12.2" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#una-sequenza-di-prove-bernoulliane"><i class="fa fa-check"></i><b>12.2</b> Una sequenza di prove Bernoulliane</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#valore-atteso-e-deviazione-standard"><i class="fa fa-check"></i><b>12.2.1</b> Valore atteso e deviazione standard</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-di-poisson"><i class="fa fa-check"></i><b>12.3</b> Distribuzione di Poisson</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#alcune-proprietà-della-variabile-di-poisson"><i class="fa fa-check"></i><b>12.3.1</b> Alcune proprietà della variabile di Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-discreta-uniforme"><i class="fa fa-check"></i><b>12.4</b> Distribuzione discreta uniforme</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#usiamo-textsfr"><i class="fa fa-check"></i><b>12.4.1</b> Usiamo <span class="math inline">\(\textsf{R}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-beta-binomiale"><i class="fa fa-check"></i><b>12.5</b> Distribuzione beta-binomiale</a></li>
+<li class="chapter" data-level="" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#commenti-e-considerazioni-finali-8"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html"><i class="fa fa-check"></i><b>13</b> Distribuzioni di v.c. continue</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-normale"><i class="fa fa-check"></i><b>13.1</b> Distribuzione Normale</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#limite-delle-distribuzioni-binomiali"><i class="fa fa-check"></i><b>13.1.1</b> Limite delle distribuzioni binomiali</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#normal-random-walk"><i class="fa fa-check"></i><b>13.2</b> La Normale prodotta con una simulazione</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#concentrazione"><i class="fa fa-check"></i><b>13.2.1</b> Concentrazione</a></li>
+<li class="chapter" data-level="13.2.2" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#funzione-di-ripartizione-1"><i class="fa fa-check"></i><b>13.2.2</b> Funzione di ripartizione</a></li>
+<li class="chapter" data-level="13.2.3" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-normale-standard"><i class="fa fa-check"></i><b>13.2.3</b> Distribuzione Normale standard</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#teorema-del-limite-centrale"><i class="fa fa-check"></i><b>13.3</b> Teorema del limite centrale</a></li>
+<li class="chapter" data-level="13.4" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-chi-quadrato"><i class="fa fa-check"></i><b>13.4</b> Distribuzione Chi-quadrato</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#proprietà-2"><i class="fa fa-check"></i><b>13.4.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-t-di-student"><i class="fa fa-check"></i><b>13.5</b> Distribuzione <span class="math inline">\(t\)</span> di Student</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#proprietà-3"><i class="fa fa-check"></i><b>13.5.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#funzione-beta"><i class="fa fa-check"></i><b>13.6</b> Funzione beta</a></li>
+<li class="chapter" data-level="13.7" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-beta"><i class="fa fa-check"></i><b>13.7</b> Distribuzione Beta</a></li>
+<li class="chapter" data-level="13.8" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-di-cauchy"><i class="fa fa-check"></i><b>13.8</b> Distribuzione di Cauchy</a></li>
+<li class="chapter" data-level="13.9" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-log-normale"><i class="fa fa-check"></i><b>13.9</b> Distribuzione log-normale</a></li>
+<li class="chapter" data-level="13.10" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-di-pareto"><i class="fa fa-check"></i><b>13.10</b> Distribuzione di Pareto</a></li>
+<li class="chapter" data-level="" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#commenti-e-considerazioni-finali-9"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>V Inferenza bayesiana</b></span></li>
+<li class="chapter" data-level="14" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html"><i class="fa fa-check"></i><b>14</b> Flusso di lavoro bayesiano</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#modellizzazione-bayesiana"><i class="fa fa-check"></i><b>14.1</b> Modellizzazione bayesiana</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#notazione"><i class="fa fa-check"></i><b>14.1.1</b> Notazione</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2</b> Distribuzioni a priori</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#tipologie-di-distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2.1</b> Tipologie di distribuzioni a priori</a></li>
+<li class="chapter" data-level="14.2.2" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#selezione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>14.2.2</b> Selezione della distribuzione a priori</a></li>
+<li class="chapter" data-level="14.2.3" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#unapplicazione-empirica"><i class="fa fa-check"></i><b>14.2.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#la-funzione-di-verosimiglianza"><i class="fa fa-check"></i><b>14.3</b> La funzione di verosimiglianza</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#notazione-1"><i class="fa fa-check"></i><b>14.3.1</b> Notazione</a></li>
+<li class="chapter" data-level="14.3.2" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#la-log-verosimiglianza"><i class="fa fa-check"></i><b>14.3.2</b> La log-verosimiglianza</a></li>
+<li class="chapter" data-level="14.3.3" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#unapplicazione-empirica-1"><i class="fa fa-check"></i><b>14.3.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#sec:const-normaliz-bino23"><i class="fa fa-check"></i><b>14.4</b> La verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#unapplicazione-empirica-2"><i class="fa fa-check"></i><b>14.4.1</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#distribuzione-a-posteriori"><i class="fa fa-check"></i><b>14.5</b> Distribuzione a posteriori</a></li>
+<li class="chapter" data-level="14.6" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>14.6</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="14.7" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>14.7</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="" data-path="flusso-di-lavoro-bayesiano.html"><a href="flusso-di-lavoro-bayesiano.html#commenti-e-considerazioni-finali-10"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html"><i class="fa fa-check"></i><b>15</b> Pensare ad una proporzione in termini soggettivi</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-discr-binom"><i class="fa fa-check"></i><b>15.1</b> Inferenza bayesiana con una distribuzione a priori discreta</a></li>
+<li class="chapter" data-level="15.2" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-cont-binom"><i class="fa fa-check"></i><b>15.2</b> Inferenza bayesiana con una distribuzione a priori continua</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#quali-parametri-per-la-distribuzione-beta"><i class="fa fa-check"></i><b>15.2.1</b> Quali parametri per la distribuzione Beta?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#commenti-e-considerazioni-finali-11"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html"><i class="fa fa-check"></i><b>16</b> Distribuzioni coniugate</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#lo-schema-beta-binomiale"><i class="fa fa-check"></i><b>16.1</b> Lo schema beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>16.1.1</b> La specificazione della distribuzione a priori</a></li>
+<li class="chapter" data-level="16.1.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>16.1.2</b> La specificazione della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#inferenza-bayesiana-con-distribuzioni-a-priori-continue"><i class="fa fa-check"></i><b>16.2</b> Inferenza bayesiana con distribuzioni a priori continue</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#approccio-bayesiano-alla-verifica-di-ipotesi"><i class="fa fa-check"></i><b>16.2.1</b> Approccio bayesiano alla verifica di ipotesi</a></li>
+<li class="chapter" data-level="16.2.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>16.2.2</b> Intervalli di credibilità</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#principali-distribuzioni-coniugate"><i class="fa fa-check"></i><b>16.3</b> Principali distribuzioni coniugate</a></li>
+<li class="chapter" data-level="" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#commenti-e-considerazioni-finali-12"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html"><i class="fa fa-check"></i><b>17</b> L’influenza della distribuzione a priori</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#il-test-di-benchdel"><i class="fa fa-check"></i><b>17.1</b> Il test di Benchdel</a></li>
+<li class="chapter" data-level="17.2" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#stessi-dati-ma-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.2</b> Stessi dati ma diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.3" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#dati-diversi-ma-la-stessa-distribuzione-a-priori"><i class="fa fa-check"></i><b>17.3</b> Dati diversi ma la stessa distribuzione a priori</a></li>
+<li class="chapter" data-level="17.4" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#dati-diversi-e-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.4</b> Dati diversi e diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.5" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#collegare-le-intuizioni-alla-teoria"><i class="fa fa-check"></i><b>17.5</b> Collegare le intuizioni alla teoria</a></li>
+<li class="chapter" data-level="" data-path="linfluenza-della-distribuzione-a-priori.html"><a href="linfluenza-della-distribuzione-a-priori.html#commenti-e-considerazioni-finali-13"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html"><i class="fa fa-check"></i><b>18</b> Approssimazione della distribuzione a posteriori</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#metodo-basato-su-griglia"><i class="fa fa-check"></i><b>18.1</b> Metodo basato su griglia</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#modello-beta-binomiale"><i class="fa fa-check"></i><b>18.1.1</b> Modello Beta-Binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#chapter-simulazioneMC"><i class="fa fa-check"></i><b>18.2</b> Metodo Monte Carlo</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#integration-mc"><i class="fa fa-check"></i><b>18.2.1</b> Integrazione di Monte Carlo</a></li>
+<li class="chapter" data-level="18.2.2" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#descrizione-intuitiva"><i class="fa fa-check"></i><b>18.2.2</b> Descrizione intuitiva</a></li>
+<li class="chapter" data-level="18.2.3" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#unapplicazione-empirica-3"><i class="fa fa-check"></i><b>18.2.3</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.4" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#una-passeggiata-casuale-sui-numeri-naturali"><i class="fa fa-check"></i><b>18.2.4</b> Una passeggiata casuale sui numeri naturali</a></li>
+<li class="chapter" data-level="18.2.5" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#lalgoritmo-di-metropolis"><i class="fa fa-check"></i><b>18.2.5</b> L’algoritmo di Metropolis</a></li>
+<li class="chapter" data-level="18.2.6" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#unapplicazione-empirica-4"><i class="fa fa-check"></i><b>18.2.6</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.7" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#gibbs-sampling"><i class="fa fa-check"></i><b>18.2.7</b> Gibb’s sampling</a></li>
+<li class="chapter" data-level="18.2.8" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#input"><i class="fa fa-check"></i><b>18.2.8</b> Input</a></li>
+<li class="chapter" data-level="18.2.9" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#stazionarietà"><i class="fa fa-check"></i><b>18.2.9</b> Stazionarietà</a></li>
+<li class="chapter" data-level="18.2.10" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#test-di-convergenza"><i class="fa fa-check"></i><b>18.2.10</b> Test di convergenza</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="approssimazione-della-distribuzione-a-posteriori.html"><a href="approssimazione-della-distribuzione-a-posteriori.html#commenti-e-considerazioni-finali-14"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html"><i class="fa fa-check"></i><b>19</b> Il modello beta-binomiale in linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#il-presidente-trump-e-lidrossiclorochina"><i class="fa fa-check"></i><b>19.1</b> Il presidente Trump e l’idrossiclorochina</a></li>
+<li class="chapter" data-level="19.2" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#una-proporzione"><i class="fa fa-check"></i><b>19.2</b> Una proporzione</a></li>
+<li class="chapter" data-level="19.3" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#cmdstanr-gautret"><i class="fa fa-check"></i><b>19.3</b> Interfaccia <code>cmdstanr</code></a>
+<ul>
+<li class="chapter" data-level="19.3.1" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
+<li class="chapter" data-level="19.3.2" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
+<li class="chapter" data-level="19.3.3" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
+<li class="chapter" data-level="19.3.4" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
+<li class="chapter" data-level="19.5" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
+<li class="chapter" data-level="" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#commenti-e-considerazioni-finali-15"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html"><i class="fa fa-check"></i><b>20</b> Diagnostica delle catene markoviane</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#esame-dei-trace-plot"><i class="fa fa-check"></i><b>20.1</b> Esame dei <em>trace plot</em></a></li>
+<li class="chapter" data-level="20.2" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#confronto-delle-catene-parallele"><i class="fa fa-check"></i><b>20.2</b> Confronto delle catene parallele</a></li>
+<li class="chapter" data-level="20.3" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#numerosita-campionaria-effettiva"><i class="fa fa-check"></i><b>20.3</b> Numerosità campionaria effettiva</a></li>
+<li class="chapter" data-level="20.4" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#autocorrelazione"><i class="fa fa-check"></i><b>20.4</b> Autocorrelazione</a></li>
+<li class="chapter" data-level="20.5" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#statistica-hatr"><i class="fa fa-check"></i><b>20.5</b> Statistica <span class="math inline">\(\hat{R}\)</span></a></li>
+<li class="chapter" data-level="20.6" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#diagnostica-di-convergenza-di-geweke"><i class="fa fa-check"></i><b>20.6</b> Diagnostica di convergenza di Geweke</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html"><i class="fa fa-check"></i><b>21</b> Sintesi a posteriori</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#stima-puntuale"><i class="fa fa-check"></i><b>21.1</b> Stima puntuale</a></li>
+<li class="chapter" data-level="21.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità"><i class="fa fa-check"></i><b>21.2</b> Intervallo di credibilità</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-a-code-uguali"><i class="fa fa-check"></i><b>21.2.1</b> Intervallo di credibilità a code uguali</a></li>
+<li class="chapter" data-level="21.2.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-a-densità-a-posteriori-più-alta"><i class="fa fa-check"></i><b>21.2.2</b> Intervallo di credibilità a densità a posteriori più alta</a></li>
+<li class="chapter" data-level="21.2.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#interpretazione-1"><i class="fa fa-check"></i><b>21.2.3</b> Interpretazione</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#un-esempio-concreto"><i class="fa fa-check"></i><b>21.3</b> Un esempio concreto</a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#stime-puntuali-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.1</b> Stime puntuali della distribuzione a posteriori</a></li>
+<li class="chapter" data-level="21.3.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-1"><i class="fa fa-check"></i><b>21.3.2</b> Intervallo di credibilità</a></li>
+<li class="chapter" data-level="21.3.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#probabilità-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.3</b> Probabilità della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#la-funzione-di-perdita-attesa"><i class="fa fa-check"></i><b>21.4</b> La funzione di perdita attesa</a></li>
+<li class="chapter" data-level="" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#commenti-e-considerazioni-finali-16"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="ch-prediction.html"><a href="ch-prediction.html"><i class="fa fa-check"></i><b>22</b> La predizione bayesiana</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva"><i class="fa fa-check"></i><b>22.1</b> La distribuzione predittiva</a></li>
+<li class="chapter" data-level="22.2" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-simulazione"><i class="fa fa-check"></i><b>22.2</b> La distribuzione predittiva a posteriori mediante simulazione</a></li>
+<li class="chapter" data-level="22.3" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-mcmc"><i class="fa fa-check"></i><b>22.3</b> La distribuzione predittiva a posteriori mediante MCMC</a></li>
+<li class="chapter" data-level="22.4" data-path="ch-prediction.html"><a href="ch-prediction.html#i-metodi-per-la-valutazione-del-modello"><i class="fa fa-check"></i><b>22.4</b> I metodi per la valutazione del modello</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="ch-prediction.html"><a href="ch-prediction.html#posterior-predictive-checks"><i class="fa fa-check"></i><b>22.4.1</b> Posterior predictive checks</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="ch-prediction.html"><a href="ch-prediction.html#distribuzione-predittiva-a-priori-1"><i class="fa fa-check"></i><b>22.5</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-prediction.html"><a href="ch-prediction.html#commenti-e-considerazioni-finali-17"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html"><i class="fa fa-check"></i><b>23</b> Inferenza sul parametro <span class="math inline">\(\mu\)</span> (media di una v.c. Normale)</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#caso-normale-normale-con-varianza-nota"><i class="fa fa-check"></i><b>23.1</b> Caso Normale-Normale con varianza nota</a></li>
+<li class="chapter" data-level="23.2" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#derivazione-analitica-della-distribuzione-a-posteriori-pmu-mid-y"><i class="fa fa-check"></i><b>23.2</b> Derivazione analitica della distribuzione a posteriori <span class="math inline">\(p(\mu \mid y)\)</span></a></li>
+<li class="chapter" data-level="23.3" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#il-modello-normale-con-stan"><i class="fa fa-check"></i><b>23.3</b> Il modello Normale con Stan</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#versione-1-sigma-nota"><i class="fa fa-check"></i><b>23.3.1</b> Versione 1 (<span class="math inline">\(\sigma\)</span> nota)</a></li>
+<li class="chapter" data-level="23.3.2" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#versione-2-sigma-incognita"><i class="fa fa-check"></i><b>23.3.2</b> Versione 2 (<span class="math inline">\(\sigma\)</span> incognita)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#commenti-e-considerazioni-finali-18"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>VI Il modello lineare</b></span></li>
+<li class="chapter" data-level="24" data-path="regr-models-intro.html"><a href="regr-models-intro.html"><i class="fa fa-check"></i><b>24</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>24.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="24.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>24.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="24.2.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>24.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="24.2.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-models-intro.html"><a href="regr-models-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="regr-model-lm.html"><a href="regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="25.1.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="25.1.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="25.1.3" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="25.2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>25.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-model-lm.html"><a href="regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="26.2" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="26.2.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="26.3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="26.3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>27</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>27.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="27.2" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#intervalli-di-credibilità-1"><i class="fa fa-check"></i><b>27.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="27.2.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>27.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>27.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="27.4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>27.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#commenti-e-considerazioni-finali-22"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html"><i class="fa fa-check"></i><b>28</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>28.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="28.1.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>28.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="28.1.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#un-esempio-concreto-1"><i class="fa fa-check"></i><b>28.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>28.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-23"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>31.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="31.2" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>31.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="31.3" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>31.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="part"><span><b>VII Il confronto bayesiano di modelli</b></span></li>
+<li class="chapter" data-level="32" data-path="entropia.html"><a href="entropia.html"><i class="fa fa-check"></i><b>32</b> Entropia</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="entropia.html"><a href="entropia.html#la-generalizzabilità-dei-modelli"><i class="fa fa-check"></i><b>32.1</b> La generalizzabilità dei modelli</a></li>
+<li class="chapter" data-level="32.2" data-path="entropia.html"><a href="entropia.html#capacità-predittiva"><i class="fa fa-check"></i><b>32.2</b> Capacità predittiva</a></li>
+<li class="chapter" data-level="32.3" data-path="entropia.html"><a href="entropia.html#il-rasoio-di-ockham"><i class="fa fa-check"></i><b>32.3</b> Il rasoio di Ockham</a>
+<ul>
+<li class="chapter" data-level="32.3.1" data-path="entropia.html"><a href="entropia.html#sovra-adattamento-e-sotto-adattamento"><i class="fa fa-check"></i><b>32.3.1</b> Sovra-adattamento e sotto-adattamento</a></li>
+<li class="chapter" data-level="32.3.2" data-path="entropia.html"><a href="entropia.html#stargazing"><i class="fa fa-check"></i><b>32.3.2</b> Stargazing</a></li>
+</ul></li>
+<li class="chapter" data-level="32.4" data-path="entropia.html"><a href="entropia.html#la-misura-del-disordine"><i class="fa fa-check"></i><b>32.4</b> La misura del disordine</a>
+<ul>
+<li class="chapter" data-level="32.4.1" data-path="entropia.html"><a href="entropia.html#entropia-di-un-singolo-evento"><i class="fa fa-check"></i><b>32.4.1</b> Entropia di un singolo evento</a></li>
+<li class="chapter" data-level="32.4.2" data-path="entropia.html"><a href="entropia.html#entropia-di-una-variabile-casuale"><i class="fa fa-check"></i><b>32.4.2</b> Entropia di una variabile casuale</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="entropia.html"><a href="entropia.html#commenti-e-considerazioni-finali-25"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html"><i class="fa fa-check"></i><b>33</b> La divergenza di Kullback-Leibler</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#la-perdita-di-informazione"><i class="fa fa-check"></i><b>33.1</b> La perdita di informazione</a></li>
+<li class="chapter" data-level="33.2" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#la-divergenza-dipende-dalla-direzione"><i class="fa fa-check"></i><b>33.2</b> La divergenza dipende dalla direzione</a></li>
+<li class="chapter" data-level="33.3" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#confronto-tra-modelli"><i class="fa fa-check"></i><b>33.3</b> Confronto tra modelli</a></li>
+<li class="chapter" data-level="33.4" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#expected-log-predictive-density"><i class="fa fa-check"></i><b>33.4</b> Expected log predictive density</a>
+<ul>
+<li class="chapter" data-level="33.4.1" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#log-pointwise-predictive-density"><i class="fa fa-check"></i><b>33.4.1</b> Log pointwise predictive density</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="la-divergenza-di-kullback-leibler.html"><a href="la-divergenza-di-kullback-leibler.html#commenti-e-considerazioni-finali-26"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html"><i class="fa fa-check"></i><b>34</b> Criterio di informazione e convalida incrociata</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#aic-dic-e-waic"><i class="fa fa-check"></i><b>34.1</b> AIC, DIC e WAIC</a>
+<ul>
+<li class="chapter" data-level="34.1.1" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#criterio-dinformazione-di-akaike"><i class="fa fa-check"></i><b>34.1.1</b> Criterio d’informazione di Akaike</a></li>
+</ul></li>
+<li class="chapter" data-level="34.2" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#convalida-incrociata-k-fold"><i class="fa fa-check"></i><b>34.2</b> Convalida incrociata K-fold</a>
+<ul>
+<li class="chapter" data-level="34.2.1" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#importance-sampling"><i class="fa fa-check"></i><b>34.2.1</b> Importance sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="34.3" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#confronto-tra-aic-e-loo-cv"><i class="fa fa-check"></i><b>34.3</b> Confronto tra AIC e LOO-CV</a></li>
+<li class="chapter" data-level="34.4" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#confronto-tra-modelli-mediante-loo-cv"><i class="fa fa-check"></i><b>34.4</b> Confronto tra modelli mediante LOO-CV</a></li>
+<li class="chapter" data-level="34.5" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#outlier"><i class="fa fa-check"></i><b>34.5</b> Outlier</a></li>
+<li class="chapter" data-level="34.6" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#regolarizzazione"><i class="fa fa-check"></i><b>34.6</b> Regolarizzazione</a></li>
+<li class="chapter" data-level="" data-path="criterio-di-informazione-e-convalida-incrociata.html"><a href="criterio-di-informazione-e-convalida-incrociata.html#commenti-e-considerazioni-finali-27"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i><b>35</b> Bibliografia</a></li>
+<li class="appendix"><span><b>Appendici</b></span></li>
+<li class="chapter" data-level="A" data-path="simbologia-di-base.html"><a href="simbologia-di-base.html"><i class="fa fa-check"></i><b>A</b> Simbologia di base</a></li>
+<li class="chapter" data-level="B" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html"><i class="fa fa-check"></i><b>B</b> Numeri binari, interi, razionali, irrazionali e reali</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-binari"><i class="fa fa-check"></i><b>B.1</b> Numeri binari</a></li>
+<li class="chapter" data-level="B.2" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-interi"><i class="fa fa-check"></i><b>B.2</b> Numeri interi</a></li>
+<li class="chapter" data-level="B.3" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-razionali"><i class="fa fa-check"></i><b>B.3</b> Numeri razionali</a></li>
+<li class="chapter" data-level="B.4" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-irrazionali"><i class="fa fa-check"></i><b>B.4</b> Numeri irrazionali</a></li>
+<li class="chapter" data-level="B.5" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-reali"><i class="fa fa-check"></i><b>B.5</b> Numeri reali</a></li>
+<li class="chapter" data-level="B.6" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#intervalli"><i class="fa fa-check"></i><b>B.6</b> Intervalli</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="insiemistica.html"><a href="insiemistica.html"><i class="fa fa-check"></i><b>C</b> Insiemi</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="insiemistica.html"><a href="insiemistica.html#operazioni-tra-insiemi"><i class="fa fa-check"></i><b>C.1</b> Operazioni tra insiemi</a></li>
+<li class="chapter" data-level="C.2" data-path="insiemistica.html"><a href="insiemistica.html#diagrammi-di-eulero-venn"><i class="fa fa-check"></i><b>C.2</b> Diagrammi di Eulero-Venn</a></li>
+<li class="chapter" data-level="C.3" data-path="insiemistica.html"><a href="insiemistica.html#coppie-ordinate-e-prodotto-cartesiano"><i class="fa fa-check"></i><b>C.3</b> Coppie ordinate e prodotto cartesiano</a></li>
+<li class="chapter" data-level="C.4" data-path="insiemistica.html"><a href="insiemistica.html#cardinalità"><i class="fa fa-check"></i><b>C.4</b> Cardinalità</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="sommatorie.html"><a href="sommatorie.html"><i class="fa fa-check"></i><b>D</b> Simbolo di somma (sommatorie)</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="sommatorie.html"><a href="sommatorie.html#manipolazione-di-somme"><i class="fa fa-check"></i><b>D.1</b> Manipolazione di somme</a>
+<ul>
+<li class="chapter" data-level="D.1.1" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-1-1"><i class="fa fa-check"></i><b>D.1.1</b> Proprietà 1</a></li>
+<li class="chapter" data-level="D.1.2" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-2-proprietà-distributiva"><i class="fa fa-check"></i><b>D.1.2</b> Proprietà 2 (proprietà distributiva)</a></li>
+<li class="chapter" data-level="D.1.3" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-3-proprietà-associativa"><i class="fa fa-check"></i><b>D.1.3</b> Proprietà 3 (proprietà associativa)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-4"><i class="fa fa-check"></i><b>D.1.4</b> Proprietà 4</a></li>
+<li class="chapter" data-level="D.1.5" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-5"><i class="fa fa-check"></i><b>D.1.5</b> Proprietà 5</a></li>
+</ul></li>
+<li class="chapter" data-level="D.2" data-path="sommatorie.html"><a href="sommatorie.html#doppia-sommatoria"><i class="fa fa-check"></i><b>D.2</b> Doppia sommatoria</a></li>
+<li class="chapter" data-level="D.3" data-path="sommatorie.html"><a href="sommatorie.html#sommatorie-e-produttorie-e-operazioni-vettoriali-in-r"><i class="fa fa-check"></i><b>D.3</b> Sommatorie (e produttorie) e operazioni vettoriali in <code>R</code></a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="F.1" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html#funzione-per-il-modello-beta-binomiale"><i class="fa fa-check"></i><b>F.1</b> Funzione per il modello Beta-binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="G" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html"><i class="fa fa-check"></i><b>G</b> Verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="G.1" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html#derivazione-analitica-della-costante-di-normalizzazione"><i class="fa fa-check"></i><b>G.1</b> Derivazione analitica della costante di normalizzazione</a></li>
+</ul></li>
+<li class="chapter" data-level="H" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html"><i class="fa fa-check"></i><b>H</b> Introduzione al linguaggio R</a>
+<ul>
+<li class="chapter" data-level="H.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#prerequisiti"><i class="fa fa-check"></i><b>H.1</b> Prerequisiti</a>
+<ul>
+<li class="chapter" data-level="H.1.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-r-e-rstudio"><i class="fa fa-check"></i><b>H.1.1</b> Installare R e RStudio</a></li>
+<li class="chapter" data-level="H.1.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-rstudio-per-semplificare-il-lavoro"><i class="fa fa-check"></i><b>H.1.2</b> Utilizzare RStudio per semplificare il lavoro</a></li>
+<li class="chapter" data-level="H.1.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#eseguire-il-codice"><i class="fa fa-check"></i><b>H.1.3</b> Eseguire il codice</a></li>
+</ul></li>
+<li class="chapter" data-level="H.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-cmdstan"><i class="fa fa-check"></i><b>H.2</b> Installare <code>cmdstan</code></a></li>
+<li class="chapter" data-level="H.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-sintassi"><i class="fa fa-check"></i><b>H.3</b> Sintassi di base</a>
+<ul>
+<li class="chapter" data-level="H.3.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-la-console-r-come-calcolatrice"><i class="fa fa-check"></i><b>H.3.1</b> Utilizzare la console <code>R</code> come calcolatrice</a></li>
+<li class="chapter" data-level="H.3.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#espressioni"><i class="fa fa-check"></i><b>H.3.2</b> Espressioni</a></li>
+<li class="chapter" data-level="H.3.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#oggetti"><i class="fa fa-check"></i><b>H.3.3</b> Oggetti</a></li>
+<li class="chapter" data-level="H.3.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili"><i class="fa fa-check"></i><b>H.3.4</b> Variabili</a></li>
+<li class="chapter" data-level="H.3.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-console"><i class="fa fa-check"></i><b>H.3.5</b> R console</a></li>
+<li class="chapter" data-level="H.3.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#parentesi"><i class="fa fa-check"></i><b>H.3.6</b> Parentesi</a></li>
+<li class="chapter" data-level="H.3.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#i-nomi-degli-oggetti"><i class="fa fa-check"></i><b>H.3.7</b> I nomi degli oggetti</a></li>
+<li class="chapter" data-level="H.3.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#permanenza-dei-dati-e-rimozione-di-oggetti"><i class="fa fa-check"></i><b>H.3.8</b> Permanenza dei dati e rimozione di oggetti</a></li>
+<li class="chapter" data-level="H.3.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chiudere-r"><i class="fa fa-check"></i><b>H.3.9</b> Chiudere R</a></li>
+<li class="chapter" data-level="H.3.10" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-ed-eseguire-uno-script-r-con-un-editore"><i class="fa fa-check"></i><b>H.3.10</b> Creare ed eseguire uno script R con un editore</a></li>
+<li class="chapter" data-level="H.3.11" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#commentare-il-codice"><i class="fa fa-check"></i><b>H.3.11</b> Commentare il codice</a></li>
+<li class="chapter" data-level="H.3.12" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#cambiare-la-cartella-di-lavoro"><i class="fa fa-check"></i><b>H.3.12</b> Cambiare la cartella di lavoro</a></li>
+<li class="chapter" data-level="H.3.13" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#loggetto-base-di-r-il-vettore"><i class="fa fa-check"></i><b>H.3.13</b> L’oggetto base di R: il vettore</a></li>
+<li class="chapter" data-level="H.3.14" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-vettorializzate"><i class="fa fa-check"></i><b>H.3.14</b> Operazioni vettorializzate</a></li>
+<li class="chapter" data-level="H.3.15" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-aritmetici"><i class="fa fa-check"></i><b>H.3.15</b> Vettori aritmetici</a></li>
+<li class="chapter" data-level="H.3.16" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-sequenze-regolari"><i class="fa fa-check"></i><b>H.3.16</b> Generazione di sequenze regolari</a></li>
+<li class="chapter" data-level="H.3.17" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-numeri-casuali"><i class="fa fa-check"></i><b>H.3.17</b> Generazione di numeri casuali</a></li>
+<li class="chapter" data-level="H.3.18" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-logici"><i class="fa fa-check"></i><b>H.3.18</b> Vettori logici</a></li>
+<li class="chapter" data-level="H.3.19" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti"><i class="fa fa-check"></i><b>H.3.19</b> Dati mancanti</a></li>
+<li class="chapter" data-level="H.3.20" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-di-caratteri-e-fattori"><i class="fa fa-check"></i><b>H.3.20</b> Vettori di caratteri e fattori</a></li>
+<li class="chapter" data-level="H.3.21" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#funzioni-1"><i class="fa fa-check"></i><b>H.3.21</b> Funzioni</a></li>
+<li class="chapter" data-level="H.3.22" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-proprie-funzioni"><i class="fa fa-check"></i><b>H.3.22</b> Scrivere proprie funzioni</a></li>
+<li class="chapter" data-level="H.3.23" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetti"><i class="fa fa-check"></i><b>H.3.23</b> Pacchetti</a></li>
+<li class="chapter" data-level="H.3.24" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#istallazione-e-upgrade-dei-pacchetti"><i class="fa fa-check"></i><b>H.3.24</b> Istallazione e upgrade dei pacchetti</a></li>
+<li class="chapter" data-level="H.3.25" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#caricare-un-pacchetto-in-r"><i class="fa fa-check"></i><b>H.3.25</b> Caricare un pacchetto in R</a></li>
+</ul></li>
+<li class="chapter" data-level="H.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strutture-dati"><i class="fa fa-check"></i><b>H.4</b> Strutture di dati</a>
+<ul>
+<li class="chapter" data-level="H.4.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#classi-e-modi-degli-oggetti"><i class="fa fa-check"></i><b>H.4.1</b> Classi e modi degli oggetti</a></li>
+<li class="chapter" data-level="H.4.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori"><i class="fa fa-check"></i><b>H.4.2</b> Vettori</a></li>
+<li class="chapter" data-level="H.4.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#matrici"><i class="fa fa-check"></i><b>H.4.3</b> Matrici</a></li>
+<li class="chapter" data-level="H.4.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#array"><i class="fa fa-check"></i><b>H.4.4</b> Array</a></li>
+<li class="chapter" data-level="H.4.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-aritmetiche-su-vettori-matrici-e-array"><i class="fa fa-check"></i><b>H.4.5</b> Operazioni aritmetiche su vettori, matrici e array</a></li>
+<li class="chapter" data-level="H.4.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#liste"><i class="fa fa-check"></i><b>H.4.6</b> Liste</a></li>
+<li class="chapter" data-level="H.4.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#data-frame"><i class="fa fa-check"></i><b>H.4.7</b> Data frame</a></li>
+<li class="chapter" data-level="H.4.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#giochi-di-carte"><i class="fa fa-check"></i><b>H.4.8</b> Giochi di carte</a></li>
+<li class="chapter" data-level="H.4.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili-locali"><i class="fa fa-check"></i><b>H.4.9</b> Variabili locali</a></li>
+</ul></li>
+<li class="chapter" data-level="H.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strut-contr"><i class="fa fa-check"></i><b>H.5</b> Strutture di controllo</a>
+<ul>
+<li class="chapter" data-level="H.5.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#il-ciclo-for"><i class="fa fa-check"></i><b>H.5.1</b> Il ciclo <code>for</code></a></li>
+</ul></li>
+<li class="chapter" data-level="H.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-input-output"><i class="fa fa-check"></i><b>H.6</b> Input/Output</a>
+<ul>
+<li class="chapter" data-level="H.6.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-funzione-read.table"><i class="fa fa-check"></i><b>H.6.1</b> La funzione <code>read.table()</code></a></li>
+<li class="chapter" data-level="H.6.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#file-di-dati-forniti-da-r"><i class="fa fa-check"></i><b>H.6.2</b> File di dati forniti da R</a></li>
+<li class="chapter" data-level="H.6.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#esportazione-di-un-file"><i class="fa fa-check"></i><b>H.6.3</b> Esportazione di un file</a></li>
+<li class="chapter" data-level="H.6.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetto-rio"><i class="fa fa-check"></i><b>H.6.4</b> Pacchetto <code>rio</code></a></li>
+<li class="chapter" data-level="H.6.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dove-sono-i-miei-file"><i class="fa fa-check"></i><b>H.6.5</b> Dove sono i miei file?</a></li>
+</ul></li>
+<li class="chapter" data-level="H.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#manipolazione-dei-dati"><i class="fa fa-check"></i><b>H.7</b> Manipolazione dei dati</a>
+<ul>
+<li class="chapter" data-level="H.7.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione"><i class="fa fa-check"></i><b>H.7.1</b> Motivazione</a></li>
+<li class="chapter" data-level="H.7.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-con-dplyr"><i class="fa fa-check"></i><b>H.7.2</b> Trattamento dei dati con <code>dplyr</code></a></li>
+<li class="chapter" data-level="H.7.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-categoriali-in-r"><i class="fa fa-check"></i><b>H.7.3</b> Dati categoriali in <code>R</code></a></li>
+<li class="chapter" data-level="H.7.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-grafici-con-ggplot2"><i class="fa fa-check"></i><b>H.7.4</b> Creare grafici con <code>ggplot2()</code></a></li>
+<li class="chapter" data-level="H.7.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#diagramma-a-dispersione-1"><i class="fa fa-check"></i><b>H.7.5</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="H.7.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-il-codice-r-con-stile"><i class="fa fa-check"></i><b>H.7.6</b> Scrivere il codice <code>R</code> con stile</a></li>
+</ul></li>
+<li class="chapter" data-level="H.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#flusso-di-lavoro-riproducibile"><i class="fa fa-check"></i><b>H.8</b> Flusso di lavoro riproducibile</a>
+<ul>
+<li class="chapter" data-level="H.8.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-crisi-della-riproducibilità"><i class="fa fa-check"></i><b>H.8.1</b> La crisi della riproducibilità</a></li>
+<li class="chapter" data-level="H.8.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-markdown"><i class="fa fa-check"></i><b>H.8.2</b> R-markdown</a></li>
+<li class="chapter" data-level="H.8.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#compilare-la-presentazione-r-markdown"><i class="fa fa-check"></i><b>H.8.3</b> Compilare la presentazione R-markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="H.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti-1"><i class="fa fa-check"></i><b>H.9</b> Dati mancanti</a>
+<ul>
+<li class="chapter" data-level="H.9.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione-1"><i class="fa fa-check"></i><b>H.9.1</b> Motivazione</a></li>
+<li class="chapter" data-level="H.9.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-mancanti"><i class="fa fa-check"></i><b>H.9.2</b> Trattamento dei dati mancanti</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="criterio-di-informazione-e-convalida-incrociata" class="section level1 hasAnchor" number="34">
+<h1><span class="header-section-number">Capitolo 34</span> Criterio di informazione e convalida incrociata<a href="criterio-di-informazione-e-convalida-incrociata.html#criterio-di-informazione-e-convalida-incrociata" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Nel Capitolo precedente abbiamo visto che la <a href="la-divergenza-di-kullback-leibler.html#eq:lppd">(33.6)</a> fornisce una sovrastima della <span class="math inline">\(\elpd\)</span>. Il modo migliore per stimare <span class="math inline">\(\elpd\)</span> è raccogliere un nuovo campione indipendente di dati, che si ritiene condivida lo stesso processo di generazione dei dati del campione corrente, e stimare <span class="math inline">\(\elpd\)</span> sul nuovo campione. Questa procedura è chiamata <em>out-of-sample validation</em>. Il problema, però, è che solitamente non abbiamo le risorse per raccogliere un nuovo campione di osservazioni. Di conseguenza, gli statistici hanno messo a punto vari metodi per evitare la sovrastima della <span class="math inline">\(\elpd\)</span> che deriva dal solo utizzo del campione corrente. Ci sono due approcci generali:</p>
+<ul>
+<li>l’introduzione di un fattore di correzione;</li>
+<li>la convalida incrociata cosiddetta K-fold.</li>
+</ul>
+<p>Lo scopo del presente Capitolo è di fornire una breve introduzione ai criteri dell’informazione e alla procedura della convalida incrociata.</p>
+<div id="aic-dic-e-waic" class="section level2 hasAnchor" number="34.1">
+<h2><span class="header-section-number">34.1</span> AIC, DIC e WAIC<a href="criterio-di-informazione-e-convalida-incrociata.html#aic-dic-e-waic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Allo scopo di evitare la sovrastima della <a href="la-divergenza-di-kullback-leibler.html#eq:lppd">(33.6)</a>, le statistiche <em>Akaike Information Criterion</em> (AIC), <em>Deviance Information Criterion</em> (DIC) e <em>Widely Applicable Information Criterion</em> (WAIC) introducono un fattore di correzione. Le statistiche DIC e WAIC sono più complesse di AIC, ma producono un’approssimazione migliore. Tuttavia, i valori AIC, DIC e WAIC sono spesso molto simili tra loro. Per convenienza, dunque, qui ci accontenteremo di esaminare in dettaglio la statistica più semplice, ovvero AIC.</p>
+<div id="criterio-dinformazione-di-akaike" class="section level3 hasAnchor" number="34.1.1">
+<h3><span class="header-section-number">34.1.1</span> Criterio d’informazione di Akaike<a href="criterio-di-informazione-e-convalida-incrociata.html#criterio-dinformazione-di-akaike" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Il criterio d’informazione di Akaike (in inglese <em>Akaike information criterion</em>, indicato come AIC) fornisce un metodo molto semplice per approssimare <span class="math inline">\(\elpd\)</span>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-93" class="definition"><strong>Definizione 34.1  </strong></span>Il criterio d’informazione di Akaike è definito come</p>
+<p><span class="math display">\[\begin{equation}
+AIC = -2 \log p(y \mid \hat{\theta}_{MLE}) + 2k,
+\end{equation}\]</span></p>
+<p>dove <span class="math inline">\(k\)</span> è il numero di parametri stimati nel modello e <span class="math inline">\(p(y \mid \hat{\theta}_{MLE})\)</span> è il valore massimizzato della funzione di verosimiglianza del modello stimato.</p>
+</div>
+<p>Dividendo per -2, otteniamo <span class="math inline">\(\elpd_{AIC}\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+\widehat{\elpd}_{AIC} = \log p(y \mid \hat{\theta}_{MLE}) - k,
+\end{equation}\]</span></p>
+<p>dove <span class="math inline">\(k\)</span> è il fattore di correzione introdotto per evitare la sovrastima discussa in precedenza.</p>
+<p>AIC è di interesse principalmente storico e produce una approssimazione attendibile di <span class="math inline">\(\elpd\)</span> quando:</p>
+<ol style="list-style-type: decimal">
+<li>le distribuzioni a priori sono non informative;</li>
+<li>la distribuzione a posteriori è approssimativamente gaussiana multivariata;</li>
+<li>la dimensione <span class="math inline">\(n\)</span> del campione è molto maggiore del numero <span class="math inline">\(k\)</span> dei parametri.</li>
+</ol>
+<div class="example">
+<p><span id="exm:unlabeled-div-94" class="example"><strong>Esempio 34.1  </strong></span>Per meglio comprendere la statistica <span class="math inline">\(\widehat{\elpd}_{AIC}\)</span>, esaminiamo un esempio discusso da <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span>. Sia <span class="math inline">\(y_1, \dots, y_n \sim \mathcal{N}(\mu, 1)\)</span> un campione di osservazioni. Nel caso di una distribuzione a priori non-informativa <span class="math inline">\(p(\theta) \propto 1\)</span>, la stima di massima verosimiglianza è <span class="math inline">\(\bar{y}\)</span>. La verosimiglianza è</p>
+<p><span class="math display">\[
+f(Y \mid \mu, \sigma) = \prod_{i=1}^n f(y \mid \mu, \sigma)
+\]</span></p>
+<p>e la log-verosimiglianza diventa</p>
+<p><span class="math display">\[
+\ell(Y \mid \mu, \sigma) = \sum_{i=1}^n \log (f(y \mid \mu, \sigma)).
+\]</span>
+Ovvero,</p>
+<p><span class="math display">\[\begin{align}
+\ell(Y \mid \mu, \sigma) &amp;= \sum_{i=1}^n \log \left( \frac {1}{{\sqrt {2\pi\sigma^2 }}}\exp \left(-{\frac {1}{2}}{\frac {(y_i-\mu )^{2}}{\sigma^{2}}}\right) \right)\notag\\
+&amp;= \sum_{i=1}^n \log \left( \frac {1}{{\sqrt {2\pi \sigma^2}}} \right) - \sum_{i=1}^n{\frac {1}{2}}{\frac {(y_i-\mu )^{2}}{\sigma ^{2}}} \notag\\
+&amp;= \sum_{i=1}^n \log \left( \frac {1}{{\sqrt {2\pi \sigma^2}}} \right) - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu )^{2} \notag \\
+&amp;= \sum_{i=1}^n \log (1) - \sum_{i=1}^n\log \sqrt{2\pi \sigma^2} - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu )^{2} \notag\\
+&amp;= - \sum_{i=1}^n\frac{1}{2}  \log (2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu )^{2} \notag\\
+&amp;= - \frac{n}{2}  \log (2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu )^{2}. \notag
+\end{align}\]</span></p>
+<p>Se <span class="math inline">\(y \sim \mathcal{N}(\mu, 1)\)</span>, usando lo stimatore di massima verosimiglianza per <span class="math inline">\(\mu\)</span>, la log-verosimiglianza diventa</p>
+<p><span class="math display">\[\begin{align}
+\log p(y \mid \hat{\theta}_{MLE}) &amp;= -\frac{n}{2} \log (2\pi) - \frac{1}{2}\sum_{i=1}^n (y_i - \bar{y})^2 \notag\\
+&amp;= -\frac{n}{2} \log (2\pi) - \frac{1}{2} (n-1)s_y^2,
+\end{align}\]</span></p>
+<p>dove <span class="math inline">\(s_y^2\)</span> è la varianza campionaria.</p>
+<p>Nel caso di un modello gaussiano con con varianza nota e una distribuzione a priori uniforme viene stimato un solo parametro, per cui</p>
+<p><span class="math display">\[\begin{align}
+\widehat{\elpd}_{AIC} &amp;= \log p(y \mid \hat{\theta}_{MLE}) - k \notag \\
+&amp;= -\frac{n}{2} \log (2\pi) - \frac{1}{2} (n-1)s_y^2 - 1.
+\end{align}\]</span></p>
+</div>
+</div>
+</div>
+<div id="convalida-incrociata-k-fold" class="section level2 hasAnchor" number="34.2">
+<h2><span class="header-section-number">34.2</span> Convalida incrociata K-fold<a href="criterio-di-informazione-e-convalida-incrociata.html#convalida-incrociata-k-fold" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La sovrastima della <a href="la-divergenza-di-kullback-leibler.html#eq:lppd">(33.6)</a> può anche essere evitata usando una tecnica chiamata <em>K-fold cross-validation</em>. Mediante questo metodo vengono stimati i parametri del modello tralasciando una porzione di osservazioni (chiamata <em>fold</em>) dal campione per poi valutare il modello sulle osservazioni che sono state escluse. Una stima complessiva dell’accuratezza si ottiene poi calcolando la media del punteggio di accuratezza ottenuto in ogni fold. Il numero minimo di fold è 2; all’altro estremo, è possibile impiegare una singola osservazione in ciascun fold e adattare il modello tante volte (<span class="math inline">\(n\)</span>) quante sono le singole osservazioni. Questa strategia è chiamata <em>leave-one-out cross-validation</em> (LOO-CV).</p>
+<div id="importance-sampling" class="section level3 hasAnchor" number="34.2.1">
+<h3><span class="header-section-number">34.2.1</span> Importance sampling<a href="criterio-di-informazione-e-convalida-incrociata.html#importance-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La strategia LOO-CV è computazionalmente onerosa (ovvero, richiede un tempo di esecuzione molto lungo). È però possibile approssimare LOO-CV mediante un metodo chiamato <em>Pareto-smoothed importance sampling cross-validation</em> [PSIS; <span class="citation">Vehtari, Gelman, and Gabry (<a href="#ref-vehtari2017practical" role="doc-biblioref">2017</a>)</span>]. Tralasciando qui i dettagli matematici, l’intuizione di base è che PSIS fa leva sul punteggio di “importanza” posseduto da ciascuna osservazione all’interno della distribuzione a posteriori. Per “importanza” si intende il fatto che alcune osservazioni hanno un impatto maggiore sulle proprietà della distribuzione a posteriori di altre: se viene rimossa un’osservazione importante, le proprietà della distribuzione a posteriori cambiano molto; se viene rimossa un’osservazione poco importante, la distribuzione a posteriori cambia poco. L’“importanza” così intesa viene chiamata “peso” (<em>weight</em>) e tali pesi vengono utilizzati per stimare l’accuratezza <em>out-of-sample</em> del modello. PSIS-LOO-CV richiede che il modello venga adattato una volta soltanto ai dati e fornisce una stima della devianza <em>out-of-sample</em> che evita la sovrastima della <a href="la-divergenza-di-kullback-leibler.html#eq:lppd">(33.6)</a>. Inoltre, PSIS-LOO-CV fornisce un feedback sulla propria affidabilità identificando le osservazioni i cui pesi molto elevati potrebbero rendere imprecisa la predizione.</p>
+<p>Valori <span class="math inline">\(\widehat{elpd}_{LOO}\)</span> più grandi indicano una maggiore accuratezza predittiva. In alternativa, anziché considerare <span class="math inline">\(\widehat{elpd}\)</span>, è possibile usare la quantità <span class="math inline">\(-2 \cdot \widehat{elpd}\)</span>, la quale è chiamata <em>LOO Information Criterion</em> (LOOIC). In questo secondo caso, valori LOOIC più piccoli sono da preferire.</p>
+<p>La quantità <span class="math inline">\(\widehat{elpd}_{LOO}\)</span> viene calcolata dai pacchetti <code>loo</code> e <code>brms</code> ed è chiamata <code>elpd_loo</code> o <code>elpd_kfold</code>. È anche possibile calcolare la differenza della quantità <code>elpd_loo</code> per modelli alternativi, insieme alla deviazione standard della distribuzione campionaria di tale differenza.</p>
+</div>
+</div>
+<div id="confronto-tra-aic-e-loo-cv" class="section level2 hasAnchor" number="34.3">
+<h2><span class="header-section-number">34.3</span> Confronto tra AIC e LOO-CV<a href="criterio-di-informazione-e-convalida-incrociata.html#confronto-tra-aic-e-loo-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Per fare un esempio, faremo qui un confronto tra <span class="math inline">\(\widehat{elpd}_{AIC}\)</span> e <span class="math inline">\(\widehat{elpd}_{LOO-CV}\)</span>. Esaminiamo nuovamente l’associazione tra il QI dei figli e il QI delle madri nel campione di dati discusso da <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020regression" role="doc-biblioref">2020</a>)</span>. Una tale relazione può essere descritta da un modello di regressione nel quale la <span class="math inline">\(y\)</span> corrisponde al QI dei figli e la <span class="math inline">\(x\)</span> al QI delle madri.</p>
+<p>Leggiamo i dati in :</p>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb460-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
+<span id="cb460-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>kid_score)[, <span class="dv">1</span>]</span>
+<span id="cb460-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x1 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>]</span>
+<span id="cb460-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb460-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age           y         x1</span></span>
+<span id="cb460-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27 -1.06793237  1.4078352</span></span>
+<span id="cb460-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25  0.54886757 -0.7092079</span></span>
+<span id="cb460-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27 -0.08805362  1.0295443</span></span>
+<span id="cb460-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25 -0.18604150 -0.0366907</span></span>
+<span id="cb460-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27  1.38176451 -0.4836193</span></span>
+<span id="cb460-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb460-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18  0.54886757  0.5267892</span></span></code></pre></div>
+<p>Dato che AIC non è una statistica bayesiana, può essere calcolata mediante strumenti frequentisti:</p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb461-1" aria-hidden="true" tabindex="-1"></a>m1_freq <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1, <span class="at">data =</span> df)</span>
+<span id="cb461-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1_freq) <span class="sc">/</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb461-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb461-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -569.6384</span></span></code></pre></div>
+<p>Per ottenere LOO-CV adattiamo ai dati un modello di regressione bayesiano:</p>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb462-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb462-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb462-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb462-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb462-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb462-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb462-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb462-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb462-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-12" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb462-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-13" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb462-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-14" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb462-15"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-15" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1*x1[n];</span></span>
+<span id="cb462-16"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-16" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb462-17"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-18"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb462-19"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb462-20"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb462-21"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb462-22"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb462-23"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-24"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb462-25"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-25" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb462-26"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-26" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb462-27"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-27" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb462-28"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-28" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb462-29"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-29" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1, sigma);</span></span>
+<span id="cb462-30"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-30" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb462-31"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-31" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-32"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-32" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb462-33"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb462-33" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simplereg.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb463-1" aria-hidden="true" tabindex="-1"></a>data1_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb463-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb463-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb463-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb463-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb463-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb463-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1</span>
+<span id="cb463-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb463-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb464-1" aria-hidden="true" tabindex="-1"></a>file1 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simplereg.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb465-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file1)</span></code></pre></div>
+<p>Eseguiamo il campionamento MCMC:</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb466-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1_list,</span>
+<span id="cb466-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb466-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb466-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb466-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb466-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb466-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb466-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb466-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb466-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb466-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Calcoliamo infine la quantità <span class="math inline">\(\widehat{\elpd}_{LOO-CV}\)</span>:</p>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-1" aria-hidden="true" tabindex="-1"></a>loo1_result <span class="ot">&lt;-</span> fit1<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb467-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1_result)</span>
+<span id="cb467-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb467-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb467-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb467-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb467-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.6 14.5</span></span>
+<span id="cb467-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         1.9  0.2</span></span>
+<span id="cb467-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.2 28.9</span></span>
+<span id="cb467-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb467-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb467-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb467-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb467-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb467-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<p>Si noti la somiglianza tra <span class="math inline">\(\widehat{elpd}_{LOO-CV}\)</span> e <span class="math inline">\(\widehat{elpd}_{AIC}\)</span>. In conclusione, possiamo dunque dire che <span class="math inline">\(\widehat{elpd}_{LOO-CV}\)</span> è la risposta bayesiana allo stesso problema che trova una soluzione frequentista nella statistica <span class="math inline">\(\widehat{elpd}_{AIC}\)</span>.</p>
+</div>
+<div id="confronto-tra-modelli-mediante-loo-cv" class="section level2 hasAnchor" number="34.4">
+<h2><span class="header-section-number">34.4</span> Confronto tra modelli mediante LOO-CV<a href="criterio-di-informazione-e-convalida-incrociata.html#confronto-tra-modelli-mediante-loo-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Come menzionato in precedenza, l’obiettivo centrale della misurazione dell’accuratezza predittiva è il confronto di modelli. Una volta capito come calcolare LOO-CV con un condice scritto in linguaggio Stan, svolgeremo ora un confronto di modelli.<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a></p>
+<p>Considereremo qui un confronto di modelli di regressione. Il modello di regressione discusso nel Paragrafo precedente prevede il QI dei bambini dal QI delle madri. Aggiungiamo a tale modello un secondo predittore che corrisponde all’età della madre. L’aggiunta di tale predittore migliori l’accuratezza predittiva del modello?</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb468-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb468-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb468-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb468-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x2;</span></span>
+<span id="cb468-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb468-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb468-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb468-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb468-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta2;</span></span>
+<span id="cb468-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb468-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb468-15"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb468-16"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb468-17"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1*x1[n] + beta2*x2[n];</span></span>
+<span id="cb468-18"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb468-19"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-20"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb468-21"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb468-22"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb468-23"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta2 ~ normal(0, 1);</span></span>
+<span id="cb468-24"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb468-25"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb468-26"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-27"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb468-28"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb468-29"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb468-30"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb468-31"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb468-32"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x2[n] * beta2, sigma);</span></span>
+<span id="cb468-33"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb468-34"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-35"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb468-36"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb468-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb469-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_age)[, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-1" aria-hidden="true" tabindex="-1"></a>data2_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb470-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb470-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb470-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
+<span id="cb470-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> df<span class="sc">$</span>x2</span>
+<span id="cb470-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb470-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb471-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb472-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compile model</span></span>
+<span id="cb472-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb472-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running MCMC</span></span>
+<span id="cb473-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb473-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data2_list,</span>
+<span id="cb473-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb473-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb473-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb473-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb473-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb473-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb473-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb473-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb473-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb473-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta2&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb474-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb474-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable      mean    median     sd    mad      q5    q95  rhat ess_bulk</span></span>
+<span id="cb474-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb474-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.000255 -0.000162 0.0431 0.0427 -0.0714 0.0705  1.00   19419.</span></span>
+<span id="cb474-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.442     0.442    0.0427 0.0427  0.372  0.512   1.00   17850.</span></span>
+<span id="cb474-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta2     0.0515    0.0514   0.0427 0.0428 -0.0179 0.121   1.00   16802.</span></span>
+<span id="cb474-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.896     0.895    0.0305 0.0303  0.848  0.948   1.00   19032.</span></span>
+<span id="cb474-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb474-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-1" aria-hidden="true" tabindex="-1"></a>loo2_result <span class="ot">&lt;-</span> fit2<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb475-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo2_result)</span>
+<span id="cb475-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb475-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb475-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb475-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb475-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.9 14.5</span></span>
+<span id="cb475-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         3.0  0.3</span></span>
+<span id="cb475-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.8 29.0</span></span>
+<span id="cb475-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb475-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb475-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb475-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb475-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb475-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<p>Consideriamo infine un terzo modello che utilizza come predittori, oltre al QI della madre, una variabile dicotomica (codificata 0 o 1) che distingue madri che hanno completato le scuole superiori da quelle che non le hanno completate. Nuovamente, la domanda è se l’aggiunta di tale predittore migliori la capacità predittiva del modello.</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb476-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb476-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb476-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb476-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x3;</span></span>
+<span id="cb476-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb476-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb476-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb476-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb476-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb476-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta3;</span></span>
+<span id="cb476-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb476-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb476-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb476-15"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb476-16"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb476-17"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1*x1[n] + beta3*x3[n];</span></span>
+<span id="cb476-18"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb476-19"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb476-20"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb476-21"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb476-22"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb476-23"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta3 ~ normal(0, 1);</span></span>
+<span id="cb476-24"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb476-25"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb476-26"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb476-27"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb476-28"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb476-29"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb476-30"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N){</span></span>
+<span id="cb476-31"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb476-32"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x3[n] * beta3, sigma);</span></span>
+<span id="cb476-33"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb476-34"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb476-35"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb476-36"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb476-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg3.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb477-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x3 <span class="ot">&lt;-</span> df<span class="sc">$</span>mom_hs</span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-1" aria-hidden="true" tabindex="-1"></a>data3_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb478-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb478-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb478-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
+<span id="cb478-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x3 =</span> df<span class="sc">$</span>x3</span>
+<span id="cb478-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb478-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb479-1" aria-hidden="true" tabindex="-1"></a>file3 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg3.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb480-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file3)</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> mod3<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb481-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data3_list,</span>
+<span id="cb481-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb481-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb481-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb481-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb481-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb481-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb481-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb481-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb481-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb481-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-1" aria-hidden="true" tabindex="-1"></a>fit3<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta3&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb482-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb482-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5     q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb482-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb482-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.225 -0.224 0.0947 0.0945 -0.382 -0.0705  1.00    8433.    9191.</span></span>
+<span id="cb482-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.415  0.414 0.0449 0.0450  0.341  0.488   1.00   10941.   10324.</span></span>
+<span id="cb482-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta3     0.286  0.285 0.108  0.108   0.111  0.465   1.00    8452.    8606.</span></span>
+<span id="cb482-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb482-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.890  0.889 0.0302 0.0302  0.842  0.941   1.00   10828.    9623.</span></span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-1" aria-hidden="true" tabindex="-1"></a>loo3_result <span class="ot">&lt;-</span> fit3<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb483-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo3_result)</span>
+<span id="cb483-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb483-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb483-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb483-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb483-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -584.2 16.4</span></span>
+<span id="cb483-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         7.5  0.6</span></span>
+<span id="cb483-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1168.3 32.8</span></span>
+<span id="cb483-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb483-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb483-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb483-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb483-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb483-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<p>Per eseguire un confronto tra modelli in termini della loro capacità predittiva esaminiamo la differenza di LOO-CV tra coppie di modelli. Le seguenti istruzioni <span class="math inline">\(\mathsf{R}\)</span> producono la quantità <code>elpd_diff</code>, ovvero la differenza tra stime della <span class="math inline">\(elpd\)</span> fornite da due modelli. Il primo argomento della funzione <code>loo_compare()</code> specifica il modello che viene usato come confronto. Nella prima riga dell’output, il valore <code>elpd_diff</code> è 0 (cioè, <span class="math inline">\(x − x = 0\)</span>). Nelle righe successive sono riportate le differenze rispetto al modello di confronto (in questo caso, il modello 1). La colonna <code>se_diff</code> riporta l’errore standard di tali differenze.</p>
+<p>L’incertezza della stima dell’accuratezza <em>out-of-sample</em> si distribuisce in maniera approssimativamente normale con media uguale al valore riportato dal software e deviazione standard uguale a ciò che è indicato nell’output come errore standard. Quando il campione è piccolo, questa approssimazione produce una forte sottostima dell’incertezza, ma fornisce comunque una stima migliore di AIC, DIC e WAIC.</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">loo_compare</span>(loo1_result, loo2_result, loo3_result)</span>
+<span id="cb484-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(w)</span>
+<span id="cb484-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        elpd_diff se_diff</span></span>
+<span id="cb484-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model1   0.0       0.0  </span></span>
+<span id="cb484-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model2  -0.3       1.3  </span></span>
+<span id="cb484-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb484-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model3 -15.6       6.0</span></span></code></pre></div>
+<p>Per interpretare l’output, usiamo il criterio suggerito da <span class="citation">Gelman et al. (<a href="#ref-gelman1995bayesian" role="doc-biblioref">1995</a>)</span>: consideriamo “credibile” una differenza se <code>elpd_diff</code> è almeno due volte maggiore di <code>se_diff</code>. Nel caso presente, dunque, il confronto tra il modello 2 e il modello 1 indica che la quantità <code>elpd_diff</code> è molto piccola rispetto al suo errore standard.
+Questo accade se un predittore è associato in modo trascurabile con la variabile dipendente. I dati presenti, dunque, non offrono alcuna evidenza che aggiungere dell’età della madre come predittore migliori la capacità predittiva del modello. Nel confronto tra modello 3 e modello 1, invece, la quantità <code>elpd_diff</code> è maggiore di due volte il valore dell’errore standard. Questo suggerisce un incremento della capacità predittiva del modello quiando il livello di istruzione della madre viene incluso tra i predittori.</p>
+<p>È anche possibile calcolare l’intervallo di credibilità per <code>elpd_diff</code>:</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb485-1" aria-hidden="true" tabindex="-1"></a><span class="fl">15.5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">95</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">6.0</span></span>
+<span id="cb485-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb485-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  5.630878 25.369122</span></span></code></pre></div>
+</div>
+<div id="outlier" class="section level2 hasAnchor" number="34.5">
+<h2><span class="header-section-number">34.5</span> Outlier<a href="criterio-di-informazione-e-convalida-incrociata.html#outlier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Si è soliti pensare che la maggior parte delle osservazioni del campione sia prodotta da un unico meccanismo generatore dei dati, mentre le rimanenti osservazioni sono la realizzazione di un diverso processo stocastico. Le osservazioni che appartengono a questo secondo gruppo si chiamano <em>outlier</em>. È dunque necessario identificare gli outlier e limitare la loro influenza sull’inferenza.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
+<p>Poniamoci ora il problema di identificare gli outlier con la tecnica PSIS-LOO-CV. Quando PSIS-LOO-CV viene calcolato con il pacchetto <code>loo</code>, l’output riporta il parametro di forma della distribuzione di Pareto (valore <code>k</code>). Tale valore può essere utilizzato per identificare gli outlier. Infatti, il valore <code>k</code> valuta, per ciascun punto del campione, l’approssimazione usata da PSIS-LOO-CV. Se <span class="math inline">\(k &lt; 0.5\)</span>, i pesi di importanza vengono stimati in modo accurato; se il valore <span class="math inline">\(k\)</span> di Pareto di un punto è <span class="math inline">\(&gt; 0.7\)</span>, i pesi di importanza possono essere inaccurati. Le osservazioni con <span class="math inline">\(k &gt; 0.7\)</span> sono dunque osservazioni outlier.</p>
+<p>Per fare un esempio concreto, introduciamo nel campione dell’esempio precedente una singola osservazione outlier.</p>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb486-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df</span>
+<span id="cb486-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb486-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df1)</span>
+<span id="cb486-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb486-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434   9</span></span>
+<span id="cb486-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb486-4" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>x1[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb486-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb486-5" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>y[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<p>Sistemiamo i dati nel formato appropriato per Stan:</p>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb487-1" aria-hidden="true" tabindex="-1"></a>data1a_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb487-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb487-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df1<span class="sc">$</span>kid_score),</span>
+<span id="cb487-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb487-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df1<span class="sc">$</span>y,</span>
+<span id="cb487-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb487-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df1<span class="sc">$</span>x1</span>
+<span id="cb487-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb487-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Adattiamo nuovamente il modello 1 ad un campione di dati che contiene un outlier.</p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-1" aria-hidden="true" tabindex="-1"></a>fit1a <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb488-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1a_list,</span>
+<span id="cb488-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb488-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb488-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb488-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb488-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb488-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb488-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb488-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb488-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb488-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb489-1" aria-hidden="true" tabindex="-1"></a>loo1a_result <span class="ot">&lt;-</span> fit1a<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p>Una tabella diagnostica che riassume le stime dei parametri di forma della distribuzione di Pareto si ottiene nel modo seguente:</p>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1a_result)</span>
+<span id="cb490-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb490-3"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb490-4"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb490-5"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb490-6"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -586.2 19.9</span></span>
+<span id="cb490-7"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         6.6  5.0</span></span>
+<span id="cb490-8"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1172.5 39.8</span></span>
+<span id="cb490-9"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb490-10"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is NA.</span></span>
+<span id="cb490-11"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb490-12"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pareto k diagnostic values:</span></span>
+<span id="cb490-13"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          Count Pct.    Min. n_eff</span></span>
+<span id="cb490-14"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (-Inf, 0.5]   (good)     433   99.8%   10708     </span></span>
+<span id="cb490-15"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (0.5, 0.7]   (ok)         0    0.0%   &lt;NA&gt;      </span></span>
+<span id="cb490-16"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (0.7, 1]   (bad)        1    0.2%   75        </span></span>
+<span id="cb490-17"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (1, Inf)   (very bad)   0    0.0%   &lt;NA&gt;      </span></span>
+<span id="cb490-18"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb490-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<p>Un grafico che riporta le stime dei parametri di forma della distribuzione di Pareto per ciascuna osservazione è dato da:</p>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb491-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(loo1a_result)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-494-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Il valore <code>k</code> stimato da PSIS-LOO-CV mette chiaramente in luce il fatto che il valore introdotto nel campione è un outlier. L’indice dell’osservazione outlier è identificato con:</p>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb492-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pareto_k_ids</span>(loo1a_result, <span class="at">threshold =</span> <span class="fl">0.7</span>)</span>
+<span id="cb492-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb492-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434</span></span></code></pre></div>
+</div>
+<div id="regolarizzazione" class="section level2 hasAnchor" number="34.6">
+<h2><span class="header-section-number">34.6</span> Regolarizzazione<a href="criterio-di-informazione-e-convalida-incrociata.html#regolarizzazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Abbiamo motivato la presente discussione affermando che uno dei problemi più grandi che i ricercatori devono afforntare è quello della generalizzabilità dei loro risultati. <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> fa notare che un modo per favorire la capacità del modello di generalizzarsi a nuovi campioni è quello di fare in modo che produca un adattamento <em>peggiore</em> ai dati del campione presente. Il problema del sovra-adattamento (e quindi di una bassa generalizzabilità) dipende dal fatto che tutte le regolarità presenti nei dati del campione (e dunque, anche quelle che costituiscono un aspetto idiosincratico del campione presente) “vengono egualmente prese sul serio” da un modello che utilizza prior uniformi per i parametri. In tali circostanze, <em>qualsiasi</em> valore dei parametri viene considerato plausibile. Un modo per evitare un tale modo di procedere, che sicuramente è inadeguato, è quello di utilizzare dei prior che <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> chiama “scettici”. I priori “scettici” più comuni sono quelli che hanno una funzione di regolarizzazione. Tali prior, se calibrati correttamente, riducono il sovra-adattamento pur consentendo al modello di rappresentare le regolarità che emergono dai dati del campione. Se il prior è “troppo scettico”, tuttavia, le regolarità dei dati campionari non vengono rappresentate dal modello; di conseguenza, ciò produce un sotto-adattamento. Il problema è quello di trovare un equilibrio tra gli opposti pericoli del sovra-adattamento e del sotto-adattamento. La buona notizia è che anche un prior “moderatamente scettico” è in grado di fornire un grande aiuto al modello, e questo è tutto quello che possiamo sperare di ottenere dato che, in generale, non ci sono né modelli ottimali né distribuzioni a priori ottimali (ovvero, modelli e distribuzioni a priori che non possono essere migliorati).</p>
+<p>Un esempio di una distribuzione a priori di regolarizzazione può essere fornito facendo riferimento al modello lineare, per esempio. Se standardizziamo i dati, un prior <span class="math inline">\(\beta \sim \mathcal{N}(0, 1)\)</span> per il parametro che codifica la pendenza della retta di regressione ci dice che, prima di osservare i dati, il modello “è molto scettico” rispetto ai valori possibili di <span class="math inline">\(\beta\)</span> esterni all’intervallo <span class="math inline">\([-2, 2]\)</span> deviazioni standard. In altri termini, ritiene che sia molto improbabile che un cambiamento di 1 deviazione standard nella <span class="math inline">\(x\)</span> sia associato ad un cambiamento medio superiore a 2 unità di deviazione standard nella <span class="math inline">\(y\)</span>.</p>
+<p>Ma potremmo anche usare una distribuzione a priori gaussiana con parametro <span class="math inline">\(\sigma\)</span> uguale a 0.5 oppure a 0.2. Quale prior usare dipende dal modello e dai dati – non c’è una raccomandazione che risulta sempre valida. L’effetto maggiore dei prior “molto scettici” si manifesta nel caso di modelli complessi e nel caso di piccole numerosità campionarie – ovvero, proprio nei casi in cui il rischio del sovra-adattamento è più grande. Se invece il campione è sufficientemente grande e il modello non è eccessivamente complesso, i prior, quali essi siano, hanno invece un effetto trascurabile sulla stima della distribuzione a posteriori.</p>
+</div>
+<div id="commenti-e-considerazioni-finali-27" class="section level2 unnumbered hasAnchor">
+<h2>Commenti e considerazioni finali<a href="criterio-di-informazione-e-convalida-incrociata.html#commenti-e-considerazioni-finali-27" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In questo Capitolo, utilizzando Stan insieme al pacchetto <code>loo</code>, abbiamo imparato ad usare la convalida incrociata K-fold e la convalida incrociata leave-one-out. Abbiamo esaminato alcuni esempi nei quali la convalida incrociata ci consente di distinguere tra due modelli. In generale, la convalida incrociata si dimostra utile utile quando vengono confrontati modelli piuttosto diversi; quando i modelli sono molto simili, invece, risulta spesso difficile distinguerli con le tecniche qui discusse. In particolare, risulta spesso difficile ottenere risultati conclusivi dal confronto di modelli tramite la convalida incrociata se l’effetto è molto piccolo e/o se il campione di dati è piccolo. In questi casi, alcuni ricercatori ritengono che siano più adatti altri metodi di confronto dei modelli, come ad esempio i fattori di Bayes. L’uso dei fattori di Bayes, tuttavia, è controverso, dato che essi dipendono fortemente dalla scelta delle distribuzioni a priori. Se possibile è preferibile utilizzare le procedure descritte in questa parte della dispensa, con campioni di ampiezza adeguata.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gelman1995bayesian" class="csl-entry">
+Gelman, Andrew, John B Carlin, Hal S Stern, and Donald B Rubin. 1995. <em>Bayesian Data Analysis</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-gelman2020regression" class="csl-entry">
+Gelman, Andrew, Jennifer Hill, and Aki Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge University Press.
+</div>
+<div id="ref-gelman2014understanding" class="csl-entry">
+Gelman, Andrew, Jessica Hwang, and Aki Vehtari. 2014. <span>“Understanding Predictive Information Criteria for Bayesian Models.”</span> <em>Statistics and Computing</em> 24 (6): 997–1016.
+</div>
+<div id="ref-McElreath_rethinking" class="csl-entry">
+McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. 2nd Edition. Boca Raton, Florida: CRC Press.
+</div>
+<div id="ref-navarro2019between" class="csl-entry">
+Navarro, Danielle J. 2019. <span>“Between the Devil and the Deep Blue Sea: Tensions Between Scientific Judgement and Statistical Model Selection.”</span> <em>Computational Brain &amp; Behavior</em> 2 (1): 28–34.
+</div>
+<div id="ref-vehtari2017practical" class="csl-entry">
+Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical Bayesian Model Evaluation Using Leave-One-Out Cross-Validation and WAIC.”</span> <em>Statistics and Computing</em> 27 (5): 1413–32.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="37">
+<li id="fn37"><p>A questo proposito, è necessario aggiungere una nota di cautela. Come fa notare <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span>, fare previsioni e inferire i rapporti causali sono due cose molto diverse. Statistiche quali AIC, WAIC e LOO-CV consentono di individuare modelli con buone capacità predittive. Tali modelli, tuttavia, non riflettono necessariamente la struttura causale del fenomeno considerato: la selezione di modelli basata unicamente sull’accuratezza predittiva non garantisce che venga selezionato il modello che riflette la struttura causale del fenomeno <span class="citation">(si veda anche <a href="#ref-navarro2019between" role="doc-biblioref">Navarro 2019</a>)</span>.<a href="criterio-di-informazione-e-convalida-incrociata.html#fnref37" class="footnote-back">↩︎</a></p></li>
+<li id="fn38"><p><span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> nota che, spesso, i ricercatori eliminano i valori anomali prima di adattare un modello ai dati, basandosi solo sulla distanza dal valore medio della variabile dipendente misurata in termini di unità di deviazione standard. Secondo <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> questo non dovrebbe mai essere fatto: un’osservazione può essere considerata come un valore anomalo o un valore influente solo alla luce delle predizioni di un modello (mai prima di avere adattato il modello ai dati). Se ci sono solo pochi valori anomali una strategia possibile è quella di riportare i risultati delle analisi statistiche svolte su tutto il campione dei dati oppure dopo avere eliminato le osservazioni anomale e influenti.<a href="criterio-di-informazione-e-convalida-incrociata.html#fnref38" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="la-divergenza-di-kullback-leibler.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliografia.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/092_info_criterion.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

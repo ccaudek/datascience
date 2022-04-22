@@ -1,4 +1,4 @@
-# Indici di posizione e di scala {#ch:loc-scale}
+# Indici di posizione e di scala 
 
 ```{r, include = FALSE}
 source("_common.R")
