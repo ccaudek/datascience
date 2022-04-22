@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 1 Entropia | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 1 Entropia | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 1 Entropia | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="ch:kl-div.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Il confronto bayesiano di modelli</b></span></li>
+<li class="chapter" data-level="1" data-path="ch:entropy.html"><a href="ch:entropy.html"><i class="fa fa-check"></i><b>1</b> Entropia</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch:entropy.html"><a href="ch:entropy.html#la-generalizzabilità-dei-modelli"><i class="fa fa-check"></i><b>1.1</b> La generalizzabilità dei modelli</a></li>
+<li class="chapter" data-level="1.2" data-path="ch:entropy.html"><a href="ch:entropy.html#capacità-predittiva"><i class="fa fa-check"></i><b>1.2</b> Capacità predittiva</a></li>
+<li class="chapter" data-level="1.3" data-path="ch:entropy.html"><a href="ch:entropy.html#il-rasoio-di-ockham"><i class="fa fa-check"></i><b>1.3</b> Il rasoio di Ockham</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="ch:entropy.html"><a href="ch:entropy.html#sovra-adattamento-e-sotto-adattamento"><i class="fa fa-check"></i><b>1.3.1</b> Sovra-adattamento e sotto-adattamento</a></li>
+<li class="chapter" data-level="1.3.2" data-path="ch:entropy.html"><a href="ch:entropy.html#stargazing"><i class="fa fa-check"></i><b>1.3.2</b> Stargazing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="ch:entropy.html"><a href="ch:entropy.html#la-misura-del-disordine"><i class="fa fa-check"></i><b>1.4</b> La misura del disordine</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="ch:entropy.html"><a href="ch:entropy.html#entropia-di-un-singolo-evento"><i class="fa fa-check"></i><b>1.4.1</b> Entropia di un singolo evento</a></li>
+<li class="chapter" data-level="1.4.2" data-path="ch:entropy.html"><a href="ch:entropy.html#entropia-di-una-variabile-casuale"><i class="fa fa-check"></i><b>1.4.2</b> Entropia di una variabile casuale</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:entropy.html"><a href="ch:entropy.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch:kl-div.html"><a href="ch:kl-div.html"><i class="fa fa-check"></i><b>2</b> La divergenza di Kullback-Leibler</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-perdita-di-informazione"><i class="fa fa-check"></i><b>2.1</b> La perdita di informazione</a></li>
+<li class="chapter" data-level="2.2" data-path="ch:kl-div.html"><a href="ch:kl-div.html#la-divergenza-dipende-dalla-direzione"><i class="fa fa-check"></i><b>2.2</b> La divergenza dipende dalla direzione</a></li>
+<li class="chapter" data-level="2.3" data-path="ch:kl-div.html"><a href="ch:kl-div.html#confronto-tra-modelli"><i class="fa fa-check"></i><b>2.3</b> Confronto tra modelli</a></li>
+<li class="chapter" data-level="2.4" data-path="ch:kl-div.html"><a href="ch:kl-div.html#expected-log-predictive-density"><i class="fa fa-check"></i><b>2.4</b> Expected log predictive density</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="ch:kl-div.html"><a href="ch:kl-div.html#log-pointwise-predictive-density"><i class="fa fa-check"></i><b>2.4.1</b> Log pointwise predictive density</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:kl-div.html"><a href="ch:kl-div.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:entropy" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Capitolo 1</span> Entropia<a href="ch:entropy.html#ch:entropy" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Il principio base del metodo scientifico è la <em>replicabilità</em> delle osservazioni: le osservazioni che non possono essere replicate sono poco interessanti. Parallelamente, una caratteristica fondamentale di un modello scientifico è la <em>generalizzabilità</em>: se un modello è capace di descrivere soltanto le proprietà di uno specifico campione di osservazioni, allora è poco utile. Ma come è possibile valutare la generalizzabilità di un modello statistico? Questa è la domanda a cui cercheremo di rispondere in questa parte della dispensa. In questo Capitolo inizieremo questa discussione introducendo il concetto di entropia.</p>
+<div id="la-generalizzabilità-dei-modelli" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> La generalizzabilità dei modelli<a href="ch:entropy.html#la-generalizzabilità-dei-modelli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Secondo <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span>, nel valutare un modello, il ricercatore deve porsi tre domande critiche.</p>
+<ul>
+<li><p>Quali conseguenze più ampie derivano dall’inferenza? Come e chi ha raccolto i dati? Colui che svolge la ricerca otterrebbe di benefici manipolando i dati (escludendo delle osservazioni; selezionando il campione)? Che impatto hanno inferenze che vengono tratte dai dati sugli individui e sulla società? Quali pregiudizi o strutture di potere possono essere coinvolti in questa analisi?</p></li>
+<li><p>Che tipo di distorsioni sistematiche potrebbero essere presenti nell’analisi statistica? Ricordiamo la famosa citazione di George Box: “Tutti i modelli sono sbagliati, ma alcuni sono utili”. È dunque importante sapere quanto è sbagliato il modello. Le assunzioni che stanno alla base del modello sono ragionevoli? Il meccanismo generatore dei dati che è stato ipotizzato è adeguato per il fenomeno in esame?</p></li>
+<li><p>Quanto è accurato il modello? Quanto sono lontane dalla realtà le previsioni del modello?</p></li>
+</ul>
+<p>Per approfondire questi temi, si rinvia al testo di <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span>. Qui ci concentreremo su uno dei temi critici relativa alla validità di un modello, ovvero sul tema della generalizzabilità del modello.</p>
+<p>Nella scienza l’utilità di una teoria viene verificata esaminando la corrispondenza tra predizioni teoriche e osservazioni. Se vi sono discrepanze significative tra predizioni e osservazioni ciò suggerisce che la teoria, o nella nostra visione più ristretta, il modello statistico, è poco utile. Il problema della capacità predittiva del modello non riguarda soltanto l’adeguatezza del modello in riferimento ad uno specifico campione di dati, ma riguarda anche la capacità di un modello statistico sviluppato in un campione di dati di ben adattarsi ad altri campioni della stessa popolazione.</p>
+<p>In generale, i modelli statistici tendono a non generalizzarsi bene a un nuovo campione; questo perché sfruttano le caratteristiche specifiche dei dati del campione e tendono a produrre risultati eccessivamente ottimistici (cioè le dimensioni dell’effetto) che sovrastimano la dimensione dell’effetto atteso sia nella popolazione che in nuovi campioni. Benché i problemi della generalizzabilità dei modelli e il metodo chiave per valutarli – ovvero, la convalida incrociata (<em>cross-validation</em>) – siano stati discussi sin dagli esordi della letteratura psicometrica <span class="citation">(<a href="#ref-lord1950efficiency" role="doc-biblioref">Lord 1950</a>)</span>, tali temi sono stati sottovalutati nella formazione psicologica contemporanea e nella ricerca. Tuttavia, questi concetti diventeranno sempre più importanti considerata l’enfasi corrente sulla necessità di condurre ricerche replicabili. Un’introduzione a questi temi è fornita, da esempio, da <span class="citation">Song, Tang, and Wee (<a href="#ref-song2021making" role="doc-biblioref">2021</a>)</span>. Nello specifico, <span class="citation">Song, Tang, and Wee (<a href="#ref-song2021making" role="doc-biblioref">2021</a>)</span> mostrano che un modello che viene adattato a un campione (<em>campione di calibrazione</em>) non si generalizza bene a un altro campione (<em>campione di convalida</em>): la capacità predittiva del modello è minore quando il modello viene applicato al campione di convalida piuttosto che al campione di calibrazione. Questo problema è detto <em>sovra-adattamento</em> (<em>overfitting</em>). In generale, <span class="citation">Song, Tang, and Wee (<a href="#ref-song2021making" role="doc-biblioref">2021</a>)</span> mostrano come la capacità di generalizzazione del modello diminuisce (a) all’aumentare della complessità del modello, (b) al diminuire dell’ampiezza del campione di calibrazione, e (c) al diminuire della dimensione dell’effetto nella popolazione.</p>
+<p>Sebbene i modelli statistici producono comunemente un sovra-adattamento, è anche possibile che essi producano un <em>sotto-adattamento</em> (<em>underfitting</em>) dei dati. Tale mancanza di adattamento è dovuta dalla variabilità campionaria e dalla complessità del modello. Il sotto-adattamento porta ad un <span class="math inline">\(R^2\)</span> basso e ad un <em>MSE</em> alto, sia nei campioni di calibrazione che in quelli di convalida. Per questo motivo, la scarsa generalizzabilità del modello può essere dovuta sia al sovra-adattamento che al sotto-adattamento del modello.</p>
+<p>Per aumentarne la capacità di generalizzazione del modello devono essere soddisfatte tre condizioni: (a) campioni di calibrazione grandi, (b) dimensioni dell’effetto non piccole nella popolazione, e (c) modelli che non siano inutilmente complessi. Tuttavia, nella ricerca psicologica queste tre condizioni sono difficili da soddisfare: l’aumento della dimensione del campione spesso richiede l’utilizzo di maggiori risorse, la dimensione di un dato effetto nella popolazione non è soggetta alla discrezione dei ricercatori e la complessità del modello è spesso guidata da motivazioni teoriche. Pertanto, negli studi psicologici la generalizzabilità dei modelli è spesso problematica. Ciò rende necessario che il ricercatore fornisca informazioni aggiuntive relative alla capacità del modello di generalizzarsi a nuovi campioni. L’obiettivo di questa parte della dispensa è di descrivere come questo possa essere fatto utilizzando l’approccio bayesiano.</p>
+</div>
+<div id="capacità-predittiva" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Capacità predittiva<a href="ch:entropy.html#capacità-predittiva" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Nel framework bayesiano il problema della generalizzabilità di un modello viene affrontato valutando la capacità predittiva del modello, laddove per capacità predittiva si intende la capacità di un modello, i cui parametri sono stati stimati usando le informazioni di un campione, di ben adattarsi ad un campione di osservazioni future. In questo Capitolo cercheremo di rispondere a tre domande.</p>
+<ol style="list-style-type: decimal">
+<li>Quali criteri consentono di valutare la capacità predittiva di un modello?</li>
+<li>Come quantificare la capacità predittiva di un modello usando solo un campione di osservazioni?</li>
+<li>Come confrontare le capacità predittive di modelli diversi?</li>
+</ol>
+</div>
+<div id="il-rasoio-di-ockham" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Il rasoio di Ockham<a href="ch:entropy.html#il-rasoio-di-ockham" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Il problema di scegliere il modello più adatto a spiegare un fenomeno di interesse è uno dei più importanti problemi in campo scientifico. I ricercatori si chiedono: il modello è completo? È necessario aggiungere un nuovo parametro al modello? Come può essere migliorato il modello? Se ci sono modelli diversi, qual’è il modello migliore?</p>
+<p>Per rispondere a queste domande è possibile usare il rasoio di Ockham: <em>frustra fit per plura quod potest fieri per pauciora</em> (“si fa inutilmente con molte cose ciò che si può fare con poche cose”). Parafrasando la massima si potrebbe dire: se due modelli descrivono i dati egualmente bene, viene sempre preferito il modello più semplice. Questo è il principio che sta alla base della ricerca scientifica.</p>
+<p>Il rasoio di Ockham, però, non consente sempre di scegliere tra modelli alternativi. Se due modelli fanno le stesse predizioni ma differiscono in termini di complessità — per esempio, relativamente al numero di parametri di cui sono costituiti — allora è facile decidere: viene preferito il modello più semplice, anche perché, pragmaticamente, è il più facile da usare. Tuttavia, in generale, i modelli differiscono sia per complessità (ovvero, per il numero di parametri) che per accuratezza (ovvero, per la grandezza degli errori di predizione). In tali circostanze il rasoio di Ockham non è sufficiente: non consente infatti di trovare un equilibrio tra accuratezza e semplicità.</p>
+<p>In questo Capitolo ci chiederemo come sia possibile misurare l’accuratezza predittiva di un modello. Ciò ci consentirà, in seguito, di usare il rasoio di Ockham: a parità di accuratezza, sarà possibile scegliere il modello più semplice. Ma nella pratica scientifica non si sacrifica mai l’accuratezza per la semplicità: il criterio prioritario è sempre l’accuratezza.</p>
+<div id="sovra-adattamento-e-sotto-adattamento" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Sovra-adattamento e sotto-adattamento<a href="ch:entropy.html#sovra-adattamento-e-sotto-adattamento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Secondo <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span>, la selezione tra modelli deve evitare due opposti errori: il sovra-adattamento e il sotto-adattamento. Tale problema va sotto il nome di <em>bias-variance trade-off</em>: il sotto-adattamento, infatti, porta a distorsioni (<em>bias</em>) nella stima dei parametri, mentre il sovra-adattamento porta a previsioni scadenti in campioni futuri. Spesso l’incertezza relativa alla scelta del modello (sotto-adattamento versus sovra-adattamento) passa inosservata ma il suo impatto può essere drammatico. Secondo <span class="citation">Hoeting et al. (<a href="#ref-hoeting1999bayesian" role="doc-biblioref">1999</a>)</span>, <em>“Standard statistical practice ignores model uncertainty. Data analysts typically select a model from some class of models and then proceed as if the selected model had generated the data. This approach ignores the uncertainty in model selection, leading to over-confident inferences and decisions that are more risky than one thinks they are.</em></p>
+<p>In questo Capitolo esamineremo alcune tecniche bayesiane che possono essere utilizzate per operare una selezione tra modelli alternativi, tenendo sotto controllo i pericoli del sovra-adattamento e del sotto-adattamento. In particolare, ci chiederemo quale, tra due o più modelli, sia quello da preferire in base al criterio della capacità predittiva.</p>
+</div>
+<div id="stargazing" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Stargazing<a href="ch:entropy.html#stargazing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Nella pratica concreta della ricerca, il metodo più comune per la selezione tra modelli alternativi utilizza i test di ipotesi statistiche di stampo frequentista. Questo metodo viene chiamato <em>stargazing</em>, poiché richiede soltanto l’esame degli asterischi (<span class="math inline">\(**\)</span>) che si trovano nell’output di un software statistico (gli asterischi marcano i coefficienti del modello che sono “statisticamente significativi”): alcuni ricercatori ritengono che il modello con più stelline sia anche il modello migliore. Questo però non è vero. Al di là dei problemi legati ai test dell’ipotesi nulla, è sicuramente un errore usare i test di significatività per la selezione di modelli: i valori-<em>p</em> non consentono di trovare un equilibrio tra <em>underfitting</em> e <em>overfitting</em>. Infatti, le variabili che migliorano la capacità predittiva di un modello non sono sempre statisticamente significative; d’altra parte, le variabili statisticamente significative non sempre migliorano la capacità predittiva di un modello.</p>
+<p>Quando ci chiediamo quale, tra modelli alternativi, è il modello che meglio rappresenta il “vero” processo di generazione dei dati, ci troviamo di fronte al problema di quantificare il grado di “vicinanza” di un modello al “vero” processo di generazione dei dati. Si noti che, in tale confronto, facciamo riferimento sia alla famiglia distributiva così come ai valori dei parametri. Ad esempio, il modello <span class="math inline">\(y_i \sim \mathcal{N}(5, 3)\)</span> è diverso dal modello <span class="math inline">\(y_i \sim \mathcal{N}(5, 6)\)</span>, ed è anche diverso dal modello <span class="math inline">\(y_i \sim \Gamma(2, 2)\)</span>. I primi due modelli appartengono alla stessa famiglia distributiva ma differiscono nei termini dei valori dei parametri; gli ultimi due modelli appartengono a famiglie distributive diverse (gaussiano vs. Gamma). Per misurare il grado di “vicinanza” tra due modelli, <span class="math inline">\(\mathcal{M}_1\)</span> e <span class="math inline">\(\mathcal{M}_2\)</span>, la metrica di gran lunga più popolare è la <em>divergenza di Kullback-Leibler</em>. Per chiarire questo concetto è però prima necessario introdurre la nozione di entropia.</p>
+</div>
+</div>
+<div id="la-misura-del-disordine" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> La misura del disordine<a href="ch:entropy.html#la-misura-del-disordine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se vogliamo ottenere una comprensione intuitiva del concetto di entropia<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> possiamo pensare a quant’è informativa una distribuzione. Maggiore è l’entropia di una distribuzione, meno informativa sarà quella distribuzione e più uniformemente verranno assegnate le probabilità agli eventi. In altri termini, ottenere la risposta di “42” è più informativo della risposta “42 <span class="math inline">\(\pm\)</span> 5”, che a sua volta è più informativo della risposta “un numero qualsiasi”. L’entropia quantifica questa osservazione qualitativa.</p>
+<p>Il concetto di entropia si applica sia alle distribuzioni continue sia a quelle discrete, ma è più facile da capire usando le distribuzioni discrete. Negli esempi successivi vedremo alcuni esempi applicati al caso discreto, ma gli stessi concetti si applicano al caso continuo.</p>
+<div id="entropia-di-un-singolo-evento" class="section level3 hasAnchor" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Entropia di un singolo evento<a href="ch:entropy.html#entropia-di-un-singolo-evento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Il concetto di entropia può essere usato per descrivere la quantità di informazione fornita da un evento. L’intuizione che sta alla base del concetto di entropia è che l’informazione fornita da un evento descrive la sorpresa suscitata dall’evento: gli eventi rari (a bassa probabilità) sono più sorprendenti – e quindi forniscono più informazione – degli eventi comuni (ad alta probabilità). In altre parole,</p>
+<ul>
+<li>un evento a bassa probabilità è sorprendente e fornisce molta informazione;</li>
+<li>un evento ad alta probabilità è poco o per niente sorprendente e fornisce poca (o nessuna) informazione.</li>
+</ul>
+<p>È dunque possibile quantificare l’informazione fornita dal verificarsi di un evento usando la probabilità di quell’evento. Una tale <em>quantità di informazione</em> è chiamata “informazione di Shannon”, “auto-informazione” o semplicemente “informazione” e, per un evento discreto <span class="math inline">\(x\)</span>, può essere calcolata come:</p>
+<p><span class="math display">\[
+\text{informazione}(x) = -\log_2 p(x),
+\]</span></p>
+<p>dove <span class="math inline">\(\log_2\)</span> è il logaritmo in base 2 e <span class="math inline">\(p(x)\)</span> è la probabilità dell’evento <span class="math inline">\(x\)</span>.</p>
+<p>La scelta del logaritmo in base 2 significa che l’unità di misura dell’informazione è il bit (cifre binarie). Questo può essere interpretato dicendo che l’informazione misura il numero di bit richiesti per rappresentare un evento.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> Solitamente, si denota la quantità di informazione con <span class="math inline">\(h()\)</span>:</p>
+<p><span class="math display">\[
+h(x) = -\log p(x).
+\]</span></p>
+<p>Il segno negativo garantisce che il risultato sia sempre positivo o zero. L’informazione è zero quando la probabilità dell’evento è 1.0, ovvero quando l’evento è certo (assenza di sorpresa).</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Esempio 1.1  </strong></span>Consideriamo il lancio di una moneta equilibrata. La probabilità di testa (e croce) è 0.5. La quantità di informazione di ottenere “testa” è dunque</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ch:entropy.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.5</span>)</span>
+<span id="cb1-2"><a href="ch:entropy.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<p>Per rappresentare questo evento abbiamo bisogno di 1 bit di informazione. Se la stessa moneta venisse lanciata <span class="math inline">\(n\)</span> volte, la quantità di informazione necessaria per rappresentare questo evento (ovvero, questa sequenza di lanci) sarebbe pari a <span class="math inline">\(n\)</span> bit. Se la moneta non è equilibrata e la probabilità di testa è 0.1, allora l’evento “testa” è più raro e richiede più di 3 bit di informazione:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ch:entropy.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.1</span>)</span>
+<span id="cb2-2"><a href="ch:entropy.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.321928</span></span></code></pre></div>
+<p>Consideriamo ora il lancio di un dado. Quanta informazione viene fornita, ad esempio, dall’evento “esce il numero 6”? Dato che la probabilità di ottenere un 6 nel lancio di un dado è più piccola della probabilità di ottenere “testa” nel lancio di una moneta, il risultato del lancio di un dado deve produrre una sorpresa maggiore del risultato del lancio di una moneta. Per cui, la quantità di informazione associata all’evento “è uscito 6”, dovrà essere maggiore di quella associata all’evento “testa”. Infatti, la quantità di informazione dell’evento “è uscito un 6” è più che doppia rispetto alla quantità di informazione dell’evento “testa”:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ch:entropy.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb3-2"><a href="ch:entropy.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.584963</span></span></code></pre></div>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-2" class="example"><strong>Esempio 1.2  </strong></span>Nella figura successiva viene esaminata la relazione tra probabilità e informazione, per valori di probabilità nell’intervallo tra 0 e 1.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="ch:entropy.html#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb4-2"><a href="ch:entropy.html#cb4-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(p)</span>
+<span id="cb4-3"><a href="ch:entropy.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(p, h), <span class="fu">aes</span>(p, h)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="ch:entropy.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="ch:entropy.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-6"><a href="ch:entropy.html#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità&quot;</span>,</span>
+<span id="cb4-7"><a href="ch:entropy.html#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Informazione&quot;</span></span>
+<span id="cb4-8"><a href="ch:entropy.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>La figura mostra che questa relazione non è lineare, è infatti leggermente sublineare. Questo ha senso dato che abbiamo usato una funzione logaritmica.</p>
+</div>
+</div>
+<div id="entropia-di-una-variabile-casuale" class="section level3 hasAnchor" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span> Entropia di una variabile casuale<a href="ch:entropy.html#entropia-di-una-variabile-casuale" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Possiamo estendere questa discussione pensando ad un insieme di eventi, ovvero ad una distribuzione. Nella teoria della probabilità usiamo la nozione di variabile casuale per fare riferimento ad un insieme di eventi e alle probabilità associate a tali eventi. L’entropia quantifica l’informazione che viene fornita da una variabile casuale.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-3" class="definition"><strong>Definizione 1.1  </strong></span>Sia <span class="math inline">\(Y = y_1, \dots, y_n\)</span> una variabile casuale e <span class="math inline">\(p_t(y)\)</span> una distribuzione di probabilità su <span class="math inline">\(Y\)</span>. Si definisce la sua entropia (detta di Shannon) come:</p>
+<p><span class="math display" id="eq:entropy">\[\begin{equation}
+H(Y) = - \sum_{i=1}^n p_t(y_i) \cdot \log_2 p_t(y_i).
+\tag{1.1}
+\end{equation}\]</span></p>
+</div>
+<p>Per interpretare la <a href="ch:entropy.html#eq:entropy">(1.1)</a>, consideriamo un esempio discusso da <span class="citation">Martin, Kumar, and Lao (<a href="#ref-martin2022bayesian" role="doc-biblioref">2022</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:entropy-example"></span>
+<img src="images/entropy_example.pdf" alt="Funzioni di massa di probabilità e associata entropia." width="100%" />
+<p class="caption">
+FIGURA 1.1: Funzioni di massa di probabilità e associata entropia.
+</p>
+</div>
+<p>Nella figura <a href="ch:entropy.html#fig:entropy-example">1.1</a> sono rappresentate sei distribuzioni. viene anche riportato il valore di entropia di ciascuna distribuzione. La distribuzione con il picco più pronunciato o con la dispersione minore è <code>q</code>, e questa è la distribuzione con il valore di entropia più basso tra le sei distribuzioni considerate. Per <code>q</code> la distribuzione è <code>q ~ binom(n = 10, p = 0.75)</code>; quindi ci sono 11 possibili eventi. <code>qu</code> ha una distribuzione uniforme sugli stessi 11 possibili eventi. L’entropia di <code>qu</code> è maggiore dell’entropia di <code>q</code>. Infatti, se calcoliamo l’entropia di distribuzioni binomiali con <span class="math inline">\(n = 10\)</span> (con valori diversi di <span class="math inline">\(p\)</span>) ci rendiamo conto che nessuna di tali distribuzioni ha un’entropia maggiore di <code>qu</code>. Dobbiamo aumentare <span class="math inline">\(n ≈ 3\)</span> volte per trovare la prima distribuzione binomiale con entropia maggiore di <code>qu</code>. Passiamo alla riga successiva. Generiamo la distribuzione <code>r</code> spostando a destra <code>q</code> e normalizzando (per garantire che la somma di tutte le probabilità sia 1). Poiché <code>r</code> ha una dispersione maggiore di <code>q</code>, la sua entropia è maggiore. <code>ru</code> è una distribuzione uniforme con lo stesso numero di eventi possibili come <code>r</code> (ovvero 22) – si noti che sono stati inclusi come valori possibili anche quelli nella “valle” tra i due picchi. Ancora una volta, la distribuzione uniforme ha l’entropia più grande.</p>
+<p>Gli esempi discussi finora sembrano suggerire che l’entropia è proporzionale alla varianza della distribuzione. Verifichiamo questa intuizione esaminiamo le ultime due distribuzioni della figura <a href="ch:entropy.html#fig:entropy-example">1.1</a>. La distribuzione <code>s</code> è simile a <code>r</code> ma presenta una separazione maggiore tra i due picchi della distribuzione – dunque, ha una varianza più grande. Ciò nonostante, l’entropia non varia. Quindi la relazione tra entropia e varianza non è così semplice come ci sembrava. Il risultato che abbiamo trovato può essere spiegato dicendo che, nel calcolo dell’entropia, non vengono considerati gli eventi con probabilità nulla (per questa ragione, nell’esempio, è stato possibile aumentare la varianza senza cambiare l’entropia). La distribuzione <code>su</code> è stata costruita sostituendo i due picchi in <code>s</code> con <code>qu</code> (e normalizzando). Possiamo vedere che <code>su</code> ha un’entropia minore di <code>ru</code>, anche se <code>su</code> ha una dispersione maggiore di <code>ru</code>. Questo è dovuto al fatto che <code>su</code> distribuisce la probabilità totale tra un numero minore di eventi (22) di <code>ru</code> (che ne conta 23); quindi è sensato attribuire a <code>su</code> un’entropia minore di <code>ru</code>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Esempio 1.3  </strong></span>Consideriamo ora un esempio riguardante le previsioni del tempo. Supponiamo che le probabilità di pioggia e sole siano, rispettivamente, <span class="math inline">\(p_1 = 0.3\)</span> e <span class="math inline">\(p_2 = 0.7\)</span>. Quindi</p>
+<p><span class="math display">\[
+H(p) = − [p(y_1) \log_2 p(y_1) + p(y_2) \log_2 p(y_2)] \approx 0.61.
+\]</span></p>
+<p>Se però viviamo a Las Vegas, allora le probabilità di pioggia e sole saranno simili a <span class="math inline">\(p(y_1) = 0.01\)</span> e <span class="math inline">\(p(y_2) = 0.99\)</span>. In questo secondo caso, l’entropia è 0.06, ovvero, molto minore di prima. Infatti, a Las Vegas non piove quasi mai, per cui quando abbiamo imparato che, in un certo giorno, non ha piovuto, abbiamo imparato molto poco rispetto a quello che già sapevamo in precedenza.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-5" class="example"><strong>Esempio 1.4  </strong></span>Nell’esempio precedente abbiamo visto che, se gli esiti possibili sono pioggia o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.3\)</span>, allora l’entropia è</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="ch:entropy.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.3</span>))</span>
+<span id="cb5-2"><a href="ch:entropy.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6108643</span></span></code></pre></div>
+<p>Ma se gli esiti possibili sono pioggia, neve o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.15\)</span> e <span class="math inline">\(p(y_3) = 0.15\)</span>, rispettivamente, allora l’entropia cresce:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="ch:entropy.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>))</span>
+<span id="cb6-2"><a href="ch:entropy.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8188085</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="commenti-e-considerazioni-finali" class="section level2 unnumbered hasAnchor">
+<h2>Commenti e considerazioni finali<a href="ch:entropy.html#commenti-e-considerazioni-finali" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In questo Capitolo abbiamo visto come sia possibile quantificare l’incertezza tramite l’entropia. Ma come è possibile usare l’entropia dell’informazione per specificare la “distanza” tra un modello e il vero meccanismo generatore dei dati? La risposta a questa domanda è fornita dalla divergenza di Kullback-Leibler che verrà discussa nel Capitolo <a href="ch:kl-div.html#ch:kl-div">2</a>.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hoeting1999bayesian" class="csl-entry">
+Hoeting, Jennifer A, David Madigan, Adrian E Raftery, and Chris T Volinsky. 1999. <span>“Bayesian Model Averaging: A Tutorial (with Comments by m. Clyde, David Draper and EI George, and a Rejoinder by the Authors.”</span> <em>Statistical Science</em> 14 (4): 382–417.
+</div>
+<div id="ref-Johnson2022bayesrules" class="csl-entry">
+Johnson, Alicia A., Miles Ott, and Mine Dogucu. 2022. <em><span class="nocase">Bayes Rules! An Introduction to Bayesian Modeling with R</span></em>. CRC Press.
+</div>
+<div id="ref-lord1950efficiency" class="csl-entry">
+Lord, Frederic M. 1950. <span>“Efficiency of Prediction When a Regression Equation from One Sample Is Used in a New Sample.”</span> <em>ETS Research Bulletin Series</em> 1950 (2): 1–6.
+</div>
+<div id="ref-martin2022bayesian" class="csl-entry">
+Martin, Osvaldo A, Ravin Kumar, and Junpeng Lao. 2022. <em>Bayesian Modeling and Computation in Python</em>. CRC Press.
+</div>
+<div id="ref-McElreath_rethinking" class="csl-entry">
+McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. 2nd Edition. Boca Raton, Florida: CRC Press.
+</div>
+<div id="ref-song2021making" class="csl-entry">
+Song, Q Chelsea, Chen Tang, and Serena Wee. 2021. <span>“Making Sense of Model Generalizability: A Tutorial on Cross-Validation in r and Shiny.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 4 (1): 2515245920947067.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>La nozione di entropia fu introdotta agli inizi del XIX secolo nel campo della termodinamica classica; il secondo principio della termodinamica è infatti basato sul concetto di entropia che, in generale, è assunto come una misura del disordine di un sistema fisico. Successivamente Boltzmann fornì una definizione statistica di entropia. Nel 1948 Shannon impiegò la nozione di entropia nell’ambito della teoria delle comunicazioni.<a href="ch:entropy.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>È possibile pensare all’entropia nei termini del numero di domande sì/no che devono essere poste per ridurre l’incertezza. Per esempio, se in un certo giorno ci può essere solo sole o pioggia, per ridurre l’incertezza, a fine giornata chiediamo: “ha piovuto?” La risposta (sì/no) ad una singola domanda elimina l’incertezza, e quindi l’informazione ottenuta (ovvero, la riduzione dell’incertezza) è uguale ad 1 bit. Se in una certa giornata ci potrebbero essere sole, pioggia o neve, per ridurre l’incertezza sono necessarie due domande: “c’era sole?”; “ha piovuto?” In questo secondo caso, l’informazione ottenuta (ovvero, la riduzione dell’incertezza) è uguale ad 2 bit. Usando un logaritmo in base 2, dunque, l’entropia può essere interpretata come il numero minimo di bit necessari per codificare la quantità di informazione nei dati.<a href="ch:entropy.html#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch:kl-div.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/090_entropy.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

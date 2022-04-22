@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 26 Modello lineare in Stan | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 26 Modello lineare in Stan | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 26 Modello lineare in Stan | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="regr-model-lm.html"/>
+<link rel="next" href="inference-reg-lin-stan.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Nozioni preliminari</b></span></li>
+<li class="chapter" data-level="1" data-path="concetti-chiave.html"><a href="concetti-chiave.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#popolazioni-e-campioni"><i class="fa fa-check"></i><b>1.1</b> Popolazioni e campioni</a></li>
+<li class="chapter" data-level="1.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-e-costanti"><i class="fa fa-check"></i><b>1.2</b> Variabili e costanti</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-casuali"><i class="fa fa-check"></i><b>1.2.1</b> Variabili casuali</a></li>
+<li class="chapter" data-level="1.2.2" data-path="concetti-chiave.html"><a href="concetti-chiave.html#variabili-indipendenti-e-variabili-dipendenti"><i class="fa fa-check"></i><b>1.2.2</b> Variabili indipendenti e variabili dipendenti</a></li>
+<li class="chapter" data-level="1.2.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#la-matrice-dei-dati"><i class="fa fa-check"></i><b>1.2.3</b> La matrice dei dati</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="concetti-chiave.html"><a href="concetti-chiave.html#parametri-e-modelli"><i class="fa fa-check"></i><b>1.3</b> Parametri e modelli</a></li>
+<li class="chapter" data-level="1.4" data-path="concetti-chiave.html"><a href="concetti-chiave.html#effetto"><i class="fa fa-check"></i><b>1.4</b> Effetto</a></li>
+<li class="chapter" data-level="1.5" data-path="concetti-chiave.html"><a href="concetti-chiave.html#stima-e-inferenza"><i class="fa fa-check"></i><b>1.5</b> Stima e inferenza</a></li>
+<li class="chapter" data-level="1.6" data-path="concetti-chiave.html"><a href="concetti-chiave.html#metodi-e-procedure-della-psicologia"><i class="fa fa-check"></i><b>1.6</b> Metodi e procedure della psicologia</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html"><i class="fa fa-check"></i><b>2</b> La misurazione in psicologia</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#le-scale-di-misura"><i class="fa fa-check"></i><b>2.1</b> Le scale di misura</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-nominale"><i class="fa fa-check"></i><b>2.1.1</b> Scala nominale</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ordinale"><i class="fa fa-check"></i><b>2.1.2</b> Scala ordinale</a></li>
+<li class="chapter" data-level="2.1.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ad-intervalli"><i class="fa fa-check"></i><b>2.1.3</b> Scala ad intervalli</a></li>
+<li class="chapter" data-level="2.1.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-di-rapporti"><i class="fa fa-check"></i><b>2.1.4</b> Scala di rapporti</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#gerarchia-dei-livelli-di-scala-di-misura"><i class="fa fa-check"></i><b>2.2</b> Gerarchia dei livelli di scala di misura</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#variabili-discrete-o-continue"><i class="fa fa-check"></i><b>2.3</b> Variabili discrete o continue</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#alcune-misure-sono-migliori-di-altre"><i class="fa fa-check"></i><b>2.4</b> Alcune misure sono migliori di altre</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#tipologie-di-errori"><i class="fa fa-check"></i><b>2.4.1</b> Tipologie di errori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>II Analisi esplorativa dei dati</b></span></li>
+<li class="chapter" data-level="3" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html"><i class="fa fa-check"></i><b>3</b> Variabili e distribuzioni di frequenza</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#chapter-descript"><i class="fa fa-check"></i><b>3.1</b> Introduzione all’esplorazione dei dati</a></li>
+<li class="chapter" data-level="3.2" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#un-excursus-storico"><i class="fa fa-check"></i><b>3.2</b> Un excursus storico</a></li>
+<li class="chapter" data-level="3.3" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#riassumere-i-dati"><i class="fa fa-check"></i><b>3.3</b> Riassumere i dati</a></li>
+<li class="chapter" data-level="3.4" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#i-dati-grezzi"><i class="fa fa-check"></i><b>3.4</b> I dati grezzi</a></li>
+<li class="chapter" data-level="3.5" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#distribuzioni-di-frequenze"><i class="fa fa-check"></i><b>3.5</b> Distribuzioni di frequenze</a></li>
+<li class="chapter" data-level="3.6" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#istogramma"><i class="fa fa-check"></i><b>3.6</b> Istogramma</a></li>
+<li class="chapter" data-level="3.7" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#kernel-density-plot"><i class="fa fa-check"></i><b>3.7</b> Kernel density plot</a></li>
+<li class="chapter" data-level="3.8" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#forma-di-una-distribuzione"><i class="fa fa-check"></i><b>3.8</b> Forma di una distribuzione</a></li>
+<li class="chapter" data-level="3.9" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#indici-di-posizione"><i class="fa fa-check"></i><b>3.9</b> Indici di posizione</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#quantili"><i class="fa fa-check"></i><b>3.9.1</b> Quantili</a></li>
+<li class="chapter" data-level="3.9.2" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#diagramma-a-scatola"><i class="fa fa-check"></i><b>3.9.2</b> Diagramma a scatola</a></li>
+<li class="chapter" data-level="3.9.3" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#sina-plot"><i class="fa fa-check"></i><b>3.9.3</b> Sina plot</a></li>
+<li class="chapter" data-level="3.9.4" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#leccellenza-grafica"><i class="fa fa-check"></i><b>3.9.4</b> L’eccellenza grafica</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:freq-distr.html"><a href="ch:freq-distr.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html"><i class="fa fa-check"></i><b>4</b> Indici di posizione e di scala</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#indici-di-tendenza-centrale"><i class="fa fa-check"></i><b>4.1</b> Indici di tendenza centrale</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#media"><i class="fa fa-check"></i><b>4.1.1</b> Media</a></li>
+<li class="chapter" data-level="4.1.2" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#media-spuntata"><i class="fa fa-check"></i><b>4.1.2</b> Media spuntata</a></li>
+<li class="chapter" data-level="4.1.3" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#moda-e-mediana"><i class="fa fa-check"></i><b>4.1.3</b> Moda e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#indici-di-dispersione"><i class="fa fa-check"></i><b>4.2</b> Indici di dispersione</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#indici-basati-sullordinamento-dei-dati"><i class="fa fa-check"></i><b>4.2.1</b> Indici basati sull’ordinamento dei dati</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#varianza"><i class="fa fa-check"></i><b>4.2.2</b> Varianza</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#precisione"><i class="fa fa-check"></i><b>4.2.3</b> Precisione</a></li>
+<li class="chapter" data-level="4.2.4" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#scarto-tipo"><i class="fa fa-check"></i><b>4.2.4</b> Scarto tipo</a></li>
+<li class="chapter" data-level="4.2.5" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#deviazione-mediana-assoluta"><i class="fa fa-check"></i><b>4.2.5</b> Deviazione mediana assoluta</a></li>
+<li class="chapter" data-level="4.2.6" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#indici-di-variabilità-relativi"><i class="fa fa-check"></i><b>4.2.6</b> Indici di variabilità relativi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:loc-scale.html"><a href="ch:loc-scale.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch:correlation.html"><a href="ch:correlation.html"><i class="fa fa-check"></i><b>5</b> Le relazioni tra variabili</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="ch:correlation.html"><a href="ch:correlation.html#diagramma-a-dispersione"><i class="fa fa-check"></i><b>5.0.1</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="5.0.2" data-path="ch:correlation.html"><a href="ch:correlation.html#covarianza"><i class="fa fa-check"></i><b>5.0.2</b> Covarianza</a></li>
+<li class="chapter" data-level="5.0.3" data-path="ch:correlation.html"><a href="ch:correlation.html#correlazione"><i class="fa fa-check"></i><b>5.0.3</b> Correlazione</a></li>
+<li class="chapter" data-level="5.1" data-path="ch:correlation.html"><a href="ch:correlation.html#correlazione-e-causazione"><i class="fa fa-check"></i><b>5.1</b> Correlazione e causazione</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="ch:correlation.html"><a href="ch:correlation.html#usi-della-correlazione"><i class="fa fa-check"></i><b>5.1.1</b> Usi della correlazione</a></li>
+<li class="chapter" data-level="5.1.2" data-path="ch:correlation.html"><a href="ch:correlation.html#correlazione-di-spearman"><i class="fa fa-check"></i><b>5.1.2</b> Correlazione di Spearman</a></li>
+<li class="chapter" data-level="5.1.3" data-path="ch:correlation.html"><a href="ch:correlation.html#correlazione-nulla"><i class="fa fa-check"></i><b>5.1.3</b> Correlazione nulla</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:correlation.html"><a href="ch:correlation.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>III Il calcolo delle probabilità</b></span></li>
+<li class="chapter" data-level="6" data-path="intro-prob-1.html"><a href="intro-prob-1.html"><i class="fa fa-check"></i><b>6</b> La logica dell’incerto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#che-cosè-la-probabilità"><i class="fa fa-check"></i><b>6.1</b> Che cos’è la probabilità?</a></li>
+<li class="chapter" data-level="6.2" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-e-probabilità-di-un-evento"><i class="fa fa-check"></i><b>6.2</b> Variabili casuali e probabilità di un evento</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#eventi-e-probabilità"><i class="fa fa-check"></i><b>6.2.1</b> Eventi e probabilità</a></li>
+<li class="chapter" data-level="6.2.2" data-path="intro-prob-1.html"><a href="intro-prob-1.html#spazio-campione-e-risultati-possibili"><i class="fa fa-check"></i><b>6.2.2</b> Spazio campione e risultati possibili</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-1"><i class="fa fa-check"></i><b>6.3</b> Variabili casuali</a></li>
+<li class="chapter" data-level="6.4" data-path="intro-prob-1.html"><a href="intro-prob-1.html#usare-la-simulazione-per-stimare-le-probabilità"><i class="fa fa-check"></i><b>6.4</b> Usare la simulazione per stimare le probabilità</a></li>
+<li class="chapter" data-level="6.5" data-path="intro-prob-1.html"><a href="intro-prob-1.html#la-legge-dei-grandi-numeri"><i class="fa fa-check"></i><b>6.5</b> La legge dei grandi numeri</a></li>
+<li class="chapter" data-level="6.6" data-path="intro-prob-1.html"><a href="intro-prob-1.html#variabili-casuali-multiple"><i class="fa fa-check"></i><b>6.6</b> Variabili casuali multiple</a></li>
+<li class="chapter" data-level="6.7" data-path="intro-prob-1.html"><a href="intro-prob-1.html#sec:fun-mass-prob"><i class="fa fa-check"></i><b>6.7</b> Funzione di massa di probabilità</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="intro-prob-1.html"><a href="intro-prob-1.html#funzione-di-ripartizione"><i class="fa fa-check"></i><b>6.7.1</b> Funzione di ripartizione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="intro-prob-1.html"><a href="intro-prob-1.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html"><i class="fa fa-check"></i><b>7</b> Probabilità condizionata</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#sec:bayes-cancer"><i class="fa fa-check"></i><b>7.1</b> Probabilità condizionata su altri eventi</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#la-regola-moltiplicativa"><i class="fa fa-check"></i><b>7.2</b> La regola moltiplicativa</a></li>
+<li class="chapter" data-level="7.3" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#lindipendendenza-stocastica"><i class="fa fa-check"></i><b>7.3</b> L’indipendendenza stocastica</a></li>
+<li class="chapter" data-level="7.4" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#il-teorema-della-probabilità-totale"><i class="fa fa-check"></i><b>7.4</b> Il teorema della probabilità totale</a></li>
+<li class="chapter" data-level="7.5" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#il-teorema-della-probabilità-assoluta"><i class="fa fa-check"></i><b>7.5</b> Il teorema della probabilità assoluta</a></li>
+<li class="chapter" data-level="7.6" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#indipendenza-condizionale"><i class="fa fa-check"></i><b>7.6</b> Indipendenza condizionale</a></li>
+<li class="chapter" data-level="" data-path="chapter-prob-cond.html"><a href="chapter-prob-cond.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html"><i class="fa fa-check"></i><b>8</b> Il teorema di Bayes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html#il-teorema-di-bayes"><i class="fa fa-check"></i><b>8.1</b> Il teorema di Bayes</a></li>
+<li class="chapter" data-level="" data-path="chapter-teo-bayes.html"><a href="chapter-teo-bayes.html#commenti-e-considerazioni-finali-6"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html"><i class="fa fa-check"></i><b>9</b> Probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#funzione-di-probabilità-congiunta"><i class="fa fa-check"></i><b>9.1</b> Funzione di probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#proprietà"><i class="fa fa-check"></i><b>9.1.1</b> Proprietà</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#eventi"><i class="fa fa-check"></i><b>9.1.2</b> Eventi</a></li>
+<li class="chapter" data-level="9.1.3" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#sec:marg-distr-discr"><i class="fa fa-check"></i><b>9.1.3</b> Funzioni di probabilità marginali</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#sec:margin-vc-cont"><i class="fa fa-check"></i><b>9.2</b> Marginalizzazione di variabili casuali continue</a></li>
+<li class="chapter" data-level="" data-path="chapter-prob-congiunta.html"><a href="chapter-prob-congiunta.html#commenti-e-considerazioni-finali-7"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html"><i class="fa fa-check"></i><b>10</b> La densità di probabilità</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#spinner-e-variabili-casuali-continue-uniformi"><i class="fa fa-check"></i><b>10.1</b> Spinner e variabili casuali continue uniformi</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#il-paradosso-delle-variabili-casuali-continue"><i class="fa fa-check"></i><b>10.1.1</b> Il paradosso delle variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-funzione-di-ripartizione-per-una-variabile-casuale-continua"><i class="fa fa-check"></i><b>10.2</b> La funzione di ripartizione per una variabile casuale continua</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-distribuzione-uniforme"><i class="fa fa-check"></i><b>10.3</b> La distribuzione uniforme</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#dagli-istogrammi-alle-densità"><i class="fa fa-check"></i><b>10.4</b> Dagli istogrammi alle densità</a></li>
+<li class="chapter" data-level="10.5" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#funzione-di-densità-di-probabilità"><i class="fa fa-check"></i><b>10.5</b> Funzione di densità di probabilità</a></li>
+<li class="chapter" data-level="10.6" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#la-funzione-di-ripartizione"><i class="fa fa-check"></i><b>10.6</b> La funzione di ripartizione</a></li>
+<li class="chapter" data-level="10.7" data-path="chapter-intro-density-function.html"><a href="chapter-intro-density-function.html#media-e-mediana"><i class="fa fa-check"></i><b>10.7</b> Media e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html"><i class="fa fa-check"></i><b>11</b> Valore atteso e varianza</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#valore-atteso"><i class="fa fa-check"></i><b>11.1</b> Valore atteso</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#interpretazione"><i class="fa fa-check"></i><b>11.1.1</b> Interpretazione</a></li>
+<li class="chapter" data-level="11.1.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#proprietà-del-valore-atteso"><i class="fa fa-check"></i><b>11.1.2</b> Proprietà del valore atteso</a></li>
+<li class="chapter" data-level="11.1.3" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#variabili-casuali-continue"><i class="fa fa-check"></i><b>11.1.3</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#varianza-1"><i class="fa fa-check"></i><b>11.2</b> Varianza</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#formula-alternativa-per-la-varianza"><i class="fa fa-check"></i><b>11.2.1</b> Formula alternativa per la varianza</a></li>
+<li class="chapter" data-level="11.2.2" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#variabili-casuali-continue-1"><i class="fa fa-check"></i><b>11.2.2</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#deviazione-standard"><i class="fa fa-check"></i><b>11.3</b> Deviazione standard</a></li>
+<li class="chapter" data-level="11.4" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#standardizzazione"><i class="fa fa-check"></i><b>11.4</b> Standardizzazione</a></li>
+<li class="chapter" data-level="11.5" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#momenti-di-variabili-casuali"><i class="fa fa-check"></i><b>11.5</b> Momenti di variabili casuali</a></li>
+<li class="chapter" data-level="11.6" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#covarianza-1"><i class="fa fa-check"></i><b>11.6</b> Covarianza</a></li>
+<li class="chapter" data-level="11.7" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#correlazione-1"><i class="fa fa-check"></i><b>11.7</b> Correlazione</a></li>
+<li class="chapter" data-level="11.8" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#proprietà-1"><i class="fa fa-check"></i><b>11.8</b> Proprietà</a>
+<ul>
+<li class="chapter" data-level="11.8.1" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#incorrelazione"><i class="fa fa-check"></i><b>11.8.1</b> Incorrelazione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="exp-val-and-variance-rv.html"><a href="exp-val-and-variance-rv.html#conclusioni"><i class="fa fa-check"></i>Conclusioni</a></li>
+</ul></li>
+<li class="part"><span><b>IV Distribuzioni teoriche di probabilità</b></span></li>
+<li class="chapter" data-level="12" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html"><i class="fa fa-check"></i><b>12</b> Distribuzioni di v.c. discrete</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#una-prova-bernoulliana"><i class="fa fa-check"></i><b>12.1</b> Una prova Bernoulliana</a></li>
+<li class="chapter" data-level="12.2" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#una-sequenza-di-prove-bernoulliane"><i class="fa fa-check"></i><b>12.2</b> Una sequenza di prove Bernoulliane</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#valore-atteso-e-deviazione-standard"><i class="fa fa-check"></i><b>12.2.1</b> Valore atteso e deviazione standard</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-di-poisson"><i class="fa fa-check"></i><b>12.3</b> Distribuzione di Poisson</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#alcune-proprietà-della-variabile-di-poisson"><i class="fa fa-check"></i><b>12.3.1</b> Alcune proprietà della variabile di Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-discreta-uniforme"><i class="fa fa-check"></i><b>12.4</b> Distribuzione discreta uniforme</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#usiamo-textsfr"><i class="fa fa-check"></i><b>12.4.1</b> Usiamo <span class="math inline">\(\textsf{R}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#distribuzione-beta-binomiale"><i class="fa fa-check"></i><b>12.5</b> Distribuzione beta-binomiale</a></li>
+<li class="chapter" data-level="" data-path="distr-rv-discr.html"><a href="distr-rv-discr.html#commenti-e-considerazioni-finali-8"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html"><i class="fa fa-check"></i><b>13</b> Distribuzioni di v.c. continue</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-normale"><i class="fa fa-check"></i><b>13.1</b> Distribuzione Normale</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#limite-delle-distribuzioni-binomiali"><i class="fa fa-check"></i><b>13.1.1</b> Limite delle distribuzioni binomiali</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#normal-random-walk"><i class="fa fa-check"></i><b>13.2</b> La Normale prodotta con una simulazione</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#concentrazione"><i class="fa fa-check"></i><b>13.2.1</b> Concentrazione</a></li>
+<li class="chapter" data-level="13.2.2" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#funzione-di-ripartizione-1"><i class="fa fa-check"></i><b>13.2.2</b> Funzione di ripartizione</a></li>
+<li class="chapter" data-level="13.2.3" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-normale-standard"><i class="fa fa-check"></i><b>13.2.3</b> Distribuzione Normale standard</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#teorema-del-limite-centrale"><i class="fa fa-check"></i><b>13.3</b> Teorema del limite centrale</a></li>
+<li class="chapter" data-level="13.4" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-chi-quadrato"><i class="fa fa-check"></i><b>13.4</b> Distribuzione Chi-quadrato</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#proprietà-2"><i class="fa fa-check"></i><b>13.4.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-t-di-student"><i class="fa fa-check"></i><b>13.5</b> Distribuzione <span class="math inline">\(t\)</span> di Student</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#proprietà-3"><i class="fa fa-check"></i><b>13.5.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#funzione-beta"><i class="fa fa-check"></i><b>13.6</b> Funzione beta</a></li>
+<li class="chapter" data-level="13.7" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-beta"><i class="fa fa-check"></i><b>13.7</b> Distribuzione Beta</a></li>
+<li class="chapter" data-level="13.8" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-di-cauchy"><i class="fa fa-check"></i><b>13.8</b> Distribuzione di Cauchy</a></li>
+<li class="chapter" data-level="13.9" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-log-normale"><i class="fa fa-check"></i><b>13.9</b> Distribuzione log-normale</a></li>
+<li class="chapter" data-level="13.10" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#distribuzione-di-pareto"><i class="fa fa-check"></i><b>13.10</b> Distribuzione di Pareto</a></li>
+<li class="chapter" data-level="" data-path="distr-rv-cont.html"><a href="distr-rv-cont.html#commenti-e-considerazioni-finali-9"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>V Inferenza bayesiana</b></span></li>
+<li class="chapter" data-level="14" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html"><i class="fa fa-check"></i><b>14</b> Flusso di lavoro bayesiano</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#modellizzazione-bayesiana"><i class="fa fa-check"></i><b>14.1</b> Modellizzazione bayesiana</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#notazione"><i class="fa fa-check"></i><b>14.1.1</b> Notazione</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2</b> Distribuzioni a priori</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#tipologie-di-distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2.1</b> Tipologie di distribuzioni a priori</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#selezione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>14.2.2</b> Selezione della distribuzione a priori</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#unapplicazione-empirica"><i class="fa fa-check"></i><b>14.2.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#la-funzione-di-verosimiglianza"><i class="fa fa-check"></i><b>14.3</b> La funzione di verosimiglianza</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#notazione-1"><i class="fa fa-check"></i><b>14.3.1</b> Notazione</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#la-log-verosimiglianza"><i class="fa fa-check"></i><b>14.3.2</b> La log-verosimiglianza</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#unapplicazione-empirica-1"><i class="fa fa-check"></i><b>14.3.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#sec:const-normaliz-bino23"><i class="fa fa-check"></i><b>14.4</b> La verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#unapplicazione-empirica-2"><i class="fa fa-check"></i><b>14.4.1</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#distribuzione-a-posteriori"><i class="fa fa-check"></i><b>14.5</b> Distribuzione a posteriori</a></li>
+<li class="chapter" data-level="14.6" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>14.6</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="14.7" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>14.7</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="" data-path="ch:intro-bayes-inference.html"><a href="ch:intro-bayes-inference.html#commenti-e-considerazioni-finali-10"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html"><i class="fa fa-check"></i><b>15</b> Pensare ad una proporzione in termini soggettivi</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-discr-binom"><i class="fa fa-check"></i><b>15.1</b> Inferenza bayesiana con una distribuzione a priori discreta</a></li>
+<li class="chapter" data-level="15.2" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-cont-binom"><i class="fa fa-check"></i><b>15.2</b> Inferenza bayesiana con una distribuzione a priori continua</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#quali-parametri-per-la-distribuzione-beta"><i class="fa fa-check"></i><b>15.2.1</b> Quali parametri per la distribuzione Beta?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#commenti-e-considerazioni-finali-11"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html"><i class="fa fa-check"></i><b>16</b> Distribuzioni coniugate</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#lo-schema-beta-binomiale"><i class="fa fa-check"></i><b>16.1</b> Lo schema beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>16.1.1</b> La specificazione della distribuzione a priori</a></li>
+<li class="chapter" data-level="16.1.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>16.1.2</b> La specificazione della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#inferenza-bayesiana-con-distribuzioni-a-priori-continue"><i class="fa fa-check"></i><b>16.2</b> Inferenza bayesiana con distribuzioni a priori continue</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#approccio-bayesiano-alla-verifica-di-ipotesi"><i class="fa fa-check"></i><b>16.2.1</b> Approccio bayesiano alla verifica di ipotesi</a></li>
+<li class="chapter" data-level="16.2.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>16.2.2</b> Intervalli di credibilità</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#principali-distribuzioni-coniugate"><i class="fa fa-check"></i><b>16.3</b> Principali distribuzioni coniugate</a></li>
+<li class="chapter" data-level="" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#commenti-e-considerazioni-finali-12"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="chapter-balance.html"><a href="chapter-balance.html"><i class="fa fa-check"></i><b>17</b> L’influenza della distribuzione a priori</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="chapter-balance.html"><a href="chapter-balance.html#il-test-di-benchdel"><i class="fa fa-check"></i><b>17.1</b> Il test di Benchdel</a></li>
+<li class="chapter" data-level="17.2" data-path="chapter-balance.html"><a href="chapter-balance.html#stessi-dati-ma-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.2</b> Stessi dati ma diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.3" data-path="chapter-balance.html"><a href="chapter-balance.html#dati-diversi-ma-la-stessa-distribuzione-a-priori"><i class="fa fa-check"></i><b>17.3</b> Dati diversi ma la stessa distribuzione a priori</a></li>
+<li class="chapter" data-level="17.4" data-path="chapter-balance.html"><a href="chapter-balance.html#dati-diversi-e-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.4</b> Dati diversi e diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.5" data-path="chapter-balance.html"><a href="chapter-balance.html#collegare-le-intuizioni-alla-teoria"><i class="fa fa-check"></i><b>17.5</b> Collegare le intuizioni alla teoria</a></li>
+<li class="chapter" data-level="" data-path="chapter-balance.html"><a href="chapter-balance.html#commenti-e-considerazioni-finali-13"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="ch:metropolis.html"><a href="ch:metropolis.html"><i class="fa fa-check"></i><b>18</b> Approssimazione della distribuzione a posteriori</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="ch:metropolis.html"><a href="ch:metropolis.html#metodo-basato-su-griglia"><i class="fa fa-check"></i><b>18.1</b> Metodo basato su griglia</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="ch:metropolis.html"><a href="ch:metropolis.html#modello-beta-binomiale"><i class="fa fa-check"></i><b>18.1.1</b> Modello Beta-Binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="ch:metropolis.html"><a href="ch:metropolis.html#chapter-simulazioneMC"><i class="fa fa-check"></i><b>18.2</b> Metodo Monte Carlo</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="ch:metropolis.html"><a href="ch:metropolis.html#integration-mc"><i class="fa fa-check"></i><b>18.2.1</b> Integrazione di Monte Carlo</a></li>
+<li class="chapter" data-level="18.2.2" data-path="ch:metropolis.html"><a href="ch:metropolis.html#descrizione-intuitiva"><i class="fa fa-check"></i><b>18.2.2</b> Descrizione intuitiva</a></li>
+<li class="chapter" data-level="18.2.3" data-path="ch:metropolis.html"><a href="ch:metropolis.html#unapplicazione-empirica-3"><i class="fa fa-check"></i><b>18.2.3</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.4" data-path="ch:metropolis.html"><a href="ch:metropolis.html#una-passeggiata-casuale-sui-numeri-naturali"><i class="fa fa-check"></i><b>18.2.4</b> Una passeggiata casuale sui numeri naturali</a></li>
+<li class="chapter" data-level="18.2.5" data-path="ch:metropolis.html"><a href="ch:metropolis.html#lalgoritmo-di-metropolis"><i class="fa fa-check"></i><b>18.2.5</b> L’algoritmo di Metropolis</a></li>
+<li class="chapter" data-level="18.2.6" data-path="ch:metropolis.html"><a href="ch:metropolis.html#unapplicazione-empirica-4"><i class="fa fa-check"></i><b>18.2.6</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.7" data-path="ch:metropolis.html"><a href="ch:metropolis.html#gibbs-sampling"><i class="fa fa-check"></i><b>18.2.7</b> Gibb’s sampling</a></li>
+<li class="chapter" data-level="18.2.8" data-path="ch:metropolis.html"><a href="ch:metropolis.html#input"><i class="fa fa-check"></i><b>18.2.8</b> Input</a></li>
+<li class="chapter" data-level="18.2.9" data-path="ch:metropolis.html"><a href="ch:metropolis.html#stazionarietà"><i class="fa fa-check"></i><b>18.2.9</b> Stazionarietà</a></li>
+<li class="chapter" data-level="18.2.10" data-path="ch:metropolis.html"><a href="ch:metropolis.html#test-di-convergenza"><i class="fa fa-check"></i><b>18.2.10</b> Test di convergenza</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch:metropolis.html"><a href="ch:metropolis.html#commenti-e-considerazioni-finali-14"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html"><i class="fa fa-check"></i><b>19</b> Il modello beta-binomiale in linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#il-presidente-trump-e-lidrossiclorochina"><i class="fa fa-check"></i><b>19.1</b> Il presidente Trump e l’idrossiclorochina</a></li>
+<li class="chapter" data-level="19.2" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#una-proporzione"><i class="fa fa-check"></i><b>19.2</b> Una proporzione</a></li>
+<li class="chapter" data-level="19.3" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#cmdstanr-gautret"><i class="fa fa-check"></i><b>19.3</b> Interfaccia <code>cmdstanr</code></a>
+<ul>
+<li class="chapter" data-level="19.3.1" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
+<li class="chapter" data-level="19.3.2" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
+<li class="chapter" data-level="19.3.3" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
+<li class="chapter" data-level="19.3.4" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
+<li class="chapter" data-level="19.5" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
+<li class="chapter" data-level="" data-path="stan-beta-binom.html"><a href="stan-beta-binom.html#commenti-e-considerazioni-finali-15"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html"><i class="fa fa-check"></i><b>20</b> Diagnostica delle catene markoviane</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#esame-dei-trace-plot"><i class="fa fa-check"></i><b>20.1</b> Esame dei <em>trace plot</em></a></li>
+<li class="chapter" data-level="20.2" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#confronto-delle-catene-parallele"><i class="fa fa-check"></i><b>20.2</b> Confronto delle catene parallele</a></li>
+<li class="chapter" data-level="20.3" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#numerosita-campionaria-effettiva"><i class="fa fa-check"></i><b>20.3</b> Numerosità campionaria effettiva</a></li>
+<li class="chapter" data-level="20.4" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#autocorrelazione"><i class="fa fa-check"></i><b>20.4</b> Autocorrelazione</a></li>
+<li class="chapter" data-level="20.5" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#statistica-hatr"><i class="fa fa-check"></i><b>20.5</b> Statistica <span class="math inline">\(\hat{R}\)</span></a></li>
+<li class="chapter" data-level="20.6" data-path="diagn-markov-chains.html"><a href="diagn-markov-chains.html#diagnostica-di-convergenza-di-geweke"><i class="fa fa-check"></i><b>20.6</b> Diagnostica di convergenza di Geweke</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html"><i class="fa fa-check"></i><b>21</b> Sintesi a posteriori</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#stima-puntuale"><i class="fa fa-check"></i><b>21.1</b> Stima puntuale</a></li>
+<li class="chapter" data-level="21.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità"><i class="fa fa-check"></i><b>21.2</b> Intervallo di credibilità</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-a-code-uguali"><i class="fa fa-check"></i><b>21.2.1</b> Intervallo di credibilità a code uguali</a></li>
+<li class="chapter" data-level="21.2.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-a-densità-a-posteriori-più-alta"><i class="fa fa-check"></i><b>21.2.2</b> Intervallo di credibilità a densità a posteriori più alta</a></li>
+<li class="chapter" data-level="21.2.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#interpretazione-1"><i class="fa fa-check"></i><b>21.2.3</b> Interpretazione</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#un-esempio-concreto"><i class="fa fa-check"></i><b>21.3</b> Un esempio concreto</a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#stime-puntuali-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.1</b> Stime puntuali della distribuzione a posteriori</a></li>
+<li class="chapter" data-level="21.3.2" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-1"><i class="fa fa-check"></i><b>21.3.2</b> Intervallo di credibilità</a></li>
+<li class="chapter" data-level="21.3.3" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#probabilità-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.3</b> Probabilità della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#la-funzione-di-perdita-attesa"><i class="fa fa-check"></i><b>21.4</b> La funzione di perdita attesa</a></li>
+<li class="chapter" data-level="" data-path="chapter-sintesi-distr-post.html"><a href="chapter-sintesi-distr-post.html#commenti-e-considerazioni-finali-16"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="ch-prediction.html"><a href="ch-prediction.html"><i class="fa fa-check"></i><b>22</b> La predizione bayesiana</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva"><i class="fa fa-check"></i><b>22.1</b> La distribuzione predittiva</a></li>
+<li class="chapter" data-level="22.2" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-simulazione"><i class="fa fa-check"></i><b>22.2</b> La distribuzione predittiva a posteriori mediante simulazione</a></li>
+<li class="chapter" data-level="22.3" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-mcmc"><i class="fa fa-check"></i><b>22.3</b> La distribuzione predittiva a posteriori mediante MCMC</a></li>
+<li class="chapter" data-level="22.4" data-path="ch-prediction.html"><a href="ch-prediction.html#i-metodi-per-la-valutazione-del-modello"><i class="fa fa-check"></i><b>22.4</b> I metodi per la valutazione del modello</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="ch-prediction.html"><a href="ch-prediction.html#posterior-predictive-checks"><i class="fa fa-check"></i><b>22.4.1</b> Posterior predictive checks</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="ch-prediction.html"><a href="ch-prediction.html#distribuzione-predittiva-a-priori-1"><i class="fa fa-check"></i><b>22.5</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-prediction.html"><a href="ch-prediction.html#commenti-e-considerazioni-finali-17"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html"><i class="fa fa-check"></i><b>23</b> Inferenza sul parametro <span class="math inline">\(\mu\)</span> (media di una v.c. Normale)</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#caso-normale-normale-con-varianza-nota"><i class="fa fa-check"></i><b>23.1</b> Caso Normale-Normale con varianza nota</a></li>
+<li class="chapter" data-level="23.2" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#derivazione-analitica-della-distribuzione-a-posteriori-pmu-mid-y"><i class="fa fa-check"></i><b>23.2</b> Derivazione analitica della distribuzione a posteriori <span class="math inline">\(p(\mu \mid y)\)</span></a></li>
+<li class="chapter" data-level="23.3" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#il-modello-normale-con-stan"><i class="fa fa-check"></i><b>23.3</b> Il modello Normale con Stan</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#versione-1-sigma-nota"><i class="fa fa-check"></i><b>23.3.1</b> Versione 1 (<span class="math inline">\(\sigma\)</span> nota)</a></li>
+<li class="chapter" data-level="23.3.2" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#versione-2-sigma-incognita"><i class="fa fa-check"></i><b>23.3.2</b> Versione 2 (<span class="math inline">\(\sigma\)</span> incognita)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="normal-normal-mod-stan.html"><a href="normal-normal-mod-stan.html#commenti-e-considerazioni-finali-18"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>VI Il modello lineare</b></span></li>
+<li class="chapter" data-level="24" data-path="regr-models-intro.html"><a href="regr-models-intro.html"><i class="fa fa-check"></i><b>24</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>24.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="24.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>24.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="24.2.1" data-path="regr-models-intro.html"><a href="regr-models-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>24.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="24.2.2" data-path="regr-models-intro.html"><a href="regr-models-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-models-intro.html"><a href="regr-models-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="regr-model-lm.html"><a href="regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="25.1.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="25.1.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="25.1.3" data-path="regr-model-lm.html"><a href="regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="regr-model-lm.html"><a href="regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="25.2.1" data-path="regr-model-lm.html"><a href="regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>25.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regr-model-lm.html"><a href="regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="26.2" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="26.2.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="26.3" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="26.3.1" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="reg-lin-stan.html"><a href="reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>27</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>27.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="27.2" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#intervalli-di-credibilità-1"><i class="fa fa-check"></i><b>27.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="27.2.1" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>27.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>27.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="27.4" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>27.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="inference-reg-lin-stan.html"><a href="inference-reg-lin-stan.html#commenti-e-considerazioni-finali-22"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html"><i class="fa fa-check"></i><b>28</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>28.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="28.1.1" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>28.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="28.1.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#un-esempio-concreto-1"><i class="fa fa-check"></i><b>28.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>28.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="comp-two-means-stan.html"><a href="comp-two-means-stan.html#commenti-e-considerazioni-finali-23"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>31.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="31.2" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>31.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="31.3" data-path="mod-hier-stan.html"><a href="mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>31.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="part"><span><b>VII Appendici</b></span></li>
+<li class="appendix"><span><b>Appendici</b></span></li>
+<li class="chapter" data-level="A" data-path="simbologia-di-base.html"><a href="simbologia-di-base.html"><i class="fa fa-check"></i><b>A</b> Simbologia di base</a></li>
+<li class="chapter" data-level="B" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html"><i class="fa fa-check"></i><b>B</b> Numeri binari, interi, razionali, irrazionali e reali</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-binari"><i class="fa fa-check"></i><b>B.1</b> Numeri binari</a></li>
+<li class="chapter" data-level="B.2" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-interi"><i class="fa fa-check"></i><b>B.2</b> Numeri interi</a></li>
+<li class="chapter" data-level="B.3" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-razionali"><i class="fa fa-check"></i><b>B.3</b> Numeri razionali</a></li>
+<li class="chapter" data-level="B.4" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-irrazionali"><i class="fa fa-check"></i><b>B.4</b> Numeri irrazionali</a></li>
+<li class="chapter" data-level="B.5" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-reali"><i class="fa fa-check"></i><b>B.5</b> Numeri reali</a></li>
+<li class="chapter" data-level="B.6" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#intervalli"><i class="fa fa-check"></i><b>B.6</b> Intervalli</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="insiemistica.html"><a href="insiemistica.html"><i class="fa fa-check"></i><b>C</b> Insiemi</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="insiemistica.html"><a href="insiemistica.html#operazioni-tra-insiemi"><i class="fa fa-check"></i><b>C.1</b> Operazioni tra insiemi</a></li>
+<li class="chapter" data-level="C.2" data-path="insiemistica.html"><a href="insiemistica.html#diagrammi-di-eulero-venn"><i class="fa fa-check"></i><b>C.2</b> Diagrammi di Eulero-Venn</a></li>
+<li class="chapter" data-level="C.3" data-path="insiemistica.html"><a href="insiemistica.html#coppie-ordinate-e-prodotto-cartesiano"><i class="fa fa-check"></i><b>C.3</b> Coppie ordinate e prodotto cartesiano</a></li>
+<li class="chapter" data-level="C.4" data-path="insiemistica.html"><a href="insiemistica.html#cardinalità"><i class="fa fa-check"></i><b>C.4</b> Cardinalità</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="sommatorie.html"><a href="sommatorie.html"><i class="fa fa-check"></i><b>D</b> Simbolo di somma (sommatorie)</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="sommatorie.html"><a href="sommatorie.html#manipolazione-di-somme"><i class="fa fa-check"></i><b>D.1</b> Manipolazione di somme</a>
+<ul>
+<li class="chapter" data-level="D.1.1" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-1-1"><i class="fa fa-check"></i><b>D.1.1</b> Proprietà 1</a></li>
+<li class="chapter" data-level="D.1.2" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-2-proprietà-distributiva"><i class="fa fa-check"></i><b>D.1.2</b> Proprietà 2 (proprietà distributiva)</a></li>
+<li class="chapter" data-level="D.1.3" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-3-proprietà-associativa"><i class="fa fa-check"></i><b>D.1.3</b> Proprietà 3 (proprietà associativa)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-4"><i class="fa fa-check"></i><b>D.1.4</b> Proprietà 4</a></li>
+<li class="chapter" data-level="D.1.5" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-5"><i class="fa fa-check"></i><b>D.1.5</b> Proprietà 5</a></li>
+</ul></li>
+<li class="chapter" data-level="D.2" data-path="sommatorie.html"><a href="sommatorie.html#doppia-sommatoria"><i class="fa fa-check"></i><b>D.2</b> Doppia sommatoria</a></li>
+<li class="chapter" data-level="D.3" data-path="sommatorie.html"><a href="sommatorie.html#sommatorie-e-produttorie-e-operazioni-vettoriali-in-r"><i class="fa fa-check"></i><b>D.3</b> Sommatorie (e produttorie) e operazioni vettoriali in <code>R</code></a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="indipendenza-stocastica.html"><a href="indipendenza-stocastica.html"><i class="fa fa-check"></i><b>E</b> Indipendenza stocastica</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="indipendenza-stocastica.html"><a href="indipendenza-stocastica.html#indipendenza-stocastica-incondizionata"><i class="fa fa-check"></i><b>E.1</b> Indipendenza stocastica incondizionata</a></li>
+<li class="chapter" data-level="E.2" data-path="indipendenza-stocastica.html"><a href="indipendenza-stocastica.html#indipendenza-condizionata-tra-eventi"><i class="fa fa-check"></i><b>E.2</b> Indipendenza condizionata tra eventi</a></li>
+<li class="chapter" data-level="E.3" data-path="indipendenza-stocastica.html"><a href="indipendenza-stocastica.html#indipendenza-di-variabili-casuali"><i class="fa fa-check"></i><b>E.3</b> Indipendenza di variabili casuali</a></li>
+</ul></li>
+<li class="chapter" data-level="F" data-path="funs-exp-log.html"><a href="funs-exp-log.html"><i class="fa fa-check"></i><b>F</b> Esponenziali e logaritmi</a>
+<ul>
+<li class="chapter" data-level="" data-path="funs-exp-log.html"><a href="funs-exp-log.html#potenze-ad-esponente-reale"><i class="fa fa-check"></i>Potenze ad esponente reale</a>
+<ul>
+<li class="chapter" data-level="" data-path="funs-exp-log.html"><a href="funs-exp-log.html#proprietà-6"><i class="fa fa-check"></i>Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="F.1" data-path="funs-exp-log.html"><a href="funs-exp-log.html#funzione-esponenziale"><i class="fa fa-check"></i><b>F.1</b> Funzione esponenziale</a></li>
+<li class="chapter" data-level="" data-path="funs-exp-log.html"><a href="funs-exp-log.html#logaritmi"><i class="fa fa-check"></i>Logaritmi</a>
+<ul>
+<li class="chapter" data-level="" data-path="funs-exp-log.html"><a href="funs-exp-log.html#proprietà-7"><i class="fa fa-check"></i>Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="F.2" data-path="funs-exp-log.html"><a href="funs-exp-log.html#funzione-logaritmica"><i class="fa fa-check"></i><b>F.2</b> Funzione logaritmica</a></li>
+</ul></li>
+<li class="chapter" data-level="G" data-path="gauss-normale.html"><a href="gauss-normale.html"><i class="fa fa-check"></i><b>G</b> La Normale motivata dal metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="H" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>H</b> Le aspettative future dei pazienti depressi</a>
+<ul>
+<li class="chapter" data-level="H.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>H.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="I" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>I</b> Modello Beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="I.1" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html#funzione-per-il-modello-beta-binomiale"><i class="fa fa-check"></i><b>I.1</b> Funzione per il modello Beta-binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="J" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html"><i class="fa fa-check"></i><b>J</b> Verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="J.1" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html#derivazione-analitica-della-costante-di-normalizzazione"><i class="fa fa-check"></i><b>J.1</b> Derivazione analitica della costante di normalizzazione</a></li>
+</ul></li>
+<li class="chapter" data-level="K" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>K</b> Le catene di Markov</a>
+<ul>
+<li class="chapter" data-level="K.1" data-path="markov-chains.html"><a href="markov-chains.html#simulare-una-catena-di-markov"><i class="fa fa-check"></i><b>K.1</b> Simulare una catena di Markov</a></li>
+</ul></li>
+<li class="chapter" data-level="L" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html"><i class="fa fa-check"></i><b>L</b> Introduzione al linguaggio R</a>
+<ul>
+<li class="chapter" data-level="L.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#prerequisiti"><i class="fa fa-check"></i><b>L.1</b> Prerequisiti</a>
+<ul>
+<li class="chapter" data-level="L.1.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-r-e-rstudio"><i class="fa fa-check"></i><b>L.1.1</b> Installare R e RStudio</a></li>
+<li class="chapter" data-level="L.1.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-rstudio-per-semplificare-il-lavoro"><i class="fa fa-check"></i><b>L.1.2</b> Utilizzare RStudio per semplificare il lavoro</a></li>
+<li class="chapter" data-level="L.1.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#eseguire-il-codice"><i class="fa fa-check"></i><b>L.1.3</b> Eseguire il codice</a></li>
+</ul></li>
+<li class="chapter" data-level="L.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-cmdstan"><i class="fa fa-check"></i><b>L.2</b> Installare <code>cmdstan</code></a></li>
+<li class="chapter" data-level="L.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-sintassi"><i class="fa fa-check"></i><b>L.3</b> Sintassi di base</a>
+<ul>
+<li class="chapter" data-level="L.3.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-la-console-r-come-calcolatrice"><i class="fa fa-check"></i><b>L.3.1</b> Utilizzare la console <code>R</code> come calcolatrice</a></li>
+<li class="chapter" data-level="L.3.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#espressioni"><i class="fa fa-check"></i><b>L.3.2</b> Espressioni</a></li>
+<li class="chapter" data-level="L.3.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#oggetti"><i class="fa fa-check"></i><b>L.3.3</b> Oggetti</a></li>
+<li class="chapter" data-level="L.3.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili"><i class="fa fa-check"></i><b>L.3.4</b> Variabili</a></li>
+<li class="chapter" data-level="L.3.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-console"><i class="fa fa-check"></i><b>L.3.5</b> R console</a></li>
+<li class="chapter" data-level="L.3.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#parentesi"><i class="fa fa-check"></i><b>L.3.6</b> Parentesi</a></li>
+<li class="chapter" data-level="L.3.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#i-nomi-degli-oggetti"><i class="fa fa-check"></i><b>L.3.7</b> I nomi degli oggetti</a></li>
+<li class="chapter" data-level="L.3.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#permanenza-dei-dati-e-rimozione-di-oggetti"><i class="fa fa-check"></i><b>L.3.8</b> Permanenza dei dati e rimozione di oggetti</a></li>
+<li class="chapter" data-level="L.3.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chiudere-r"><i class="fa fa-check"></i><b>L.3.9</b> Chiudere R</a></li>
+<li class="chapter" data-level="L.3.10" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-ed-eseguire-uno-script-r-con-un-editore"><i class="fa fa-check"></i><b>L.3.10</b> Creare ed eseguire uno script R con un editore</a></li>
+<li class="chapter" data-level="L.3.11" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#commentare-il-codice"><i class="fa fa-check"></i><b>L.3.11</b> Commentare il codice</a></li>
+<li class="chapter" data-level="L.3.12" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#cambiare-la-cartella-di-lavoro"><i class="fa fa-check"></i><b>L.3.12</b> Cambiare la cartella di lavoro</a></li>
+<li class="chapter" data-level="L.3.13" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#loggetto-base-di-r-il-vettore"><i class="fa fa-check"></i><b>L.3.13</b> L’oggetto base di R: il vettore</a></li>
+<li class="chapter" data-level="L.3.14" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-vettorializzate"><i class="fa fa-check"></i><b>L.3.14</b> Operazioni vettorializzate</a></li>
+<li class="chapter" data-level="L.3.15" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-aritmetici"><i class="fa fa-check"></i><b>L.3.15</b> Vettori aritmetici</a></li>
+<li class="chapter" data-level="L.3.16" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-sequenze-regolari"><i class="fa fa-check"></i><b>L.3.16</b> Generazione di sequenze regolari</a></li>
+<li class="chapter" data-level="L.3.17" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-numeri-casuali"><i class="fa fa-check"></i><b>L.3.17</b> Generazione di numeri casuali</a></li>
+<li class="chapter" data-level="L.3.18" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-logici"><i class="fa fa-check"></i><b>L.3.18</b> Vettori logici</a></li>
+<li class="chapter" data-level="L.3.19" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti"><i class="fa fa-check"></i><b>L.3.19</b> Dati mancanti</a></li>
+<li class="chapter" data-level="L.3.20" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-di-caratteri-e-fattori"><i class="fa fa-check"></i><b>L.3.20</b> Vettori di caratteri e fattori</a></li>
+<li class="chapter" data-level="L.3.21" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#funzioni-1"><i class="fa fa-check"></i><b>L.3.21</b> Funzioni</a></li>
+<li class="chapter" data-level="L.3.22" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-proprie-funzioni"><i class="fa fa-check"></i><b>L.3.22</b> Scrivere proprie funzioni</a></li>
+<li class="chapter" data-level="L.3.23" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetti"><i class="fa fa-check"></i><b>L.3.23</b> Pacchetti</a></li>
+<li class="chapter" data-level="L.3.24" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#istallazione-e-upgrade-dei-pacchetti"><i class="fa fa-check"></i><b>L.3.24</b> Istallazione e upgrade dei pacchetti</a></li>
+<li class="chapter" data-level="L.3.25" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#caricare-un-pacchetto-in-r"><i class="fa fa-check"></i><b>L.3.25</b> Caricare un pacchetto in R</a></li>
+</ul></li>
+<li class="chapter" data-level="L.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strutture-dati"><i class="fa fa-check"></i><b>L.4</b> Strutture di dati</a>
+<ul>
+<li class="chapter" data-level="L.4.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#classi-e-modi-degli-oggetti"><i class="fa fa-check"></i><b>L.4.1</b> Classi e modi degli oggetti</a></li>
+<li class="chapter" data-level="L.4.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori"><i class="fa fa-check"></i><b>L.4.2</b> Vettori</a></li>
+<li class="chapter" data-level="L.4.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#matrici"><i class="fa fa-check"></i><b>L.4.3</b> Matrici</a></li>
+<li class="chapter" data-level="L.4.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#array"><i class="fa fa-check"></i><b>L.4.4</b> Array</a></li>
+<li class="chapter" data-level="L.4.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-aritmetiche-su-vettori-matrici-e-array"><i class="fa fa-check"></i><b>L.4.5</b> Operazioni aritmetiche su vettori, matrici e array</a></li>
+<li class="chapter" data-level="L.4.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#liste"><i class="fa fa-check"></i><b>L.4.6</b> Liste</a></li>
+<li class="chapter" data-level="L.4.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#data-frame"><i class="fa fa-check"></i><b>L.4.7</b> Data frame</a></li>
+<li class="chapter" data-level="L.4.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#giochi-di-carte"><i class="fa fa-check"></i><b>L.4.8</b> Giochi di carte</a></li>
+<li class="chapter" data-level="L.4.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili-locali"><i class="fa fa-check"></i><b>L.4.9</b> Variabili locali</a></li>
+</ul></li>
+<li class="chapter" data-level="L.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strut-contr"><i class="fa fa-check"></i><b>L.5</b> Strutture di controllo</a>
+<ul>
+<li class="chapter" data-level="L.5.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#il-ciclo-for"><i class="fa fa-check"></i><b>L.5.1</b> Il ciclo <code>for</code></a></li>
+</ul></li>
+<li class="chapter" data-level="L.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-input-output"><i class="fa fa-check"></i><b>L.6</b> Input/Output</a>
+<ul>
+<li class="chapter" data-level="L.6.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-funzione-read.table"><i class="fa fa-check"></i><b>L.6.1</b> La funzione <code>read.table()</code></a></li>
+<li class="chapter" data-level="L.6.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#file-di-dati-forniti-da-r"><i class="fa fa-check"></i><b>L.6.2</b> File di dati forniti da R</a></li>
+<li class="chapter" data-level="L.6.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#esportazione-di-un-file"><i class="fa fa-check"></i><b>L.6.3</b> Esportazione di un file</a></li>
+<li class="chapter" data-level="L.6.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetto-rio"><i class="fa fa-check"></i><b>L.6.4</b> Pacchetto <code>rio</code></a></li>
+<li class="chapter" data-level="L.6.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dove-sono-i-miei-file"><i class="fa fa-check"></i><b>L.6.5</b> Dove sono i miei file?</a></li>
+</ul></li>
+<li class="chapter" data-level="L.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#manipolazione-dei-dati"><i class="fa fa-check"></i><b>L.7</b> Manipolazione dei dati</a>
+<ul>
+<li class="chapter" data-level="L.7.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione"><i class="fa fa-check"></i><b>L.7.1</b> Motivazione</a></li>
+<li class="chapter" data-level="L.7.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-con-dplyr"><i class="fa fa-check"></i><b>L.7.2</b> Trattamento dei dati con <code>dplyr</code></a></li>
+<li class="chapter" data-level="L.7.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-categoriali-in-r"><i class="fa fa-check"></i><b>L.7.3</b> Dati categoriali in <code>R</code></a></li>
+<li class="chapter" data-level="L.7.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-grafici-con-ggplot2"><i class="fa fa-check"></i><b>L.7.4</b> Creare grafici con <code>ggplot2()</code></a></li>
+<li class="chapter" data-level="L.7.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#diagramma-a-dispersione-1"><i class="fa fa-check"></i><b>L.7.5</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="L.7.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-il-codice-r-con-stile"><i class="fa fa-check"></i><b>L.7.6</b> Scrivere il codice <code>R</code> con stile</a></li>
+</ul></li>
+<li class="chapter" data-level="L.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#flusso-di-lavoro-riproducibile"><i class="fa fa-check"></i><b>L.8</b> Flusso di lavoro riproducibile</a>
+<ul>
+<li class="chapter" data-level="L.8.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-crisi-della-riproducibilità"><i class="fa fa-check"></i><b>L.8.1</b> La crisi della riproducibilità</a></li>
+<li class="chapter" data-level="L.8.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-markdown"><i class="fa fa-check"></i><b>L.8.2</b> R-markdown</a></li>
+<li class="chapter" data-level="L.8.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#compilare-la-presentazione-r-markdown"><i class="fa fa-check"></i><b>L.8.3</b> Compilare la presentazione R-markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="L.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti-1"><i class="fa fa-check"></i><b>L.9</b> Dati mancanti</a>
+<ul>
+<li class="chapter" data-level="L.9.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione-1"><i class="fa fa-check"></i><b>L.9.1</b> Motivazione</a></li>
+<li class="chapter" data-level="L.9.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-mancanti"><i class="fa fa-check"></i><b>L.9.2</b> Trattamento dei dati mancanti</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reg-lin-stan" class="section level1 hasAnchor" number="26">
+<h1><span class="header-section-number">Capitolo 26</span> Modello lineare in Stan<a href="reg-lin-stan.html#reg-lin-stan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Mostreremo qui come sia possibile usare il linguaggio probabilistico Stan per la stima dei parametri del modello di regressione e per l’inferenza.</p>
+<div id="una-distribuzione-a-priori-debolmente-informativa" class="section level2 hasAnchor" number="26.1">
+<h2><span class="header-section-number">26.1</span> Una distribuzione a priori debolmente informativa<a href="reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Per implementare l’approccio bayesiano è necessario assegnare una distribuzione a priori ai parametri. Nel contesto del modello di regressione è desiderabile scegliere distribuzioni a priori che abbiano uno scarso impatto sulla distribuzione a posteriori.</p>
+<p>Supponiamo che le nostre credenza a priori sui parametri del modello, <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> e <span class="math inline">\(\sigma\)</span> siano tra loro indipendenti. Allora possiamo scrivere la distribuzione congiunta dei parametri nel modo seguente:</p>
+<p><span class="math display">\[
+p(\beta_0, \beta_1, \sigma) = p(\beta_0)p(\beta_1)p(\sigma).
+\]</span></p>
+<p>Per i coefficienti di regressione possiamo assumere <span class="math inline">\(\beta_0 \sim \mathcal{N}(\mu_0, s_0)\)</span> e <span class="math inline">\(\beta_1 \sim \mathcal{N}(\mu_1, s_1)\)</span>. Per <span class="math inline">\(\sigma\)</span> possiamo assumere, ad esempio, <span class="math inline">\(\sigma \sim \mbox{Cauchy}(a, b)\)</span>. Moltiplicando la verosimiglianza</p>
+<p><span class="math display">\[
+\prod_{i=1}^n p(y_i \mid x_i; \beta_0, \beta_1, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(y_i-(\beta_0+\beta_1 x_i))^2}{2\sigma^2}}
+\]</span></p>
+<p>per le distribuzioni a priori dei parametri, si ottiene la distribuzione a posteriori. Tuttavia, tale distribuzione non è risolvibile per via analitica. Come in precedenza, usiamo invece un algoritmo MCMC per ottenere una sequenza di campioni casuali dalla distribuzione a posteriori.</p>
+</div>
+<div id="linguaggio-stan" class="section level2 hasAnchor" number="26.2">
+<h2><span class="header-section-number">26.2</span> Linguaggio Stan<a href="reg-lin-stan.html#linguaggio-stan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>È conveniente usare il linguaggio Stan per ottenere una sequenza MCMC dalla distribuzione a posteriori di un modello di regressione. È semplice formulare la descrizione di un modello bayesiano (verosimiglianza e distribuzione a priori) in uno script scritto in linguaggio Stan.</p>
+<p>Continuiamo qui l’esempio precedente in cui ci si poneva il problema di descrivere l’associazione tra il QI dei figli e il QI delle madri mediante un modello lineare. I dati sono quelli del dataset <code>kidiq</code>:</p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="reg-lin-stan.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
+<span id="cb335-2"><a href="reg-lin-stan.html#cb335-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
+<span id="cb335-3"><a href="reg-lin-stan.html#cb335-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb335-4"><a href="reg-lin-stan.html#cb335-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age</span></span>
+<span id="cb335-5"><a href="reg-lin-stan.html#cb335-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27</span></span>
+<span id="cb335-6"><a href="reg-lin-stan.html#cb335-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25</span></span>
+<span id="cb335-7"><a href="reg-lin-stan.html#cb335-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27</span></span>
+<span id="cb335-8"><a href="reg-lin-stan.html#cb335-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25</span></span>
+<span id="cb335-9"><a href="reg-lin-stan.html#cb335-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27</span></span>
+<span id="cb335-10"><a href="reg-lin-stan.html#cb335-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18</span></span></code></pre></div>
+<p>Per farci un’idea del valore dei parametri, adattiamo il modello lineare ai dati mediante la procedura di massima verosimiglianza (come abbiamo fatto nel capitolo precedente):</p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="reg-lin-stan.html#cb336-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> mom_iq, <span class="at">data =</span> df)</span>
+<span id="cb336-2"><a href="reg-lin-stan.html#cb336-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm)</span>
+<span id="cb336-3"><a href="reg-lin-stan.html#cb336-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb336-4"><a href="reg-lin-stan.html#cb336-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb336-5"><a href="reg-lin-stan.html#cb336-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = kid_score ~ mom_iq, data = df)</span></span>
+<span id="cb336-6"><a href="reg-lin-stan.html#cb336-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb336-7"><a href="reg-lin-stan.html#cb336-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb336-8"><a href="reg-lin-stan.html#cb336-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb336-9"><a href="reg-lin-stan.html#cb336-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -56.753 -12.074   2.217  11.710  47.691 </span></span>
+<span id="cb336-10"><a href="reg-lin-stan.html#cb336-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb336-11"><a href="reg-lin-stan.html#cb336-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb336-12"><a href="reg-lin-stan.html#cb336-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb336-13"><a href="reg-lin-stan.html#cb336-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 25.79978    5.91741    4.36 1.63e-05 ***</span></span>
+<span id="cb336-14"><a href="reg-lin-stan.html#cb336-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mom_iq       0.60997    0.05852   10.42  &lt; 2e-16 ***</span></span>
+<span id="cb336-15"><a href="reg-lin-stan.html#cb336-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb336-16"><a href="reg-lin-stan.html#cb336-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb336-17"><a href="reg-lin-stan.html#cb336-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb336-18"><a href="reg-lin-stan.html#cb336-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 18.27 on 432 degrees of freedom</span></span>
+<span id="cb336-19"><a href="reg-lin-stan.html#cb336-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.201,  Adjusted R-squared:  0.1991 </span></span>
+<span id="cb336-20"><a href="reg-lin-stan.html#cb336-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 108.6 on 1 and 432 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+<p>Sulla base delle informazioni precedenti, giungiamo alla seguente formulazione bayesiana del modello lineare:</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
+\mu_i &amp;= \beta_0 + \beta_1 x_i \\
+\beta_0 &amp;\sim \mathcal{N}(25, 10) \\
+\beta_1 &amp;\sim \mathcal{N}(0, 1) \\
+\sigma &amp;\sim \text{Cauchy}(18, 5)
+\end{aligned}
+\]</span></p>
+<p>La prima riga definisce la funzione di verosimiglianza e le righe successive definiscono le distribuzioni a priori dei parametri. Il segno <span class="math inline">\(\sim\)</span> (tilde) si può leggere “si distribuisce come”. La prima riga ci dice che ciascuna osservazione <span class="math inline">\(y_i\)</span> è una variabile casuale che segue la distribuzione gaussiana di parametri <span class="math inline">\(\mu_i\)</span> e <span class="math inline">\(\sigma\)</span>. La seconda riga specifica, in maniera deterministica, che ciascun <span class="math inline">\(\mu_i\)</span> è una funzione lineare di <span class="math inline">\(x_i\)</span>, con parametri <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>. Le due righe successive specificano le distribuzioni a priori per <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>. La distribuzione a priori di <span class="math inline">\(\beta_0\)</span> è una distribuzione gaussiana di parametri <span class="math inline">\(\mu_{\alpha} = 25\)</span> e deviazione standard <span class="math inline">\(\sigma_{\alpha} = 10\)</span>; la distribuzione a priori di <span class="math inline">\(\beta_1\)</span> è una distribuzione gaussiana standardizzata. L’ultima riga definisce la distribuzione a priori di <span class="math inline">\(\sigma\)</span>, ovvero una Cauchy di parametri 18 e 5.</p>
+<p>Dobbiamo ora specificare il modello bayesiano descritto sopra in linguaggio Stan<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.</p>
+<p>Consideriamo il seguente modello in linguaggio Stan:</p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="reg-lin-stan.html#cb337-1" aria-hidden="true" tabindex="-1"></a>model_string_1 <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb337-2"><a href="reg-lin-stan.html#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb337-3"><a href="reg-lin-stan.html#cb337-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb337-4"><a href="reg-lin-stan.html#cb337-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb337-5"><a href="reg-lin-stan.html#cb337-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb337-6"><a href="reg-lin-stan.html#cb337-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb337-7"><a href="reg-lin-stan.html#cb337-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb337-8"><a href="reg-lin-stan.html#cb337-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb337-9"><a href="reg-lin-stan.html#cb337-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb337-10"><a href="reg-lin-stan.html#cb337-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb337-11"><a href="reg-lin-stan.html#cb337-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb337-12"><a href="reg-lin-stan.html#cb337-12" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb337-13"><a href="reg-lin-stan.html#cb337-13" aria-hidden="true" tabindex="-1"></a><span class="st">  // priors</span></span>
+<span id="cb337-14"><a href="reg-lin-stan.html#cb337-14" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(25, 10);</span></span>
+<span id="cb337-15"><a href="reg-lin-stan.html#cb337-15" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 1);</span></span>
+<span id="cb337-16"><a href="reg-lin-stan.html#cb337-16" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(18, 5);</span></span>
+<span id="cb337-17"><a href="reg-lin-stan.html#cb337-17" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood</span></span>
+<span id="cb337-18"><a href="reg-lin-stan.html#cb337-18" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1:N)</span></span>
+<span id="cb337-19"><a href="reg-lin-stan.html#cb337-19" aria-hidden="true" tabindex="-1"></a><span class="st">    y[n] ~ normal(alpha + beta * x[n], sigma);</span></span>
+<span id="cb337-20"><a href="reg-lin-stan.html#cb337-20" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb337-21"><a href="reg-lin-stan.html#cb337-21" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb337-22"><a href="reg-lin-stan.html#cb337-22" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(model_string_1, <span class="at">con =</span> <span class="st">&quot;code/simpleregkidiq.stan&quot;</span>)</span></code></pre></div>
+<p>La funzione <code>modelString()</code> registra una stringa di testo mentre <code>writeLines()</code> crea un file nell’indirizzo specificato. Tale file deve avere l’estensione <code>.stan</code>.</p>
+<p>Per svolgere l’analisi bayesiana sistemiamo i dati nel formato appropriato per Stan:</p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="reg-lin-stan.html#cb338-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb338-2"><a href="reg-lin-stan.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb338-3"><a href="reg-lin-stan.html#cb338-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb338-4"><a href="reg-lin-stan.html#cb338-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>mom_iq</span>
+<span id="cb338-5"><a href="reg-lin-stan.html#cb338-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>La funzione <code>file.path()</code> ritorna l’indirizzo del file con il codice Stan:</p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="reg-lin-stan.html#cb339-1" aria-hidden="true" tabindex="-1"></a>file_simple_reg <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simpleregstd.stan&quot;</span>)</span></code></pre></div>
+<p>Prendendo come input un file contenente un programma Stan, la funzione <code>cmdstan_model()</code> ritorna un oggetto di classe <code>CmdStanModel</code>. In pratica, <code>CmdStan</code> traduce un programma Stan in C++ e crea un eseguibile compilato.</p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="reg-lin-stan.html#cb340-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file_simple_reg)</span></code></pre></div>
+<p>Il codice Stan può essere stampato usando il metodo <code>$print()</code>:</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="reg-lin-stan.html#cb341-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="sc">$</span><span class="fu">print</span>()</span></code></pre></div>
+<p>L’indirizzo dell’eseguibile compilato viene ritornato da <code>$exe_file()</code>:</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="reg-lin-stan.html#cb342-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="sc">$</span><span class="fu">exe_file</span>()</span></code></pre></div>
+<p>Applicando il metodo <code>$sample()</code> ad un oggetto <code>CmdStanModel</code> eseguiamo il campionamento MCMC:</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="reg-lin-stan.html#cb343-1" aria-hidden="true" tabindex="-1"></a>fit_1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb343-2"><a href="reg-lin-stan.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb343-3"><a href="reg-lin-stan.html#cb343-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb343-4"><a href="reg-lin-stan.html#cb343-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb343-5"><a href="reg-lin-stan.html#cb343-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb343-6"><a href="reg-lin-stan.html#cb343-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb343-7"><a href="reg-lin-stan.html#cb343-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb343-8"><a href="reg-lin-stan.html#cb343-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb343-9"><a href="reg-lin-stan.html#cb343-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb343-10"><a href="reg-lin-stan.html#cb343-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Al metodo <code>$sample()</code> possono essere passati molti argomenti. La pagina di documentazione è disponibile al seguente <a href="https://mc-stan.org/cmdstanr/reference/model-method-sample.html">link</a>.</p>
+<p>Un sommario della distribuzione a posteriori per i parametri stimati si ottiene con il metodo <code>$summary()</code>, il quale chiama la funzione <code>summarise_draws()</code> del pacchetto <code>posterior</code>:</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="reg-lin-stan.html#cb344-1" aria-hidden="true" tabindex="-1"></a>fit_1<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb344-2"><a href="reg-lin-stan.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 10</span></span>
+<span id="cb344-3"><a href="reg-lin-stan.html#cb344-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5    q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb344-4"><a href="reg-lin-stan.html#cb344-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb344-5"><a href="reg-lin-stan.html#cb344-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    25.7   25.7   5.95   6.00   16.0   35.5    1.00   16007.   11770.</span></span>
+<span id="cb344-6"><a href="reg-lin-stan.html#cb344-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta      0.610  0.611 0.0589 0.0597  0.515  0.708  1.00   15771.   11703.</span></span>
+<span id="cb344-7"><a href="reg-lin-stan.html#cb344-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    18.3   18.3   0.627  0.626  17.3   19.4    1.00   15126.   12112.</span></span></code></pre></div>
+<p>Da questo output possiamo valutare rapidamente la convergenza del modello osservando i valori di Rhat per ciascun parametro. Quando questi sono pari o vicini a 1, le catene hanno realizzato la convergenza. Ci sono molti altri test diagnostici, ma questo test è importante per Stan.</p>
+<p>Oppure è possibile usare:</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="reg-lin-stan.html#cb345-1" aria-hidden="true" tabindex="-1"></a>fit_1<span class="sc">$</span><span class="fu">cmdstan_summary</span>()</span></code></pre></div>
+<p>Le statistiche diagnostiche sono fornite dal metodo <code>$cmdstan_diagnose()</code>:</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="reg-lin-stan.html#cb346-1" aria-hidden="true" tabindex="-1"></a>fit_1<span class="sc">$</span><span class="fu">cmdstan_diagnose</span>()</span></code></pre></div>
+<p>È possibile creare un oggetto di classe <code>stanfit</code></p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="reg-lin-stan.html#cb347-1" aria-hidden="true" tabindex="-1"></a>stanfit_1 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit_1<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<p>per poi utilizzare le funzioni del pacchetto <code>bayesplot</code>. Ad esempio:</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="reg-lin-stan.html#cb348-1" aria-hidden="true" tabindex="-1"></a>stanfit_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb348-2"><a href="reg-lin-stan.html#cb348-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-346-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Infine, eseguendo la funzione <code>launch_shinystan(fit)</code>, è possibile analizzare oggetti di classe <code>stanfit</code> mediante le funzionalità del pacchetto <code>ShinyStan</code>.</p>
+<div id="standardizzare-i-dati" class="section level3 hasAnchor" number="26.2.1">
+<h3><span class="header-section-number">26.2.1</span> Standardizzare i dati<a href="reg-lin-stan.html#standardizzare-i-dati" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Il codice Stan viene eseguito più velocemente se l’input è standardizzato così da avere una media pari a zero e una varianza unitaria.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> Ponendo <span class="math inline">\(y = (y_1, \dots, y_n)\)</span> e <span class="math inline">\(x = (x_1, \dots, x_n)\)</span>, il modello lineare può essere scritto come</p>
+<p><span class="math display">\[
+y_i = \alpha + \beta x_i + \varepsilon_i,
+\]</span></p>
+<p>dove</p>
+<p><span class="math display">\[
+\varepsilon_i \sim \mathcal{N}(0, \sigma).
+\]</span></p>
+<p>Seguendo la notazione del manuale Stan, i parametri del modello lineare sono qui denotati da <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>. Per eseguire la standardizzazione dei dati, è necessario centrare i dati, sottraendo da essi la media campionaria, per poi scalarli dividendo per la deviazione standard campionaria. Una singola osservazione <span class="math inline">\(u\)</span> viene standardizzata dalla funzione <span class="math inline">\(z\)</span> definita da</p>
+<p><span class="math display">\[
+z_y(u) = \frac{u - \bar{y}}{\texttt{sd}(y)}
+\]</span></p>
+<p>dove la media <span class="math inline">\(\bar{y}\)</span> è</p>
+<p><span class="math display">\[
+\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i,
+\]</span>
+e la deviazione standard è</p>
+<p><span class="math display">\[
+\texttt{sd} = \left(\frac{1}{n}\sum_{i=1}^n(y_i - \bar{y})^2\right)^{-\frac{1}{2}}.
+\]</span></p>
+<p>La trasformata inversa è definita invertendo i due passaggi precedenti: la deviazione standard è usata per scalare i valori <span class="math inline">\(u\)</span> e la media campionaria è usata per traslare la distribuzione dei valori <span class="math inline">\(u\)</span> scalati:</p>
+<p><span class="math display">\[
+z_y^{-1}(u) = \texttt{sd}(y)u + \bar{y}.
+\]</span></p>
+<p>Modificando il codice del modello precedente otteniamo il modello Stan per dati standardizzati. Il blocco <code>data</code> è identico a quello del caso precedente. I predittori e la risposta standardizzati sono definiti nel blocco <code>transformed data</code>. Per semplificare la notazione (e velocizzare l’esecuzione), nel blocco <code>model</code> l’istruzione di campionamento è espressa in forma vettorializzata: <code>y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);</code>.</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="reg-lin-stan.html#cb349-1" aria-hidden="true" tabindex="-1"></a>model_string_2 <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb349-2"><a href="reg-lin-stan.html#cb349-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb349-3"><a href="reg-lin-stan.html#cb349-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N; </span></span>
+<span id="cb349-4"><a href="reg-lin-stan.html#cb349-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y; </span></span>
+<span id="cb349-5"><a href="reg-lin-stan.html#cb349-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x; </span></span>
+<span id="cb349-6"><a href="reg-lin-stan.html#cb349-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-7"><a href="reg-lin-stan.html#cb349-7" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
+<span id="cb349-8"><a href="reg-lin-stan.html#cb349-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x_std;</span></span>
+<span id="cb349-9"><a href="reg-lin-stan.html#cb349-9" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_std;</span></span>
+<span id="cb349-10"><a href="reg-lin-stan.html#cb349-10" aria-hidden="true" tabindex="-1"></a><span class="st">  x_std = (x - mean(x)) / sd(x);</span></span>
+<span id="cb349-11"><a href="reg-lin-stan.html#cb349-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std = (y - mean(y)) / sd(y);</span></span>
+<span id="cb349-12"><a href="reg-lin-stan.html#cb349-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-13"><a href="reg-lin-stan.html#cb349-13" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb349-14"><a href="reg-lin-stan.html#cb349-14" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha_std;</span></span>
+<span id="cb349-15"><a href="reg-lin-stan.html#cb349-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta_std;</span></span>
+<span id="cb349-16"><a href="reg-lin-stan.html#cb349-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_std;</span></span>
+<span id="cb349-17"><a href="reg-lin-stan.html#cb349-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-18"><a href="reg-lin-stan.html#cb349-18" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb349-19"><a href="reg-lin-stan.html#cb349-19" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu_std = alpha_std + beta_std * x_std; </span></span>
+<span id="cb349-20"><a href="reg-lin-stan.html#cb349-20" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-21"><a href="reg-lin-stan.html#cb349-21" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb349-22"><a href="reg-lin-stan.html#cb349-22" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha_std ~ normal(0, 1); </span></span>
+<span id="cb349-23"><a href="reg-lin-stan.html#cb349-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_std ~ normal(0, 1);  </span></span>
+<span id="cb349-24"><a href="reg-lin-stan.html#cb349-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_std ~ normal(0, 1); </span></span>
+<span id="cb349-25"><a href="reg-lin-stan.html#cb349-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std ~ normal(mu_std, sigma_std); </span></span>
+<span id="cb349-26"><a href="reg-lin-stan.html#cb349-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-27"><a href="reg-lin-stan.html#cb349-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb349-28"><a href="reg-lin-stan.html#cb349-28" aria-hidden="true" tabindex="-1"></a><span class="st">  // transform to the original data scale</span></span>
+<span id="cb349-29"><a href="reg-lin-stan.html#cb349-29" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb349-30"><a href="reg-lin-stan.html#cb349-30" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb349-31"><a href="reg-lin-stan.html#cb349-31" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb349-32"><a href="reg-lin-stan.html#cb349-32" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x)) + mean(y);</span></span>
+<span id="cb349-33"><a href="reg-lin-stan.html#cb349-33" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = beta_std * sd(y) / sd(x);</span></span>
+<span id="cb349-34"><a href="reg-lin-stan.html#cb349-34" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma = sd(y) * sigma_std;</span></span>
+<span id="cb349-35"><a href="reg-lin-stan.html#cb349-35" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb349-36"><a href="reg-lin-stan.html#cb349-36" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb349-37"><a href="reg-lin-stan.html#cb349-37" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(model_string_2, <span class="at">con =</span> <span class="st">&quot;code/simpleregstd.stan&quot;</span>)</span></code></pre></div>
+<p>Si noti che i parametri vengono rinominati per indicare che non sono i parametri “naturali”, ma per il resto il modello è identico. Sono qui utilizzate distribuzioni a priori debolmente informative per i parametri <code>alpha</code> e <code>beta</code>.</p>
+<p>I valori dei parametri sulla scala originale dei dati vengono calcolati nel blocco <code>generated quantities</code> e possono essere recuperati con un po’ di algebra.</p>
+<p><span class="math display">\[\begin{align}
+y_n &amp;= \textrm{z}_y^{-1}(\textrm{z}_y(y_n)) \notag\\
+    &amp;= \textrm{z}_y^{-1}
+\left( \alpha&#39; + \beta&#39; \textrm{z}_x(x_n) + \epsilon_n&#39; \right) \notag\\
+    &amp;= \textrm{z}_y^{-1}
+\left( \alpha&#39; + \beta&#39; \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n&#39; \right) \notag\\
+    &amp;= \texttt{sd}(y)
+\left( \alpha&#39; + \beta&#39; \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n&#39; \right) + \bar{y} \notag\\
+    &amp;=
+\left( \texttt{sd}(y) \left( \alpha&#39; - \beta&#39; \frac{\bar{x}}{\texttt{sd}(x)} \right) + \bar{y} \right)
++ \left( \beta&#39; \frac{\texttt{sd}(y)}{\texttt{sd}(x)} \right) x_n
++ \texttt{sd}(y) \epsilon&#39;_n,
+\end{align}\]</span></p>
+<p>da cui</p>
+<p><span class="math display">\[
+\alpha
+=
+\texttt{sd}(y)
+      \left(
+          \alpha&#39;
+          - \beta&#39; \frac{\bar{x}}{\texttt{sd}(x)}
+      \right)
+  + \bar{y};
+\qquad
+\beta = \beta&#39; \frac{\texttt{sd}(y)}{\texttt{sd}(x)};
+\qquad
+\sigma = \texttt{sd}(y) \sigma&#39;.
+\]</span></p>
+<p>La funzione <code>file.path()</code> ritorna l’indirizzo del file con il codice Stan:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="reg-lin-stan.html#cb350-1" aria-hidden="true" tabindex="-1"></a>file_simple_reg_std <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simpleregstd.stan&quot;</span>)</span></code></pre></div>
+<p>Compiliamo.</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="reg-lin-stan.html#cb351-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file_simple_reg_std)</span></code></pre></div>
+<p>Eseguo il campionamento MCMC.</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="reg-lin-stan.html#cb352-1" aria-hidden="true" tabindex="-1"></a>fit_2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb352-2"><a href="reg-lin-stan.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb352-3"><a href="reg-lin-stan.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb352-4"><a href="reg-lin-stan.html#cb352-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb352-5"><a href="reg-lin-stan.html#cb352-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb352-6"><a href="reg-lin-stan.html#cb352-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb352-7"><a href="reg-lin-stan.html#cb352-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb352-8"><a href="reg-lin-stan.html#cb352-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb352-9"><a href="reg-lin-stan.html#cb352-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb352-10"><a href="reg-lin-stan.html#cb352-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Esamino i risultati</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="reg-lin-stan.html#cb353-1" aria-hidden="true" tabindex="-1"></a>fit_2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha_std&quot;</span>, <span class="st">&quot;beta_std&quot;</span>, <span class="st">&quot;sigma_std&quot;</span>, <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb353-2"><a href="reg-lin-stan.html#cb353-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 10</span></span>
+<span id="cb353-3"><a href="reg-lin-stan.html#cb353-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable       mean    median     sd    mad      q5     q95  rhat ess_bulk</span></span>
+<span id="cb353-4"><a href="reg-lin-stan.html#cb353-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb353-5"><a href="reg-lin-stan.html#cb353-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha_std  0.000107 -0.000149 0.0432 0.0423 -0.0703  0.0715  1.00   18705.</span></span>
+<span id="cb353-6"><a href="reg-lin-stan.html#cb353-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta_std   0.448     0.448    0.0438 0.0443  0.375   0.520   1.00   20084.</span></span>
+<span id="cb353-7"><a href="reg-lin-stan.html#cb353-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_std  0.897     0.896    0.0311 0.0316  0.848   0.950   1.00   18813.</span></span>
+<span id="cb353-8"><a href="reg-lin-stan.html#cb353-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 alpha     25.9      25.8      6.02   6.02   16.0    35.8     1.00   20176.</span></span>
+<span id="cb353-9"><a href="reg-lin-stan.html#cb353-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 beta       0.609     0.609    0.0596 0.0603  0.511   0.707   1.00   20084.</span></span>
+<span id="cb353-10"><a href="reg-lin-stan.html#cb353-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 sigma     18.3      18.3      0.634  0.644  17.3    19.4     1.00   18813.</span></span>
+<span id="cb353-11"><a href="reg-lin-stan.html#cb353-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
+<p>Si noti che, avendo usato delle distribuzioni a priori debolmente informative, le stime dei parametri sono molto simili a quelle ottenute mediante la procedura di massima verosimiglianza.</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="reg-lin-stan.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm)</span>
+<span id="cb354-2"><a href="reg-lin-stan.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      mom_iq </span></span>
+<span id="cb354-3"><a href="reg-lin-stan.html#cb354-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  25.7997778   0.6099746</span></span></code></pre></div>
+<p>Anziché standardizzare i dati all’interno del programma Stan è anche possibile procedere in un modo diverso, ovvero standardizzare i dati forniti in input. Questa, in realtà, è la procedura usuale. Ciò consente di specificare, per ciascun parametro, una distribuzione a priori su una scala “naturale” per Stan, ovvero quella di una variabile Normale standardizzata. Se non ci sono ragioni particolari per mantenere l’unità di misura dei dati grezzi, standardizzare i dati in input è la strategia migliore.</p>
+</div>
+</div>
+<div id="interpretazione-dei-parametri" class="section level2 hasAnchor" number="26.3">
+<h2><span class="header-section-number">26.3</span> Interpretazione dei parametri<a href="reg-lin-stan.html#interpretazione-dei-parametri" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ripeto qui la discussione del capitolo precedente. Assegnamo ai parametri la seguente interpretazione.</p>
+<ul>
+<li><p>L’intercetta pari a 25.9 indica il QI medio dei bamini la cui madre ha un QI = 0. Ovviamente questo non ha alcun significato. Vedremo nel modello successivo come trasformare il modello in modo da potere assegnare all’intercetta un’interpretazione sensata.</p></li>
+<li><p>La pendenza di 0.61 indica che, all’aumentare di un punto del QI delle madri, il QI medio dei loro bambini aumenta di 0.61 unità. Se consideriamo la gamma di variazione del QI delle madri nel campione, il QI medio dei bambini cambia di 41 punti. Questo indica un sostanziale effetto del QI delle madri sul QI dei loro bambini: <span class="math inline">\((138.89 - 71.04) * 0.61 = 41.39\)</span>.</p></li>
+<li><p>Il parametro <span class="math inline">\(\sigma\)</span> = 18.3 fornisce una stima della dispersione delle osservazioni attorno al valore predetto dal modello lineare, ovvero fornisce una stima della deviazione standard dei residui attorno al valore atteso del modello lineare.</p></li>
+</ul>
+<div id="centrare-i-predittori" class="section level3 hasAnchor" number="26.3.1">
+<h3><span class="header-section-number">26.3.1</span> Centrare i predittori<a href="reg-lin-stan.html#centrare-i-predittori" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Come abbiamo detto in precedenza, per migliorare l’interpretazione dell’intercetta possiamo “centrare” la <span class="math inline">\(x\)</span>, ovvero esprimere la <span class="math inline">\(x\)</span> nei termini degli scarti dalla media: <span class="math inline">\(x - \bar{x}\)</span>. In tali circostanze, la pendenza della retta specificata dal modello lineare resta immutata, ma l’intercetta corrisponde a <span class="math inline">\(\E(y \mid x = \bar{x})\)</span>. Per ottenere questo risultato, modifichiamo i dati da passare a Stan:</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="reg-lin-stan.html#cb355-1" aria-hidden="true" tabindex="-1"></a>data2_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb355-2"><a href="reg-lin-stan.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb355-3"><a href="reg-lin-stan.html#cb355-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb355-4"><a href="reg-lin-stan.html#cb355-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>mom_iq <span class="sc">-</span> <span class="fu">mean</span>(df<span class="sc">$</span>mom_iq)</span>
+<span id="cb355-5"><a href="reg-lin-stan.html#cb355-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Adattiamo il modello:</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="reg-lin-stan.html#cb356-1" aria-hidden="true" tabindex="-1"></a>fit_3 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb356-2"><a href="reg-lin-stan.html#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data2_list,</span>
+<span id="cb356-3"><a href="reg-lin-stan.html#cb356-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb356-4"><a href="reg-lin-stan.html#cb356-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb356-5"><a href="reg-lin-stan.html#cb356-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb356-6"><a href="reg-lin-stan.html#cb356-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb356-7"><a href="reg-lin-stan.html#cb356-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 2L,</span>
+<span id="cb356-8"><a href="reg-lin-stan.html#cb356-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
+<span id="cb356-9"><a href="reg-lin-stan.html#cb356-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
+<span id="cb356-10"><a href="reg-lin-stan.html#cb356-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Trasformiamo l’oggetto <code>fit</code> in un oggetto di classe <code>stanfit</code>:</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="reg-lin-stan.html#cb357-1" aria-hidden="true" tabindex="-1"></a>stanfit_3 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit_3<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<p>Le stime a posteriori dei parametri si ottengono con</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="reg-lin-stan.html#cb358-1" aria-hidden="true" tabindex="-1"></a>fit_3<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb358-2"><a href="reg-lin-stan.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 10</span></span>
+<span id="cb358-3"><a href="reg-lin-stan.html#cb358-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5    q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb358-4"><a href="reg-lin-stan.html#cb358-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb358-5"><a href="reg-lin-stan.html#cb358-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    86.8   86.8   0.876  0.871  85.4   88.2    1.00   16318.   11494.</span></span>
+<span id="cb358-6"><a href="reg-lin-stan.html#cb358-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta      0.609  0.609 0.0591 0.0589  0.513  0.707  1.00   16206.   11236.</span></span>
+<span id="cb358-7"><a href="reg-lin-stan.html#cb358-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    18.3   18.3   0.630  0.624  17.3   19.4    1.00   15617.   11986.</span></span></code></pre></div>
+<p>Si noti la nuova intercetta, ovvero 86.8. Questo valore indica il QI medio dei bambini le cui madri hanno un QI pari alla media del campione. Centrare i dati consente dunque di assegnare all’intercetta un’interpretazione utile.</p>
+</div>
+</div>
+<div id="commenti-e-considerazioni-finali-21" class="section level2 unnumbered hasAnchor">
+<h2>Commenti e considerazioni finali<a href="reg-lin-stan.html#commenti-e-considerazioni-finali-21" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La presente discussione suggerisce che è conveniente standardizzare i dati prima di procedere con l’analisi. Ciò può essere fatto all’interno del codice Stan (come negli esempi di questo Capitolo), oppure prima di passare i dati a Stan. Se vengono usati dati standardizzati diventa poi facile utilizzare distribuzioni a priori debolmente informative per i parametri. Tali distribuzioni a priori hanno, come unico scopo, quello di regolarizzare i dati e di facilitare la stima dei parametri mediante MCMC.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="29">
+<li id="fn29"><p>Nella discussione che segue ripeto pari pari ciò che è riportato nel manuale del linguaggio <a href="https://mc-stan.org/docs/2_27/stan-users-guide/standardizing-predictors-and-outputs.html">Stan</a>.<a href="reg-lin-stan.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>Si noti un punto importante. Il fatto di standardizzare i dati fa in modo che le distribuzioni a priori sui parametri vadano espresse sulla scala delle v.c. normali standardizzate. Se centriamo sullo 0 tali distribuzioni a priori, con una deviazione standard dell’ordine di grandezza dell’unità, i discorsi sull’arbitrarietà delle distribuzioni a priori perdono di significato: nel caso di dati standardizzati le distribuzioni a priori formulate come indicato sopra sono distribuzioni debolmente informative il cui unico scopo è la regolarizzazione dei dati, ovvero di mantenere le inferenze in una gamma ragionevole di valori. L’uso di distribuzioni a priori debolmente informative contribuisce nel contempo a limitare l’influenza eccessiva delle osservazioni estreme (valori anomali). Il punto importante qui è che tali distribuzioni a priori non introducono alcuna distorsione sistematica nella stima a posteriori.<a href="reg-lin-stan.html#fnref30" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regr-model-lm.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="inference-reg-lin-stan.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/053_reglin3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
