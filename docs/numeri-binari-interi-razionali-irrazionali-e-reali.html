@@ -647,7 +647,22 @@ div.csl-indent {
 <li class="chapter" data-level="34.6" data-path="ch-info-crit.html"><a href="ch-info-crit.html#regolarizzazione"><i class="fa fa-check"></i><b>34.6</b> Regolarizzazione</a></li>
 <li class="chapter" data-level="" data-path="ch-info-crit.html"><a href="ch-info-crit.html#commenti-e-considerazioni-finali-27"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i><b>35</b> Bibliografia</a></li>
+<li class="part"><span><b>VIII Approccio frequentista all’inferenza statistica</b></span></li>
+<li class="chapter" data-level="35" data-path="ch-pval.html"><a href="ch-pval.html"><i class="fa fa-check"></i><b>35</b> Il valore-<span class="math inline">\(p\)</span></a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="ch-pval.html"><a href="ch-pval.html#che-cosè-un-valore-p"><i class="fa fa-check"></i><b>35.1</b> Che cos’è un valore-<span class="math inline">\(p\)</span>?</a></li>
+<li class="chapter" data-level="35.2" data-path="ch-pval.html"><a href="ch-pval.html#luso-del-valore-p-nel-mondo-della-ricerca"><i class="fa fa-check"></i><b>35.2</b> L’uso del valore-<span class="math inline">\(p\)</span> nel mondo della ricerca</a></li>
+<li class="chapter" data-level="35.3" data-path="ch-pval.html"><a href="ch-pval.html#p-hacking"><i class="fa fa-check"></i><b>35.3</b> <span class="math inline">\(P\)</span>-hacking</a></li>
+<li class="chapter" data-level="35.4" data-path="ch-pval.html"><a href="ch-pval.html#critiche-al-valore-p"><i class="fa fa-check"></i><b>35.4</b> Critiche al valore-<span class="math inline">\(p\)</span></a></li>
+<li class="chapter" data-level="35.5" data-path="ch-pval.html"><a href="ch-pval.html#leffetto-sperimentale-è-esattamente-nullo"><i class="fa fa-check"></i><b>35.5</b> L’effetto sperimentale è esattamente nullo?</a></li>
+<li class="chapter" data-level="35.6" data-path="ch-pval.html"><a href="ch-pval.html#simulazione"><i class="fa fa-check"></i><b>35.6</b> Simulazione</a>
+<ul>
+<li class="chapter" data-level="35.6.1" data-path="ch-pval.html"><a href="ch-pval.html#la-dimensione-delleffetto-1"><i class="fa fa-check"></i><b>35.6.1</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="35.6.2" data-path="ch-pval.html"><a href="ch-pval.html#una-piccola-dimensione-delleffetto-nella-popolazione"><i class="fa fa-check"></i><b>35.6.2</b> Una piccola dimensione dell’effetto nella popolazione</a></li>
+<li class="chapter" data-level="35.6.3" data-path="ch-pval.html"><a href="ch-pval.html#una-soluzione-sbagliata"><i class="fa fa-check"></i><b>35.6.3</b> Una soluzione (sbagliata)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i><b>36</b> Bibliografia</a></li>
 <li class="appendix"><span><b>Appendici</b></span></li>
 <li class="chapter" data-level="A" data-path="simbologia-di-base.html"><a href="simbologia-di-base.html"><i class="fa fa-check"></i><b>A</b> Simbologia di base</a></li>
 <li class="chapter" data-level="B" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html"><i class="fa fa-check"></i><b>B</b> Numeri binari, interi, razionali, irrazionali e reali</a>
@@ -806,36 +821,36 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="numeri-binari-interi-razionali-irrazionali-e-reali" class="section level1 hasAnchor" number="37">
+<div id="numeri-binari-interi-razionali-irrazionali-e-reali" class="section level1 hasAnchor" number="38">
 <h1><span class="header-section-number">Appendice B</span> Numeri binari, interi, razionali, irrazionali e reali<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-binari-interi-razionali-irrazionali-e-reali" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="numeri-binari" class="section level2 hasAnchor" number="37.1">
+<div id="numeri-binari" class="section level2 hasAnchor" number="38.1">
 <h2><span class="header-section-number">B.1</span> Numeri binari<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-binari" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I numeri più semplici sono quelli binari, cioè zero o uno. Useremo spesso
 numeri binari per indicare se qualcosa è vero o falso, presente o
 assente. I numeri binari sono molto utili per ottenere facilmente delle statistiche riassuntive in <span class="math inline">\(\mathsf{R}\)</span>.Supponiamo di chiedere a 10 studenti “Ti piacciono i mirtilli?” Poniamo che le risposte siano le seguenti:</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb501-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>,</span>
-<span id="cb501-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span></span>
-<span id="cb501-4"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb501-5"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-5" aria-hidden="true" tabindex="-1"></a>opinion</span>
-<span id="cb501-6"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb501-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb512-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>,</span>
+<span id="cb512-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span></span>
+<span id="cb512-4"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb512-5"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-5" aria-hidden="true" tabindex="-1"></a>opinion</span>
+<span id="cb512-6"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb512-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot;</span></span></code></pre></div>
 <p>Tali risposte possono essere ricodificate nei termini di valori di
 verità, ovvero, vero e falso, generalmente denotati rispettivamente come
 1 e 0. In <span class="math inline">\(\R\)</span> tale ricodifica può essere effettuata mediante l’operatore
 <code>==</code> che è un test per l’uguaglianza e restituisce il valore logico VERO
 se i due oggetti valutati sono uguali e FALSO se non lo sono:</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb502-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> opinion <span class="sc">==</span> <span class="st">&quot;Yes&quot;</span></span>
-<span id="cb502-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb502-2" aria-hidden="true" tabindex="-1"></a>opinion</span>
-<span id="cb502-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb502-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb513-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> opinion <span class="sc">==</span> <span class="st">&quot;Yes&quot;</span></span>
+<span id="cb513-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb513-2" aria-hidden="true" tabindex="-1"></a>opinion</span>
+<span id="cb513-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb513-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span></code></pre></div>
 <p>R considera i valori di verità e i numeri binari in modo equivalente, con
 TRUE uguale a 1 e FALSE uguale a zero. Di conseguenza, possiamo
 effettuare operazioni algebriche sui valori logici VERO e FALSO.
 Nell’esempio, possiamo sommare i valori di verità e dividere per 10</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb503-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(opinion) <span class="sc">/</span> <span class="fu">length</span>(opinion)</span>
-<span id="cb503-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb503-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(opinion) <span class="sc">/</span> <span class="fu">length</span>(opinion)</span>
+<span id="cb514-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb514-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
 <p>in modo tale da calcolare una propozione, il che ci consente di concludere che 7 risposte su 10 sono positive.</p>
 </div>
-<div id="numeri-interi" class="section level2 hasAnchor" number="37.2">
+<div id="numeri-interi" class="section level2 hasAnchor" number="38.2">
 <h2><span class="header-section-number">B.2</span> Numeri interi<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-interi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Un numero intero è un numero senza decimali. Si dicono <strong>naturali</strong> i
 numeri che servono a contare, come 1, 2, … L’insieme dei numeri
@@ -844,7 +859,7 @@ introdurre i numeri con il segno per poter trattare grandezze negative.
 Si ottengono così l’insieme numerico dei numeri interi relativi:
 <span class="math inline">\(\mathbb{Z} = \{0, \pm 1, \pm 2, \dots \}\)</span></p>
 </div>
-<div id="numeri-razionali" class="section level2 hasAnchor" number="37.3">
+<div id="numeri-razionali" class="section level2 hasAnchor" number="38.3">
 <h2><span class="header-section-number">B.3</span> Numeri razionali<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-razionali" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I numeri razionali sono i numeri frazionari <span class="math inline">\(m/n\)</span>, dove <span class="math inline">\(m, n \in N\)</span>,
 con <span class="math inline">\(n \neq 0\)</span>. Si ottengono così i numeri razionali:
@@ -854,7 +869,7 @@ Anche in questo caso è necessario poter trattare grandezze negative. I
 numeri razionali non negativi sono indicati con
 <span class="math inline">\(\mathbb{Q^+} = \{q \in \mathbb{Q} \,\vert\, q \geq 0\}\)</span>.</p>
 </div>
-<div id="numeri-irrazionali" class="section level2 hasAnchor" number="37.4">
+<div id="numeri-irrazionali" class="section level2 hasAnchor" number="38.4">
 <h2><span class="header-section-number">B.4</span> Numeri irrazionali<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-irrazionali" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Tuttavia, non tutti i punti di una retta <span class="math inline">\(r\)</span> possono essere
 rappresentati mediante i numeri interi e razionali. È dunque necessario
@@ -866,7 +881,7 @@ possono essere espressi sotto forma di frazione. Per esempio,
 <span class="math inline">\(\sqrt{2}\)</span>, <span class="math inline">\(\sqrt{3}\)</span> e <span class="math inline">\({\displaystyle \pi =3,141592\ldots}\)</span> sono
 numeri irrazionali.</p>
 </div>
-<div id="numeri-reali" class="section level2 hasAnchor" number="37.5">
+<div id="numeri-reali" class="section level2 hasAnchor" number="38.5">
 <h2><span class="header-section-number">B.5</span> Numeri reali<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-reali" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I punti della retta <span class="math inline">\(r\)</span> sono quindi “di più” dei numeri razionali. Per
 poter rappresentare tutti i punti della retta abbiamo dunque bisogno dei
@@ -875,7 +890,7 @@ e comprendono, come casi particolari, i numeri interi, i numeri
 razionali e i numeri irrazionali. Spesso in statisticac il numero dei
 decimali indica il grado di precisione della misurazione.</p>
 </div>
-<div id="intervalli" class="section level2 hasAnchor" number="37.6">
+<div id="intervalli" class="section level2 hasAnchor" number="38.6">
 <h2><span class="header-section-number">B.6</span> Intervalli<a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#intervalli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Un intervallo si dice chiuso se gli estremi sono compresi
 nell’intervallo, aperto se gli estremi non sono compresi. Le

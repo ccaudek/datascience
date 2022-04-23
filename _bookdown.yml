@@ -61,6 +61,8 @@ rmd_files:
     - "091_kl.Rmd"
     - "092_info_criterion.Rmd"
     # - "093_projpred.Rmd"
+    ## PART VI
+    - "210_pvalue.Rmd"
     ## APPENDIX
     - "800_appendix.Rmd"
     - "801_math_symbols.Rmd"

@@ -210,6 +210,7 @@ eq:lppd
 exm:unlabeled-div-95
 def:unlabeled-div-96
 exm:unlabeled-div-97
+fig:around05
 fig:sets-venn-diagrams
 fig:demorgan
 exr:unlabeled-div-98
@@ -508,6 +509,16 @@ confronto-tra-aic-e-loo-cv
 confronto-tra-modelli-mediante-loo-cv
 outlier
 regolarizzazione
+ch-pval
+che-cosè-un-valore-p
+luso-del-valore-p-nel-mondo-della-ricerca
+p-hacking
+critiche-al-valore-p
+leffetto-sperimentale-è-esattamente-nullo
+simulazione
+la-dimensione-delleffetto-1
+una-piccola-dimensione-delleffetto-nella-popolazione
+una-soluzione-sbagliata
 bibliografia
 simbologia-di-base
 numeri-binari-interi-razionali-irrazionali-e-reali
