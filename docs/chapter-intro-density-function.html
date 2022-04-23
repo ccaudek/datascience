@@ -813,8 +813,8 @@ div.csl-indent {
 <div id="spinner-e-variabili-casuali-continue-uniformi" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Spinner e variabili casuali continue uniformi<a href="chapter-intro-density-function.html#spinner-e-variabili-casuali-continue-uniformi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consideriamo il seguente esperimento casuale. Facciamo ruotare ad alta velocità uno spinner simmetrico imperniato su un goniometro e osserviamo la posizione in cui si ferma (individuata dall’angolo acuto con segno tra il suo asse e l’asse orizzontale del goniometro). Chiamiamo <span class="math inline">\(\Theta\)</span> la variabile casuale “pendenza dello spinner”. Nella trattazione seguente useremo i gradi e, di conseguenza, <span class="math inline">\(\Theta \in [0, 360]\)</span>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
-<img src="019_density_func_files/figure-html/unnamed-chunk-1-1.png" alt="Uno spinner che riposa a 36 gradi, o il dieci percento del percorso intorno al cerchio. La pendenza dello spinner può assumere qualunque valore tra 0 e 360 gradi." width="100%" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-38"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-38-1.png" alt="Uno spinner che riposa a 36 gradi, o il dieci percento del percorso intorno al cerchio. La pendenza dello spinner può assumere qualunque valore tra 0 e 360 gradi." width="100%" />
 <p class="caption">
 FIGURA 10.1: Uno spinner che riposa a 36 gradi, o il dieci percento del percorso intorno al cerchio. La pendenza dello spinner può assumere qualunque valore tra 0 e 360 gradi.
 </p>
@@ -847,7 +847,7 @@ F_{\Theta}(\theta) = \frac{\theta}{360}.
 \]</span></p>
 <p>Questa è una funzione lineare di <span class="math inline">\(\theta\)</span>, cioè <span class="math inline">\(\frac{1}{360} \cdot \theta\)</span>, come indicato dal grafico della figura <a href="chapter-intro-density-function.html#fig:spinner-cdf">10.2</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:spinner-cdf"></span>
-<img src="019_density_func_files/figure-html/spinner-cdf-1.png" alt="Funzione di distribuzione cumulativa per l'angolo $\theta$ (in gradi) risultante da una rotazione di uno spinner simmetrico. La linea tratteggiata mostra il valore a 180 gradi, che corrisponde ad una probabilità di 0.5, e la linea tratteggiata a 270 gradi, che corrisponde ad una probabilità di 0.75." width="576" />
+<img src="ds4psy_files/figure-html/spinner-cdf-1.png" alt="Funzione di distribuzione cumulativa per l'angolo $\theta$ (in gradi) risultante da una rotazione di uno spinner simmetrico. La linea tratteggiata mostra il valore a 180 gradi, che corrisponde ad una probabilità di 0.5, e la linea tratteggiata a 270 gradi, che corrisponde ad una probabilità di 0.75." width="576" />
 <p class="caption">
 FIGURA 10.2: Funzione di distribuzione cumulativa per l’angolo <span class="math inline">\(\theta\)</span> (in gradi) risultante da una rotazione di uno spinner simmetrico. La linea tratteggiata mostra il valore a 180 gradi, che corrisponde ad una probabilità di 0.5, e la linea tratteggiata a 270 gradi, che corrisponde ad una probabilità di 0.75.
 </p>
@@ -870,8 +870,8 @@ FIGURA 10.2: Funzione di distribuzione cumulativa per l’angolo <span class="ma
 <span id="cb39-15"><a href="chapter-intro-density-function.html#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(theta)) <span class="sc">+</span></span>
 <span id="cb39-16"><a href="chapter-intro-density-function.html#cb39-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">F</span>(Theta)(theta)))</span>
 <span id="cb39-17"><a href="chapter-intro-density-function.html#cb39-17" aria-hidden="true" tabindex="-1"></a>unif_cdf_plot</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
-<img src="019_density_func_files/figure-html/unnamed-chunk-2-1.png" alt="Grafico della funzione di ripartizione di una variabile casuale $\Theta$ che rappresenta il risultato di una rotazione di uno spinner simmetrico. Come previsto, tale funzione è una semplice funzione lineare perché la variabile sottostante $\Theta$ ha una distribuzione uniforme." width="576" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-39"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-39-1.png" alt="Grafico della funzione di ripartizione di una variabile casuale $\Theta$ che rappresenta il risultato di una rotazione di uno spinner simmetrico. Come previsto, tale funzione è una semplice funzione lineare perché la variabile sottostante $\Theta$ ha una distribuzione uniforme." width="576" />
 <p class="caption">
 FIGURA 10.3: Grafico della funzione di ripartizione di una variabile casuale <span class="math inline">\(\Theta\)</span> che rappresenta il risultato di una rotazione di uno spinner simmetrico. Come previsto, tale funzione è una semplice funzione lineare perché la variabile sottostante <span class="math inline">\(\Theta\)</span> ha una distribuzione uniforme.
 </p>
@@ -911,8 +911,8 @@ FIGURA 10.3: Grafico della funzione di ripartizione di una variabile casuale <sp
 <span id="cb41-9"><a href="chapter-intro-density-function.html#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">lim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1000</span>), <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">1000</span>)) <span class="sc">+</span></span>
 <span id="cb41-10"><a href="chapter-intro-density-function.html#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(Theta, <span class="st">&quot; ~ Uniform(0, 1)&quot;</span>)))</span>
 <span id="cb41-11"><a href="chapter-intro-density-function.html#cb41-11" aria-hidden="true" tabindex="-1"></a>unif_prob_plot</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
-<img src="019_density_func_files/figure-html/unnamed-chunk-4-1.png" alt="Istogramma di $10\,000$ realizzazioni $\Theta \sim \mbox{Uniform}(0, 1)$. " width="576" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-41"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-41-1.png" alt="Istogramma di $10\,000$ realizzazioni $\Theta \sim \mbox{Uniform}(0, 1)$. " width="576" />
 <p class="caption">
 FIGURA 10.4: Istogramma di <span class="math inline">\(10\,000\)</span> realizzazioni <span class="math inline">\(\Theta \sim \mbox{Uniform}(0, 1)\)</span>.
 </p>
@@ -950,7 +950,7 @@ FIGURA 10.4: Istogramma di <span class="math inline">\(10\,000\)</span> realizza
 <span id="cb42-30"><a href="chapter-intro-density-function.html#cb42-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;#ffffe6&quot;</span></span>
 <span id="cb42-31"><a href="chapter-intro-density-function.html#cb42-31" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb42-32"><a href="chapter-intro-density-function.html#cb42-32" aria-hidden="true" tabindex="-1"></a>uniform_pdf_plot</span></code></pre></div>
-<p><img src="019_density_func_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-42-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 Dal grafico vediamo che l’area sottesa alla funzione di densità è <span class="math inline">\((b - a)\cdot c\)</span>. Dato che tale area deve essere unitaria, ovvero, <span class="math inline">\((b - a) \cdot c = 1\)</span>, possiamo trovare <span class="math inline">\(c\)</span> dividendo entrambi i termini per <span class="math inline">\(b - a\)</span>,</p>
 <p><span class="math display">\[
@@ -1025,8 +1025,8 @@ p_{\Theta}(\theta) = \mathcal{U}(\theta \mid a, b),
 <span id="cb44-27"><a href="chapter-intro-density-function.html#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.y =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb44-28"><a href="chapter-intro-density-function.html#cb44-28" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb44-29"><a href="chapter-intro-density-function.html#cb44-29" aria-hidden="true" tabindex="-1"></a>log_odds_growth_plot</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
-<img src="019_density_func_files/figure-html/unnamed-chunk-7-1.png" alt="Istogramma di $M$ campioni casuali $\Theta \sim \mbox{Uniform}(0, 1)$ trasformati in valori $\Phi = \mbox{logit}(\Theta).$ Il profilo limite dell'istogramma è evidenziato nella figura in basso a destra che è stata costruita usando $1\,000\,000$ di osservazioni." width="100%" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-44"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-44-1.png" alt="Istogramma di $M$ campioni casuali $\Theta \sim \mbox{Uniform}(0, 1)$ trasformati in valori $\Phi = \mbox{logit}(\Theta).$ Il profilo limite dell'istogramma è evidenziato nella figura in basso a destra che è stata costruita usando $1\,000\,000$ di osservazioni." width="100%" />
 <p class="caption">
 FIGURA 10.5: Istogramma di <span class="math inline">\(M\)</span> campioni casuali <span class="math inline">\(\Theta \sim \mbox{Uniform}(0, 1)\)</span> trasformati in valori <span class="math inline">\(\Phi = \mbox{logit}(\Theta).\)</span> Il profilo limite dell’istogramma è evidenziato nella figura in basso a destra che è stata costruita usando <span class="math inline">\(1\,000\,000\)</span> di osservazioni.
 </p>
@@ -1062,7 +1062,7 @@ FIGURA 10.5: Istogramma di <span class="math inline">\(M\)</span> campioni casua
 <span id="cb45-27"><a href="chapter-intro-density-function.html#cb45-27" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb45-28"><a href="chapter-intro-density-function.html#cb45-28" aria-hidden="true" tabindex="-1"></a>density_limit_plot</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hist-dens-example"></span>
-<img src="019_density_func_files/figure-html/hist-dens-example-1.png" alt="Istogramma di $M = 1\,000\,000$ campioni casuali $\Theta \sim \mbox{Uniform}(0,1)$ trasformati in valori $\Phi = \mbox{logit}(\Theta)$. La spezzata nera congiunge i punti centrali superiori delle barre dell'istogramma. Nel limite, quando il numero di osservazioni e di barre tende all'infinito, tale spezzata approssima la funzione di densità di probabilità della variabile casuale." width="100%" />
+<img src="ds4psy_files/figure-html/hist-dens-example-1.png" alt="Istogramma di $M = 1\,000\,000$ campioni casuali $\Theta \sim \mbox{Uniform}(0,1)$ trasformati in valori $\Phi = \mbox{logit}(\Theta)$. La spezzata nera congiunge i punti centrali superiori delle barre dell'istogramma. Nel limite, quando il numero di osservazioni e di barre tende all'infinito, tale spezzata approssima la funzione di densità di probabilità della variabile casuale." width="100%" />
 <p class="caption">
 FIGURA 10.6: Istogramma di <span class="math inline">\(M = 1\,000\,000\)</span> campioni casuali <span class="math inline">\(\Theta \sim \mbox{Uniform}(0,1)\)</span> trasformati in valori <span class="math inline">\(\Phi = \mbox{logit}(\Theta)\)</span>. La spezzata nera congiunge i punti centrali superiori delle barre dell’istogramma. Nel limite, quando il numero di osservazioni e di barre tende all’infinito, tale spezzata approssima la funzione di densità di probabilità della variabile casuale.
 </p>

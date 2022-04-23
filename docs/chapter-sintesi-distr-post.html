@@ -893,7 +893,7 @@ f(\theta | y = 17) = \frac{\Gamma(25 + 15)}{\Gamma(25)\Gamma(15)}\theta^{25-1} (
 \tag{21.2}
 \end{equation}\]</span></p>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter-sintesi-distr-post.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span></code></pre></div>
-<p><img src="045_summarize_posterior_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-219-1.png" width="576" style="display: block; margin: auto;" /></p>
 <div id="stime-puntuali-della-distribuzione-a-posteriori" class="section level3 hasAnchor" number="21.3.1">
 <h3><span class="header-section-number">21.3.1</span> Stime puntuali della distribuzione a posteriori<a href="chapter-sintesi-distr-post.html#stime-puntuali-della-distribuzione-a-posteriori" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Una volta trovata l’intera distribuzione a posteriori, quale valore di
@@ -920,7 +920,7 @@ in realtà è una domanda a cui è difficile rispondere. La stima bayesiana dei 
 <h3><span class="header-section-number">21.3.2</span> Intervallo di credibilità<a href="chapter-sintesi-distr-post.html#intervallo-di-credibilità-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>È più comune sintetizzare la distribuzione a posteriori mediante l’intervallo di credibilità. Per esempio, l’intervallo di credibilità a code uguali al 95%</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="chapter-sintesi-distr-post.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_ci</span>(<span class="at">alpha =</span> <span class="dv">25</span>, <span class="at">beta =</span> <span class="dv">15</span>, <span class="at">ci_level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
-<p><img src="045_summarize_posterior_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-222-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>è dato dalla chiamata</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chapter-sintesi-distr-post.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">25</span>, <span class="dv">15</span>)</span>
 <span id="cb229-2"><a href="chapter-sintesi-distr-post.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4717951 0.7663607</span></span></code></pre></div>

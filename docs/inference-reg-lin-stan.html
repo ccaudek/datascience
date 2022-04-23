@@ -824,7 +824,7 @@ div.csl-indent {
 <span id="cb364-8"><a href="inference-reg-lin-stan.html#cb364-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>alpha),</span>
 <span id="cb364-9"><a href="inference-reg-lin-stan.html#cb364-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">slope =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>beta)</span>
 <span id="cb364-10"><a href="inference-reg-lin-stan.html#cb364-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="054_reglin4_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-363-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>L’incertezza della stima della retta specifiata dal modello lineare può essere visualizzata tracciando molteplici rette, ciascuna delle quali definita da un diverso valore estratto a caso dalla distribuzione a posteriori dei parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>. Per ottenere questo risultato dobbiamo estrarre le informazioni richieste dall’oggetto <code>stanfit</code> che abbiamo creato; usiamo, per esempio, le funzionalità di <code>tidybayes</code>:</p>
 <div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="inference-reg-lin-stan.html#cb365-1" aria-hidden="true" tabindex="-1"></a>tidybayes<span class="sc">::</span><span class="fu">get_variables</span>(stanfit)</span>
 <span id="cb365-2"><a href="inference-reg-lin-stan.html#cb365-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;alpha_std&quot;     &quot;beta_std&quot;      &quot;sigma_std&quot;     &quot;alpha&quot;        </span></span>
@@ -867,7 +867,7 @@ div.csl-indent {
 <span id="cb368-16"><a href="inference-reg-lin-stan.html#cb368-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Quoziente di intelligenza della madre&quot;</span>,</span>
 <span id="cb368-17"><a href="inference-reg-lin-stan.html#cb368-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Quoziente di intelligenza del bambino&quot;</span></span>
 <span id="cb368-18"><a href="inference-reg-lin-stan.html#cb368-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="054_reglin4_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-367-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il grafico indica che le rette di regressione costruite estraendo a caso valori dalla distribuzione a posteriori dei parametri <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> tendono ad essere molto simili tra loro. Ciò significa che, relativamente alla dipendenza (lineare) del quoziente di intelligenza del bambino da quello della madra, la nostra incertezza è molto piccola.</p>
 </div>
 <div id="intervalli-di-credibilità-1" class="section level2 hasAnchor" number="27.2">
@@ -891,7 +891,7 @@ div.csl-indent {
 <span id="cb370-3"><a href="inference-reg-lin-stan.html#cb370-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>,</span>
 <span id="cb370-4"><a href="inference-reg-lin-stan.html#cb370-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_outer =</span> <span class="fl">0.95</span></span>
 <span id="cb370-5"><a href="inference-reg-lin-stan.html#cb370-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="054_reglin4_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-369-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>oppure nel modo nel modo seguente</p>
 <div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="inference-reg-lin-stan.html#cb371-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="sc">%&gt;%</span></span>
 <span id="cb371-2"><a href="inference-reg-lin-stan.html#cb371-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_intervals</span>(</span>
@@ -899,7 +899,7 @@ div.csl-indent {
 <span id="cb371-4"><a href="inference-reg-lin-stan.html#cb371-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fl">0.8</span>,</span>
 <span id="cb371-5"><a href="inference-reg-lin-stan.html#cb371-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob_outer =</span> <span class="fl">0.95</span></span>
 <span id="cb371-6"><a href="inference-reg-lin-stan.html#cb371-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="054_reglin4_files/figure-html/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-370-1.png" width="576" style="display: block; margin: auto;" /></p>
 <div id="quale-soglia-usare" class="section level3 hasAnchor" number="27.2.1">
 <h3><span class="header-section-number">27.2.1</span> Quale soglia usare?<a href="inference-reg-lin-stan.html#quale-soglia-usare" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Non c’è niente di “magico” o necessario relativamente al livello di 0.95: il valore 0.95 è arbitrario. Sono possibili tantissime altre soglie per quantificare la nostra incertezza: alcuni ricercatori usano il livello di 0.89, altri quello di 0.5. Se l’obiettivo è quello di descrivere il livello della nostra incertezza relativamente alla stima del parametro, allora dobbiamo riconoscere che la nostra incertezza è descritta dall’<em>intera</em> distribuzione a posteriori. Per cui il metodo più semplice, più diretto e più completo per descrivere la nostra incertezza rispetto alla stima dei parametri è semplicemente quello di riportare graficamente <em>tutta</em> la distribuzione a posteriori. Una rappresentazione della distribuzione a posteriori dei parametri del modello dell’esempio si ottiene nel modo seguente:</p>
@@ -908,7 +908,7 @@ div.csl-indent {
 <span id="cb372-3"><a href="inference-reg-lin-stan.html#cb372-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>),</span>
 <span id="cb372-4"><a href="inference-reg-lin-stan.html#cb372-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">&quot;lightgray&quot;</span></span>
 <span id="cb372-5"><a href="inference-reg-lin-stan.html#cb372-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="054_reglin4_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-371-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="test-di-ipotesi" class="section level2 hasAnchor" number="27.3">

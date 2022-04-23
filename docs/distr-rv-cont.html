@@ -828,10 +828,10 @@ div.csl-indent {
 <span id="cb54-11"><a href="distr-rv-cont.html#cb54-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb54-12"><a href="distr-rv-cont.html#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Binomial(y | 10, 0.9)&quot;</span>)</span>
 <span id="cb54-13"><a href="distr-rv-cont.html#cb54-13" aria-hidden="true" tabindex="-1"></a>binomial_limit_plot</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
-<img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-1-1.png" alt="Probabilità del numero di successi in $N = 10$ prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione $\Bin(y \mid 10, 0.9)$. Con solo dieci prove, la distribuzione è fortemente asimmetrica negativa." width="576" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-54-1.png" alt="Probabilità del numero di successi in $N = 10$ prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione $\Bin(y \mid 10, 0.9)$. Con solo dieci prove, la distribuzione è fortemente asimmetrica negativa." width="576" />
 <p class="caption">
-FIGURA 10.1: Probabilità del numero di successi in <span class="math inline">\(N = 10\)</span> prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione <span class="math inline">\(\Bin(y \mid 10, 0.9)\)</span>. Con solo dieci prove, la distribuzione è fortemente asimmetrica negativa.
+FIGURA 13.1: Probabilità del numero di successi in <span class="math inline">\(N = 10\)</span> prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione <span class="math inline">\(\Bin(y \mid 10, 0.9)\)</span>. Con solo dieci prove, la distribuzione è fortemente asimmetrica negativa.
 </p>
 </div>
 <p>Ma se aumentiamo il numero di prove di un fattore di 100 a
@@ -847,10 +847,10 @@ FIGURA 10.1: Probabilità del numero di successi in <span class="math inline">\(
 <span id="cb55-9"><a href="distr-rv-cont.html#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Binomial(y | 1000, 0.9)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb55-10"><a href="distr-rv-cont.html#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">850</span>, <span class="dv">950</span>)</span>
 <span id="cb55-11"><a href="distr-rv-cont.html#cb55-11" aria-hidden="true" tabindex="-1"></a>binomial_limit_plot</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
-<img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-2-1.png" alt="Probabilità del numero di successi in $N = 1000$ prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione $\Bin(y \mid 1000, 0.9)$. Con mille prove, la distribuzione è quasi simmetrica a forma campanulare." width="576" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-55"></span>
+<img src="ds4psy_files/figure-html/unnamed-chunk-55-1.png" alt="Probabilità del numero di successi in $N = 1000$ prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione $\Bin(y \mid 1000, 0.9)$. Con mille prove, la distribuzione è quasi simmetrica a forma campanulare." width="576" />
 <p class="caption">
-FIGURA 10.3: Probabilità del numero di successi in <span class="math inline">\(N = 1000\)</span> prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione <span class="math inline">\(\Bin(y \mid 1000, 0.9)\)</span>. Con mille prove, la distribuzione è quasi simmetrica a forma campanulare.
+FIGURA 13.2: Probabilità del numero di successi in <span class="math inline">\(N = 1000\)</span> prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione <span class="math inline">\(\Bin(y \mid 1000, 0.9)\)</span>. Con mille prove, la distribuzione è quasi simmetrica a forma campanulare.
 </p>
 </div>
 <p>La distribuzione Normale fu scoperta da Gauss nel 1809. Il Paragrafo successivo illustra come si possa giungere alla Normale mediante una simulazione.</p>
@@ -860,7 +860,7 @@ FIGURA 10.3: Probabilità del numero di successi in <span class="math inline">\(
 <h2><span class="header-section-number">13.2</span> La Normale prodotta con una simulazione<a href="distr-rv-cont.html#normal-random-walk" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> presenta un esempio che illustra come sia possibile giungere alla distribuzione Normale mediante una simulazione. Supponiamo che vi siano mille persone tutte allineate su una linea di partenza. Quando viene dato un segnale, ciascuna persona lancia una moneta e fa un passo in avanti oppure all’indietro a seconda che sia uscita testa o croce. Supponiamo che la lunghezza di ciascun passo vari da 0 a 1 metro. Ciascuna persona lancia una moneta 16 volte e dunque compie 16 passi.</p>
 <p>Alla conclusione di queste passeggiate casuali (<em>random walk</em>) non possiamo sapere con esattezza dove si troverà ciascuna persona, ma possiamo conoscere con certezza le caratteristiche della distribuzione delle mille distanze dall’origine. Per esempio, possiamo predire in maniera accurata la proporzione di persone che si sono spostate in avanti oppure all’indietro. Oppure, possiamo predire accuratamente la proporzione di persone che si troveranno ad una certa distanza dalla linea di partenza (es., a 1.5 m dall’origine).</p>
-<p>Queste predizioni sono possibili perché tali distanze si distribuiscono secondo la legge Normale. È facile simulare questo processo usando . I risultati della simulazione sono riportati nella figura <a href="distr-rv-cont.html#fig:rw-normal-4816">13.1</a>.</p>
+<p>Queste predizioni sono possibili perché tali distanze si distribuiscono secondo la legge Normale. È facile simulare questo processo usando . I risultati della simulazione sono riportati nella figura <a href="distr-rv-cont.html#fig:rw-normal-4816">13.3</a>.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="distr-rv-cont.html#cb56-1" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span></span>
 <span id="cb56-2"><a href="distr-rv-cont.html#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">runif</span>(<span class="dv">16</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb56-3"><a href="distr-rv-cont.html#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
@@ -887,12 +887,12 @@ FIGURA 10.3: Probabilità del numero di successi in <span class="math inline">\(
 <span id="cb56-24"><a href="distr-rv-cont.html#cb56-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Posizione&quot;</span>) <span class="sc">+</span></span>
 <span id="cb56-25"><a href="distr-rv-cont.html#cb56-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rw-normal-4816"></span>
-<img src="023_cont_rv_distr_files/figure-html/rw-normal-4816-1.png" alt="Passeggiata casuale di 4, 8 e 16 passi. La spezzata nera indica la media delle distanze dall'origine come funzione del numero di passi." width="576" />
+<img src="ds4psy_files/figure-html/rw-normal-4816-1.png" alt="Passeggiata casuale di 4, 8 e 16 passi. La spezzata nera indica la media delle distanze dall'origine come funzione del numero di passi." width="576" />
 <p class="caption">
-FIGURA 13.1: Passeggiata casuale di 4, 8 e 16 passi. La spezzata nera indica la media delle distanze dall’origine come funzione del numero di passi.
+FIGURA 13.3: Passeggiata casuale di 4, 8 e 16 passi. La spezzata nera indica la media delle distanze dall’origine come funzione del numero di passi.
 </p>
 </div>
-<p>Un kernel density plot delle distanze ottenute dopo 4, 8 e 16 passi è riportato nella figura <a href="distr-rv-cont.html#fig:rw-normal-3panels">13.2</a>. Nel pannello di destra, al kernel density plot è stata sovrapposta una densità Normale di opportuni parametri (linea tratteggiata).</p>
+<p>Un kernel density plot delle distanze ottenute dopo 4, 8 e 16 passi è riportato nella figura <a href="distr-rv-cont.html#fig:rw-normal-3panels">13.4</a>. Nel pannello di destra, al kernel density plot è stata sovrapposta una densità Normale di opportuni parametri (linea tratteggiata).</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="distr-rv-cont.html#cb57-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span></span>
 <span id="cb57-2"><a href="distr-rv-cont.html#cb57-2" aria-hidden="true" tabindex="-1"></a>  pos <span class="sc">%&gt;%</span></span>
 <span id="cb57-3"><a href="distr-rv-cont.html#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(step <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
@@ -930,9 +930,9 @@ FIGURA 13.1: Passeggiata casuale di 4, 8 e 16 passi. La spezzata nera indica la 
 <span id="cb57-35"><a href="distr-rv-cont.html#cb57-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-36"><a href="distr-rv-cont.html#cb57-36" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">|</span> p2 <span class="sc">|</span> p3) <span class="sc">&amp;</span> <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">6</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rw-normal-3panels"></span>
-<img src="023_cont_rv_distr_files/figure-html/rw-normal-3panels-1.png" alt="Kernel density plot dei risultati della passeggiata casuale riportata nella figura precente, dopo 4, 8 e 16 passi. Nel pannello di destra, una densità Normale di opportuni parametri è sovrapposta all'istogramma lisciato." width="576" />
+<img src="ds4psy_files/figure-html/rw-normal-3panels-1.png" alt="Kernel density plot dei risultati della passeggiata casuale riportata nella figura precente, dopo 4, 8 e 16 passi. Nel pannello di destra, una densità Normale di opportuni parametri è sovrapposta all'istogramma lisciato." width="576" />
 <p class="caption">
-FIGURA 13.2: Kernel density plot dei risultati della passeggiata casuale riportata nella figura precente, dopo 4, 8 e 16 passi. Nel pannello di destra, una densità Normale di opportuni parametri è sovrapposta all’istogramma lisciato.
+FIGURA 13.4: Kernel density plot dei risultati della passeggiata casuale riportata nella figura precente, dopo 4, 8 e 16 passi. Nel pannello di destra, una densità Normale di opportuni parametri è sovrapposta all’istogramma lisciato.
 </p>
 </div>
 <p>Questa simulazione mostra che qualunque processo nel quale viene sommato un certo numero di valori casuali, tutti provenienti dalla medesima distribuzione, converge ad una distribuzione Normale. Non importa quale sia la forma della distribuzione di partenza: essa può essere uniforme, come nell’esempio presente, o di qualunque altro tipo. La forma della distribuzione da cui viene realizzato il campionamento determina la velocità della convergenza alla Normale. In alcuni casi la convergenza è lenta; in altri casi la convergenza è molto rapida (come nell’esempio presente).</p>
@@ -947,11 +947,11 @@ f(y; \mu, \sigma) = {1 \over {\sigma\sqrt{2\pi} }} \exp \left\{-\frac{(y -  \mu)
 <p><span class="math display">\[\begin{equation}
 \mathbb{E}(X) = \mu, \qquad \mathbb{V}(X) = \sigma^2.
 \end{equation}\]</span></p>
-<p>La rappresentazione grafica di quattro densità Normali tutte con media 0 e con deviazioni standard 0.25, 0.5, 1 e 2 è fornita nella figura <a href="distr-rv-cont.html#fig:gaussian-plot-demo">13.3</a>.</p>
+<p>La rappresentazione grafica di quattro densità Normali tutte con media 0 e con deviazioni standard 0.25, 0.5, 1 e 2 è fornita nella figura <a href="distr-rv-cont.html#fig:gaussian-plot-demo">13.5</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:gaussian-plot-demo"></span>
-<img src="023_cont_rv_distr_files/figure-html/gaussian-plot-demo-1.png" alt="Alcune distribuzioni Normali." width="576" />
+<img src="ds4psy_files/figure-html/gaussian-plot-demo-1.png" alt="Alcune distribuzioni Normali." width="576" />
 <p class="caption">
-FIGURA 13.3: Alcune distribuzioni Normali.
+FIGURA 13.5: Alcune distribuzioni Normali.
 </p>
 </div>
 <div id="concentrazione" class="section level3 hasAnchor" number="13.2.1">
@@ -1009,7 +1009,7 @@ X = a + b Y \sim \mathcal{N}(\mu_X = a+b \mu_Y, \sigma_X = \left|b\right|\sigma_
 <span id="cb61-8"><a href="distr-rv-cont.html#cb61-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Altezza&quot;</span>,</span>
 <span id="cb61-9"><a href="distr-rv-cont.html#cb61-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Densità&quot;</span></span>
 <span id="cb61-10"><a href="distr-rv-cont.html#cb61-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-59-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 La risposta si trova utilizzando la funzione di
 ripartizione <span class="math inline">\(F(X)\)</span> della legge <span class="math inline">\(\mathcal{N}(1.7, 0.1)\)</span> in
@@ -1037,7 +1037,7 @@ z_{\text{inf}} = \frac{1.7 - 1.7}{0.1} = 0, \quad z_{\text{sup}} = \frac{1.8 - 1
 <span id="cb64-5"><a href="distr-rv-cont.html#cb64-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> plogis,</span>
 <span id="cb64-6"><a href="distr-rv-cont.html#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="at">scale =</span> <span class="fl">0.56</span>)</span>
 <span id="cb64-7"><a href="distr-rv-cont.html#cb64-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-62-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -1068,11 +1068,11 @@ Z_1^2 + Z_2^2 + \dots + Z_k^2,
 f(x) = C_{\nu} x^{\nu/2-1} \exp (-x/2), \qquad \text{se } x &gt; 0,
 \]</span></p>
 <p>dove <span class="math inline">\(C_{\nu}\)</span> è una costante positiva.</p>
-<p>La figura <a href="distr-rv-cont.html#fig:alcune-chi-quadrato">13.4</a> mostra alcune distribuzioni Chi-quadrato variando il parametro <span class="math inline">\(\nu\)</span>.</p>
+<p>La figura <a href="distr-rv-cont.html#fig:alcune-chi-quadrato">13.6</a> mostra alcune distribuzioni Chi-quadrato variando il parametro <span class="math inline">\(\nu\)</span>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:alcune-chi-quadrato"></span>
-<img src="023_cont_rv_distr_files/figure-html/alcune-chi-quadrato-1.png" alt="Alcune distribuzioni Chi-quadrato." width="576" />
+<img src="ds4psy_files/figure-html/alcune-chi-quadrato-1.png" alt="Alcune distribuzioni Chi-quadrato." width="576" />
 <p class="caption">
-FIGURA 13.4: Alcune distribuzioni Chi-quadrato.
+FIGURA 13.6: Alcune distribuzioni Chi-quadrato.
 </p>
 </div>
 <div id="proprietà-2" class="section level3 hasAnchor" number="13.4.1">
@@ -1096,7 +1096,7 @@ FIGURA 13.4: Alcune distribuzioni Chi-quadrato.
 <span id="cb65-8"><a href="distr-rv-cont.html#cb65-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;V.a. chi-quadrato con 3 gradi di libertà&quot;</span>,</span>
 <span id="cb65-9"><a href="distr-rv-cont.html#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Densità&quot;</span></span>
 <span id="cb65-10"><a href="distr-rv-cont.html#cb65-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-63-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -1107,11 +1107,11 @@ FIGURA 13.4: Alcune distribuzioni Chi-quadrato.
 T = \frac{Z}{\Big( \frac{W}{\nu}\Big)^{\frac{1}{2}}}
 \end{equation}\]</span></p>
 <p>definisce la distribuzione <span class="math inline">\(t\)</span> di Student con <span class="math inline">\(\nu\)</span> gradi di libertà. Si usa scrivere <span class="math inline">\(T \sim t_{\nu}\)</span>. L’andamento della distribuzione <span class="math inline">\(t\)</span> di Student è simile a quello della distribuzione Normale, ma ha una maggiore dispersione (ha le code più pesanti di una Normale, ovvero ha una varianza maggiore di 1).</p>
-<p>La figura <a href="distr-rv-cont.html#fig:alcune-t-student">13.5</a> mostra alcune distribuzioni <span class="math inline">\(t\)</span> di Student variando il parametro <span class="math inline">\(\nu\)</span>.</p>
+<p>La figura <a href="distr-rv-cont.html#fig:alcune-t-student">13.7</a> mostra alcune distribuzioni <span class="math inline">\(t\)</span> di Student variando il parametro <span class="math inline">\(\nu\)</span>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:alcune-t-student"></span>
-<img src="023_cont_rv_distr_files/figure-html/alcune-t-student-1.png" alt="Alcune distribuzioni $t$ di Student." width="576" />
+<img src="ds4psy_files/figure-html/alcune-t-student-1.png" alt="Alcune distribuzioni $t$ di Student." width="576" />
 <p class="caption">
-FIGURA 13.5: Alcune distribuzioni <span class="math inline">\(t\)</span> di Student.
+FIGURA 13.7: Alcune distribuzioni <span class="math inline">\(t\)</span> di Student.
 </p>
 </div>
 <div id="proprietà-3" class="section level3 hasAnchor" number="13.5.1">
@@ -1198,7 +1198,7 @@ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\,,
 \end{equation}\]</span></p>
 <p>Al variare di <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> si ottengono molte distribuzioni di forma diversa; un’illustrazione è fornita dalla seguente <a href="https://en.wikipedia.org/wiki/File:PDF_of_the_Beta_distribution.gif">GIF animata</a>. Si può ottenere una rappresentazione grafica della distribuzione <span class="math inline">\(\mbox{Beta}(\pi \mid \alpha, \beta)\)</span> con la funzione <code>plot_beta()</code> del pacchetto <code>bayesrules</code>. Per esempio:</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="distr-rv-cont.html#cb72-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_beta</span>(<span class="at">alpha =</span> <span class="dv">3</span>, <span class="at">beta =</span> <span class="dv">9</span>)</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La funzione <code>bayesrules::summarize_beta()</code> ci restituisce la media, moda e varianza della distribuzione Beta. Per esempio:</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="distr-rv-cont.html#cb73-1" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">summarize_beta</span>(<span class="at">alpha =</span> <span class="dv">3</span>, <span class="at">beta =</span> <span class="dv">9</span>)</span>
 <span id="cb73-2"><a href="distr-rv-cont.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mean mode        var        sd</span></span>
@@ -1224,7 +1224,7 @@ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\,,
 <span id="cb74-8"><a href="distr-rv-cont.html#cb74-8" aria-hidden="true" tabindex="-1"></a>pars</span>
 <span id="cb74-9"><a href="distr-rv-cont.html#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16 24</span></span>
 <span id="cb74-10"><a href="distr-rv-cont.html#cb74-10" aria-hidden="true" tabindex="-1"></a>bayesrules<span class="sc">::</span><span class="fu">plot_beta</span>(pars[<span class="dv">1</span>], pars[<span class="dv">2</span>])</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Verifichiamo il valore della media della distribuzione:</p>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="distr-rv-cont.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="sc">/</span> (<span class="dv">16</span> <span class="sc">+</span> <span class="dv">24</span>)</span>
 <span id="cb75-2"><a href="distr-rv-cont.html#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4</span></span></code></pre></div>
@@ -1263,7 +1263,7 @@ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\,,
 <span id="cb83-6"><a href="distr-rv-cont.html#cb83-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità di recidiva&quot;</span>,</span>
 <span id="cb83-7"><a href="distr-rv-cont.html#cb83-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Densità Beta(16, 24)&quot;</span></span>
 <span id="cb83-8"><a href="distr-rv-cont.html#cb83-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-28-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-81-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="distribuzione-di-cauchy" class="section level2 hasAnchor" number="13.8">
@@ -1302,7 +1302,7 @@ f(x) = \frac{1}{\sigma \sqrt{2 \pi}} \frac{1}{x} \exp \left\{-\frac{(\log x -  \
 f(x)=(x_m/x)^\alpha,
 \]</span></p>
 <p>dove <span class="math inline">\(x_m\)</span> (parametro di scala) è il minimo (necessariamente positivo) valore possibile di <span class="math inline">\(X\)</span> e <span class="math inline">\(\alpha\)</span> è un parametro di forma.</p>
-<p><img src="023_cont_rv_distr_files/figure-html/unnamed-chunk-29-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-82-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 La distribuzione di Pareto ha una asimmetria positiva. Il supporto della distribuzione di Pareto è la retta reale positiva. Tutti i valori devono essere maggiori del parametro di scala <span class="math inline">\(x_m\)</span>, che è in realtà un parametro di soglia.</p>
 </div>

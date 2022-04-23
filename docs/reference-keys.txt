@@ -17,7 +17,7 @@ fig:zetschehist3
 fig:distrib-shapes
 exr:unlabeled-div-13
 exr:unlabeled-div-14
-fig:unnamed-chunk-8
+fig:unnamed-chunk-10
 exr:unlabeled-div-15
 fig:violin-zetsche
 exr:unlabeled-div-16
@@ -68,12 +68,12 @@ exr:unlabeled-div-39
 exr:unlabeled-div-40
 tab:ditr-cong-biv
 eq:ex-marg-cont
-fig:unnamed-chunk-1
+fig:unnamed-chunk-38
 fig:spinner-cdf
-fig:unnamed-chunk-2
-fig:unnamed-chunk-4
+fig:unnamed-chunk-39
+fig:unnamed-chunk-41
 exr:unlabeled-div-41
-fig:unnamed-chunk-7
+fig:unnamed-chunk-44
 fig:hist-dens-example
 fig:median-mean
 def:unlabeled-div-42
@@ -118,6 +118,8 @@ fig:examples-poisson-distrib
 exr:unlabeled-div-67
 exr:unlabeled-div-68
 exr:unlabeled-div-69
+fig:unnamed-chunk-54
+fig:unnamed-chunk-55
 fig:rw-normal-4816
 fig:rw-normal-3panels
 eq:normal-formula
@@ -136,6 +138,7 @@ eq:beta-var
 exr:unlabeled-div-76
 exr:unlabeled-div-77
 eq:bayes-intro
+fig:unnamed-chunk-84
 def:unlabeled-div-78
 eq:binomialmodel
 eq:likebino23
@@ -148,8 +151,8 @@ eq:ev-post-beta-bin-1
 exr:unlabeled-div-79
 exr:unlabeled-div-80
 exr:unlabeled-div-81
-fig:unnamed-chunk-9
-fig:unnamed-chunk-10
+fig:unnamed-chunk-146
+fig:unnamed-chunk-147
 eq:ev-post-beta-bin
 fig:grid-method-6points-posterior-plot
 fig:grid-method-6points-posterior-plot-sampling

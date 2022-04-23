@@ -937,7 +937,7 @@ y_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
 <p>per poi utilizzare le funzioni del pacchetto <code>bayesplot</code>. Ad esempio:</p>
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="reg-lin-stan.html#cb352-1" aria-hidden="true" tabindex="-1"></a>stanfit_1 <span class="sc">%&gt;%</span> </span>
 <span id="cb352-2"><a href="reg-lin-stan.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
-<p><img src="053_reglin3_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-350-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Infine, eseguendo la funzione <code>launch_shinystan(fit)</code>, è possibile analizzare oggetti di classe <code>stanfit</code> mediante le funzionalità del pacchetto <code>ShinyStan</code>.</p>
 <div id="standardizzare-i-dati" class="section level3 hasAnchor" number="26.2.1">
 <h3><span class="header-section-number">26.2.1</span> Standardizzare i dati<a href="reg-lin-stan.html#standardizzare-i-dati" class="anchor-section" aria-label="Anchor link to header"></a></h3>

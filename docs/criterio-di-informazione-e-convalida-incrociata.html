@@ -1198,7 +1198,7 @@ Questo accade se un predittore è associato in modo trascurabile con la variabil
 <span id="cb494-18"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb494-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
 <p>Un grafico che riporta le stime dei parametri di forma della distribuzione di Pareto per ciascuna osservazione è dato da:</p>
 <div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(loo1a_result)</span></code></pre></div>
-<p><img src="092_info_criterion_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-498-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il valore <code>k</code> stimato da PSIS-LOO-CV mette chiaramente in luce il fatto che il valore introdotto nel campione è un outlier. L’indice dell’osservazione outlier è identificato con:</p>
 <div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pareto_k_ids</span>(loo1a_result, <span class="at">threshold =</span> <span class="fl">0.7</span>)</span>
 <span id="cb496-2"><a href="criterio-di-informazione-e-convalida-incrociata.html#cb496-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434</span></span></code></pre></div>

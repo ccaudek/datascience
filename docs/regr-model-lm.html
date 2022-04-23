@@ -842,13 +842,13 @@ div.csl-indent {
 <div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="regr-model-lm.html#cb306-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
 <span id="cb306-2"><a href="regr-model-lm.html#cb306-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span></span>
 <span id="cb306-3"><a href="regr-model-lm.html#cb306-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-304-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>I dati rappresentati nel diagramma a dispersione suggeriscono che, in questo campione, sembra esserci un’associazione positiva tra l’intelligenza del bambino (kid_score) e l’intelligenza della madre (mom_iq). Mi pongo il problema di descrivere questa associazione mediante una relazione lineare.</p>
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="regr-model-lm.html#cb307-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
 <span id="cb307-2"><a href="regr-model-lm.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mom_iq, <span class="at">y =</span> kid_score)) <span class="sc">+</span> </span>
 <span id="cb307-3"><a href="regr-model-lm.html#cb307-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb307-4"><a href="regr-model-lm.html#cb307-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-305-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Ci sono infinite rette che, in linea di principio, possono essere usate per “approssimare” la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste rette.</p>
 <p>Un vincolo che viene spesso usato è quello di costringere la retta a passare per il punto <span class="math inline">\((\bar{x}, \bar{y})\)</span>.</p>
 <div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="regr-model-lm.html#cb308-1" aria-hidden="true" tabindex="-1"></a>kidiq <span class="sc">%&gt;%</span> </span>
@@ -859,7 +859,7 @@ div.csl-indent {
 <span id="cb308-6"><a href="regr-model-lm.html#cb308-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
 <span id="cb308-7"><a href="regr-model-lm.html#cb308-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
 <span id="cb308-8"><a href="regr-model-lm.html#cb308-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-306-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Una retta che passa per il punto <span class="math inline">\((\bar{x}, \bar{y})\)</span> ha la proprietà descritta di seguito.</p>
 <p>Iniziamo a descrivere ciascuna osservazione inserita nel diagramma a dispersione con un’equazione:</p>
 <p><span class="math display">\[
@@ -968,7 +968,7 @@ b = \frac{\mbox{Cov}(x, y)}{\mbox{Var}(x)}
 <span id="cb316-7"><a href="regr-model-lm.html#cb316-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(mom_iq), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
 <span id="cb316-8"><a href="regr-model-lm.html#cb316-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
 <span id="cb316-9"><a href="regr-model-lm.html#cb316-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-314-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il diagramma precedente presenta ciascun valore <span class="math inline">\(\hat{y}_i = a + b x_i\)</span> in funzione di <span class="math inline">\(x_i\)</span>. Si vede che i valori predetti dal modello di regressione sono i punti che stanno sulla retta di regressione. Dunque, il residuo, ovvero la componente di ciascuna osservazione <span class="math inline">\(y_i\)</span> che non viene predetta dal modello di regressione corrisponde alla distanza verticale tra i punti del diagramma a dispersione e la retta di regressione</p>
 <p><span class="math display">\[
 e_i = y_i - (a + b x_i).
@@ -1007,7 +1007,7 @@ e_1 = (a + b x_1) - y_1
 <span id="cb322-6"><a href="regr-model-lm.html#cb322-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mean</span>(xd), <span class="at">y=</span><span class="fu">mean</span>(kid_score)), </span>
 <span id="cb322-7"><a href="regr-model-lm.html#cb322-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
 <span id="cb322-8"><a href="regr-model-lm.html#cb322-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-320-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Nel diagramma precedente, la pendenza della retta di regressione è uguale alla precedente, ma in questo grafico all’intercetta può essere assegnata un’interpretazione dotata di senso.</p>
 <div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="regr-model-lm.html#cb323-1" aria-hidden="true" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> xd, <span class="at">data =</span> kidiq)</span>
 <span id="cb323-2"><a href="regr-model-lm.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fm1)</span>
@@ -1038,7 +1038,7 @@ e_1 = (a + b x_1) - y_1
 <div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="regr-model-lm.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
 <span id="cb327-2"><a href="regr-model-lm.html#cb327-2" aria-hidden="true" tabindex="-1"></a>  b_grid, sse_res, <span class="at">type =</span> <span class="st">&#39;l&#39;</span></span>
 <span id="cb327-3"><a href="regr-model-lm.html#cb327-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="052_reglin2_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-325-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il risultato ottenuto con la simulazione</p>
 <div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="regr-model-lm.html#cb328-1" aria-hidden="true" tabindex="-1"></a>b_grid[<span class="fu">which.min</span>(sse_res)]</span>
 <span id="cb328-2"><a href="regr-model-lm.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6099761</span></span></code></pre></div>

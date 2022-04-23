@@ -878,9 +878,9 @@ div.csl-indent {
 <span id="cb411-28"><a href="ch-anova.html#cb411-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Condizione&quot;</span></span>
 <span id="cb411-29"><a href="ch-anova.html#cb411-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb411-30"><a href="ch-anova.html#cb411-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="060_anova_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-410-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Su scala logaritmica, l’asimmetria positiva della variabile <code>dd$SwitchOff_Time</code> viene ridotta.</p>
-<p><img src="060_anova_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-411-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Per i dati trasformati, la mediana in ciascuna condizione è:</p>
 <div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="ch-anova.html#cb412-1" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">log</span>(dd<span class="sc">$</span>SwitchOff_Time <span class="sc">+</span> <span class="fl">0.01</span>)</span>
 <span id="cb412-2"><a href="ch-anova.html#cb412-2" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">%&gt;%</span> </span>
@@ -976,7 +976,7 @@ div.csl-indent {
 <span id="cb421-2"><a href="ch-anova.html#cb421-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">&#39;SO&#39;</span>, <span class="st">&#39;FO&#39;</span>, <span class="st">&#39;SN&#39;</span>, <span class="st">&#39;FN&#39;</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="ch-anova.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(temps, <span class="at">prob =</span> <span class="fl">0.95</span>) <span class="sc">+</span> </span>
 <span id="cb422-2"><a href="ch-anova.html#cb422-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Gruppi&#39;</span>)</span></code></pre></div>
-<p><img src="060_anova_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-422-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>I quattro intervalli di credibilità al 95% sono:</p>
 <div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="ch-anova.html#cb423-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
 <span id="cb423-2"><a href="ch-anova.html#cb423-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), </span>
