@@ -29,12 +29,12 @@ con $0 \leq \theta \leq 1$. Convenzionalmente l'evento $\{Y = 1\}$ con probabili
 Applicando l'operatore di valore atteso e di varianza, otteniamo
 
 \begin{align}
-\E(Y) &= 0 \cdot P(Y=0) + 1 \cdot P(Y=1) = \theta, \\
-\Var(Y) &= (0 - \theta)^2 \cdot P(Y=0) + (1 - \theta)^2 \cdot P(Y=1) = \theta(1-\theta).
+\mathbb{E}(Y) &= 0 \cdot P(Y=0) + 1 \cdot P(Y=1) = \theta, \\
+\mathbb{V}(Y) &= (0 - \theta)^2 \cdot P(Y=0) + (1 - \theta)^2 \cdot P(Y=1) = \theta(1-\theta).
 (\#eq:ev-var-bern)
 \end{align}
 
-Scriviamo $Y \sim \Bernoulli(\theta)$ per indicare che la variabile casuale $Y$ ha una distribuzione Bernoulliana di parametro $\theta$.
+Scriviamo $Y \sim \mbox{Bernoulli}(\theta)$ per indicare che la variabile casuale $Y$ ha una distribuzione Bernoulliana di parametro $\theta$.
 
 :::{.exercise}
 Nel caso del lancio di una moneta equilibrata la variabile casuale di Bernoulli assume i valori $0$ e $1$. La distribuzione di massa di probabilità è pari a $\frac{1}{2}$ in corrispondenza di entrambi iv valori. La funzione di distribuzione vale $\frac{1}{2}$ per $Y = 0$ e $1$ per $Y = 1$.
@@ -163,8 +163,8 @@ standard di una distribuzione binomiale sono molto semplici:
 Essendo $Y$ la somma di $n$ prove Bernoulliane indipendenti $Y_i$, è facile vedere che 
 
 \begin{align}
-\E(Y) &= \E \left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \E(Y_i) = n\theta, \\
-\Var(Y) &= \Var \left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \Var(Y_i) = n \theta (1-\theta).
+\E(Y) &= \mathbb{E}\left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \E(Y_i) = n\theta, \\
+\Var(Y) &= \mathbb{V} \left( \sum_{i=1}^n Y_i \right) = \sum_{i=1}^n \Var(Y_i) = n \theta (1-\theta).
 \end{align}
 :::
 
@@ -278,19 +278,19 @@ $$
 Il valore atteso è
 
 $$
-\E(X) = \sum_{x=1}^m x f_X(x) = \sum_{x=1}^m x \frac{1}{m} = \frac{1}{m} (1 + 2 + \dots + m) = \frac{m+1}{2},
+\mathbb{E}(X) = \sum_{x=1}^m x f_X(x) = \sum_{x=1}^m x \frac{1}{m} = \frac{1}{m} (1 + 2 + \dots + m) = \frac{m+1}{2},
 $$
 dove abbiamo utilizzato l'identità $1+2+···+m = m(m+1)/2$.
 
 Per trovare la varianza, prima calcoliamo 
 
 $$
-\E(X^2) = \frac{1}{m} \sum_{x=1}^m x^2,
+\mathbb{E}(X^2) = \frac{1}{m} \sum_{x=1}^m x^2,
 $$
 e poi troviamo 
 
 $$
-\V(X) = E(X^2) - \left[E(X)\right]^2.
+\mathbb{V}(X) = \mathbb{E}(X^2) - \left[\mathbb{E}(X)\right]^2.
 $$
 
 ### Usiamo $\textsf{R}$

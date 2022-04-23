@@ -4,22 +4,22 @@
 source("_common.R")
 ```
 
-`R` è un linguaggio di programmazione orientato all'analisi dei dati, il
+$\mathsf{R}$ è un linguaggio di programmazione orientato all'analisi dei dati, il
 calcolo e la visualizzazione grafica. È disponibile su Internet una
-vasta gamma di materiali utile per avvicinarsi all'ambiente `R` e aiutare
+vasta gamma di materiali utile per avvicinarsi all'ambiente $\mathsf{R}$ e aiutare
 l'utente nell'apprendimento di questo software statistico. Cercheremo
 qui di fornire alcune indicazioni e una breve descrizione delle risorse
-di base di `R`.
+di base di $\mathsf{R}$.
 
 Aggiungo qui sotto alcune considerazioni che ho preso, pari pari, da un testo che tratta di un altro linguaggio di programmazione, ma che si applicano perfettamente anche al caso nostro. *"Come in ogni linguaggio, per parlare in R è necessario seguire un insieme di regole. Come in tutti i linguaggi di programmazione, queste regole sono del tutto inflessibili e inderogabili. In R, un enunciato o è sintatticamente corretto o è incomprensibile all'interprete, che lo segnalerà all'utente. Questo aspetto non è esattamente amichevole per chi non è abituato ai linguaggi di programmazione, e si trova così costretto ad una precisione di scrittura decisamente poco "analogica". Tuttavia, ci sono due aspetti positivi nello scrivere codice, interrelati tra loro. Il primo è lo sforzo analitico necessario, che allena ad un'analisi precisa del problema che si vuole risolvere in modo da poterlo formalizzare linguisticamente. Il secondo concerne una forma di autoconsapevolezza specifica: salvo "bachi" nel linguaggio (rarissimi sebbene possibili), il mantra del programmatore è "Se qualcosa non ti funziona, è colpa tua"* (testo adattato da Andrea Valle).
 
 A chi preferisce un approccio più "giocoso" posso suggerire il seguente [link](https://tinystats.github.io/teacups-giraffes-and-statistics/01_introToR.html).
 
-### Utilizzare la console `R` come calcolatrice
+### Utilizzare la console $\mathsf{R}$ come calcolatrice
 
 La console di RStudio contiene un cursore rappresentato dal simbolo "\>"
 (linea di comando) dove si possono inserire i comandi e le funzioni --
-in realtà è sempre meglio utilizzare un `R` Notebook anziché la console,
+in realtà è sempre meglio utilizzare un $\mathsf{R}$ Notebook anziché la console,
 ma per ora esaminiamo il funzionamento di quest'ultima.
 
 La console di RStudio può essere utilizzata come semplice calcolatrice.
@@ -29,7 +29,7 @@ operazioni aritmetiche vengono eseguite mediante simboli "standard:" +,
 
 I comandi sono separati da un carattere di nuova linea (si immette un
 carattere di nuova linea digitando il tasto `Invio`). Se un comando non
-è completo alla fine della linea, `R` darà un prompt differente che per
+è completo alla fine della linea, $\mathsf{R}$ darà un prompt differente che per
 default è il carattere `+` sulla linea seguente e continuerà a leggere
 l'input finché il comando non è sintatticamente completo. Ad esempio,
 
@@ -39,13 +39,13 @@ l'input finché il comando non è sintatticamente completo. Ad esempio,
 + 1
 ```
 
-`R` è un ambiente interattivo, ossia i comandi producono una risposta immediata. Se scriviamo `2 + 2` e premiamo il tasto di invio, comparirà nella riga successiva il risultato:
+$\mathsf{R}$ è un ambiente interattivo, ossia i comandi producono una risposta immediata. Se scriviamo `2 + 2` e premiamo il tasto di invio, comparirà nella riga successiva il risultato:
 
 ```{r}
 2 + 2
 ```
 
-Il risultato è preceduto da `[1]`, il che significa che il risultato dell'operazione che abbiamo appena eseguito è il primo valore di questa linea. Alcune funzioni ritornano più di un singolo numero e, in quel caso, l'informazione fornita da `R` è più utile. Per esempio, l'istruzione `100:130` ritorna $31$ valori, ovvero i numeri da $100$ a $130$:
+Il risultato è preceduto da `[1]`, il che significa che il risultato dell'operazione che abbiamo appena eseguito è il primo valore di questa linea. Alcune funzioni ritornano più di un singolo numero e, in quel caso, l'informazione fornita da $\mathsf{R}$ è più utile. Per esempio, l'istruzione `100:130` ritorna $31$ valori, ovvero i numeri da $100$ a $130$:
 
 ```{r}
 100:130
@@ -57,17 +57,17 @@ In questo caso, sul mio computer, `[24]` indica che il valore $123$ è il ventiq
 
 In questo corso, cercheremo di evitare i numeri nei nomi R, così come le lettere maiuscole e .. Useremo quindi nomi come: my_data, anova_results, square_root, ecc.
 
-Un'espressione in `R` è un enunciato finito e autonomo del linguaggio: una frase conclusa, si potrebbe dire. Si noti che le espressioni in `R` non sono delimitate dal `;` come succede in alcuni linguaggi di programmazione. L'ordine delle espressioni è l'ordine di esecuzione delle stesse. 
+Un'espressione in $\mathsf{R}$ è un enunciato finito e autonomo del linguaggio: una frase conclusa, si potrebbe dire. Si noti che le espressioni in $\mathsf{R}$ non sono delimitate dal `;` come succede in alcuni linguaggi di programmazione. L'ordine delle espressioni è l'ordine di esecuzione delle stesse. 
 
-L'a capo non è  rilevante per `R`. Questo permette di utilizzare l'a capo per migliorare la leggibilità  del codice.
+L'a capo non è  rilevante per $\mathsf{R}$. Questo permette di utilizzare l'a capo per migliorare la leggibilità  del codice.
 
 ### Oggetti
 
-`R` è un linguaggio di programmazione a oggetti, quindi si basa sulla creazione di oggetti e sulla possibilità di salvarli nella memoria del programma. `R` distingue tra maiuscole e minuscole come la maggior parte dei linguaggi basati su UNIX, quindi `A` e `a` sono nomi diversi e fanno riferimento a oggetti diversi.
+$\mathsf{R}$ è un linguaggio di programmazione a oggetti, quindi si basa sulla creazione di oggetti e sulla possibilità di salvarli nella memoria del programma. $\mathsf{R}$ distingue tra maiuscole e minuscole come la maggior parte dei linguaggi basati su UNIX, quindi `A` e `a` sono nomi diversi e fanno riferimento a oggetti diversi.
 
-I comandi elementari di `R` consistono in espressioni o assegnazioni.
+I comandi elementari di $\mathsf{R}$ consistono in espressioni o assegnazioni.
 
-Se un'espressione viene fornita come comando, viene valutata, stampata sullo schermo e il valore viene perso, come succedeva alle operazioni aritmetiche che abbiamo presentato sopra discutendo l'uso della console `R` come calcolatrice.
+Se un'espressione viene fornita come comando, viene valutata, stampata sullo schermo e il valore viene perso, come succedeva alle operazioni aritmetiche che abbiamo presentato sopra discutendo l'uso della console $\mathsf{R}$ come calcolatrice.
 
 Un'assegnazione crea un oggetto oppure valuta un'espressione e passa il valore a un oggetto, ma il risultato non viene stampato automaticamente sullo schermo. Per l'operazione di assegnazione si usa il simbolo `<-`. Ad esempio, per creare un oggetto che contiene il risultato dell'operazione `2 + 2` procediamo nel modo seguente:
 
@@ -82,7 +82,7 @@ L'operazione di assegnazione (`<-`) copia il contenuto dell'operando destro (det
 
 L'oggetto `res_sum` è una _variabile_. Una spiegazione di ciò che questo significa è riportata qui sotto. *"Una variabile è  un segnaposto. Tutte le volte che si memorizza un dato lo si assegna ad una variabile. Infatti, se il dato è  nella memoria, per potervi accedere, è  necessario conoscere il suo indirizzo, la sua “etichetta” (come in un grande magazzino in cui si va a cercare un oggetto in base alla sua collocazione). Se il dato è  memorizzato ma inaccessibile (come nel caso di un oggetto sperso in un magazzino), allora non si può usare ed è  soltanto uno spreco di spazio. La teoria delle variabili è un ambito molto complesso nella scienza della computazione. Ad esempio, una aspetto importante può concernere la tipizzazione delle variabili. Nei linguaggi “tipizzati” (ad esempio C), l’utente dichiara che userà quella etichetta (la variabile) per contenere solo ed esclusivamente un certo tipo di oggetto (ad esempio, un numero intero), e la variabile non potrà essere utilizzata per oggetti diversi (ad esempio, una stringa). In questo caso, prima di usare una variabile se ne dichiara l’esistenza e se ne specifica il tipo. I linguaggi non tipizzati non richiedono all’utente di specificare il tipo, che viene inferito in vario modo (ad esempio, in funzione dell’assegnazione del valore alla variabile). Alcuni linguaggi (ad esempio Python) non richiedono neppure la dichiarazione della variabile, che viene semplicemente usata. È l’interprete che inferisce che quella stringa è una variabile. La tipizzazione impone vincoli d’uso sulle variabili e maggiore scrittura del codice, ma assicura una chiara organizzazione dei dati. In assenza di tipizzazione, si lavora in maniera più rapida e snella, ma potenzialmente si può andare incontro a situazioni complicate, come quando si cambia il tipo di una variabile “in corsa” senza accorgersene" (Andrea Valle).*
 
-`R` è un linguaggio non tipicizzato, come Python. In `R` non è necessario dichiarare le variabili che si intendono utilizzare, né il loro tipo. 
+$\mathsf{R}$ è un linguaggio non tipicizzato, come Python. In $\mathsf{R}$ non è necessario dichiarare le variabili che si intendono utilizzare, né il loro tipo. 
 
 ### R console
 
@@ -93,7 +93,7 @@ comandi già immessi. Appena trovato il comando che interessa, lo si può
 modificare, ad esempio, con i tasti freccia orizzontali, immettendo
 nuovi caratteri o cancellandone altri.
 
-Se viene digitato un comando che `R` non riconosce, sulla console viene visualizzato un messaggio di errore; ad esempio,
+Se viene digitato un comando che $\mathsf{R}$ non riconosce, sulla console viene visualizzato un messaggio di errore; ad esempio,
 
 ```{r, eval=FALSE}
 3 % 9
@@ -102,7 +102,7 @@ Errore: unexpected input in "3 % 9"
 
 ### Parentesi
 
-Le parentesi in `R` (come in generale in ogni linguaggio di programmazione) assegnano un significato diverso alle porzioni di codice che delimitano.
+Le parentesi in $\mathsf{R}$ (come in generale in ogni linguaggio di programmazione) assegnano un significato diverso alle porzioni di codice che delimitano.
 
 -   Le parentesi tonde funzionano come nell'algebra. Per esempio
 
@@ -118,7 +118,7 @@ non è equivalente a
 
 Le due istruzioni precedenti producono risultati diversi perché, se
     la sequenza delle operazioni algebriche non viene specificata dalle
-    parentesi, `R` assegna alle operazioni algebriche il seguente ordine
+    parentesi, $\mathsf{R}$ assegna alle operazioni algebriche il seguente ordine
     di priorità decrescente: esponenziazione, moltiplicazione /
     divisione, addizione / sottrazione, confronti logici
     (`<, >, <=, >=, ==, !=`). È sempre una buona idea rendere esplicito
@@ -140,7 +140,7 @@ Le due istruzioni precedenti producono risultati diversi perché, se
 
 ### I nomi degli oggetti
 
-Le entità create e manipolate da `R` si chiamano 'oggetti'. Tali oggetti
+Le entità create e manipolate da $\mathsf{R}$ si chiamano 'oggetti'. Tali oggetti
 possono essere variabili (come nell'esempio che abbiamo visto sopra), array di numeri, caratteri, stringhe, funzioni, o più in generale strutture costruite a partire da tali
 componenti. Durante una sessione di R gli oggetti sono creati e
 memorizzati attraverso opportuni nomi.
@@ -154,17 +154,17 @@ pratica usare nomi come `ratio_of_sums`. È fortemente sconsigliato
 utilizzare nei nomi degli oggetti caratteri accentati o, ancora peggio,
 apostrofi. Per questa ragione è sensato creare i nomi degli oggetti
 utilizzando la lingua inglese. È anche bene che i nomi degli oggetti non
-coincidano con nomi di funzioni. Ricordo nuovamente che `R` è *case sensitive*, cioè
+coincidano con nomi di funzioni. Ricordo nuovamente che $\mathsf{R}$ è *case sensitive*, cioè
 `A` e `a` sono due simboli diversi e identificano due oggetti
 differenti.
 
-In questo corso cercheremo di evitare i numeri nei nomi degli oggetti `R`, così come le lettere maiuscole e il punto. Useremo quindi nomi come: `my_data`, `regression_results`, `square_root`, ecc.
+In questo corso cercheremo di evitare i numeri nei nomi degli oggetti $\mathsf{R}$, così come le lettere maiuscole e il punto. Useremo quindi nomi come: `my_data`, `regression_results`, `square_root`, ecc.
 
 ### Permanenza dei dati e rimozione di oggetti
 
 Gli oggetti vengono salvati nello "spazio di lavoro" (*workspace*). Il
 comando `ls()` può essere utilizzato per visualizzare i nomi degli
-oggetti che sono in quel momento memorizzati in `R`.
+oggetti che sono in quel momento memorizzati in $\mathsf{R}$.
 
 Per eliminare oggetti dallo spazio di lavoro è disponibile la funzione
 `rm()`; ad esempio
@@ -203,17 +203,17 @@ questa domanda.
 
 È molto più facile interagire con R manipolando uno script con un
 editore piuttosto che inserendo direttamente le istruzioni nella
-console. `R` fornisce il Text Editor dove è possibile inserire il codice
+console. $\mathsf{R}$ fornisce il Text Editor dove è possibile inserire il codice
 (File $\to$ New Script). Per salvare il file basta utilizzare l'apposito
 menù a tendina (estensione `.R`). Tale file potrà poi essere riaperto ed
 utilizzato in un momento successivo.
 
-L'editore comunica con `R` nel modo seguente: dopo avere selezionato la
+L'editore comunica con $\mathsf{R}$ nel modo seguente: dopo avere selezionato la
 porzione di codice che si vuole eseguire, si digita un'apposita sequenza
 di tasti (`Command + Enter` su Mac OS X e `ctrl + r` in Windows).
-`ctrl + r` significa premere il tasto `ctrl` e, tenendolo premuto, premere il tasto `r` della tastiera.
-Così facendo, `R` eseguirà le istruzioni selezionate e l'output verrà
-stampato sulla console. Il Text Editor fornito da `R` è piuttosto
+`ctrl + r` significa premere il tasto `ctrl` e, tenendolo premuto, premere il tasto $\mathsf{R}$ della tastiera.
+Così facendo, $\mathsf{R}$ eseguirà le istruzioni selezionate e l'output verrà
+stampato sulla console. Il Text Editor fornito da $\mathsf{R}$ è piuttosto
 primitivo: è fortemente consigliato utilizzare RStudio.
 
 ### Commentare il codice
@@ -222,7 +222,7 @@ Un "commento" è una parte di codice che l'interprete non tiene in considerazion
 
 I commenti sono parole in linguaggio naturale (nel nostro caso l'italiano), che permettono agli utilizzatori di capire il flusso logico del codice e a chi lo ha scritto di ricordare il perché di determinate istruzioni. 
 
-In `R`, le parole dopo il simbolo `#` sono considerate commenti e sono ignorate; ad esempio:
+In $\mathsf{R}$, le parole dopo il simbolo `#` sono considerate commenti e sono ignorate; ad esempio:
 
 ```{r, eval = FALSE}
 # Questo e' un commento
@@ -230,7 +230,7 @@ In `R`, le parole dopo il simbolo `#` sono considerate commenti e sono ignorate;
 
 ### Cambiare la cartella di lavoro 
 
-Quando si inizia una sessione di lavoro, `R` sceglie una cartella quale
+Quando si inizia una sessione di lavoro, $\mathsf{R}$ sceglie una cartella quale
 "working directory". Sarà in tale cartella che andrà a cercare gli
 script definiti dall'utilizzatore e i file dei dati. È possibile
 determinare quale sia la corrente "working directory" digitando sulla
@@ -248,7 +248,7 @@ si cambia la cartella con quella che si vuole.
 
 ### L'oggetto base di R: il vettore
 
-`R` opera su strutture di dati; la più semplice di tali strutture è il
+$\mathsf{R}$ opera su strutture di dati; la più semplice di tali strutture è il
 vettore numerico, che consiste in un insieme ordinato di numeri; ad
 esempio:
 
@@ -280,7 +280,7 @@ console, ma il vettore non potrà essere utilizzato in nessun altro modo.
 
 ### Operazioni vettorializzate
 
-Molte operazioni in `R` sono vettorializzate, il che significa che esse
+Molte operazioni in $\mathsf{R}$ sono vettorializzate, il che significa che esse
 sono eseguite in parallelo in determinati oggetti. Ciò consente di
 scrivere codice che sia efficiente, conciso e più facile da leggere
 rispetto al codice che contiene istruzioni non vettorializzate.
@@ -351,7 +351,7 @@ comune sono `mean(x)`, la media aritmetica, e `var(x)`, la varianza.
 
 ### Generazione di sequenze regolari
 
-`R` possiede un ampio numero di funzioni per generare sequenze di numeri.
+$\mathsf{R}$ possiede un ampio numero di funzioni per generare sequenze di numeri.
 Ad esempio, `c(1:10)` è il vettore `c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)`.
 L'espressione `c(30:1)` può essere utilizzata per generare una sequenza
 all'indietro.
@@ -465,10 +465,10 @@ levels(soc_status)
 
 ### Funzioni 
 
-`R` offre la possibilità di utilizzare un'enorme libreria di funzioni che
+$\mathsf{R}$ offre la possibilità di utilizzare un'enorme libreria di funzioni che
 permettono di svolgere operazioni complicate, quali ad esempio, il
 campionamento casuale. Esaminiamo ora con più attenzione le proprietà
-delle funzioni di `R` utilizzando ancora l'esempio del lancio di un dado.
+delle funzioni di $\mathsf{R}$ utilizzando ancora l'esempio del lancio di un dado.
 Abbiamo visto in precedenza come il lancio di un dado possa essere
 simulato da R con la funzione `sample()`. La funzione `sample()` prende
 tre argomenti: il nome di un vettore, un numero chiamato `size` e un
@@ -523,7 +523,7 @@ estrazione degli elementi del vettore. In generale, gli argomenti di una
 funzione possono essere oggetti come vettori, matrici, altre funzioni,
 parametri o operatori logici.
 
-`R` ha un sistema di help interno in formato HTML che si richiama con
+$\mathsf{R}$ ha un sistema di help interno in formato HTML che si richiama con
 `help.start()`. Per avere informazioni su qualche funzione specifica,
 per esempio la funzione `sample()`, il comando da utilizzare è
 `help(sample)` oppure `?sample`.
@@ -545,7 +545,7 @@ In tal caso è vantaggioso scrivere una funzione contenente il codice che
 specifica il numero di ripetizioni. In questo modo, per trovare il
 risultato cercato basterà chiamare la funzione una sola volta.
 
-Le funzioni utilizzate da `R` sono costituite da tre elementi: il nome, il blocco del
+Le funzioni utilizzate da $\mathsf{R}$ sono costituite da tre elementi: il nome, il blocco del
 codice e una serie di argomenti. Per creare una funzione è necessario
 immagazzinare in R questi tre elementi e `function()` consente di
 ottenere tale risultato usando la sintassi seguente:
@@ -565,7 +565,7 @@ nome_funzione(arg1, arg2, ...)
 ```
 
 Per potere essere utilizzata, una funzione deve essere presente nella
-memoria di lavoro di `R`. Le funzioni salvate in un file possono essere
+memoria di lavoro di $\mathsf{R}$. Le funzioni salvate in un file possono essere
 richiamate utilizzando la funzione `source()`, ad esempio,
 `source("file_funzioni.R")`.
 
@@ -605,12 +605,12 @@ compiere errori.
 
 ### Pacchetti
 
-Le funzioni di `R` sono organizzate in pacchetti, i più importanti dei
+Le funzioni di $\mathsf{R}$ sono organizzate in pacchetti, i più importanti dei
 quali sono già disponibili quando si accede al programma.
 
 ### Istallazione e upgrade dei pacchetti
 
-Alcuni pacchetti non sono presenti nella release di base di `R`. Per
+Alcuni pacchetti non sono presenti nella release di base di $\mathsf{R}$. Per
 installare un pacchetto non presente è sufficiente scrivere nella
 console:
 
@@ -659,7 +659,7 @@ se si vuole caricare il pacchetto `ggplot2`. A questo punto diventa
 possibile usare le funzioni contenute in `ggplot2`. Queste operazioni si
 possono anche eseguire usando dal menu a tendina di RStudio.
 
-Per sapere quali sono i pacchetti già presenti nella release di `R` con
+Per sapere quali sono i pacchetti già presenti nella release di $\mathsf{R}$ con
 cui si sta lavorando, basta scrivere:
 
 ```{r, eval=FALSE}

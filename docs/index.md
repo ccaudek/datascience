@@ -1,7 +1,7 @@
 --- 
 title: "Data Science per psicologi"
 author: "Corrado Caudek"
-date: "2022-04-22"
+date: "2022-04-23"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book

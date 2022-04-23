@@ -212,6 +212,8 @@ fig:demorgan
 exr:unlabeled-div-98
 eq:constant-norm-beta-binom
 exr:unlabeled-div-100
+fig:markovsim
+eq:ml-lin-mod
 concetti-chiave
 popolazioni-e-campioni
 variabili-e-costanti
@@ -532,6 +534,12 @@ appendix:beta-binom
 funzione-per-il-modello-beta-binomiale
 appendix:const-norm-bino23
 derivazione-analitica-della-costante-di-normalizzazione
+markov-chains
+simulare-una-catena-di-markov
+regr-ml
+minimi-quadrati
+stima-della-deviazione-standard-dei-residui-sigma
+calcolare-la-somma-dei-quadrati
 introduzione-al-linguaggio-r
 prerequisiti
 installare-r-e-rstudio
@@ -539,7 +547,7 @@ utilizzare-rstudio-per-semplificare-il-lavoro
 eseguire-il-codice
 installare-cmdstan
 chapter-sintassi
-utilizzare-la-console-r-come-calcolatrice
+utilizzare-la-console-mathsfr-come-calcolatrice
 espressioni
 oggetti
 variabili

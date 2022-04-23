@@ -4,51 +4,51 @@
 source("_common.R")
 ```
 
-In questa sezione della dispensa saranno presentate le caratteristiche di base e la filosofia dell'ambiente `R`, passando poi a illustrare le strutture dati e le principali strutture di controllo. Verranno introdotte alcune funzioni utili per la gestione dei dati e verranno forniti i rudimenti per realizzare semplici funzioni. Verranno introdotti i tipi di file editabili in RStudio (script, markdown, ...). Nello specifico, dopo aver accennato alcune caratteristiche del sistema `tidyverse`, verranno illustrate le principali funzionalità dell'IDE RStudio e dei pacchetti `dplyr` e `ggplot2`. Sul web sono disponibili tantissime introduzioni all'uso di `R` come, ad esempio, [Hands-On Programming with R](https://rstudio-education.github.io/hopr/), [R for Data Science](https://r4ds.had.co.nz), [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/), e [Introduction to Data Science](https://bookdown.org/hneth/i2ds/).
+In questa sezione della dispensa saranno presentate le caratteristiche di base e la filosofia dell'ambiente $\mathsf{R}$, passando poi a illustrare le strutture dati e le principali strutture di controllo. Verranno introdotte alcune funzioni utili per la gestione dei dati e verranno forniti i rudimenti per realizzare semplici funzioni. Verranno introdotti i tipi di file editabili in RStudio (script, markdown, ...). Nello specifico, dopo aver accennato alcune caratteristiche del sistema `tidyverse`, verranno illustrate le principali funzionalità dell'IDE RStudio e dei pacchetti `dplyr` e `ggplot2`. Sul web sono disponibili tantissime introduzioni all'uso di $\mathsf{R}$ come, ad esempio, [Hands-On Programming with R](https://rstudio-education.github.io/hopr/), [R for Data Science](https://r4ds.had.co.nz), [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/), e [Introduction to Data Science](https://bookdown.org/hneth/i2ds/).
 
 ## Prerequisiti 
 
-Al fine di utilizzare `R` è necessario eseguire le seguenti tre operazioni
+Al fine di utilizzare $\mathsf{R}$ è necessario eseguire le seguenti tre operazioni
 nell'ordine dato:
 
-1.  Installare `R`;
+1.  Installare $\mathsf{R}$;
 2.  Installare RStudio;
 3.  Installare R-Packages (se necessario).
 
-Di seguito viene descritto come installare `R` e RStudio.
+Di seguito viene descritto come installare $\mathsf{R}$ e RStudio.
 
 ### Installare R e RStudio
 
-$\R$ è disponibile gratuitamente ed è scaricabile dal sito
+$\mathsf{R}$ è disponibile gratuitamente ed è scaricabile dal sito
 <http://www.rproject.org/>. Dalla pagina principale del sito
 `r-project.org` andiamo sulla sezione `Download` e scegliamo un server a
 piacimento per scaricare il software d'installazione. Una volta
 scaricato l'installer, lo installiamo come un qualsiasi software,
-cliccando due volte sul file d'istallazione. Esistono versioni di $\R$ per
+cliccando due volte sul file d'istallazione. Esistono versioni di $\mathsf{R}$ per
 tutti i più diffusi sistemi operativi (Windows, Mac OS X e Linux).
 
 Il R Core Development Team lavora continuamente per migliorare le
-prestazioni di $\R$, per correggere errori e per consentire l'uso di con
+prestazioni di $\mathsf{R}$, per correggere errori e per consentire l'uso di con
 nuove tecnologie. Di conseguenza, periodicamente vengono rilasciate
-nuove versioni di $\R$. Informazioni a questo proposito sono fornite sulla
+nuove versioni di $\mathsf{R}$. Informazioni a questo proposito sono fornite sulla
 pagina web <https://www.r-project.org/>. Per installare una nuova
-versione di $\R$ si segue la stessa procedura che è stata seguita per la
+versione di $\mathsf{R}$ si segue la stessa procedura che è stata seguita per la
 prima installazione. 
 
-Insieme al software si possono scaricare dal sito principale sia manuali d'uso che numerose dispense per approfondire diversi aspetti di $\R$. In particolare, nel sito  <http://cran.r-project.org/other-docs.html> si possono trovare anche  numerose dispense in italiano (sezione "Other languages").
+Insieme al software si possono scaricare dal sito principale sia manuali d'uso che numerose dispense per approfondire diversi aspetti di $\mathsf{R}$. In particolare, nel sito  <http://cran.r-project.org/other-docs.html> si possono trovare anche  numerose dispense in italiano (sezione "Other languages").
 
-Dopo avere installato $\R$ è opportuno installare anche RStudio. RStudio si
+Dopo avere installato $\mathsf{R}$ è opportuno installare anche RStudio. RStudio si
 può scaricare da <https://www.rstudio.com/>. Anche RStudio è disponibile
 per tutti i più diffusi sistemi operativi.
 
 ### Utilizzare RStudio per semplificare il lavoro
 
-Possiamo pensare ad $\R$ come al motore di un automobile e a RStudio come
-al cruscotto di un automobile. Più precisamente, $\R$ è un linguaggio di
+Possiamo pensare ad $\mathsf{R}$ come al motore di un automobile e a RStudio come
+al cruscotto di un automobile. Più precisamente, $\mathsf{R}$ è un linguaggio di
 programmazione che esegue calcoli mentre RStudio è un ambiente di
 sviluppo integrato (IDE) che fornisce un'interfaccia grafica aggiungendo
 una serie di strumenti che facilitano la fase di sviluppo e di
-esecuzione del codice. Utilizzeremo dunque $\R$ mediante RStudio. In altre
+esecuzione del codice. Utilizzeremo dunque $\mathsf{R}$ mediante RStudio. In altre
 parole, 
 
 __non aprite__
@@ -79,9 +79,9 @@ oppure
 File > New File > R Script
 ````
 
-l'utente può aprire nella finestra del codice (in alto a destra) un $\R$ Notebook o un $\R$ script dove inserire le istruzioni da eseguire.
+l'utente può aprire nella finestra del codice (in alto a destra) un $\mathsf{R}$ Notebook o un $\mathsf{R}$ script dove inserire le istruzioni da eseguire.
 
-In un $\R$ script, un blocco di codice viene eseguito selezionando un
+In un $\mathsf{R}$ script, un blocco di codice viene eseguito selezionando un
 insieme di righe di istruzioni e digitando la sequenza di tasti
 `Command` + `Invio` sul Mac, oppure `Control` + `Invio` su Windows. In
 un R Notebook, un blocco di codice viene eseguito schiacciando il
@@ -96,7 +96,7 @@ Prima di installare `cmdstan`, tre raccomandazioni generali:
 
 - usare la versione più recente del sistema operativo;
 - usare la versione più recente di RStudio;
-- usare la versione più recente di $\R$.
+- usare la versione più recente di $\mathsf{R}$.
 
 Se i tre vincoli precedenti sono soddisfatti, l'installazione di `cmdstan` dovrebbe procedere senza intoppi. Altrimenti si possono creare dei problemi di non facile soluzione.
 

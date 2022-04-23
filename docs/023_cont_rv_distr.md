@@ -57,7 +57,7 @@ binomial_limit_plot
 <p class="caption">(\#fig:unnamed-chunk-2)Probabilità del numero di successi in $N = 1000$ prove bernoulliane indipendenti, ciascuna con una probabilità di successo di 0.90. Il risultato è una distribuzione $\Bin(y \mid 1000, 0.9)$. Con mille prove, la distribuzione è quasi simmetrica a forma campanulare.</p>
 </div>
 
-La distribuzione Normale fu scoperta da Gauss nel 1809 e, storicamente, è intimamente legata al metodo dei minimi quadrati -- si veda l'Appendice \@ref(gauss-normale). Il Paragrafo successivo illustra come si possa giungere alla Normale mediante una simulazione.
+La distribuzione Normale fu scoperta da Gauss nel 1809. Il Paragrafo successivo illustra come si possa giungere alla Normale mediante una simulazione.
 
 ## La Normale prodotta con una simulazione {#normal-random-walk}
 
@@ -164,7 +164,7 @@ La densità normale è unimodale e simmetrica con una caratteristica forma a cam
 Il significato dei parametri $\mu$ e $\sigma$ che appaiono nella \@ref(eq:normal-formula) viene chiarito dalla dimostrazione che
 
 \begin{equation}
-\E(X) = \mu, \qquad \Var(X) = \sigma^2.
+\mathbb{E}(X) = \mu, \qquad \mathbb{V}(X) = \sigma^2.
 \end{equation}
 
 La rappresentazione grafica di quattro densità Normali tutte con media 0 e con deviazioni standard 0.25, 0.5, 1 e 2 è fornita nella figura \@ref(fig:gaussian-plot-demo).
@@ -313,10 +313,10 @@ tibble(x = c(-3, 3)) %>%
 
 ## Teorema del limite centrale
 
-Laplace dimostrò il teorema del limite centrale (TLC) nel 1812. Il TLC ci dice che se prendiamo una sequenza di variabili casuali indipendenti e le sommiamo, tale somma tende a distribuirisi come una Normale. Il TLC specifica inoltre, sulla base dei valori attesi e delle varianze delle v.c. che vengono sommate, quali saranno i parametri della distribuzione Normale così ottenuta.
+Laplace dimostrò il teorema del limite centrale (TLC) nel 1812. Il TLC ci dice che se prendiamo una sequenza di variabili casuali indipendenti e le sommiamo, tale somma tende a distribuirsi come una Normale. Il TLC specifica inoltre, sulla base dei valori attesi e delle varianze delle v.c. che vengono sommate, quali saranno i parametri della distribuzione Normale così ottenuta.
 
 ::: {.theorem}
-Si supponga che $Y = Y_1, Y_2, \ldots, Y_N$ sia una sequenza di v.a. i.i.d. con $\E(Y_n) = \mu$ e $\SD(Y_n) = \sigma$. Si definisca una nuova v.c. come la media di $Y$:
+Si supponga che $Y = Y_1, Y_2, \ldots, Y_N$ sia una sequenza di v.a. i.i.d. con $\mathbb{E}(Y_n) = \mu$ e $\mbox{SD}(Y_n) = \sigma$. Si definisca una nuova v.c. come la media di $Y$:
 
 $$
 Z = \frac{1}{N} \sum_{n=1}^N Y_n.
@@ -369,7 +369,7 @@ La figura \@ref(fig:alcune-chi-quadrato) mostra alcune distribuzioni Chi-quadrat
 - Se $X$ e $Y$ sono due variabili casuali chi-quadrato indipendenti con $\nu_1$ e $\nu_2$ gradi di libertà, ne segue che $X + Y \sim \chi^2_m$, con $m = \nu_1 + \nu_2$. Tale principio si estende a qualunque numero finito di variabili casuali chi-quadrato indipendenti.
 
 ::: {.exercise}
-Usiamo $\R$ per disegnare la densità chi-quadrato con 3 gradi di libertà dividendo l'area sottesa alla curva di densità in due parti uguali.
+Usiamo $\mathsf{R}$ per disegnare la densità chi-quadrato con 3 gradi di libertà dividendo l'area sottesa alla curva di densità in due parti uguali.
 
 
 ```r
@@ -520,17 +520,17 @@ beta(alpha, beta)
 Il valore atteso, la moda e la varianza di una distribuzione Beta sono dati dalle seguenti equazioni:
 
 \begin{equation}
-\E(\pi) = \frac{\alpha}{\alpha+\beta}\,,
+\mathbb{E}(\pi) = \frac{\alpha}{\alpha+\beta}\,,
 (\#eq:beta-mean)
 \end{equation}
 
 \begin{equation}
-\Mo(\pi) = \frac{\alpha-1}{\alpha+\beta-2}\,,
+\mbox{Mo}(\pi) = \frac{\alpha-1}{\alpha+\beta-2}\,,
 (\#eq:beta-mode)
 \end{equation}
 
 \begin{equation}
-\Var(\pi) = \frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}\,.
+\mathbb{V}(\pi) = \frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}\,.
 (\#eq:beta-var)
 \end{equation}
 
@@ -696,11 +696,11 @@ Questa funzione di densità si chiama log-normale.
 Il valore atteso e la varianza di una distribuzione log-normale sono dati dalle seguenti equazioni:
 
 \begin{equation}
-\E(x) = \exp \left\{\mu + \frac{\sigma^2}{2} \right\}.
+\mathbb{E}(x) = \exp \left\{\mu + \frac{\sigma^2}{2} \right\}.
 \end{equation}
 
 \begin{equation}
-\Var(x) = \exp \left\{2 \mu + \sigma^2 \right\} \left(\exp \left\{\sigma^2 \right\}  -1\right).
+\mathbb{V}(x) = \exp \left\{2 \mu + \sigma^2 \right\} \left(\exp \left\{\sigma^2 \right\}  -1\right).
 \end{equation}
 
 Si può dimostrare che il prodotto di variabili casuali log-normali ed indipendenti segue una distribuzione log-normale.

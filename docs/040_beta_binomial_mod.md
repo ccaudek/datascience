@@ -350,7 +350,7 @@ print(
   pars = c("theta1", "theta2", "oddsratio"),
   digits_summary = 3L
 )
-#> Inference for Stan model: twoprop1-202204222309-1-5cd2bf.
+#> Inference for Stan model: twoprop1-202204230645-1-5cfc94.
 #> 4 chains, each with iter=6000; warmup=2000; thin=1; 
 #> post-warmup draws per chain=4000, total post-warmup draws=16000.
 #> 
@@ -359,7 +359,7 @@ print(
 #> theta2    0.798   0.001 0.087 0.601 0.744 0.808 0.862  0.937 14193    1
 #> oddsratio 4.721   0.043 4.411 0.906 2.166 3.514 5.698 15.558 10400    1
 #> 
-#> Samples were drawn using NUTS(diag_e) at Ven Apr 22 23:09:05 2022.
+#> Samples were drawn using NUTS(diag_e) at Sab Apr 23 06:45:44 2022.
 #> For each parameter, n_eff is a crude measure of effective sample size,
 #> and Rhat is the potential scale reduction factor on split chains (at 
 #> convergence, Rhat=1).

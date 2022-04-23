@@ -92,7 +92,7 @@ Per introdurre i principali strumenti della statistica descrittiva considereremo
 ::: {.exercise}
 Qual è la la gravità della depressione riportata dai soggetti nel campione esaminato da @zetschefuture2019?
 
-Per rispondere a questa domanda, iniziamo a leggere in $\R$ i dati, assumendo che il file `data.mood.csv` si trovi nella cartella `data` contenuta nella _working directory_.
+Per rispondere a questa domanda, iniziamo a leggere in $\mathsf{R}$ i dati, assumendo che il file `data.mood.csv` si trovi nella cartella `data` contenuta nella _working directory_.
 
 
 ```r
@@ -170,7 +170,7 @@ Esaminando i dati, possiamo notare che 36 soggetti cadono nella prima classe, un
      $[19.5, 28.5)$          12         12/66            49               49/66
       $[28.5, 63)$           17         17/66            66               66/66
 
-Poniamoci ora il problema di costruire la tabella precedente utilizzando \R. Usando la funzione `cut()`, dividiamo il *campo di variazione* (ovvero, la differenza tra il valore massimo di una distribuzione ed il valore minimo) di una variabile continua `x` in intervalli e codifica ciascun valore `x` nei termini dell'intervallo a cui appartiene. Così facendo otteniamo:
+Poniamoci ora il problema di costruire la tabella precedente utilizzando $\mathsf{R}$. Usando la funzione `cut()`, dividiamo il *campo di variazione* (ovvero, la differenza tra il valore massimo di una distribuzione ed il valore minimo) di una variabile continua `x` in intervalli e codifica ciascun valore `x` nei termini dell'intervallo a cui appartiene. Così facendo otteniamo:
 
 
 ```r
@@ -249,7 +249,7 @@ dell'istogramma delle frequenze relative è data della somma delle aree
 dei singoli rettangoli e quindi vale 1.0.
 
 ::: {.exercise}
-Si utilizzi $\R$ per costruire un istogramma per i valori BDI-II riportati da @zetschefuture2019.
+Si utilizzi $\mathsf{R}$ per costruire un istogramma per i valori BDI-II riportati da @zetschefuture2019.
 
 Con i quattro intervalli individuati dai cut-off del BDI-II otteniamo la
 rappresentazione riportata nella figura \@ref(fig:hist1zetsche). Per chiarezza, precisiamo che `ggplot()` utilizza intervalli aperti a destra. Nel caso della prima barra dell'istogramma, l'ampiezza dell'intervallo è pari a 13.5 e l'area della barra (ovvero, la frequenza relativa) è uguale a 36/66. Dunque l'altezza della barra è uguale a $(36 / 66) / 13.5 = 0.040$. Lo stesso procedimento si applica per il calcolo dell'altezza degli altri rettangoli.
@@ -487,10 +487,10 @@ bysubj %>%
   ggplot(
     aes(x = group, y = bdi, color = group)
   ) +
-  ggforce::geom_sina(aes(color = group, size = 3, alpha = .5)) +
+  ggforce::geom_sina(aes(color = group, size = 1, alpha = .5)) +
   geom_errorbar(
     aes(y = bdi_median, ymin = bdi_median, ymax = bdi_median),
-    data = zetsche_summary, width = 0.3, size = 3
+    data = zetsche_summary, width = 0.3, size = 1
   ) +
   labs(
     x = "",

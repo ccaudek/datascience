@@ -360,7 +360,7 @@ msleep %>%
   ggplot(
     aes(x = log(bodywt), y = sleep_total, col = vore)
   ) +
-  geom_point(size = 3, alpha = .8) +
+  geom_point(size = 2, alpha = .8) +
   labs(
     x = "Peso corporeo (log)",
     y = "Ore di sonno",
