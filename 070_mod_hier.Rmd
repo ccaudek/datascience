@@ -1,4 +1,4 @@
-# Modello gerarchico {#mod-hier-stan}
+# Modello gerarchico {#ch-mod-hier-stan}
 
 ```{r c070, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")

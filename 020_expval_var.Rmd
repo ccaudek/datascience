@@ -1,4 +1,4 @@
-# Valore atteso e varianza {#exp-val-and-variance-rv}
+# Valore atteso e varianza {#ch-expval-var-rv}
 
 ```{r c020, include = FALSE}
 source("_common.R")

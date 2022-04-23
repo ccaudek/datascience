@@ -1,4 +1,4 @@
-# Confronto tra due gruppi indipendenti {#comp-two-means-stan}
+# Confronto tra due gruppi indipendenti {#ch-comp-two-means-stan}
 
 ```{r c055, echo=FALSE}
 source("_common.R")

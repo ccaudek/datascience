@@ -2,7 +2,7 @@
 
 # (PART) Distribuzioni teoriche di probabilità {-}
 
-# Distribuzioni di v.c. discrete {#distr-rv-discr}
+# Distribuzioni di v.c. discrete {#ch-distr-rv-discr}
 
 ```{r, include = FALSE}
 source("_common.R")

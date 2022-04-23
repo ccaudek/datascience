@@ -1,4 +1,4 @@
-# La densità di probabilità {#chapter-intro-density-function}
+# La densità di probabilità {#ch-intro-density-function}
 
 ```{r c019, include = FALSE}
 source("_common.R")

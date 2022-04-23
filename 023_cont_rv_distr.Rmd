@@ -1,4 +1,4 @@
-# Distribuzioni di v.c. continue {#distr-rv-cont}
+# Distribuzioni di v.c. continue {#ch-distr-rv-cont}
 
 ```{r c023, include = FALSE}
 source("_common.R")

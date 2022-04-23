@@ -1,4 +1,4 @@
-# Inferenza sul parametro $\mu$ (media di una v.c. Normale) {#normal-normal-mod-stan}
+# Inferenza sul parametro $\mu$ (media di una v.c. Normale) {#ch-normal-normal-mod-stan}
 
 ```{r, echo=FALSE}
 source("_common.R")

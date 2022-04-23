@@ -1,4 +1,4 @@
-# L'influenza della distribuzione a priori  
+# L'influenza della distribuzione a priori  {#ch-prior-influence}
 
 ```{r c027, include = FALSE}
 source("_common.R")

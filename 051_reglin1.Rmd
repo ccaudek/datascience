@@ -2,7 +2,7 @@
 
 # (PART) Il modello lineare {-}
 
-# Introduzione {#regr-models-intro}
+# Introduzione {#ch-regr-intro}
 
 ```{r c051, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")

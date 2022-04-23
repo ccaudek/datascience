@@ -1,4 +1,4 @@
-# Il modello lineare visto da vicino {#regr-model-lm}
+# Il modello lineare visto da vicino {#ch-regr-model-lm}
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")

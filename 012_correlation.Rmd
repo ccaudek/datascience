@@ -1,4 +1,4 @@
-# Le relazioni tra variabili 
+# Le relazioni tra variabili {#ch-corr}
 
 ```{r, include = FALSE}
 source("_common.R")

@@ -1,4 +1,4 @@
-# Sintesi a posteriori {#chapter-sintesi-distr-post}
+# Sintesi a posteriori {#ch-sintesi-distr-post}
 
 ```{r c045, include = FALSE}
 source("_common.R")

@@ -1,6 +1,6 @@
 # (PART) Il calcolo delle probabilità  {-}
 
-# La logica dell'incerto  {#intro-prob-1}
+# La logica dell'incerto  {#ch-intro-prob-1}
 
 ```{r, include = FALSE}
 source("_common.R")

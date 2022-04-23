@@ -1,4 +1,4 @@
-# Probabilità congiunta {#chapter-prob-congiunta}
+# Probabilità congiunta {#ch-prob-congiunta}
 
 ```{r c018, include = FALSE}
 source("_common.R")

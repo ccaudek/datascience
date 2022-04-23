@@ -1,4 +1,4 @@
-# Il modello beta-binomiale in linguaggio Stan {#stan-beta-binom}
+# Il modello beta-binomiale in linguaggio Stan {#ch-stan-beta-binom}
 
 ```{r c040, include = FALSE}
 source("_common.R")

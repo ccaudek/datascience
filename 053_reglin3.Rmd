@@ -1,4 +1,4 @@
-# Modello lineare in Stan {#reg-lin-stan}
+# Modello lineare in Stan {#ch-reg-lin-stan}
 
 ```{r c053, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
@@ -342,7 +342,7 @@ Ripeto qui la discussione del capitolo precedente. Assegnamo ai parametri la seg
 
 ### Centrare i predittori
 
-Come abbiamo detto in precedenza, per migliorare l'interpretazione dell'intercetta possiamo "centrare" la $x$, ovvero esprimere la $x$ nei termini degli scarti dalla media: $x - \bar{x}$. In tali circostanze, la pendenza della retta specificata dal modello lineare resta immutata, ma l'intercetta corrisponde a $\E(y \mid x = \bar{x})$. Per ottenere questo risultato, modifichiamo i dati da passare a Stan:
+Come abbiamo detto in precedenza, per migliorare l'interpretazione dell'intercetta possiamo "centrare" la $x$, ovvero esprimere la $x$ nei termini degli scarti dalla media: $x - \bar{x}$. In tali circostanze, la pendenza della retta specificata dal modello lineare resta immutata, ma l'intercetta corrisponde a $\mathbb{E}(y \mid x = \bar{x})$. Per ottenere questo risultato, modifichiamo i dati da passare a Stan:
 
 ```{r}
 data2_list <- list(
@@ -379,10 +379,10 @@ Le stime a posteriori dei parametri si ottengono con
 fit_3$summary(c("alpha", "beta", "sigma"))
 ```
 
-Si noti la nuova intercetta, ovvero 86.8. Questo valore indica il QI medio dei bambini le cui madri hanno un QI pari alla media del campione. Centrare i dati consente dunque di assegnare all'intercetta un'interpretazione utile.
+Si noti la nuova intercetta, ovvero 86.8. Questo valore indica il QI medio dei bambini le cui madri hanno un QI pari alla media del campione. Centrare i dati consente dunque di assegnare all'intercetta un'interpretazione utile. Dall'output ottenuto possiamo ricavare, ad esempio, l'intervallo di credibilità al 90%. Ovvero, con un grado di certezza soggettiva del 90%, possiamo concludere che, se consideriamo solo le madri con un QI pari alla media del presente campione, possiamo prevedere che il QI medio dei loro figli sarà compreso nell'intervallo [85.4, 88.2].
 
 
 ## Commenti e considerazioni finali {-}
 
-La presente discussione suggerisce che è conveniente standardizzare i dati prima di procedere con l'analisi. Ciò può essere fatto all'interno del codice Stan (come negli esempi di questo Capitolo), oppure prima di passare i dati a Stan. Se vengono usati dati standardizzati diventa poi facile utilizzare distribuzioni a priori debolmente informative per i parametri. Tali distribuzioni a priori hanno, come unico scopo, quello di regolarizzare i dati e di facilitare la stima dei parametri mediante MCMC. 
+La presente discussione suggerisce che è conveniente standardizzare i dati prima di procedere con l'analisi. Ciò può essere fatto all'interno del codice Stan (come negli esempi di questo Capitolo), oppure prima di passare i dati a Stan. Se vengono usati dati standardizzati diventa poi facile utilizzare distribuzioni a priori debolmente informative per i parametri. Tali distribuzioni a priori hanno, come unico scopo, quello di regolarizzare i dati e di facilitare la stima dei parametri mediante la procedura MCMC. 
 

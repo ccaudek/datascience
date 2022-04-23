@@ -1,4 +1,4 @@
-# Diagnostica delle catene markoviane {#diagn-markov-chains}
+# Diagnostica delle catene markoviane {#ch-diagn-markov-chains}
 
 ```{r c041, include = FALSE}
 source("_common.R")

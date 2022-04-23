@@ -1,4 +1,4 @@
-# Approssimazione della distribuzione a posteriori 
+# Approssimazione della distribuzione a posteriori {#ch-post-approx}
 
 ```{r c036, include = FALSE}
 source("_common.R")

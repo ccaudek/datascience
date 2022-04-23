@@ -2,7 +2,7 @@
 
 # (PART) Il confronto bayesiano di modelli {-}
 
-# Entropia 
+# Entropia {#ch-entropy}
 
 ```{r, echo=FALSE}
 source("_common.R")

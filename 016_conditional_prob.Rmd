@@ -1,4 +1,4 @@
-# Probabilità condizionata {#chapter-prob-cond}
+# Probabilità condizionata {#ch-prob-cond}
 
 ```{r c016, include = FALSE}
 source("_common.R")

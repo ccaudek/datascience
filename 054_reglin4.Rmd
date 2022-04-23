@@ -1,4 +1,4 @@
-# Inferenza sul modello lineare {#inference-reg-lin-stan}
+# Inferenza sul modello lineare {#ch-inference-reg-lin-stan}
 
 ```{r c054, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
@@ -72,10 +72,24 @@ fit2 <- mod$sample(
 
 ```{r}
 stanfit <- rstan::read_stan_csv(fit2$output_files())
-posterior <- extract(stanfit)
+post <- extract(stanfit)
 ```
 
-Creiamo ora un diagramma a dispersione dei dati con sovrapposto il valore atteso della $y$:
+L'oggetto `post` è una lista:
+
+```{r}
+class(post)
+```
+
+Esaminiamo il contenuto di `post`.
+
+```{r}
+glimpse(post)
+```
+
+Da `post` è possibile estrarre `alpha` e `beta`. L'output di `glimpse()` ci dice che `alpha` è un vettore di 16,000 elementi. Ciascuno di questi elementi è un valore estratto a caso dalla distribuzione a posteriori del parametro $\alpha$. È dunque possibile calcolare una stima puntuale della distribuzione a posteriori del parametro $\alpha$ semplicemente trovando la media di tali valori: `mean(post$alpha)`. Lo stesso si può dire di `beta`.
+
+Per creare un diagramma a dispersione dei dati con sovrapposto il valore atteso della $y$ usiamo la sintassi seguente.
 
 ```{r}
 tibble(
@@ -85,30 +99,37 @@ tibble(
   ggplot(aes(mom_iq, kid_score)) +
   geom_point() +
   geom_abline(
-    intercept = mean(posterior$alpha),
-    slope = mean(posterior$beta)
+    intercept = mean(post$alpha),
+    slope = mean(post$beta)
   )
 ```
 
-L'incertezza della stima della retta specifiata dal modello lineare può essere visualizzata tracciando molteplici rette, ciascuna delle quali definita da un diverso valore estratto a caso dalla distribuzione a posteriori dei parametri $\alpha$ e $\beta$. Per ottenere questo risultato dobbiamo estrarre le informazioni richieste dall'oggetto `stanfit` che abbiamo creato; usiamo, per esempio, le funzionalità di `tidybayes`:
+Si noti l'uso della funzione `geom_abline()` che prende come argomenti l'intercetta e la pendenza di una retta. Nel caso presente, tali argomenti corrispondono a `mean(post$alpha)` e `mean(post$beta)`, ovvero, specificano i valori a posteriori più plausibili dei parametri $\alpha$ e $\beta$. 
+
+Così facendo (ovvero, selezionando il valore più plausibile a posteriori per i parametri $\alpha$ e $\beta$) abbiamo disegnato una singola retta. Ma una sola retta non ci fa capire qual è il grado di incertezza associato alla stima di $\alpha$ e $\beta$.  Una tale incertezza può essere visualizzata tracciando molteplici rette, ciascuna delle quali definita da un diverso valore estratto a caso dalla distribuzione a posteriori dei parametri $\alpha$ e $\beta$. 
+
+Per ottenere questo risultato dobbiamo estrarre le informazioni richieste dall'oggetto `stanfit` che abbiamo creato. Per fare questo possiamo usare, ad esempio, le funzioni di `tidybayes`. Iniamo a elencare i nomi degli oggetti contenuti in `stanfit`.
 
 ```{r}
 tidybayes::get_variables(stanfit)
 ```
 
-Creiamo un Dataframe in formato tidy (cioè, tale per cui le osservazioni stanno sulle righe e le variabili stanno sulle colonne) che contiene le stime a posteriori di $\alpha$ e $\beta$:
+
+Vogliamo creare un Dataframe in formato *tidy*, cioè, tale per cui le osservazioni stanno sulle righe e le variabili stanno sulle colonne, che contiene le stime a posteriori di $\alpha$ e $\beta$. Per fare questo usiamo `spread_draws()`.
 
 ```{r}
 draws <- stanfit %>%
   spread_draws(beta, alpha)
 ```
 
+Esaminiamo il risultato ottenuto.
+
 ```{r}
 draws %>%
   head(10)
 ```
 
-Possiamo ora generare un diagramma a dispersione con `ggplot()`:
+Avendo sistemato i dati nel formato desiderato, possiamo ora generare un diagramma a dispersione con `ggplot()`:
 
 ```{r}
 tibble(
@@ -118,12 +139,13 @@ tibble(
   ggplot(aes(mom_iq, kid_score)) +
   geom_point() +
   geom_abline(
-    data = draws, aes(intercept = alpha, slope = beta),
+    data = draws, 
+    aes(intercept = alpha, slope = beta),
     size = 0.2, alpha = 0.01, color = "darkgray"
   ) +
   geom_abline(
-    intercept = mean(posterior$alpha),
-    slope = mean(posterior$beta)
+    intercept = mean(post$alpha),
+    slope = mean(post$beta)
   ) +
   labs(
     x = "Quoziente di intelligenza della madre",
@@ -131,11 +153,32 @@ tibble(
   )
 ```
 
-Il grafico indica che le rette di regressione costruite estraendo a caso valori dalla distribuzione a posteriori dei parametri $\beta_0$ e $\beta_1$ tendono ad essere molto simili tra loro. Ciò significa che, relativamente alla dipendenza (lineare) del quoziente di intelligenza del bambino da quello della madra, la nostra incertezza è molto piccola.
+Si noti il seguene frammento di codice:
+
+```{r, eval=FALSE}
+geom_abline(
+  data = draws, 
+  aes(intercept = alpha, slope = beta),
+  size = 0.2, alpha = 0.01, color = "darkgray"
+)
+```
+
+Questa istruzione recupera dai dati `draw` i valori `alpha` e `beta`. Ci sono 16,000 coppie di valori `alpha` e `beta`. L'istruzione
+
+```{r, eval=FALSE}
+aes(intercept = alpha, slope = beta),
+```
+
+disegna dunque 16,000 rette. L'argomento grafico `alpha = 0.01` specifica la tasparenza con cui viene disegnata ciascuna retta.  Ho usato un valore molto basso per fare in modo che, anche sovrapponendo 16,000 rette, si produce ancora una certa quantità di trasparenza. 
+
+Il grafico mostra che le rette di regressione costruite estraendo a caso valori dalla distribuzione a posteriori dei parametri $\beta_0$ e $\beta_1$ *tendono ad essere molto simili tra loro*. Ciò significa che, se combiniamo le informazioni fornite dai dati con le nostre credenza precedenti (qui, dei prior poco informativi), allora dobbiamo concludere che l'incertezza relativa alla dipendenza lineare del quoziente di intelligenza del bambino da quello della madre è decisamente piccola. In altre parole, siamo molto sicuri che vi sia una associazione lineare positiva tra le due variabili: *in media* il QI dei figli è positivamente associato al QI della madre. 
+
+Il modello statistico ci dice che possiamo considerare l'affermazione precedente come un fatto su cui c'è poco da dubitare. Ma il modello statistico non ci dice nulla sulle cause di questa associazione: ci dice soltanto che le due variabili tendono a covariare. Non ci dice in alcun modo che il QI della madre sia la "causa" del QI del figlio. Questo è un argomento su cui è stata fatta molta ricerca (e di ciò qui non diciamo nulla). Ma, al di là dei risultati di tali ricerche, se consideriamo solo il risultato del modello statistico qui esaminato, non possiamo concludere *nulla* sui rapporti di causa/effetto tra QI della madre e QI del figlio. L'unica conclusione che possiamo trarre dall'analisi statistica è che ci sono evidenze di un'associazione tra le due variabili; niente si può dire sui rapporti di causa/effetto.  La presenza di un'associazione è una condizione necessaria *ma non sufficiente* per potere concludere che vi è una nesso di causalità.
+
 
 ## Intervalli di credibilità
 
-L'incertezza inferenziale sui parametri può anche essere descritta mediante gli _intervalli di credibilità_, ovvero gli intervalli che contengono la quota desiderata (es., il 95%) della distribuzione a posteriori. Per l'esempio che stiamo discutendo, gli intervalli di credibilità al 95% si ottengono nel modo seguente:
+L'incertezza inferenziale sui parametri può essere descritta mediante gli *intervalli di credibilità*, ovvero gli intervalli che contengono la quota desiderata (es., il 95%) della distribuzione a posteriori. Per l'esempio che stiamo discutendo, gli intervalli di credibilità (a code uguali) al 95% si ottengono nel modo seguente:
 
 ```{r}
 rstantools::posterior_interval(
@@ -144,7 +187,7 @@ rstantools::posterior_interval(
 )
 ```
 
-Un grafico che, nel caso dei dati standardizzati, riporta l'intervallo di credibilità ai livelli di probabilità desiderati per i parametri $\alpha$, $\beta$ e $\sigma$ si ottiene con l'istruzione
+Un grafico che, nel caso dei dati standardizzati, riporta l'intervallo di credibilità al livello di probabilità desiderato per i parametri $\alpha$, $\beta$ e $\sigma$ si ottiene con l'istruzione seguente.
 
 ```{r}
 mcmc_areas(
@@ -154,7 +197,7 @@ mcmc_areas(
 )
 ```
 
-oppure nel modo nel modo seguente
+Oppure nel modo nel modo seguente.
 
 ```{r}
 stanfit %>%
@@ -167,7 +210,7 @@ stanfit %>%
 
 ### Quale soglia usare?
 
-Non c'è niente di "magico" o necessario relativamente al livello di 0.95: il valore  0.95 è arbitrario. Sono possibili tantissime altre soglie per quantificare la nostra incertezza: alcuni ricercatori usano il livello di 0.89, altri quello di 0.5. Se l'obiettivo è quello di descrivere il livello della nostra incertezza relativamente alla stima del parametro, allora dobbiamo riconoscere che la nostra incertezza è descritta dall'*intera* distribuzione a posteriori. Per cui il metodo più semplice, più diretto e più completo per descrivere la nostra incertezza rispetto alla stima dei parametri è semplicemente quello di riportare graficamente _tutta_ la distribuzione a posteriori. Una rappresentazione della distribuzione a posteriori dei parametri del modello dell'esempio si ottiene nel modo seguente:
+Non c'è niente di "magico" o necessario relativamente al livello pari a 0.95: il valore  0.95 è arbitrario. Sono possibili tantissime altre soglie per quantificare la nostra incertezza: alcuni ricercatori usano il livello di 0.89, altri quello di 0.5. Se l'obiettivo è quello di descrivere il livello della nostra incertezza relativamente alla stima del parametro, allora dobbiamo riconoscere che la nostra incertezza è descritta dall'*intera* distribuzione a posteriori. Per cui il metodo più semplice, più diretto e più completo per descrivere la nostra incertezza rispetto alla stima dei parametri è semplicemente quello di riportare graficamente _tutta_ la distribuzione a posteriori. Una rappresentazione della distribuzione a posteriori dei parametri del modello per l'esempio presente si ottiene con la seguente istruzione.
 
 ```{r}
 rstan::stan_dens(
@@ -179,17 +222,19 @@ rstan::stan_dens(
 
 ## Test di ipotesi
 
-È facile valutare ipotesi direzionali usando Stan. Per esempio, la probabilità  $Pr(\hat{\beta}_1 > 0)$ è
+È facile valutare ipotesi direzionali usando Stan. Per esempio, la probabilità  $P(\hat{\beta}_1 > 0)$ è
 
 ```{r}
-sum(posterior$beta > 0) / length(posterior$beta)
+sum(post$beta > 0) / length(post$beta)
 ```
 
-ovvero, la probabilità $Pr(\hat{\beta}_1 < 0)$ è
+ovvero, la probabilità $P(\hat{\beta}_1 < 0)$ è
 
 ```{r}
-sum(posterior$beta < 0) / length(posterior$beta)
+sum(post$beta < 0) / length(post$beta)
 ```
+
+Ciò significa che, relativamente alla presenza di un'associazione lineare positiva tra QI della madre e QI del figlio, la forza dell'evidenza è enorme.
 
 ## Modello lineare robusto
 
@@ -205,14 +250,14 @@ df2$kid_score[434] <- -500
 df2$mom_iq[434] <- 140
 ```
 
-Per comodità, calcoliamo le stime di $\alpha$ e $\beta$ con il metodo dei minimi quadrati (tali stime sono simili a quelle che si otterrebbero con un modello bayesiano gaussiano che impiega distribuzioni a priori debolmente informative). Sappiamo che, nel campione originale di dati, $\hat{\beta} \approx 0.6$. In presenza di un solo outlier troviamo la stima di $\beta$ viene drammaticamente ridotta:
+Per comodità, calcoliamo le stime di $\alpha$ e $\beta$ con il metodo dei minimi quadrati (tali stime sono simili a quelle che si otterrebbero con un modello bayesiano gaussiano che impiega distribuzioni a priori debolmente informative). Sappiamo che, nel campione originale di dati, $\hat{\beta} \approx 0.6$. In presenza di un solo outlier, la stima di $\beta$ viene drammaticamente ridotta:
 
 ```{r}
 lm(kid_score ~ mom_iq, data = df2) %>% 
   coef() 
 ```
 
-In generale, però, non è necessario assumere $\varepsilon \sim \mathcal{N}(0, \sigma_{\varepsilon})$. È altrettanto valido un modello che ipotizza una diversa distribuzione di densità per gli errori come, ad esempio, la distribuzione $t$ di Student con un piccolo numero di gradi di libertà. Una caratteristica della $t$ di Student è che le code della distribuzione contengono una massa di probabilità maggiore della distribuzione gaussiana. Ciò fornisce alla $t$ di Student la possibilità di "rendere conto" della presenza di osservazioni lontane dalla media della distribuzione. In altri termini, se in modello lineare usiamo la $t$ di Student quale distribuzione degli errori, la presenza di outlier avrà una minore influenza sulle stime dei parametri di quanto avvenga nel tradizionale modello lineare gaussiano.
+In generale, non è necessario assumere $\varepsilon \sim \mathcal{N}(0, \sigma_{\varepsilon})$. È altrettanto valido un modello che ipotizza una diversa distribuzione per gli errori come, ad esempio, la distribuzione $t$ di Student con un piccolo numero di gradi di libertà. Una caratteristica della $t$ di Student è che le code della distribuzione contengono una massa di probabilità maggiore della distribuzione gaussiana. Ciò fornisce alla $t$ di Student la possibilità di "rendere conto" della presenza di osservazioni lontane dalla media della distribuzione. In altri termini, se in modello lineare usiamo la $t$ di Student quale distribuzione degli errori, la presenza di outlier avrà un'influenza minore sulle stime dei parametri di quanto avviene nel tradizionale modello lineare gaussiano.
 
 Per verificare questa affermazione, modifichiamo il codice Stan usato in precedenza in modo tale da ipotizzare che $y$ segua una distribuzione $t$ di Student con un numero $\nu$ gradi di libertà stimato dal modello: `student_t(nu, mu, sigma)`.^[È equivalente scrivere $y_i = \mu_i + \varepsilon_i$, dove $\mu_i = \alpha + \beta x_i, \varepsilon_i \sim \mathcal{N}(0, \sigma_\varepsilon),$ oppure $y_i \sim \mathcal{N}(\mu_i, \sigma_\varepsilon).$]
 
@@ -293,4 +338,4 @@ Il modello lineare robusto non risente dunque della presenza di outlier.
 
 ## Commenti e considerazioni finali {-}
 
-Nell'approccio bayesiano possiamo rappresentare l'incertezza delle nostre credenze a posteriori in due modi: mediante la rappresentazione grafica dell'intera distribuzione a posteriori dei parametri o mediante l'uso degli intervalli di credibilità. Un bonus della discussione del presente Capitolo è quello di mostrare come il modello lineare tradizionale (che assume $\varepsilon \sim \mathcal{N}(0, \sigma_{\varepsilon})$) possa essere facilmente esteso nei termini di un modello robusto che offre una semplice soluzione al problema di ridurre l'effetto della presenza di osservazioni outlier.
+Nell'approccio bayesiano possiamo rappresentare l'incertezza delle nostre credenze a posteriori in due modi: mediante la rappresentazione grafica dell'intera distribuzione a posteriori dei parametri o mediante l'uso degli intervalli di credibilità. Un bonus della discussione del presente Capitolo è quello di mostrare come il modello lineare tradizionale (che assume $\varepsilon \sim \mathcal{N}(0, \sigma_{\varepsilon})$) possa essere facilmente esteso nei termini di un modello robusto il quale offre una semplice soluzione al problema di ridurre l'effetto della presenza di osservazioni anomale e influenti.

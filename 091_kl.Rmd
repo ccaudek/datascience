@@ -1,4 +1,4 @@
-# La divergenza di Kullback-Leibler 
+# La divergenza di Kullback-Leibler {#ch-kl}
 
 ```{r, echo=FALSE}
 source("_common.R")

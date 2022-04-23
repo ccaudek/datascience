@@ -1,6 +1,6 @@
 # (PART) Analisi esplorativa dei dati {-}
 
-# Variabili e distribuzioni di frequenza 
+# Variabili e distribuzioni di frequenza {#ch-eda}
 
 ```{r, include = FALSE}
 source("_common.R")

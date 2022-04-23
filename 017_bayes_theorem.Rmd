@@ -1,4 +1,4 @@
-# Il teorema di Bayes {#chapter-teo-bayes}
+# Il teorema di Bayes {#ch-theorem-bayes}
 
 ```{r c017, include = FALSE}
 source("_common.R")
