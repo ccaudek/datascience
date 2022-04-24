@@ -1,0 +1,337 @@
+\mainmatter
+
+# (PART) Approccio frequentista all'inferenza statistica {-}
+
+# Inferenza sulla media {#ch-ttest}
+
+```{r, echo=FALSE}
+source("_common.R")
+suppressPackageStartupMessages(library("effsize"))
+```
+
+## La ripetizione dell'esperimento casuale
+
+L'approccio frequentista si basa sulla nozione di probabilità intesa come frequenza relativa di un grande numero di ripetizioni dell'esperimento casuale. Iniziamo a definire una *statistica test*, ovvero una qualche statistica che si può calcolare con i dati campionari.  Per facilitare la comprensione, consideriamo un disegno sperimentale pre-test/post-test. 
+
+Supponiamo di esaminare un campione casuale di pazienti OCD e di sottoporli ad un intervento psicologico volto alla riduzione dei sintomi. Usiamo un test per la valutazione del disturbo ossessivo-compulsivo prima del trattamento e dopo il trattamento. Ad esempio, possiamo usare l'*Obsessive-Compulsive Inventory* (OCI; Sica et al., 2009), ovvero un questionario self-report costituito da 42 item valutati su scala Likert a 5 punti (da 0="per nulla" a 4="moltissimo"). Valori alti del punteggio totale indicano una situazione di particolare difficoltà e una presenza clinicamente significativa di ossessioni e/o compulsioni. 
+
+Se il trattamento è efficace, ci possiamo aspettare una riduzione del punteggio totale OCI nel post-test rispetto al pre-test. Una differenza *negativa* post-test meno pre-test fornisce dunque evidenze dell'efficacia dell'intervento. Invece, una differenza pari a zero indicherà nessun effetto del trattamento. Infine, una differenza (post-test meno pre-test) positiva indicherà che il trattamento ottiene il risultato opposto a quello previsto. La differenza del punteggio totale OCI nel post-test rispetto al pre-test costituirà dunque, nel caso presente, la nostra statistica test.
+
+L'approccio frequentista ragiona nel modo seguente. Sappiamo che il ricercatore trova un qualche valore della statistica test in un particolare campione. Ma cosa succede se esaminiamo un'altro campione? Sicuramente troveremo risultati diversi. Il ricercatore frequentista si pone dunque la seguente domanda: è possibile descrivere tutti i risultati possibili che si potrebbero ottenere se la statistica test venisse calcolata su infiniti campioni casuali estratti tutti dalla medesima popolazione virtuale?
+
+Questa sembra una domanda a cui è impossibile rispondere. Ma in realtà è molto facile rispondere a questa domanda, se usiamo la teoria delle probabilità.
+
+## La distribuzione campionaria della media
+
+L'insieme di valori che cerchiamo va sotto il nome di *distribuzione (di una statistica) campionaria*. Nel caso presente, la media di un campione. Il fatto che tale media sia stata calcolata come la differenza tra i punteggi post-test e pre-test *per lo stesso soggetto* non cambia nulla: a ciascun soggetto viene assegnato un unico punteggio (la differenza post-test/pre-test); quello che ci chiediamo è come varia la media di questi punteggi su campioni diversi.
+
+Se i nostri dati provengono da un campione casuale, allora possiamo dire che ciascuna osservazione (differenza post-test/pre-test per un determinato paziente) è la realizzazione di una variabile casuale e il campione è costituito da $n$ realizzazioni di variabili casuali indipendenti e identicamente distribuite. 
+
+Dato che il valore di ciascun paziente è dato dalla differenza tra due valori, ciascuno dei quali calcolato come la somma di 42 valori, possiamo usare il Teorema del limite centrale e assumere che la nostra statistica test, che chiameremo $X$, segue la legge Normale. Assumiamo inoltre che la deviazione standard $\sigma$ sia la stessa per tutti i pazienti. Dunque possiamo dire che i dati campionari possono essere concepiti coma la sequenza di $n$ variabili casuali iid, ciascuna distribuita come $\mathcal{N}(\mu, \sigma)$. I parametri di tale distribuzione Normale sono ovviamente incogniti.
+
+La statistica target a cui siamo interessati è la media del campione. Vogliamo sapere, nelle circostanze descritte sopra, come varia la media del campione all'interno dell'universo dei campioni di ampiezza $n$.
+
+La statistica test è
+
+$$
+\bar{X} = \frac{1}{n} \sum_i X_i.
+$$
+
+Il valore atteso di $\bar{X}$ è
+
+$$
+\begin{align}
+\mathbb{E}(\bar{X}) &= \mathbb{E} \left( \frac{1}{n} \sum_i X_i \right)\notag\\
+&= \frac{1}{n} \mathbb{E} \left( \sum_i X_i \right)\notag\\
+&= \frac{1}{n} \mathbb{E}(X_1) + \dots + \mathbb{E}(X_n) \notag\\
+&= \frac{1}{n} n \mu \notag\\
+&= \mu
+\end{align}
+$$
+
+Questo vuol dire che la media della distribuzione campionaria delle medie dei campioni è uguale alla media della popolazione.
+
+La varianza di $\bar{X}$ è
+
+$$
+\begin{align}
+\mathbb{V}(\bar{X}) &= \mathbb{V} \left( \frac{1}{n} \sum_i X_i \right)\notag\\
+&= \frac{1}{n^2} \mathbb{V} \left( \sum_i X_i \right)\notag\\
+&= \frac{1}{n^2} \mathbb{V}(X_1) + \dots + \mathbb{V}(X_n) \notag\\
+&= \frac{1}{n^2} n \sigma^2 \notag\\
+&= \frac{\sigma^2}{n}.
+\end{align}
+$$
+
+In altri termini, la varianza delle medie dei campioni è uguale alla varianza della popolazione divisa per $n$ -- ciò significa che la varianza della distribuzione campionaria delle medie dei campioni è sempre più piccola della varianza della popolazione. Se il campione è di ampiezza $n = 1$, la varianza della distribuzione campionaria delle medie dei campioni è uguale alla varianza della popolazione (estrarre infinite volte un'osservazione da una popolazione e "calcolare la media" di quell'unica osservazione non fa altro che riprodurre la popolazione di partenza); se il campione è di ampiezza uguale a quella della popolazione, $n = \infty$ e la varianza è nulla: la media del "campione" è uguale alla media della popolazione (essendo il campione uguale alla popolazione). Tanto maggiore è l'ampiezza del campione, tanto di meno varierà la media del campione tra campioni diversi e, dunque, tanto più piccola sarà la varianza della media dei campioni.
+
+Resta ancora una domanda a cui rispondere: qual è la legge distributiva della media dei campioni? Anche a tale domanda si può rispondere usando il Teorema del limite centrale che dice, appunto, che per campioni estratti da una popolazione Normale, la distribuzione delle medie seguirà esattamente la legge Normale.
+
+Abbiamo dunque la nostra risposta: se la popolazione di partenza è Normale, la distribuzione delle medie dei campioni di ampiezza $n$ sarà una Normale di parametri media = $\mu$ e varianza = $\frac{\sigma^2}{n}$:
+
+$$
+\bar{X} \sim \mathcal{N}\left(\mu, \frac{\sigma}{\sqrt{n}}\right).
+$$
+
+## Inferenza frequentista
+
+Il risultato precedente specifica *completamente* la distribuzione campionaria delle medie dei campioni. Ma, ovviamente, i parametri $\mu$ e $\sigma$ sono incogniti. Il ragionamento frequentista, dunque, continua nel modo seguente. Se  conoscessimo $\sigma$, l'unica incognita sarebbe $\mu$, e da lì è facile procedere. Per ora, dunque, assumiamo che $\sigma$ sia conosciuta -- vedremo poi come affrontare il problema che in realtà $\sigma$ è incognita. 
+
+Se $\sigma$ è conosciuta l'unico parametro sconosciuto è $\mu$. Per fare inferenza su $\mu$, l'approccio frequentista fornisce al ricercatore due strumenti: 
+
+- il test dell'ipotesi nulla, 
+- la stima dell'intervallo di fiducia.
+
+### Il test dell'ipotesi nulla
+
+Iniziamo con il test dell'ipotesi nulla. Nell'esempio che stiamo discutendo, quello sull'efficacia dell'intervento per la riduzione dei sintomi OCD, la statistica test è la differenza post-pre. Se tale  statistica test assumesse il valore di 0 *nella popolazione* questo significherebbe che il trattamento è completamente inefficace. Questa è *l'ipotesi nulla*. L'approccio frequentista si chiede: *se l'ipotesi nulla fosse vera*, qual è la probabilità di osservare, per caso, un valore della statistica test uguale a quello del campione, o più estremo?
+
+Nel porsi questa domanda, l'approccio frequentista gioca a fare l'avvocato del diavolo, ovvero si chiede: dobbiamo veramente attribuire la riduzione dei sintomi OCD che abbiamo osservato nel campione all'effetto del trattamento? Oppure una tale riduzione dei sintomi è compatibile con un semplice effetto del caso, ovvero con la *variabilità campionaria* (in certi pazienti i sintomi diminuiscono, indipendentemente dal trattamento; in altri pazienti, aumentano)?
+
+Per fare l'avvocato del diavolo, il ricercatore frequentista usa il risultato che abbiamo illustrato in precedenza, ovvero la specificazione della distribuzione campionaria della media dei campioni di ampiezza $n$. Se $\sigma$ è conosciuto, allora l'unica incognita è $\mu$. Ma, dal punto di vista dell'avvocato del diavolo, il parametro $\mu$, in realtà, è conosciuto. Infatti, secondo tale punto di vista il trattamento non ha alcun effetto e, dunque, $\mu = 0$. In questi termini, dunque, la distribuzione campionaria della media dei campioni di ampiezza $n$ è *completamente* specificata. 
+
+Supponiamo che, per un campione di $n = 30$ pazienti, la differenza post-pre sia uguale a -5 punti sulla scala OCI. Supponiamo inoltre di sapere che i punteggi OCI sono distribuiti normalmente con una deviazione standard $\sigma = 13.9$ (ho preso questo valore dall'articolo di Sica et al. (2009)). 
+
+Dobbiamo dunque calcolare la probabilità di osservare un valore minore o uguale a -5 nel caso di una variabile casuale che segue la legge Normale di parametri $\mu = 0$ e $\sigma = \frac{13.9}{\sqrt{30}}$. Otteniamo il seguente risultato:
+
+```{r}
+pnorm(-5, 0, 13.9 /sqrt(30))
+```
+
+Questa probabilità viene chiamata dall'approccio frequentista *valore*-$p$. Nel caso presente ci dice che, se fosse vero che il trattamento non è efficace, allora la probabilità di osservare una differenza dei sintomi di 5 punti o più (sulla scala OCI) sarebbe uguale a solo 0.024. In altre parole, se fosse vera l'ipotesi nulla (il trattamento non è efficace), per effetto del caso soltanto si osserverebbe una riduzione dei sintomi uguale o maggiore di quella osservata nel campione esaminato solo nel 2.4% dei casi, se venissero esaminati infiniti campioni di ampiezza $n = 30$.
+
+Dunque, la situazione è questa. L'avvocato del diavolo ci dice che i risultati osservati sono solo frutto del caso (il trattamento non è efficace). La teoria della probabilità ci dice che, se l'avvocato del diavolo ha ragione (il trattamento non è efficace), allora osservare una riduzione dei sintomi uguale o maggiore di quella che abbiamo effettivamente osservato si verifica in solo 2.4% degli infiniti campioni di ampiezza $n$ che si possono estrarre dalla popolazione di parametri $\mu = 0$ e $\sigma = \frac{13.9}{\sqrt{30}}$. Quindi, in base al ragionamento dell'avvocato del diavolo (il trattamento non è efficace) noi dovremmo trovare una riduzione dei sintomi pari a 0. Oppure poco distante da 0, come semplice effetto del caso. Ma noi abbiamo trovato un valore (-5) che, se l'avvocato del diavolo avesse ragione (il trattamento non è efficace) si dovrebbe osservare solo nel 2.4% di infiniti campioni possibili? In tali circostanze, dobbiamo credere all'avvocato del diavolo che ci dice che il trattamento non è efficace?
+
+L'approccio frequentista decide nel modo seguente. Se, assumendo che l'avvocato del diavolo abbia ragione (ovvero, se assumento che il trattamento non è efficace), la probabilità di osservare i risultati campionari è bassa, allora non crediamo più all'avvocato del diavolo ma accettiamo l'ipotesi complementare. Se rifiutiamo l'ipotesi dell'avvocato del diavolo che il trattamento non è efficace, dobbiamo concludere che il trattamento è efficace.
+
+Ma quale soglia dobbiamo usare per rifiutare l'ipotesi dell'avvocato del diavolo (ovvero, l'ipotesi nulla)? Per consuetudine, la soglia da superare è quella del 5%. Risultati che producono un *valore*-$p < 0.05$ vengono detti *statisticamente significativi*.
+
+Ci sono due tipi di test di ipotesi, quelli unidirezionali (mettiamo tutta la regione di rifiuto dell'ipotesi nulla in una coda della distribuzione campionaria della statistica test) e quelli bidirezionali (la regione di rifiuto dell'ipotesi nulla è suddivisa nelle due code).
+
+Supponiamo di usare un test bidirezionale (quello che si usa normalmente). Quindi, rifiutiamo l'ipotesi nulla (la proposta dell'avvocato del diavolo) sia quando c'è una grande *riduzione* dei sintomi, sia quando osserviamo un grande *aumento* dei sintomi. 
+
+Quindi, se per la nostra scelta abbiamo deciso di usare un livello di probabilità complessivo, chiamato $\alpha$, di 0.05, nel caso di un test bidirezionale avremo due regioni di rifiuto dell'ipotesi nulla: l'intervallo da $-\infty$ fino al quantile che lascia sotto di sé una probabilità pari a $\alpha/2$, e  l'intervallo dal quantile che lascia sopra di sé una probabilità pari a $\alpha/2$ a $+\infty$.
+
+Per rifiutare l'ipotesi dell'avvocato del diavolo dovremo dunque osservare una riduzione dei sintomi che, nella distribuzione campionaria costruita assumendo come vera l'ipotesi nulla, lascia sotto di sé una probabilità minore di $\alpha/2$. Un risultato di questo tipo viene detto *"statisticamente significativo"*. 
+
+Nel caso presente, essendo il valore-$p$ = 0.0244 < 0.025, il ricercatore frequentista *rigetta l'ipotesi nulla* di assenza di effetto del trattamento e conclude che il trattamento considerato è efficace per la riduzione dei sintomi OCD.
+
+#### Il test $t$ di Student
+
+Nella discussione precedente abbiamo assunto $\sigma$ noto, in quanto abbiamo recuperato tale valore da ricerche precedenti. Solitamente, però, si procede in un modo ancora più semplice, ovvero si stima $\sigma$ mediante la deviazione standard del campione (usando $n-1$ al denominatore). In tali circostanze, ovvero quando stimiamo $\sigma$ con $s$, la teoria delle probabilità ci dice che la distribuzione delle medie campionarie non segue più la legge Normale ma segue invece un'altra legge distributiva, ovvero la $t$ di Student, con un numero di gradi di libertà pari a $\nu = n-1$. 
+
+La probabilità cercata, dunque, diventa la seguente. Dobbiamo trovare la probabilità che una variabile casuale assuma un valore minore o uguale a -5 quando tale variabile segue la distribuzione $t$ di Student con $30 - 1$ gradi di libertà. Supponiamo che la deviazione standard del campione sia $s = 14.5$. Dobbiamo trovare il quantile della distribuzione $t$ di Student e l'associata probabilità nella coda inferiore della distribuzione. Il quantile è dato da
+
+$$
+T = \frac{\bar{X} - 0}{s/\sqrt{n}}.
+$$
+
+Per l'esempio presente avremo
+
+```{r}
+T <- (-5 - 0) / (14.5 / sqrt(30))
+T
+```
+
+Calcoliamo la probabilità di osservare un valore minore o uguale a -1.89 in una distribuzione $t$ di Student con 29 gradi di libertà.
+
+```{r}
+pt(T, 29)
+```
+
+In questo caso, con un test bidirezionale, il valore-$p$ è maggiore di $\alpha/2$. Dunque, in base alla procedura decisionale scelta, il ricercatore frequentista non può rifiutare il punto di vista dell'avvocato del diavolo. Ovviamente, la discussione presente non *prova* che l'avvocato del diavolo abbia ragione, ma non ci sono evidenze sufficienti per rigettare l'ipotesi nulla. In tali circostanze, cautamente, il ricercatore sospende il giudizio.
+
+In $\textsf{R}$, il test che abbiamo descritto sopra, detto test $t$ di Student, si svolte mediante la funzione `t.test()`.
+
+
+### L'Intervallo di fiducia
+
+Il test di ipotesi statistiche porta il ricercatore ad una scelta binaria: o rifiuta l'ipotesi nulla $H_0$ o sospende il giudizio. Tale scelta binaria dipende dal valore $\alpha$, ovvero dal *livello di significatività* che viene scelto. Convenzionalmente, $\alpha = 0.05$ e il test è bidirezionale.
+
+Essendo una risposta binaria, il risultato di un test di ipotesi statistiche frequentista non è molto informativo. Infatti, si usa sempre di meno. Maggiori fortuna nella comunità scientifica ha l'altra proposta inferenziale frequentista, ovvero l'intervallo di fiducia. Per proseguire con l'esempio in discussione, consideriamo qui il caso dell'intervallo di fiducia per la media di una popolazione Normale di varianza conosciuta.
+
+#### Popolazione con varianza nota
+
+Sia $X_1,\dots, X_n$ un campione casuale estratto da una popolazione di legge normale di media $\mu$ e varianza $\sigma^2$. Abbiamo visto in precedenza come la media campionaria, essendo una combinazione lineare di $n$ variabili casuali normali, è anch'essa una variabile normale: $\bar{X} \sim  \mathcal{N}(\mu, \sigma/n)$. 
+
+La \emph{media campionaria standardizzata} 
+
+\begin{equation}
+\frac{\bar{X} - \mu}{\sigma} \sqrt{n}\sim \mathcal{N}(0, 1)\notag
+\end{equation}
+
+segue dunque una distribuzione normale con media zero e deviazione standard unitaria. Fissato il livello fiduciario $\gamma = 1 - \alpha$ (tipicamente 0.95, corrispondente a $\alpha = 0.05$), indichiamo con $z$ il quantile di ordine $1 - \alpha/2$ della distribuzione normale standard in modo che 
+
+\begin{equation}
+P(-z \leq Z \leq z) = 1 - \alpha.\notag
+\end{equation}
+
+Otteniamo dunque
+
+\begin{equation}
+P\bigg(-z \leq \frac{\bar{X} - \mu}{\sigma} \sqrt{n} \leq z\bigg) = 1 - \alpha.\notag
+\end{equation}
+
+Applicando qualche manipolazione algebrica, la diseguaglianza precedente si può scrivere nel modo seguente:
+
+\begin{align}
+P\bigg(-z {\frac{\sigma}{\sqrt{n}}} \leq  \bar{X} - \mu \leq z \frac{\sigma}{\sqrt{n}}\bigg) &= 1 - \alpha\notag\\
+P\bigg(-\bar{X}-z {\frac{\sigma}{\sqrt{n}}} \leq -\mu \leq -\bar{X} + z \frac{\sigma}{\sqrt{n}}\bigg) &= 1 - \alpha\notag\\
+P\bigg(\bar{X}+z \frac{\sigma}{\sqrt{n}} \geq \mu \geq  \bar{X} -z \frac{\sigma}{\sqrt{n}}\bigg) &= 1 - \alpha.\notag
+\end{align}
+
+Se definiamo 
+
+\begin{equation}
+\hat{a} \triangleq \bar{X}-z \frac{\sigma}{\sqrt{n}}, 
+\quad \hat{b} \triangleq \bar{X} +z \frac{\sigma}{\sqrt{n}},
+\label{eq:lim_int_fid_norm}
+\end{equation}
+
+avremo che
+
+\begin{equation}
+P(\hat{a} \leq \mu \leq \hat{b}) = 1 - \alpha.\notag
+\end{equation}
+
+L'intervallo  $[\hat{a}, \hat{b}]$ è detto *intervallo di fiducia* per una stima della media della popolazione al livello fiduciario $\gamma = 1 -\alpha$.
+
+Per l'esempio in discussione, assumendo $\sigma = 13.9$, abbiamo
+
+```{r}
+-5 + c(-1, 1) * qnorm(0.025, 0, 1) * 13.9 /sqrt(30)
+```
+
+#### Popolazione con varianza incognita
+
+In ogni applicazione concreta, lo sperimentatore estrae un solo campione $x_1, \dots, x_n$ dalla popolazione e la varianza $\sigma^2$, in aggiunta alla media $\mu$ da determinare,  è sconosciuta. 
+In tal caso, per effettuare una stima intervallare di $\mu$ ci si basa sulla densità $t$ di Student. In tali circostanze, si può dimostrare che
+
+\begin{equation}
+P\bigg(-t^{\ast} \leq \frac{\bar{X} - \mu}{s} \sqrt{n} \leq t^{\ast}\bigg) = 1 -\alpha,
+\end{equation}
+
+dove $s$ è lo stimatore non distorto di $\sigma$ e $t^{\ast} \triangleq t_{n-1,1-\alpha/2}$ è il quantile di ordine $1 - \alpha/2$ della distribuzione $t_{n-1}$. Pertanto, il limite inferiore $\hat{a}$ e il limite superiore $\hat{b}$ dell'intervallo di fiducia diventano, rispettivamente, uguali a:
+
+\begin{equation}
+\hat{a} \triangleq \bar{X} -t^{\ast} \frac{s}{\sqrt{n}}, 
+\quad \hat{b} \triangleq \bar{X} + t^{\ast} \frac{s}{\sqrt{n}}.
+\label{eq:lim_int_fid_t}
+\end{equation}
+
+Si noti che, nel caso di una popolazione con varianza incognita, i limiti fiduciari si ottengono dall'equazione ottenuta nel paragrafo precedente sostituendo $\sigma$, ora incognito, con $s$ (per una ampiezza campionaria $n$ qualsiasi), e il coefficiente $z$ con $t_{n-1,1-\alpha/2}$.
+
+Per l'esempio in discussione, assumendo $s = 14.5$, abbiamo
+
+```{r}
+-5 + c(-1, 1) * qt(0.025, 29) * 14.5 /sqrt(30)
+```
+
+#### Livello di copertura
+
+Il valore $1-\alpha$ indica il *livello di copertura* fornito dall'intervallo di fiducia. Il termine "probabilità di copertura" si riferisce alla probabilità che la procedura per la costruzione degli intervalli di fiducia produca un intervallo che contiene (o copre) il valore reale del parametro di interesse. 
+Esiste sempre una probabilità pari ad $\alpha$ che i dati campionari producano un intervallo che non contiene il valore reale del parametro di interesse.
+
+Ricordiamo che l'approccio frequentista interpreta la probabilità di un evento come la proporzione di volte che si verifica un tale evento osservando a lungo termine delle ripetizioni indipendenti di un esperimento casuale.
+Nel caso presente, l'evento in questione è la risposta alla domanda "l'intervallo di fiducia contiene il valore del parametro?" mentre l'esperimento casuale corrisponde al calcolo dell'intervallo di fiducia della media di una popolazione in un campione casuale di ampiezza $n$.
+
+La seguente simulazione chiarisce l'interpretazione frequentista della nozione di "livello di copertura".
+
+Consideriamo il caso di una popolazione normale con varianza incognita. 
+Utilizziamo come parametri quelli della distribuzione dell'altezza: è infatti risaputo che l'altezza degli individui segue la distribuzione normale. 
+L'altezza media di un italiano adulto maschio è di $175$ cm, con una varianza di $49$ cm$^2$. 
+Definiamo dunque i parametri della simulazione, nella quale prevediamo 100 ripetizioni dell'esperimento casuale che corrisponde nell'estrazione di un campione di ampiezza $n = 20$ dalla popolazione $\mathcal{N}(175, 7)$.
+
+```{r}
+set.seed(1235)
+nrep <- 100
+sampling_distribution <- matrix(NA, nrow = nrep, ncol = 2)
+point_estimate <- rep(NA, nrep)
+sample_size <- 20
+mu <- 175
+sigma <- 7
+```
+
+Per ciascun campione casuale calcoliamo l'intervallo di fiducia del 95\% tramite la funzione \verb|t.test()| e salviamo il limite inferiore e il limite superiore di ciascun intervallo nella matrice \verb|sampling_distribution|.
+
+```{r}
+for (i in 1:nrep) {
+  y <- rnorm(sample_size, mu, sigma)
+  temp <- t.test(y, conf.level = 0.95)
+  sampling_distribution[i, ] <- temp$conf.int
+  point_estimate[i] <- temp$estimate
+}
+```
+
+Creiamo poi un data.frame a cui aggiungiamo una colonna che riporta i valori delle medie campionarie.
+
+```{r}
+colnames(sampling_distribution) <- c("lcl", "ucl")
+sampling_distribution <- 
+  as.data.frame(sampling_distribution)
+sampling_distribution$mean <- as.numeric(point_estimate)
+sampling_distribution$replicate <- 1:nrep
+sampling_distribution$captured <- factor(ifelse(
+  sampling_distribution$lcl <= mu & sampling_distribution$ucl >= mu, 1, 0
+))
+levels(sampling_distribution$captured) <- c('No', 'Si')
+```
+
+Utilizzando `gplot(()` creiamo la seguente figura.
+
+```{r}
+p <- ggplot(sampling_distribution) +
+  geom_point(
+    aes(
+      x = point_estimate, y = replicate, color = captured)
+    ) +
+  geom_segment(aes(
+    y = replicate, yend = replicate, x = lcl, xend = ucl,
+    color = captured
+  )) +
+  geom_vline(
+    xintercept = 175, linetype = 2, color = "white"
+  ) +
+  labs(
+    x = "Stima puntuale",
+    y = "Campioni simulati"
+  ) +
+  guides(color=guide_legend("Parametro contenuto nell'intervallo")) 
+p + theme(legend.position = "bottom")
+```
+
+La figura mostra che alcuni intervalli di fiducia del 95\% contengono il valore del parametro, altri non lo contengono.
+Se ripetiamo la simulazione 10,000 volte troviamo un livello di copertura (ovvero, una proporzione di intervalli di fiducia del 95\% che contengono il parametro) pari a 0.9468. Questo valore è molto prossimo al livello nominale $1 - \alpha = 0.95$. 
+
+#### Interpretazione dell'intervallo di fiducia
+
+La cosa più difficile a proposito degli intervalli di fiducia è capire cosa significano. Ogni volta che gli studenti *e* i ricercatori incontrano gli intervalli di fiducia, il primo istinto è quasi sempre quello di interpretarli dicendo che "c'è una probabilità del 95\% che la vera media della popolazione si trovi all'interno dell'intervallo di fiducia". Questa è un'interpretazione semplice e cattura l'idea del senso comune secondo la quale  una probabilità di 0.95 significa "sono sicuro al 95\%". Sfortunatamente, l'interpretazione precedente è del tutto sbagliata. La precedente interpretazione si basa sulla convinzione `soggettiva' di quale potrebbe essere il valore della media della popolazione. Dico che sono fiducioso al 95\% perché quella è la mia opinione. 
+Nella vita di tutti i giorni va benissimo, ma parlare di opinioni soggettive e di fiducia è un'idea bayesiana. Tuttavia, gli intervalli di fiducia sono una procedura statistica di stampo frequentista, non bayesiano. Se usiamo degli strumenti statistici frequentisti non possiamo attribuire loro un'interpretazione bayesiana. 
+Se usiamo dei metodi frequentisti, dobbiamo usare delle interpretazioni frequentiste---anche perché gli intervalli di fiducia frequentisti e gli intervalli di credibilità bayesiani sono numericamente diversi!
+
+Se l'interpretazione presentata sopra non è corretta, qual è l'interpretazione giusta? Ricordaci quello che abbiamo detto sulla probabilità frequentista: l'unico modo in cui siamo autorizzati a fare affermazioni relative alla probabilità degli eventi è di riferirci ad una sequenza di ripetizioni dell'esperimento casuale e di contare la frequenza con cui si è verificato un qualche evento. Dunque, l'interpretazione frequentista dell'intervallo di fiducia deve avere a che fare con la ripetizione di un esperimento casuale. Nello specifico, per l'intervallo di fiducia al 95% possiamo dire quanto segue: "se ripetessimo molte volte l'esperimento casuale del campionamento e se, per ciascuna ripetizione dell'esperimento, calcolassimo un intervallo di fiducia del 95\%, allora il 95\% degli intervalli così calcolati conterrebbe la vera media della popolazione". Più in generale, se  si  estraggono  molteplici  campioni indipendenti dalla stessa popolazione e si determinano i relativi intervalli di fiducia seguendo la procedura sopra illustrata, il $100 (1-\alpha)$\%  di tali intervalli conterrà il vero valore del parametro incognito. 
+
+Questa idea è illustrata nella figura precedente che mostra 100 intervalli di fiducia costruiti per stabilire l'altezza media di un italiano adulto maschio sulla base di campioni casuali di ampiezza $n = 30$.
+Alcuni di questi intervalli di fiducia contengono il valore del parametro, altri non lo contengono.
+Se la simulazione venisse ripetuta infinite volte si scoprirebbe che esattamente il 95\% degli intervalli così calcolati effettivamente contiene il valore del parametro (e il 5\% non lo contiene), dato che, per costruire gli intervalli di fiducia abbiamo usato $\alpha = 0.05$.
+
+## Commenti e considerazioni finali {-}
+
+È risaputo che i ricercatori (non solo gli studenti!) spesso attribuiscono agli intervalli di fiducia un'interpretazione errata. 
+Non poche volte nelle riviste specialistiche si leggono affermazioni del tipo: "la probabilità che la media della popolazione $\mu$ sia contenuta nell'intervallo $[\hat{a}, \hat{b}]$ è 0.95", mentre in realtà si dovrebbe scrivere: "la procedura tramite la quale l'intervallo $[\hat{a}, \hat{b}]$ è stato calcolato include $\mu$ nel 95\% dei casi".
+
+La differenza fondamentale è che le affermazioni di tipo bayesiano sono delle affermazioni probabilistiche sul valore dei parametri (qui, la media della popolazione (cioè, descrivono nostra incertezza relativamente al valore di un parametro incognito). Tuttavia, affermazioni di questo tipo non sono consentite nell'interpretazione frequentista della probabilità. Nell'interpretazione frequentista, la media della popolazione è fissa e nessuna interpretazione `probabilistica' può essere fatta sul valore di un rtale parametro (o di alcun altro parametro).
+
+Gli estremi dell'intervallo di fiducia, invece, sono delle quantità aleatorie che dipendono da un esperimento casuale: ogni volta che osserviamo un nuovo campione casuale, il limite inferiore e il limite superiore dell'intervallo di fiducia assumeranno valori diversi.
+Pertanto è sensato pensare che *la procedura* di costruzione dell'intervallo di fiducia possa essere ripetuta. È in riferimento a tali ripetizioni che l'approccio frequentista assegna una probabilità agli intervalli di fiducia: la probabilità è la frequenza relativa (in queste infinite ipotetiche ripetizioni) che un certo evento si verifichi (dove l'evento in questione è il fatto che l'intervallo include il valore del parametro).
+Pertanto, dal punto di vista frequentista, è lecito parlare della probabilità che l'intervallo di fiducia (una variabile aleatoria) contenga il parametro; non è invece lecito dire alcunché sulla probabilità che il parametro (un evento non ripetibile) assuma un certo valore (il valore del parametro è fisso: non può essere descritto da una probabilità).
+
+Questa non è solo una differenza `semantica'. 
+Come ho accennato sopra, le procedure di calcolo per gli intervalli di fiducia frequentisti sono diverse dalle procedure di calcolo per gli intervalli di credibilità bayesiani.
+In maniera corrispondente, nei due casi anche le interpretazioni che assegnamo agli intervalli sono diverse. 
+Un altro modo per descrivere questa situazione è quello di dire che ciò che vorremmo  conoscere è $p(\theta \mid y)$, mentre in realtà quello che l'approccio frequentista ci fornisce è $p(y \mid \theta)$. 
+Solo se vengono utilizzati i metodi della statistica bayesiana è possibile costruire un "intervallo di credibilità" che corrisponde a $p(\theta \mid y)$. 
+
+
+
+

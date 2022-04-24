@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capitolo 36 La crisi della replicabilità dei risultati della ricerca | Data Science per psicologi</title>
+  <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capitolo 36 La crisi della replicabilità dei risultati della ricerca | Data Science per psicologi" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capitolo 36 La crisi della replicabilità dei risultati della ricerca | Data Science per psicologi" />
+  
+  <meta name="twitter:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
+  
+
+<meta name="author" content="Corrado Caudek" />
+
+
+<meta name="date" content="2022-04-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch-ttest.html"/>
+<link rel="next" href="bibliografia.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science per psicologi</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+</ul></li>
+<li class="part"><span><b>I Nozioni preliminari</b></span></li>
+<li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch-key-notions.html"><a href="ch-key-notions.html#popolazioni-e-campioni"><i class="fa fa-check"></i><b>1.1</b> Popolazioni e campioni</a></li>
+<li class="chapter" data-level="1.2" data-path="ch-key-notions.html"><a href="ch-key-notions.html#variabili-e-costanti"><i class="fa fa-check"></i><b>1.2</b> Variabili e costanti</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="ch-key-notions.html"><a href="ch-key-notions.html#variabili-casuali"><i class="fa fa-check"></i><b>1.2.1</b> Variabili casuali</a></li>
+<li class="chapter" data-level="1.2.2" data-path="ch-key-notions.html"><a href="ch-key-notions.html#variabili-indipendenti-e-variabili-dipendenti"><i class="fa fa-check"></i><b>1.2.2</b> Variabili indipendenti e variabili dipendenti</a></li>
+<li class="chapter" data-level="1.2.3" data-path="ch-key-notions.html"><a href="ch-key-notions.html#la-matrice-dei-dati"><i class="fa fa-check"></i><b>1.2.3</b> La matrice dei dati</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="ch-key-notions.html"><a href="ch-key-notions.html#parametri-e-modelli"><i class="fa fa-check"></i><b>1.3</b> Parametri e modelli</a></li>
+<li class="chapter" data-level="1.4" data-path="ch-key-notions.html"><a href="ch-key-notions.html#effetto"><i class="fa fa-check"></i><b>1.4</b> Effetto</a></li>
+<li class="chapter" data-level="1.5" data-path="ch-key-notions.html"><a href="ch-key-notions.html#stima-e-inferenza"><i class="fa fa-check"></i><b>1.5</b> Stima e inferenza</a></li>
+<li class="chapter" data-level="1.6" data-path="ch-key-notions.html"><a href="ch-key-notions.html#metodi-e-procedure-della-psicologia"><i class="fa fa-check"></i><b>1.6</b> Metodi e procedure della psicologia</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html"><i class="fa fa-check"></i><b>2</b> La misurazione in psicologia</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#le-scale-di-misura"><i class="fa fa-check"></i><b>2.1</b> Le scale di misura</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-nominale"><i class="fa fa-check"></i><b>2.1.1</b> Scala nominale</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ordinale"><i class="fa fa-check"></i><b>2.1.2</b> Scala ordinale</a></li>
+<li class="chapter" data-level="2.1.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-ad-intervalli"><i class="fa fa-check"></i><b>2.1.3</b> Scala ad intervalli</a></li>
+<li class="chapter" data-level="2.1.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#scala-di-rapporti"><i class="fa fa-check"></i><b>2.1.4</b> Scala di rapporti</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#gerarchia-dei-livelli-di-scala-di-misura"><i class="fa fa-check"></i><b>2.2</b> Gerarchia dei livelli di scala di misura</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#variabili-discrete-o-continue"><i class="fa fa-check"></i><b>2.3</b> Variabili discrete o continue</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#alcune-misure-sono-migliori-di-altre"><i class="fa fa-check"></i><b>2.4</b> Alcune misure sono migliori di altre</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#tipologie-di-errori"><i class="fa fa-check"></i><b>2.4.1</b> Tipologie di errori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-misurazione.html"><a href="chapter-misurazione.html#commenti-e-considerazioni-finali"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>II Analisi esplorativa dei dati</b></span></li>
+<li class="chapter" data-level="3" data-path="ch-eda.html"><a href="ch-eda.html"><i class="fa fa-check"></i><b>3</b> Variabili e distribuzioni di frequenza</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch-eda.html"><a href="ch-eda.html#chapter-descript"><i class="fa fa-check"></i><b>3.1</b> Introduzione all’esplorazione dei dati</a></li>
+<li class="chapter" data-level="3.2" data-path="ch-eda.html"><a href="ch-eda.html#un-excursus-storico"><i class="fa fa-check"></i><b>3.2</b> Un excursus storico</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-eda.html"><a href="ch-eda.html#riassumere-i-dati"><i class="fa fa-check"></i><b>3.3</b> Riassumere i dati</a></li>
+<li class="chapter" data-level="3.4" data-path="ch-eda.html"><a href="ch-eda.html#i-dati-grezzi"><i class="fa fa-check"></i><b>3.4</b> I dati grezzi</a></li>
+<li class="chapter" data-level="3.5" data-path="ch-eda.html"><a href="ch-eda.html#distribuzioni-di-frequenze"><i class="fa fa-check"></i><b>3.5</b> Distribuzioni di frequenze</a></li>
+<li class="chapter" data-level="3.6" data-path="ch-eda.html"><a href="ch-eda.html#istogramma"><i class="fa fa-check"></i><b>3.6</b> Istogramma</a></li>
+<li class="chapter" data-level="3.7" data-path="ch-eda.html"><a href="ch-eda.html#kernel-density-plot"><i class="fa fa-check"></i><b>3.7</b> Kernel density plot</a></li>
+<li class="chapter" data-level="3.8" data-path="ch-eda.html"><a href="ch-eda.html#forma-di-una-distribuzione"><i class="fa fa-check"></i><b>3.8</b> Forma di una distribuzione</a></li>
+<li class="chapter" data-level="3.9" data-path="ch-eda.html"><a href="ch-eda.html#indici-di-posizione"><i class="fa fa-check"></i><b>3.9</b> Indici di posizione</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="ch-eda.html"><a href="ch-eda.html#quantili"><i class="fa fa-check"></i><b>3.9.1</b> Quantili</a></li>
+<li class="chapter" data-level="3.9.2" data-path="ch-eda.html"><a href="ch-eda.html#diagramma-a-scatola"><i class="fa fa-check"></i><b>3.9.2</b> Diagramma a scatola</a></li>
+<li class="chapter" data-level="3.9.3" data-path="ch-eda.html"><a href="ch-eda.html#sina-plot"><i class="fa fa-check"></i><b>3.9.3</b> Sina plot</a></li>
+<li class="chapter" data-level="3.9.4" data-path="ch-eda.html"><a href="ch-eda.html#leccellenza-grafica"><i class="fa fa-check"></i><b>3.9.4</b> L’eccellenza grafica</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-eda.html"><a href="ch-eda.html#commenti-e-considerazioni-finali-1"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html"><i class="fa fa-check"></i><b>4</b> Indici di posizione e di scala</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#indici-di-tendenza-centrale"><i class="fa fa-check"></i><b>4.1</b> Indici di tendenza centrale</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#media"><i class="fa fa-check"></i><b>4.1.1</b> Media</a></li>
+<li class="chapter" data-level="4.1.2" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#media-spuntata"><i class="fa fa-check"></i><b>4.1.2</b> Media spuntata</a></li>
+<li class="chapter" data-level="4.1.3" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#moda-e-mediana"><i class="fa fa-check"></i><b>4.1.3</b> Moda e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#indici-di-dispersione"><i class="fa fa-check"></i><b>4.2</b> Indici di dispersione</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#indici-basati-sullordinamento-dei-dati"><i class="fa fa-check"></i><b>4.2.1</b> Indici basati sull’ordinamento dei dati</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#varianza"><i class="fa fa-check"></i><b>4.2.2</b> Varianza</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#precisione"><i class="fa fa-check"></i><b>4.2.3</b> Precisione</a></li>
+<li class="chapter" data-level="4.2.4" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#scarto-tipo"><i class="fa fa-check"></i><b>4.2.4</b> Scarto tipo</a></li>
+<li class="chapter" data-level="4.2.5" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#deviazione-mediana-assoluta"><i class="fa fa-check"></i><b>4.2.5</b> Deviazione mediana assoluta</a></li>
+<li class="chapter" data-level="4.2.6" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#indici-di-variabilità-relativi"><i class="fa fa-check"></i><b>4.2.6</b> Indici di variabilità relativi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-loc-scale.html"><a href="ch-loc-scale.html#commenti-e-considerazioni-finali-2"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-corr.html"><a href="ch-corr.html"><i class="fa fa-check"></i><b>5</b> Le relazioni tra variabili</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch-corr.html"><a href="ch-corr.html#diagramma-a-dispersione"><i class="fa fa-check"></i><b>5.1</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-corr.html"><a href="ch-corr.html#covarianza"><i class="fa fa-check"></i><b>5.2</b> Covarianza</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-corr.html"><a href="ch-corr.html#correlazione"><i class="fa fa-check"></i><b>5.3</b> Correlazione</a></li>
+<li class="chapter" data-level="5.4" data-path="ch-corr.html"><a href="ch-corr.html#correlazione-e-causazione"><i class="fa fa-check"></i><b>5.4</b> Correlazione e causazione</a></li>
+<li class="chapter" data-level="5.5" data-path="ch-corr.html"><a href="ch-corr.html#usi-della-correlazione"><i class="fa fa-check"></i><b>5.5</b> Usi della correlazione</a></li>
+<li class="chapter" data-level="5.6" data-path="ch-corr.html"><a href="ch-corr.html#correlazione-di-spearman"><i class="fa fa-check"></i><b>5.6</b> Correlazione di Spearman</a></li>
+<li class="chapter" data-level="5.7" data-path="ch-corr.html"><a href="ch-corr.html#correlazione-nulla"><i class="fa fa-check"></i><b>5.7</b> Correlazione nulla</a></li>
+<li class="chapter" data-level="" data-path="ch-corr.html"><a href="ch-corr.html#commenti-e-considerazioni-finali-3"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>III Il calcolo delle probabilità</b></span></li>
+<li class="chapter" data-level="6" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html"><i class="fa fa-check"></i><b>6</b> La logica dell’incerto</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#che-cosè-la-probabilità"><i class="fa fa-check"></i><b>6.1</b> Che cos’è la probabilità?</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#variabili-casuali-e-probabilità-di-un-evento"><i class="fa fa-check"></i><b>6.2</b> Variabili casuali e probabilità di un evento</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#eventi-e-probabilità"><i class="fa fa-check"></i><b>6.2.1</b> Eventi e probabilità</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#spazio-campione-e-risultati-possibili"><i class="fa fa-check"></i><b>6.2.2</b> Spazio campione e risultati possibili</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#variabili-casuali-1"><i class="fa fa-check"></i><b>6.3</b> Variabili casuali</a></li>
+<li class="chapter" data-level="6.4" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#usare-la-simulazione-per-stimare-le-probabilità"><i class="fa fa-check"></i><b>6.4</b> Usare la simulazione per stimare le probabilità</a></li>
+<li class="chapter" data-level="6.5" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#la-legge-dei-grandi-numeri"><i class="fa fa-check"></i><b>6.5</b> La legge dei grandi numeri</a></li>
+<li class="chapter" data-level="6.6" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#variabili-casuali-multiple"><i class="fa fa-check"></i><b>6.6</b> Variabili casuali multiple</a></li>
+<li class="chapter" data-level="6.7" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#sec:fun-mass-prob"><i class="fa fa-check"></i><b>6.7</b> Funzione di massa di probabilità</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#funzione-di-ripartizione"><i class="fa fa-check"></i><b>6.7.1</b> Funzione di ripartizione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-intro-prob-1.html"><a href="ch-intro-prob-1.html#commenti-e-considerazioni-finali-4"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html"><i class="fa fa-check"></i><b>7</b> Probabilità condizionata</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#sec:bayes-cancer"><i class="fa fa-check"></i><b>7.1</b> Probabilità condizionata su altri eventi</a></li>
+<li class="chapter" data-level="7.2" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#la-regola-moltiplicativa"><i class="fa fa-check"></i><b>7.2</b> La regola moltiplicativa</a></li>
+<li class="chapter" data-level="7.3" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#lindipendendenza-stocastica"><i class="fa fa-check"></i><b>7.3</b> L’indipendendenza stocastica</a></li>
+<li class="chapter" data-level="7.4" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#il-teorema-della-probabilità-totale"><i class="fa fa-check"></i><b>7.4</b> Il teorema della probabilità totale</a></li>
+<li class="chapter" data-level="7.5" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#il-teorema-della-probabilità-assoluta"><i class="fa fa-check"></i><b>7.5</b> Il teorema della probabilità assoluta</a></li>
+<li class="chapter" data-level="7.6" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#indipendenza-condizionale"><i class="fa fa-check"></i><b>7.6</b> Indipendenza condizionale</a></li>
+<li class="chapter" data-level="" data-path="ch-prob-cond.html"><a href="ch-prob-cond.html#commenti-e-considerazioni-finali-5"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ch-theorem-bayes.html"><a href="ch-theorem-bayes.html"><i class="fa fa-check"></i><b>8</b> Il teorema di Bayes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ch-theorem-bayes.html"><a href="ch-theorem-bayes.html#il-teorema-di-bayes"><i class="fa fa-check"></i><b>8.1</b> Il teorema di Bayes</a></li>
+<li class="chapter" data-level="" data-path="ch-theorem-bayes.html"><a href="ch-theorem-bayes.html#commenti-e-considerazioni-finali-6"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html"><i class="fa fa-check"></i><b>9</b> Probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#funzione-di-probabilità-congiunta"><i class="fa fa-check"></i><b>9.1</b> Funzione di probabilità congiunta</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#proprietà"><i class="fa fa-check"></i><b>9.1.1</b> Proprietà</a></li>
+<li class="chapter" data-level="9.1.2" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#eventi"><i class="fa fa-check"></i><b>9.1.2</b> Eventi</a></li>
+<li class="chapter" data-level="9.1.3" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#sec:marg-distr-discr"><i class="fa fa-check"></i><b>9.1.3</b> Funzioni di probabilità marginali</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#sec:margin-vc-cont"><i class="fa fa-check"></i><b>9.2</b> Marginalizzazione di variabili casuali continue</a></li>
+<li class="chapter" data-level="" data-path="ch-prob-congiunta.html"><a href="ch-prob-congiunta.html#commenti-e-considerazioni-finali-7"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html"><i class="fa fa-check"></i><b>10</b> La densità di probabilità</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#spinner-e-variabili-casuali-continue-uniformi"><i class="fa fa-check"></i><b>10.1</b> Spinner e variabili casuali continue uniformi</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#il-paradosso-delle-variabili-casuali-continue"><i class="fa fa-check"></i><b>10.1.1</b> Il paradosso delle variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#la-funzione-di-ripartizione-per-una-variabile-casuale-continua"><i class="fa fa-check"></i><b>10.2</b> La funzione di ripartizione per una variabile casuale continua</a></li>
+<li class="chapter" data-level="10.3" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#la-distribuzione-uniforme"><i class="fa fa-check"></i><b>10.3</b> La distribuzione uniforme</a></li>
+<li class="chapter" data-level="10.4" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#dagli-istogrammi-alle-densità"><i class="fa fa-check"></i><b>10.4</b> Dagli istogrammi alle densità</a></li>
+<li class="chapter" data-level="10.5" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#funzione-di-densità-di-probabilità"><i class="fa fa-check"></i><b>10.5</b> Funzione di densità di probabilità</a></li>
+<li class="chapter" data-level="10.6" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#la-funzione-di-ripartizione"><i class="fa fa-check"></i><b>10.6</b> La funzione di ripartizione</a></li>
+<li class="chapter" data-level="10.7" data-path="ch-intro-density-function.html"><a href="ch-intro-density-function.html#media-e-mediana"><i class="fa fa-check"></i><b>10.7</b> Media e mediana</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html"><i class="fa fa-check"></i><b>11</b> Valore atteso e varianza</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#valore-atteso"><i class="fa fa-check"></i><b>11.1</b> Valore atteso</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#interpretazione"><i class="fa fa-check"></i><b>11.1.1</b> Interpretazione</a></li>
+<li class="chapter" data-level="11.1.2" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#proprietà-del-valore-atteso"><i class="fa fa-check"></i><b>11.1.2</b> Proprietà del valore atteso</a></li>
+<li class="chapter" data-level="11.1.3" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#variabili-casuali-continue"><i class="fa fa-check"></i><b>11.1.3</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#varianza-1"><i class="fa fa-check"></i><b>11.2</b> Varianza</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#formula-alternativa-per-la-varianza"><i class="fa fa-check"></i><b>11.2.1</b> Formula alternativa per la varianza</a></li>
+<li class="chapter" data-level="11.2.2" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#variabili-casuali-continue-1"><i class="fa fa-check"></i><b>11.2.2</b> Variabili casuali continue</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#deviazione-standard"><i class="fa fa-check"></i><b>11.3</b> Deviazione standard</a></li>
+<li class="chapter" data-level="11.4" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#standardizzazione"><i class="fa fa-check"></i><b>11.4</b> Standardizzazione</a></li>
+<li class="chapter" data-level="11.5" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#momenti-di-variabili-casuali"><i class="fa fa-check"></i><b>11.5</b> Momenti di variabili casuali</a></li>
+<li class="chapter" data-level="11.6" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#covarianza-1"><i class="fa fa-check"></i><b>11.6</b> Covarianza</a></li>
+<li class="chapter" data-level="11.7" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#correlazione-1"><i class="fa fa-check"></i><b>11.7</b> Correlazione</a></li>
+<li class="chapter" data-level="11.8" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#proprietà-1"><i class="fa fa-check"></i><b>11.8</b> Proprietà</a>
+<ul>
+<li class="chapter" data-level="11.8.1" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#incorrelazione"><i class="fa fa-check"></i><b>11.8.1</b> Incorrelazione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-expval-var-rv.html"><a href="ch-expval-var-rv.html#conclusioni"><i class="fa fa-check"></i>Conclusioni</a></li>
+</ul></li>
+<li class="part"><span><b>IV Distribuzioni teoriche di probabilità</b></span></li>
+<li class="chapter" data-level="12" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html"><i class="fa fa-check"></i><b>12</b> Distribuzioni di v.c. discrete</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#una-prova-bernoulliana"><i class="fa fa-check"></i><b>12.1</b> Una prova Bernoulliana</a></li>
+<li class="chapter" data-level="12.2" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#una-sequenza-di-prove-bernoulliane"><i class="fa fa-check"></i><b>12.2</b> Una sequenza di prove Bernoulliane</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#valore-atteso-e-deviazione-standard"><i class="fa fa-check"></i><b>12.2.1</b> Valore atteso e deviazione standard</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#distribuzione-di-poisson"><i class="fa fa-check"></i><b>12.3</b> Distribuzione di Poisson</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#alcune-proprietà-della-variabile-di-poisson"><i class="fa fa-check"></i><b>12.3.1</b> Alcune proprietà della variabile di Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#distribuzione-discreta-uniforme"><i class="fa fa-check"></i><b>12.4</b> Distribuzione discreta uniforme</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#usiamo-textsfr"><i class="fa fa-check"></i><b>12.4.1</b> Usiamo <span class="math inline">\(\textsf{R}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#distribuzione-beta-binomiale"><i class="fa fa-check"></i><b>12.5</b> Distribuzione beta-binomiale</a></li>
+<li class="chapter" data-level="" data-path="ch-distr-rv-discr.html"><a href="ch-distr-rv-discr.html#commenti-e-considerazioni-finali-8"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html"><i class="fa fa-check"></i><b>13</b> Distribuzioni di v.c. continue</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-normale"><i class="fa fa-check"></i><b>13.1</b> Distribuzione Normale</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#limite-delle-distribuzioni-binomiali"><i class="fa fa-check"></i><b>13.1.1</b> Limite delle distribuzioni binomiali</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#normal-random-walk"><i class="fa fa-check"></i><b>13.2</b> La Normale prodotta con una simulazione</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#concentrazione"><i class="fa fa-check"></i><b>13.2.1</b> Concentrazione</a></li>
+<li class="chapter" data-level="13.2.2" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#funzione-di-ripartizione-1"><i class="fa fa-check"></i><b>13.2.2</b> Funzione di ripartizione</a></li>
+<li class="chapter" data-level="13.2.3" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-normale-standard"><i class="fa fa-check"></i><b>13.2.3</b> Distribuzione Normale standard</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#teorema-del-limite-centrale"><i class="fa fa-check"></i><b>13.3</b> Teorema del limite centrale</a></li>
+<li class="chapter" data-level="13.4" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-chi-quadrato"><i class="fa fa-check"></i><b>13.4</b> Distribuzione Chi-quadrato</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#proprietà-2"><i class="fa fa-check"></i><b>13.4.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-t-di-student"><i class="fa fa-check"></i><b>13.5</b> Distribuzione <span class="math inline">\(t\)</span> di Student</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#proprietà-3"><i class="fa fa-check"></i><b>13.5.1</b> Proprietà</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#funzione-beta"><i class="fa fa-check"></i><b>13.6</b> Funzione beta</a></li>
+<li class="chapter" data-level="13.7" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-beta"><i class="fa fa-check"></i><b>13.7</b> Distribuzione Beta</a></li>
+<li class="chapter" data-level="13.8" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-di-cauchy"><i class="fa fa-check"></i><b>13.8</b> Distribuzione di Cauchy</a></li>
+<li class="chapter" data-level="13.9" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-log-normale"><i class="fa fa-check"></i><b>13.9</b> Distribuzione log-normale</a></li>
+<li class="chapter" data-level="13.10" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#distribuzione-di-pareto"><i class="fa fa-check"></i><b>13.10</b> Distribuzione di Pareto</a></li>
+<li class="chapter" data-level="" data-path="ch-distr-rv-cont.html"><a href="ch-distr-rv-cont.html#commenti-e-considerazioni-finali-9"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>V Inferenza bayesiana</b></span></li>
+<li class="chapter" data-level="14" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html"><i class="fa fa-check"></i><b>14</b> Flusso di lavoro bayesiano</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#modellizzazione-bayesiana"><i class="fa fa-check"></i><b>14.1</b> Modellizzazione bayesiana</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#notazione"><i class="fa fa-check"></i><b>14.1.1</b> Notazione</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2</b> Distribuzioni a priori</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#tipologie-di-distribuzioni-a-priori"><i class="fa fa-check"></i><b>14.2.1</b> Tipologie di distribuzioni a priori</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#selezione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>14.2.2</b> Selezione della distribuzione a priori</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#unapplicazione-empirica"><i class="fa fa-check"></i><b>14.2.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#la-funzione-di-verosimiglianza"><i class="fa fa-check"></i><b>14.3</b> La funzione di verosimiglianza</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#notazione-1"><i class="fa fa-check"></i><b>14.3.1</b> Notazione</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#la-log-verosimiglianza"><i class="fa fa-check"></i><b>14.3.2</b> La log-verosimiglianza</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#unapplicazione-empirica-1"><i class="fa fa-check"></i><b>14.3.3</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#sec:const-normaliz-bino23"><i class="fa fa-check"></i><b>14.4</b> La verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#unapplicazione-empirica-2"><i class="fa fa-check"></i><b>14.4.1</b> Un’applicazione empirica</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#distribuzione-a-posteriori"><i class="fa fa-check"></i><b>14.5</b> Distribuzione a posteriori</a></li>
+<li class="chapter" data-level="14.6" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>14.6</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="14.7" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>14.7</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="" data-path="ch-bayes-workflow.html"><a href="ch-bayes-workflow.html#commenti-e-considerazioni-finali-10"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html"><i class="fa fa-check"></i><b>15</b> Pensare ad una proporzione in termini soggettivi</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-discr-binom"><i class="fa fa-check"></i><b>15.1</b> Inferenza bayesiana con una distribuzione a priori discreta</a></li>
+<li class="chapter" data-level="15.2" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#ch-prior-cont-binom"><i class="fa fa-check"></i><b>15.2</b> Inferenza bayesiana con una distribuzione a priori continua</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#quali-parametri-per-la-distribuzione-beta"><i class="fa fa-check"></i><b>15.2.1</b> Quali parametri per la distribuzione Beta?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-subj-think-prop.html"><a href="ch-subj-think-prop.html#commenti-e-considerazioni-finali-11"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html"><i class="fa fa-check"></i><b>16</b> Distribuzioni coniugate</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#lo-schema-beta-binomiale"><i class="fa fa-check"></i><b>16.1</b> Lo schema beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-priori"><i class="fa fa-check"></i><b>16.1.1</b> La specificazione della distribuzione a priori</a></li>
+<li class="chapter" data-level="16.1.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#la-specificazione-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>16.1.2</b> La specificazione della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#inferenza-bayesiana-con-distribuzioni-a-priori-continue"><i class="fa fa-check"></i><b>16.2</b> Inferenza bayesiana con distribuzioni a priori continue</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#approccio-bayesiano-alla-verifica-di-ipotesi"><i class="fa fa-check"></i><b>16.2.1</b> Approccio bayesiano alla verifica di ipotesi</a></li>
+<li class="chapter" data-level="16.2.2" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#intervalli-di-credibilità"><i class="fa fa-check"></i><b>16.2.2</b> Intervalli di credibilità</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#principali-distribuzioni-coniugate"><i class="fa fa-check"></i><b>16.3</b> Principali distribuzioni coniugate</a></li>
+<li class="chapter" data-level="" data-path="ch-distr-coniugate.html"><a href="ch-distr-coniugate.html#commenti-e-considerazioni-finali-12"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html"><i class="fa fa-check"></i><b>17</b> L’influenza della distribuzione a priori</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#il-test-di-benchdel"><i class="fa fa-check"></i><b>17.1</b> Il test di Benchdel</a></li>
+<li class="chapter" data-level="17.2" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#stessi-dati-ma-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.2</b> Stessi dati ma diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.3" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#dati-diversi-ma-la-stessa-distribuzione-a-priori"><i class="fa fa-check"></i><b>17.3</b> Dati diversi ma la stessa distribuzione a priori</a></li>
+<li class="chapter" data-level="17.4" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#dati-diversi-e-diverse-distribuzioni-a-priori"><i class="fa fa-check"></i><b>17.4</b> Dati diversi e diverse distribuzioni a priori</a></li>
+<li class="chapter" data-level="17.5" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#collegare-le-intuizioni-alla-teoria"><i class="fa fa-check"></i><b>17.5</b> Collegare le intuizioni alla teoria</a></li>
+<li class="chapter" data-level="" data-path="ch-prior-influence.html"><a href="ch-prior-influence.html#commenti-e-considerazioni-finali-13"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="ch-post-approx.html"><a href="ch-post-approx.html"><i class="fa fa-check"></i><b>18</b> Approssimazione della distribuzione a posteriori</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="ch-post-approx.html"><a href="ch-post-approx.html#metodo-basato-su-griglia"><i class="fa fa-check"></i><b>18.1</b> Metodo basato su griglia</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="ch-post-approx.html"><a href="ch-post-approx.html#modello-beta-binomiale"><i class="fa fa-check"></i><b>18.1.1</b> Modello Beta-Binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="ch-post-approx.html"><a href="ch-post-approx.html#chapter-simulazioneMC"><i class="fa fa-check"></i><b>18.2</b> Metodo Monte Carlo</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="ch-post-approx.html"><a href="ch-post-approx.html#integration-mc"><i class="fa fa-check"></i><b>18.2.1</b> Integrazione di Monte Carlo</a></li>
+<li class="chapter" data-level="18.2.2" data-path="ch-post-approx.html"><a href="ch-post-approx.html#descrizione-intuitiva"><i class="fa fa-check"></i><b>18.2.2</b> Descrizione intuitiva</a></li>
+<li class="chapter" data-level="18.2.3" data-path="ch-post-approx.html"><a href="ch-post-approx.html#unapplicazione-empirica-3"><i class="fa fa-check"></i><b>18.2.3</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.4" data-path="ch-post-approx.html"><a href="ch-post-approx.html#una-passeggiata-casuale-sui-numeri-naturali"><i class="fa fa-check"></i><b>18.2.4</b> Una passeggiata casuale sui numeri naturali</a></li>
+<li class="chapter" data-level="18.2.5" data-path="ch-post-approx.html"><a href="ch-post-approx.html#lalgoritmo-di-metropolis"><i class="fa fa-check"></i><b>18.2.5</b> L’algoritmo di Metropolis</a></li>
+<li class="chapter" data-level="18.2.6" data-path="ch-post-approx.html"><a href="ch-post-approx.html#unapplicazione-empirica-4"><i class="fa fa-check"></i><b>18.2.6</b> Un’applicazione empirica</a></li>
+<li class="chapter" data-level="18.2.7" data-path="ch-post-approx.html"><a href="ch-post-approx.html#gibbs-sampling"><i class="fa fa-check"></i><b>18.2.7</b> Gibb’s sampling</a></li>
+<li class="chapter" data-level="18.2.8" data-path="ch-post-approx.html"><a href="ch-post-approx.html#input"><i class="fa fa-check"></i><b>18.2.8</b> Input</a></li>
+<li class="chapter" data-level="18.2.9" data-path="ch-post-approx.html"><a href="ch-post-approx.html#stazionarietà"><i class="fa fa-check"></i><b>18.2.9</b> Stazionarietà</a></li>
+<li class="chapter" data-level="18.2.10" data-path="ch-post-approx.html"><a href="ch-post-approx.html#test-di-convergenza"><i class="fa fa-check"></i><b>18.2.10</b> Test di convergenza</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-post-approx.html"><a href="ch-post-approx.html#commenti-e-considerazioni-finali-14"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html"><i class="fa fa-check"></i><b>19</b> Il modello beta-binomiale in linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#il-presidente-trump-e-lidrossiclorochina"><i class="fa fa-check"></i><b>19.1</b> Il presidente Trump e l’idrossiclorochina</a></li>
+<li class="chapter" data-level="19.2" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#una-proporzione"><i class="fa fa-check"></i><b>19.2</b> Una proporzione</a></li>
+<li class="chapter" data-level="19.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#cmdstanr-gautret"><i class="fa fa-check"></i><b>19.3</b> Interfaccia <code>cmdstanr</code></a>
+<ul>
+<li class="chapter" data-level="19.3.1" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
+<li class="chapter" data-level="19.3.2" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
+<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
+<li class="chapter" data-level="19.3.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
+<li class="chapter" data-level="19.5" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
+<li class="chapter" data-level="" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#commenti-e-considerazioni-finali-15"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html"><i class="fa fa-check"></i><b>20</b> Diagnostica delle catene markoviane</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#esame-dei-trace-plot"><i class="fa fa-check"></i><b>20.1</b> Esame dei <em>trace plot</em></a></li>
+<li class="chapter" data-level="20.2" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#confronto-delle-catene-parallele"><i class="fa fa-check"></i><b>20.2</b> Confronto delle catene parallele</a></li>
+<li class="chapter" data-level="20.3" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#numerosita-campionaria-effettiva"><i class="fa fa-check"></i><b>20.3</b> Numerosità campionaria effettiva</a></li>
+<li class="chapter" data-level="20.4" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#autocorrelazione"><i class="fa fa-check"></i><b>20.4</b> Autocorrelazione</a></li>
+<li class="chapter" data-level="20.5" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#statistica-hatr"><i class="fa fa-check"></i><b>20.5</b> Statistica <span class="math inline">\(\hat{R}\)</span></a></li>
+<li class="chapter" data-level="20.6" data-path="ch-diagn-markov-chains.html"><a href="ch-diagn-markov-chains.html#diagnostica-di-convergenza-di-geweke"><i class="fa fa-check"></i><b>20.6</b> Diagnostica di convergenza di Geweke</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html"><i class="fa fa-check"></i><b>21</b> Sintesi a posteriori</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#stima-puntuale"><i class="fa fa-check"></i><b>21.1</b> Stima puntuale</a></li>
+<li class="chapter" data-level="21.2" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#intervallo-di-credibilità"><i class="fa fa-check"></i><b>21.2</b> Intervallo di credibilità</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#intervallo-di-credibilità-a-code-uguali"><i class="fa fa-check"></i><b>21.2.1</b> Intervallo di credibilità a code uguali</a></li>
+<li class="chapter" data-level="21.2.2" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#intervallo-di-credibilità-a-densità-a-posteriori-più-alta"><i class="fa fa-check"></i><b>21.2.2</b> Intervallo di credibilità a densità a posteriori più alta</a></li>
+<li class="chapter" data-level="21.2.3" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#interpretazione-1"><i class="fa fa-check"></i><b>21.2.3</b> Interpretazione</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#un-esempio-concreto"><i class="fa fa-check"></i><b>21.3</b> Un esempio concreto</a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#stime-puntuali-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.1</b> Stime puntuali della distribuzione a posteriori</a></li>
+<li class="chapter" data-level="21.3.2" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#intervallo-di-credibilità-1"><i class="fa fa-check"></i><b>21.3.2</b> Intervallo di credibilità</a></li>
+<li class="chapter" data-level="21.3.3" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#probabilità-della-distribuzione-a-posteriori"><i class="fa fa-check"></i><b>21.3.3</b> Probabilità della distribuzione a posteriori</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#la-funzione-di-perdita-attesa"><i class="fa fa-check"></i><b>21.4</b> La funzione di perdita attesa</a></li>
+<li class="chapter" data-level="" data-path="ch-sintesi-distr-post.html"><a href="ch-sintesi-distr-post.html#commenti-e-considerazioni-finali-16"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="ch-prediction.html"><a href="ch-prediction.html"><i class="fa fa-check"></i><b>22</b> La predizione bayesiana</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva"><i class="fa fa-check"></i><b>22.1</b> La distribuzione predittiva</a></li>
+<li class="chapter" data-level="22.2" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-simulazione"><i class="fa fa-check"></i><b>22.2</b> La distribuzione predittiva a posteriori mediante simulazione</a></li>
+<li class="chapter" data-level="22.3" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-mcmc"><i class="fa fa-check"></i><b>22.3</b> La distribuzione predittiva a posteriori mediante MCMC</a></li>
+<li class="chapter" data-level="22.4" data-path="ch-prediction.html"><a href="ch-prediction.html#i-metodi-per-la-valutazione-del-modello"><i class="fa fa-check"></i><b>22.4</b> I metodi per la valutazione del modello</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="ch-prediction.html"><a href="ch-prediction.html#posterior-predictive-checks"><i class="fa fa-check"></i><b>22.4.1</b> Posterior predictive checks</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="ch-prediction.html"><a href="ch-prediction.html#distribuzione-predittiva-a-priori-1"><i class="fa fa-check"></i><b>22.5</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-prediction.html"><a href="ch-prediction.html#commenti-e-considerazioni-finali-17"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html"><i class="fa fa-check"></i><b>23</b> Inferenza sul parametro <span class="math inline">\(\mu\)</span> (media di una v.c. Normale)</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#caso-normale-normale-con-varianza-nota"><i class="fa fa-check"></i><b>23.1</b> Caso Normale-Normale con varianza nota</a></li>
+<li class="chapter" data-level="23.2" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#derivazione-analitica-della-distribuzione-a-posteriori-pmu-mid-y"><i class="fa fa-check"></i><b>23.2</b> Derivazione analitica della distribuzione a posteriori <span class="math inline">\(p(\mu \mid y)\)</span></a></li>
+<li class="chapter" data-level="23.3" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#il-modello-normale-con-stan"><i class="fa fa-check"></i><b>23.3</b> Il modello Normale con Stan</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#versione-1-sigma-nota"><i class="fa fa-check"></i><b>23.3.1</b> Versione 1 (<span class="math inline">\(\sigma\)</span> nota)</a></li>
+<li class="chapter" data-level="23.3.2" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#versione-2-sigma-incognita"><i class="fa fa-check"></i><b>23.3.2</b> Versione 2 (<span class="math inline">\(\sigma\)</span> incognita)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html#commenti-e-considerazioni-finali-18"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>VI Il modello lineare</b></span></li>
+<li class="chapter" data-level="24" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html"><i class="fa fa-check"></i><b>24</b> Introduzione</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>24.1</b> La funzione lineare</a></li>
+<li class="chapter" data-level="24.2" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>24.2</b> Una media per ciascuna osservazione</a>
+<ul>
+<li class="chapter" data-level="24.2.1" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>24.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="24.2.2" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.2.2</b> Il modello lineare</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
+<ul>
+<li class="chapter" data-level="25.1.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
+<li class="chapter" data-level="25.1.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
+<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
+<ul>
+<li class="chapter" data-level="25.2.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#inferenza-sul-modello-di-regressione"><i class="fa fa-check"></i><b>25.2.1</b> Inferenza sul modello di regressione</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<ul>
+<li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
+</ul></li>
+<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
+<ul>
+<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html"><i class="fa fa-check"></i><b>27</b> Inferenza sul modello lineare</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#rappresentazione-grafica-dellincertezza-della-stima"><i class="fa fa-check"></i><b>27.1</b> Rappresentazione grafica dell’incertezza della stima</a></li>
+<li class="chapter" data-level="27.2" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#intervalli-di-credibilità-1"><i class="fa fa-check"></i><b>27.2</b> Intervalli di credibilità</a>
+<ul>
+<li class="chapter" data-level="27.2.1" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#quale-soglia-usare"><i class="fa fa-check"></i><b>27.2.1</b> Quale soglia usare?</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#test-di-ipotesi"><i class="fa fa-check"></i><b>27.3</b> Test di ipotesi</a></li>
+<li class="chapter" data-level="27.4" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#modello-lineare-robusto"><i class="fa fa-check"></i><b>27.4</b> Modello lineare robusto</a></li>
+<li class="chapter" data-level="" data-path="ch-inference-reg-lin-stan.html"><a href="ch-inference-reg-lin-stan.html#commenti-e-considerazioni-finali-22"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html"><i class="fa fa-check"></i><b>28</b> Confronto tra due gruppi indipendenti</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html#modello-lineare-con-una-variabile-dicotomica"><i class="fa fa-check"></i><b>28.1</b> Modello lineare con una variabile dicotomica</a>
+<ul>
+<li class="chapter" data-level="28.1.1" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html#confronti-non-effetti"><i class="fa fa-check"></i><b>28.1.1</b> Confronti, non effetti</a></li>
+<li class="chapter" data-level="28.1.2" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html#un-esempio-concreto-1"><i class="fa fa-check"></i><b>28.1.2</b> Un esempio concreto</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html#la-dimensione-delleffetto"><i class="fa fa-check"></i><b>28.2</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="" data-path="ch-comp-two-means-stan.html"><a href="ch-comp-two-means-stan.html#commenti-e-considerazioni-finali-23"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html#modello-gerarchico"><i class="fa fa-check"></i><b>31.1</b> Modello gerarchico</a></li>
+<li class="chapter" data-level="31.2" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html#modello-ad-effetti-fissi"><i class="fa fa-check"></i><b>31.2</b> Modello ad effetti fissi</a></li>
+<li class="chapter" data-level="31.3" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html#modello-gerarchico-1"><i class="fa fa-check"></i><b>31.3</b> Modello gerarchico</a></li>
+</ul></li>
+<li class="part"><span><b>VII Il confronto bayesiano di modelli</b></span></li>
+<li class="chapter" data-level="32" data-path="ch-entropy.html"><a href="ch-entropy.html"><i class="fa fa-check"></i><b>32</b> Entropia</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="ch-entropy.html"><a href="ch-entropy.html#la-generalizzabilità-dei-modelli"><i class="fa fa-check"></i><b>32.1</b> La generalizzabilità dei modelli</a></li>
+<li class="chapter" data-level="32.2" data-path="ch-entropy.html"><a href="ch-entropy.html#capacità-predittiva"><i class="fa fa-check"></i><b>32.2</b> Capacità predittiva</a></li>
+<li class="chapter" data-level="32.3" data-path="ch-entropy.html"><a href="ch-entropy.html#il-rasoio-di-ockham"><i class="fa fa-check"></i><b>32.3</b> Il rasoio di Ockham</a>
+<ul>
+<li class="chapter" data-level="32.3.1" data-path="ch-entropy.html"><a href="ch-entropy.html#sovra-adattamento-e-sotto-adattamento"><i class="fa fa-check"></i><b>32.3.1</b> Sovra-adattamento e sotto-adattamento</a></li>
+<li class="chapter" data-level="32.3.2" data-path="ch-entropy.html"><a href="ch-entropy.html#stargazing"><i class="fa fa-check"></i><b>32.3.2</b> Stargazing</a></li>
+</ul></li>
+<li class="chapter" data-level="32.4" data-path="ch-entropy.html"><a href="ch-entropy.html#la-misura-del-disordine"><i class="fa fa-check"></i><b>32.4</b> La misura del disordine</a>
+<ul>
+<li class="chapter" data-level="32.4.1" data-path="ch-entropy.html"><a href="ch-entropy.html#entropia-di-un-singolo-evento"><i class="fa fa-check"></i><b>32.4.1</b> Entropia di un singolo evento</a></li>
+<li class="chapter" data-level="32.4.2" data-path="ch-entropy.html"><a href="ch-entropy.html#entropia-di-una-variabile-casuale"><i class="fa fa-check"></i><b>32.4.2</b> Entropia di una variabile casuale</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-entropy.html"><a href="ch-entropy.html#commenti-e-considerazioni-finali-25"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="ch-kl.html"><a href="ch-kl.html"><i class="fa fa-check"></i><b>33</b> La divergenza di Kullback-Leibler</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="ch-kl.html"><a href="ch-kl.html#la-perdita-di-informazione"><i class="fa fa-check"></i><b>33.1</b> La perdita di informazione</a></li>
+<li class="chapter" data-level="33.2" data-path="ch-kl.html"><a href="ch-kl.html#la-divergenza-dipende-dalla-direzione"><i class="fa fa-check"></i><b>33.2</b> La divergenza dipende dalla direzione</a></li>
+<li class="chapter" data-level="33.3" data-path="ch-kl.html"><a href="ch-kl.html#confronto-tra-modelli"><i class="fa fa-check"></i><b>33.3</b> Confronto tra modelli</a></li>
+<li class="chapter" data-level="33.4" data-path="ch-kl.html"><a href="ch-kl.html#expected-log-predictive-density"><i class="fa fa-check"></i><b>33.4</b> Expected log predictive density</a>
+<ul>
+<li class="chapter" data-level="33.4.1" data-path="ch-kl.html"><a href="ch-kl.html#log-pointwise-predictive-density"><i class="fa fa-check"></i><b>33.4.1</b> Log pointwise predictive density</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-kl.html"><a href="ch-kl.html#commenti-e-considerazioni-finali-26"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="ch-info-crit.html"><a href="ch-info-crit.html"><i class="fa fa-check"></i><b>34</b> Criterio di informazione e convalida incrociata</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="ch-info-crit.html"><a href="ch-info-crit.html#aic-dic-e-waic"><i class="fa fa-check"></i><b>34.1</b> AIC, DIC e WAIC</a>
+<ul>
+<li class="chapter" data-level="34.1.1" data-path="ch-info-crit.html"><a href="ch-info-crit.html#criterio-dinformazione-di-akaike"><i class="fa fa-check"></i><b>34.1.1</b> Criterio d’informazione di Akaike</a></li>
+</ul></li>
+<li class="chapter" data-level="34.2" data-path="ch-info-crit.html"><a href="ch-info-crit.html#convalida-incrociata-k-fold"><i class="fa fa-check"></i><b>34.2</b> Convalida incrociata K-fold</a>
+<ul>
+<li class="chapter" data-level="34.2.1" data-path="ch-info-crit.html"><a href="ch-info-crit.html#importance-sampling"><i class="fa fa-check"></i><b>34.2.1</b> Importance sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="34.3" data-path="ch-info-crit.html"><a href="ch-info-crit.html#confronto-tra-aic-e-loo-cv"><i class="fa fa-check"></i><b>34.3</b> Confronto tra AIC e LOO-CV</a></li>
+<li class="chapter" data-level="34.4" data-path="ch-info-crit.html"><a href="ch-info-crit.html#confronto-tra-modelli-mediante-loo-cv"><i class="fa fa-check"></i><b>34.4</b> Confronto tra modelli mediante LOO-CV</a></li>
+<li class="chapter" data-level="34.5" data-path="ch-info-crit.html"><a href="ch-info-crit.html#outlier"><i class="fa fa-check"></i><b>34.5</b> Outlier</a></li>
+<li class="chapter" data-level="34.6" data-path="ch-info-crit.html"><a href="ch-info-crit.html#regolarizzazione"><i class="fa fa-check"></i><b>34.6</b> Regolarizzazione</a></li>
+<li class="chapter" data-level="" data-path="ch-info-crit.html"><a href="ch-info-crit.html#commenti-e-considerazioni-finali-27"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="part"><span><b>VIII Approccio frequentista all’inferenza statistica</b></span></li>
+<li class="chapter" data-level="35" data-path="ch-ttest.html"><a href="ch-ttest.html"><i class="fa fa-check"></i><b>35</b> Inferenza sulla media</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="ch-ttest.html"><a href="ch-ttest.html#la-ripetizione-dellesperimento-casuale"><i class="fa fa-check"></i><b>35.1</b> La ripetizione dell’esperimento casuale</a></li>
+<li class="chapter" data-level="35.2" data-path="ch-ttest.html"><a href="ch-ttest.html#la-distribuzione-campionaria-della-media"><i class="fa fa-check"></i><b>35.2</b> La distribuzione campionaria della media</a></li>
+<li class="chapter" data-level="35.3" data-path="ch-ttest.html"><a href="ch-ttest.html#inferenza-frequentista"><i class="fa fa-check"></i><b>35.3</b> Inferenza frequentista</a>
+<ul>
+<li class="chapter" data-level="35.3.1" data-path="ch-ttest.html"><a href="ch-ttest.html#il-test-dellipotesi-nulla"><i class="fa fa-check"></i><b>35.3.1</b> Il test dell’ipotesi nulla</a></li>
+<li class="chapter" data-level="35.3.2" data-path="ch-ttest.html"><a href="ch-ttest.html#lintervallo-di-fiducia"><i class="fa fa-check"></i><b>35.3.2</b> L’Intervallo di fiducia</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch-ttest.html"><a href="ch-ttest.html#commenti-e-considerazioni-finali-28"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><i class="fa fa-check"></i><b>36</b> La crisi della replicabilità dei risultati della ricerca</a>
+<ul>
+<li class="chapter" data-level="36.1" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#che-cosè-un-valore-p"><i class="fa fa-check"></i><b>36.1</b> Che cos’è un valore-<span class="math inline">\(p\)</span>?</a></li>
+<li class="chapter" data-level="36.2" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#luso-del-valore-p-nel-mondo-della-ricerca"><i class="fa fa-check"></i><b>36.2</b> L’uso del valore-<span class="math inline">\(p\)</span> nel mondo della ricerca</a></li>
+<li class="chapter" data-level="36.3" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#p-hacking"><i class="fa fa-check"></i><b>36.3</b> <span class="math inline">\(P\)</span>-hacking</a></li>
+<li class="chapter" data-level="36.4" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#critiche-al-valore-p"><i class="fa fa-check"></i><b>36.4</b> Critiche al valore-<span class="math inline">\(p\)</span></a></li>
+<li class="chapter" data-level="36.5" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#leffetto-sperimentale-è-esattamente-nullo"><i class="fa fa-check"></i><b>36.5</b> L’effetto sperimentale è esattamente nullo?</a></li>
+<li class="chapter" data-level="36.6" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#simulazione"><i class="fa fa-check"></i><b>36.6</b> Simulazione</a>
+<ul>
+<li class="chapter" data-level="36.6.1" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#la-dimensione-delleffetto-1"><i class="fa fa-check"></i><b>36.6.1</b> La dimensione dell’effetto</a></li>
+<li class="chapter" data-level="36.6.2" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-piccola-dimensione-delleffetto-nella-popolazione"><i class="fa fa-check"></i><b>36.6.2</b> Una piccola dimensione dell’effetto nella popolazione</a></li>
+<li class="chapter" data-level="36.6.3" data-path="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-soluzione-sbagliata"><i class="fa fa-check"></i><b>36.6.3</b> Una soluzione (sbagliata)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="37" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i><b>37</b> Bibliografia</a></li>
+<li class="appendix"><span><b>Appendici</b></span></li>
+<li class="chapter" data-level="A" data-path="simbologia-di-base.html"><a href="simbologia-di-base.html"><i class="fa fa-check"></i><b>A</b> Simbologia di base</a></li>
+<li class="chapter" data-level="B" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html"><i class="fa fa-check"></i><b>B</b> Numeri binari, interi, razionali, irrazionali e reali</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-binari"><i class="fa fa-check"></i><b>B.1</b> Numeri binari</a></li>
+<li class="chapter" data-level="B.2" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-interi"><i class="fa fa-check"></i><b>B.2</b> Numeri interi</a></li>
+<li class="chapter" data-level="B.3" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-razionali"><i class="fa fa-check"></i><b>B.3</b> Numeri razionali</a></li>
+<li class="chapter" data-level="B.4" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-irrazionali"><i class="fa fa-check"></i><b>B.4</b> Numeri irrazionali</a></li>
+<li class="chapter" data-level="B.5" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#numeri-reali"><i class="fa fa-check"></i><b>B.5</b> Numeri reali</a></li>
+<li class="chapter" data-level="B.6" data-path="numeri-binari-interi-razionali-irrazionali-e-reali.html"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#intervalli"><i class="fa fa-check"></i><b>B.6</b> Intervalli</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="insiemistica.html"><a href="insiemistica.html"><i class="fa fa-check"></i><b>C</b> Insiemi</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="insiemistica.html"><a href="insiemistica.html#operazioni-tra-insiemi"><i class="fa fa-check"></i><b>C.1</b> Operazioni tra insiemi</a></li>
+<li class="chapter" data-level="C.2" data-path="insiemistica.html"><a href="insiemistica.html#diagrammi-di-eulero-venn"><i class="fa fa-check"></i><b>C.2</b> Diagrammi di Eulero-Venn</a></li>
+<li class="chapter" data-level="C.3" data-path="insiemistica.html"><a href="insiemistica.html#coppie-ordinate-e-prodotto-cartesiano"><i class="fa fa-check"></i><b>C.3</b> Coppie ordinate e prodotto cartesiano</a></li>
+<li class="chapter" data-level="C.4" data-path="insiemistica.html"><a href="insiemistica.html#cardinalità"><i class="fa fa-check"></i><b>C.4</b> Cardinalità</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="sommatorie.html"><a href="sommatorie.html"><i class="fa fa-check"></i><b>D</b> Simbolo di somma (sommatorie)</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="sommatorie.html"><a href="sommatorie.html#manipolazione-di-somme"><i class="fa fa-check"></i><b>D.1</b> Manipolazione di somme</a>
+<ul>
+<li class="chapter" data-level="D.1.1" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-1-1"><i class="fa fa-check"></i><b>D.1.1</b> Proprietà 1</a></li>
+<li class="chapter" data-level="D.1.2" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-2-proprietà-distributiva"><i class="fa fa-check"></i><b>D.1.2</b> Proprietà 2 (proprietà distributiva)</a></li>
+<li class="chapter" data-level="D.1.3" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-3-proprietà-associativa"><i class="fa fa-check"></i><b>D.1.3</b> Proprietà 3 (proprietà associativa)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-4"><i class="fa fa-check"></i><b>D.1.4</b> Proprietà 4</a></li>
+<li class="chapter" data-level="D.1.5" data-path="sommatorie.html"><a href="sommatorie.html#proprietà-5"><i class="fa fa-check"></i><b>D.1.5</b> Proprietà 5</a></li>
+</ul></li>
+<li class="chapter" data-level="D.2" data-path="sommatorie.html"><a href="sommatorie.html#doppia-sommatoria"><i class="fa fa-check"></i><b>D.2</b> Doppia sommatoria</a></li>
+<li class="chapter" data-level="D.3" data-path="sommatorie.html"><a href="sommatorie.html#sommatorie-e-produttorie-e-operazioni-vettoriali-in-r"><i class="fa fa-check"></i><b>D.3</b> Sommatorie (e produttorie) e operazioni vettoriali in <code>R</code></a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
+<ul>
+<li class="chapter" data-level="F.1" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html#funzione-per-il-modello-beta-binomiale"><i class="fa fa-check"></i><b>F.1</b> Funzione per il modello Beta-binomiale</a></li>
+</ul></li>
+<li class="chapter" data-level="G" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html"><i class="fa fa-check"></i><b>G</b> Verosimiglianza marginale</a>
+<ul>
+<li class="chapter" data-level="G.1" data-path="appendix:const-norm-bino23.html"><a href="appendix:const-norm-bino23.html#derivazione-analitica-della-costante-di-normalizzazione"><i class="fa fa-check"></i><b>G.1</b> Derivazione analitica della costante di normalizzazione</a></li>
+</ul></li>
+<li class="chapter" data-level="H" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>H</b> Le catene di Markov</a>
+<ul>
+<li class="chapter" data-level="H.1" data-path="markov-chains.html"><a href="markov-chains.html#simulare-una-catena-di-markov"><i class="fa fa-check"></i><b>H.1</b> Simulare una catena di Markov</a></li>
+</ul></li>
+<li class="chapter" data-level="I" data-path="regr-ml.html"><a href="regr-ml.html"><i class="fa fa-check"></i><b>I</b> Adattare il modello lineare ai dati</a>
+<ul>
+<li class="chapter" data-level="I.1" data-path="regr-ml.html"><a href="regr-ml.html#minimi-quadrati"><i class="fa fa-check"></i><b>I.1</b> Minimi quadrati</a>
+<ul>
+<li class="chapter" data-level="I.1.1" data-path="regr-ml.html"><a href="regr-ml.html#stima-della-deviazione-standard-dei-residui-sigma"><i class="fa fa-check"></i><b>I.1.1</b> Stima della deviazione standard dei residui <span class="math inline">\(\sigma\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="I.2" data-path="regr-ml.html"><a href="regr-ml.html#calcolare-la-somma-dei-quadrati"><i class="fa fa-check"></i><b>I.2</b> Calcolare la somma dei quadrati</a></li>
+<li class="chapter" data-level="" data-path="regr-ml.html"><a href="regr-ml.html#commenti-e-considerazioni-finali-29"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
+</ul></li>
+<li class="chapter" data-level="J" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html"><i class="fa fa-check"></i><b>J</b> Introduzione al linguaggio R</a>
+<ul>
+<li class="chapter" data-level="J.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#prerequisiti"><i class="fa fa-check"></i><b>J.1</b> Prerequisiti</a>
+<ul>
+<li class="chapter" data-level="J.1.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-r-e-rstudio"><i class="fa fa-check"></i><b>J.1.1</b> Installare R e RStudio</a></li>
+<li class="chapter" data-level="J.1.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-rstudio-per-semplificare-il-lavoro"><i class="fa fa-check"></i><b>J.1.2</b> Utilizzare RStudio per semplificare il lavoro</a></li>
+<li class="chapter" data-level="J.1.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#eseguire-il-codice"><i class="fa fa-check"></i><b>J.1.3</b> Eseguire il codice</a></li>
+</ul></li>
+<li class="chapter" data-level="J.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#installare-cmdstan"><i class="fa fa-check"></i><b>J.2</b> Installare <code>cmdstan</code></a></li>
+<li class="chapter" data-level="J.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-sintassi"><i class="fa fa-check"></i><b>J.3</b> Sintassi di base</a>
+<ul>
+<li class="chapter" data-level="J.3.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#utilizzare-la-console-mathsfr-come-calcolatrice"><i class="fa fa-check"></i><b>J.3.1</b> Utilizzare la console <span class="math inline">\(\mathsf{R}\)</span> come calcolatrice</a></li>
+<li class="chapter" data-level="J.3.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#espressioni"><i class="fa fa-check"></i><b>J.3.2</b> Espressioni</a></li>
+<li class="chapter" data-level="J.3.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#oggetti"><i class="fa fa-check"></i><b>J.3.3</b> Oggetti</a></li>
+<li class="chapter" data-level="J.3.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili"><i class="fa fa-check"></i><b>J.3.4</b> Variabili</a></li>
+<li class="chapter" data-level="J.3.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-console"><i class="fa fa-check"></i><b>J.3.5</b> R console</a></li>
+<li class="chapter" data-level="J.3.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#parentesi"><i class="fa fa-check"></i><b>J.3.6</b> Parentesi</a></li>
+<li class="chapter" data-level="J.3.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#i-nomi-degli-oggetti"><i class="fa fa-check"></i><b>J.3.7</b> I nomi degli oggetti</a></li>
+<li class="chapter" data-level="J.3.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#permanenza-dei-dati-e-rimozione-di-oggetti"><i class="fa fa-check"></i><b>J.3.8</b> Permanenza dei dati e rimozione di oggetti</a></li>
+<li class="chapter" data-level="J.3.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chiudere-r"><i class="fa fa-check"></i><b>J.3.9</b> Chiudere R</a></li>
+<li class="chapter" data-level="J.3.10" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-ed-eseguire-uno-script-r-con-un-editore"><i class="fa fa-check"></i><b>J.3.10</b> Creare ed eseguire uno script R con un editore</a></li>
+<li class="chapter" data-level="J.3.11" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#commentare-il-codice"><i class="fa fa-check"></i><b>J.3.11</b> Commentare il codice</a></li>
+<li class="chapter" data-level="J.3.12" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#cambiare-la-cartella-di-lavoro"><i class="fa fa-check"></i><b>J.3.12</b> Cambiare la cartella di lavoro</a></li>
+<li class="chapter" data-level="J.3.13" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#loggetto-base-di-r-il-vettore"><i class="fa fa-check"></i><b>J.3.13</b> L’oggetto base di R: il vettore</a></li>
+<li class="chapter" data-level="J.3.14" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-vettorializzate"><i class="fa fa-check"></i><b>J.3.14</b> Operazioni vettorializzate</a></li>
+<li class="chapter" data-level="J.3.15" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-aritmetici"><i class="fa fa-check"></i><b>J.3.15</b> Vettori aritmetici</a></li>
+<li class="chapter" data-level="J.3.16" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-sequenze-regolari"><i class="fa fa-check"></i><b>J.3.16</b> Generazione di sequenze regolari</a></li>
+<li class="chapter" data-level="J.3.17" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#generazione-di-numeri-casuali"><i class="fa fa-check"></i><b>J.3.17</b> Generazione di numeri casuali</a></li>
+<li class="chapter" data-level="J.3.18" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-logici"><i class="fa fa-check"></i><b>J.3.18</b> Vettori logici</a></li>
+<li class="chapter" data-level="J.3.19" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti"><i class="fa fa-check"></i><b>J.3.19</b> Dati mancanti</a></li>
+<li class="chapter" data-level="J.3.20" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori-di-caratteri-e-fattori"><i class="fa fa-check"></i><b>J.3.20</b> Vettori di caratteri e fattori</a></li>
+<li class="chapter" data-level="J.3.21" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#funzioni-1"><i class="fa fa-check"></i><b>J.3.21</b> Funzioni</a></li>
+<li class="chapter" data-level="J.3.22" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-proprie-funzioni"><i class="fa fa-check"></i><b>J.3.22</b> Scrivere proprie funzioni</a></li>
+<li class="chapter" data-level="J.3.23" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetti"><i class="fa fa-check"></i><b>J.3.23</b> Pacchetti</a></li>
+<li class="chapter" data-level="J.3.24" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#istallazione-e-upgrade-dei-pacchetti"><i class="fa fa-check"></i><b>J.3.24</b> Istallazione e upgrade dei pacchetti</a></li>
+<li class="chapter" data-level="J.3.25" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#caricare-un-pacchetto-in-r"><i class="fa fa-check"></i><b>J.3.25</b> Caricare un pacchetto in R</a></li>
+</ul></li>
+<li class="chapter" data-level="J.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strutture-dati"><i class="fa fa-check"></i><b>J.4</b> Strutture di dati</a>
+<ul>
+<li class="chapter" data-level="J.4.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#classi-e-modi-degli-oggetti"><i class="fa fa-check"></i><b>J.4.1</b> Classi e modi degli oggetti</a></li>
+<li class="chapter" data-level="J.4.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#vettori"><i class="fa fa-check"></i><b>J.4.2</b> Vettori</a></li>
+<li class="chapter" data-level="J.4.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#matrici"><i class="fa fa-check"></i><b>J.4.3</b> Matrici</a></li>
+<li class="chapter" data-level="J.4.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#array"><i class="fa fa-check"></i><b>J.4.4</b> Array</a></li>
+<li class="chapter" data-level="J.4.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#operazioni-aritmetiche-su-vettori-matrici-e-array"><i class="fa fa-check"></i><b>J.4.5</b> Operazioni aritmetiche su vettori, matrici e array</a></li>
+<li class="chapter" data-level="J.4.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#liste"><i class="fa fa-check"></i><b>J.4.6</b> Liste</a></li>
+<li class="chapter" data-level="J.4.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#data-frame"><i class="fa fa-check"></i><b>J.4.7</b> Data frame</a></li>
+<li class="chapter" data-level="J.4.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#giochi-di-carte"><i class="fa fa-check"></i><b>J.4.8</b> Giochi di carte</a></li>
+<li class="chapter" data-level="J.4.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#variabili-locali"><i class="fa fa-check"></i><b>J.4.9</b> Variabili locali</a></li>
+</ul></li>
+<li class="chapter" data-level="J.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-strut-contr"><i class="fa fa-check"></i><b>J.5</b> Strutture di controllo</a>
+<ul>
+<li class="chapter" data-level="J.5.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#il-ciclo-for"><i class="fa fa-check"></i><b>J.5.1</b> Il ciclo <code>for</code></a></li>
+</ul></li>
+<li class="chapter" data-level="J.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#chapter-input-output"><i class="fa fa-check"></i><b>J.6</b> Input/Output</a>
+<ul>
+<li class="chapter" data-level="J.6.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-funzione-read.table"><i class="fa fa-check"></i><b>J.6.1</b> La funzione <code>read.table()</code></a></li>
+<li class="chapter" data-level="J.6.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#file-di-dati-forniti-da-r"><i class="fa fa-check"></i><b>J.6.2</b> File di dati forniti da R</a></li>
+<li class="chapter" data-level="J.6.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#esportazione-di-un-file"><i class="fa fa-check"></i><b>J.6.3</b> Esportazione di un file</a></li>
+<li class="chapter" data-level="J.6.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#pacchetto-rio"><i class="fa fa-check"></i><b>J.6.4</b> Pacchetto <code>rio</code></a></li>
+<li class="chapter" data-level="J.6.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dove-sono-i-miei-file"><i class="fa fa-check"></i><b>J.6.5</b> Dove sono i miei file?</a></li>
+</ul></li>
+<li class="chapter" data-level="J.7" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#manipolazione-dei-dati"><i class="fa fa-check"></i><b>J.7</b> Manipolazione dei dati</a>
+<ul>
+<li class="chapter" data-level="J.7.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione"><i class="fa fa-check"></i><b>J.7.1</b> Motivazione</a></li>
+<li class="chapter" data-level="J.7.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-con-dplyr"><i class="fa fa-check"></i><b>J.7.2</b> Trattamento dei dati con <code>dplyr</code></a></li>
+<li class="chapter" data-level="J.7.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-categoriali-in-r"><i class="fa fa-check"></i><b>J.7.3</b> Dati categoriali in <code>R</code></a></li>
+<li class="chapter" data-level="J.7.4" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#creare-grafici-con-ggplot2"><i class="fa fa-check"></i><b>J.7.4</b> Creare grafici con <code>ggplot2()</code></a></li>
+<li class="chapter" data-level="J.7.5" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#diagramma-a-dispersione-1"><i class="fa fa-check"></i><b>J.7.5</b> Diagramma a dispersione</a></li>
+<li class="chapter" data-level="J.7.6" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#scrivere-il-codice-r-con-stile"><i class="fa fa-check"></i><b>J.7.6</b> Scrivere il codice <code>R</code> con stile</a></li>
+</ul></li>
+<li class="chapter" data-level="J.8" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#flusso-di-lavoro-riproducibile"><i class="fa fa-check"></i><b>J.8</b> Flusso di lavoro riproducibile</a>
+<ul>
+<li class="chapter" data-level="J.8.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#la-crisi-della-riproducibilità"><i class="fa fa-check"></i><b>J.8.1</b> La crisi della riproducibilità</a></li>
+<li class="chapter" data-level="J.8.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#r-markdown"><i class="fa fa-check"></i><b>J.8.2</b> R-markdown</a></li>
+<li class="chapter" data-level="J.8.3" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#compilare-la-presentazione-r-markdown"><i class="fa fa-check"></i><b>J.8.3</b> Compilare la presentazione R-markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="J.9" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#dati-mancanti-1"><i class="fa fa-check"></i><b>J.9</b> Dati mancanti</a>
+<ul>
+<li class="chapter" data-level="J.9.1" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#motivazione-1"><i class="fa fa-check"></i><b>J.9.1</b> Motivazione</a></li>
+<li class="chapter" data-level="J.9.2" data-path="introduzione-al-linguaggio-r.html"><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-mancanti"><i class="fa fa-check"></i><b>J.9.2</b> Trattamento dei dati mancanti</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science per psicologi</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="la-crisi-della-replicabilità-dei-risultati-della-ricerca" class="section level1 hasAnchor" number="36">
+<h1><span class="header-section-number">Capitolo 36</span> La crisi della replicabilità dei risultati della ricerca<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#la-crisi-della-replicabilità-dei-risultati-della-ricerca" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Cito da Wikipedia</p>
+<blockquote>
+<p>La crisi della replicazione (chiamata anche crisi della replicabilità e crisi della riproducibilità) è una crisi metodologica per cui è stato riscontrato che molti studi scientifici sono difficili o impossibili da replicare o riprodurre. La crisi della replicazione colpisce più gravemente le scienze sociali e la medicina, mentre i dati delle rilevazioni indicano fortemente che anche tutte le scienze naturali sono probabilmente implicate. La frase è stata coniata nei primi anni 2010 come parte di una crescente consapevolezza del problema. La crisi della replicazione rappresenta un importante corpo di ricerca nel campo delle metascienze.</p>
+</blockquote>
+<blockquote>
+<p>Poiché la riproducibilità dei risultati sperimentali è una parte essenziale del metodo scientifico, l’incapacità di replicare gli studi di altri ha conseguenze potenzialmente gravi per molti campi della scienza in cui teorie significative sono fondate su un lavoro sperimentale irriproducibile. La crisi della replicazione è stata ampiamente discussa nei campi della medicina, dove sono stati fatti numerosi sforzi per riesaminare i risultati classici, per determinare sia l’attendibilità dei risultati sia, se ritenuto inattendibile, le ragioni del fallimento di replica.</p>
+</blockquote>
+<p>Questa “crisi metodologica” riguarda molto da vicino la psicologia. Questa crisi ha molteplici cause. Tra tali cause, particolare importanza (in senso negativo) è stata assegnata ad un uso “spensierato” dell’approccio frequentista da parte dei ricercatori. L’obiettivo di questo capitolo è mostrare come l’uso delle procedure di test dell’ipotesi nulla necessariamente conduce, nella pratica corrente, ad una sistematica distorsione dei risultati della ricerca. Ovvero, aumenta a dismisura i “falsi positivi” e troppo spesso impedisce la replicazione dei risultati degli studi empirici.</p>
+<div id="che-cosè-un-valore-p" class="section level2 hasAnchor" number="36.1">
+<h2><span class="header-section-number">36.1</span> Che cos’è un valore-<span class="math inline">\(p\)</span>?<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#che-cosè-un-valore-p" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Il valore-<span class="math inline">\(p\)</span> viene spesso riportato da coloro che svolgono l’inferenza statistica mediante l’approccio frequentista. Tuttavia, nonostante questa nozione statistica sia spesso usata, il significato di valore-<span class="math inline">\(p\)</span> è spesso frainteso. Un errore che viene spesso commesso nell’interpretare il valore-<span class="math inline">\(p\)</span> è quello di assegnare ad esso l’interpretazione secondo la quale un valore-<span class="math inline">\(p\)</span>, diciamo, pari a 0.01, significa che c’è solo una probabilità dell’1% che il risultato osservato sia un falso positivo. È importante evitare i falsi positivi, per esempio quando si valuta l’efficacia di un intervento psicologico, perché affermare che un trattamento è efficace quando in realtà ciò non è vero (falso positivo) conduce alla successiva applicazione di quel trattamento, con il rischio di danni negli utenti e di discredito della professione. L’interpretazione precedente, però, è sbagliata. Il valore-<span class="math inline">\(p\)</span> non può dirci questo: non può mai essere usato per descrivere il mondo reale. <span class="citation">Greenland et al. (<a href="#ref-greenland2016statistical" role="doc-biblioref">2016</a>)</span> esprimono questo punto nel modo seguente:</p>
+<blockquote>
+<p>Thus to claim that the null P value is the probability that chance alone produced the observed association is completely backwards: The P value is a probability computed assuming chance was operating alone. The absurdity of the common backwards interpretation might be appreciated by pondering how the P value, which is a probability deduced from a set of assumptions (the statistical model), can possibly refer to the probability of those assumptions.</p>
+</blockquote>
+<p>Quello che può fare il valore-<span class="math inline">\(p\)</span> è riassumere i dati ottenuti dal ricercatore <em>assumendo vera</em> una specifica ipotesi nulla: il valore-<span class="math inline">\(p\)</span> descrive quello che succederebbe in un mondo ipotetico, se l’ipotesi nulla fosse vera. Nello specifico, il ricercatore si chiede: se fosse vera l’ipotesi nulla (ad esempio, se il trattamento non fosse efficace così da non avere nessuna differenza tra il gruppo del trattamento e il gruppo di controllo), quale sarebbe la probabilità di osservare un valore uguale a quello della statistica osservata nel campione, o un valore ancora più estremo di tale statistica? In altri termini, il valore-<span class="math inline">\(p\)</span> descrive quello che succederebbe in un mondo ipotetico, il mondo basato sull’idea che l’ipotesi nulla sia vera e nel quale vengono rispettate tutte le assunzioni del modello statistico. Nulla ci dice, il valore-<span class="math inline">\(p\)</span>, della plausibilità delle assunzioni che sono state fatte, né tanto meno sulle proprietà del mondo empirico.</p>
+<p>Per fare delle inferenze sul mondo empirico è necessario possedere altre informazioni, per esempio, la verosimiglianza dell’effetto considerato. <span class="citation">Nuzzo (<a href="#ref-nuzzo2014statistical" role="doc-biblioref">2014</a>)</span> ci propone il seguente esempio. Ci svegliamo la mattina con il mal di testa e concludiamo che abbiamo un raro tumore al cervello. È possibile che questo sia vero, ma è molto improbabile. Per concludere che abbiamo un tumore sono necessarie evidenze ulteriori, oltre al mal di testa, dato che il mal di testa può essere provocato da tantissime cause diverse dal tumore. Tanto più è inverosimile l’ipotesi del ricercatore (il tumore dell’esempio, ma anche la telepatia, l’omeopatia e l’esistenza degli alieni), tanto maggiore è la probabilità che il risultato osservato sia un falso allarme, <em>indipendentemente da quello che ci dice il valore-<span class="math inline">\(p\)</span></em>. In altri termini, è la verosimiglianza di un evento che determina la probabilità di un falso allarme, non il valore-<span class="math inline">\(p\)</span>.</p>
+<p>Nel 2016 l’American Statistical Association ha pubblicato un articolo nel quale <span class="citation">Wasserstein and Lazar (<a href="#ref-wasserstein2016asa" role="doc-biblioref">2016</a>)</span> esprimono la loro preoccupazione relativamente all’uso inappropriato che viene fatto del valore-<span class="math inline">\(p\)</span> nella pratica scientifica. Il punto che abbiamo discusso in precedenza è espresso nei termini seguenti:</p>
+<blockquote>
+<p><span class="math inline">\(P\)</span>-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. Researchers often wish to turn a <span class="math inline">\(p\)</span>-value into a statement about the truth of a null hypothesis, or about the probability that random chance produced the observed data. The <span class="math inline">\(p\)</span>-value is neither. It is a statement about data in relation to a specified hypothetical explanation, and is not a statement about the explanation itself.</p>
+</blockquote>
+</div>
+<div id="luso-del-valore-p-nel-mondo-della-ricerca" class="section level2 hasAnchor" number="36.2">
+<h2><span class="header-section-number">36.2</span> L’uso del valore-<span class="math inline">\(p\)</span> nel mondo della ricerca<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#luso-del-valore-p-nel-mondo-della-ricerca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Tra i tanti articoli che sono stati dedicati a questo tema, possiamo citare qui un articolo di <span class="citation">Nuzzo (<a href="#ref-nuzzo2014statistical" role="doc-biblioref">2014</a>)</span> che descrive i limiti dell’uso del valore-<span class="math inline">\(p\)</span> all’interno della pratica scientifica. <span class="citation">Nuzzo (<a href="#ref-nuzzo2014statistical" role="doc-biblioref">2014</a>)</span> ci ricorda che Ronald Fisher ha introdotto il valore-<span class="math inline">\(p\)</span> negli anni ‘20, ma non ha mai pensato ad esso come ad un test formale. Per Fisher, il valore-<span class="math inline">\(p\)</span> era uno strumento per giudicare informalmente se l’evidenza empirica fosse “significativa”, laddove il termine “significativo” veniva inteso nel senso colloquiale del termine, ovvero come qualcosa che merita di essere considerata con attenzione. Secondo Fisher, lo sperimentatore propone un’“ipotesi nulla” che spera di dimostrare falsa (per esempio, l’assenza di differenza tra due gruppi). Poi gioca a fare l’avvocato del diavolo e assumere che l’ipotesi nulla sia vera. Questo gli consente di calcolare la probabilità di osservare un risultato altrettanto estremo o più estremo di quello trovato, se il risultato trovato è interamente dovuto alla sola variabilità campionaria. Questa probabilità è appunto il valore-<span class="math inline">\(p\)</span>. Lo scopo di questo modo di procedere è quello di valutare l’ipotesi nulla: secondo Fisher, la probabilità che l’ipotesi nulla sia falsa è tanto più grande quanto più piccolo è il valore-<span class="math inline">\(p\)</span>. Anche se il valore-<span class="math inline">\(p\)</span> è un numero calcolato con una procedura matematica, per Fisher esso è solo uno strumento da usare all’interno di un processo (inferenziale) non numerico capace di combinare le evidenze empiriche correnti con le conoscenze precedenti del ricercatore.</p>
+<p>Il processo di decisione che il ricercatore mette in atto quando valuta i risultati di un esperimento venne formalizzato, alla fine degli anni ’20, da due rivali di Fisher, il matematico Jerzy Neyman e lo statistico Egon Pearson. Neyman e Pearson si posero problema di rendere il processo di decisione “rigoroso e obiettivo”. Allo scopo di fare questo, Neyman e Pearson introdussero, tra l’altro, i concetti di potere statistico e di falso positivo (i concetti che abbiamo visto nei paragrafi precedenti). Non usarono invece, all’interno della procedura proposta, la nozione di valore-<span class="math inline">\(p\)</span>.</p>
+<p>Questi due approcci contrapposti portarono ad un dibattito molto acceso tra di due gruppi: Neyman descrisse il lavoro di Fisher come matematicamente “worse than useless”; Fisher chiamò l’approccio di Neyman “childish” e “horrifying [for] intellectual freedom in the west”. Mentre questo dibattito si sviluppava, altri autori iniziarono a scrivere dei manuali di statistica allo scopo di fornire uno strumento di lavoro ai ricercatori. Dato che molti di questi autori non erano statistici, non avevano una comprensione profonda di cosa distinguesse l’approccio di Fisher, da una parte, e l’approccio di Neyman e Pearson, dall’altra, e finirono per creare un sistema ibrido che utilizzava il valore-<span class="math inline">\(p\)</span> proposto da Fisher (che era un numero facile da calcolare) all’interno del “sistema rigoroso” proposto da Neyman e Pearson. È in questo contesto che la soglia di un valore-<span class="math inline">\(p\)</span> pari a 0.05 venne definita “statisticamente significativa”. Dal punto di vista storico, dunque, si può dire che il valore-<span class="math inline">\(p\)</span> proposto da Fisher non fu mai pensato come qualcosa che può essere usato nel modo in cui il valore-<span class="math inline">\(p\)</span> viene usato al giorno d’oggi nel mondo della ricerca.</p>
+<p>In uno dei sei “principi” che vengono enunciati, l’ASA continua dicendo quanto segue:</p>
+<blockquote>
+<p>Scientific conclusions and business or policy decisions should not be based only on whether a <span class="math inline">\(p\)</span>-value passes a specific threshold.Practices that reduce data analysis or scientific inference to mechanical “bright-line” rules (such as “<span class="math inline">\(p &lt; 0.05\)</span>”) for justifying scientific claims or conclusions can lead to erroneous beliefs and poor decision making. A conclusion does not immediately become “true” on one side of the divide and “false” on the other. Researchers should bring many contextual factors into play to derive scientific inferences, including the design of a study, the quality of the measurements, the external evidence for the phenomenon under study, and the validity of assumptions that underlie the data analysis. Pragmatic considerations often require binary, “yes-no” decisions, but this does not mean that <span class="math inline">\(p\)</span>-values alone can ensure that a decision is correct or incorrect. The widespread use of “statistical significance” (generally interpreted as “<span class="math inline">\(p \leq 0.05\)</span>”) as a license for making a claim of a scientific finding (or implied truth) leads to considerable distortion of the scientific process.</p>
+</blockquote>
+</div>
+<div id="p-hacking" class="section level2 hasAnchor" number="36.3">
+<h2><span class="header-section-number">36.3</span> <span class="math inline">\(P\)</span>-hacking<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#p-hacking" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La fallacia maggiore associata all’uso del valore-<span class="math inline">\(p\)</span> è chiamata “<span class="math inline">\(P\)</span>-hacking” (o anche “data-dredging”, “snooping”, “fishing”, “significance-chasing”, “double-dipping”). Secondo Uri Simonsohn della Università della Pennsylvania, “<span class="math inline">\(P\)</span>-hacking is trying multiple things until you get the desired result.” Esempi di <span class="math inline">\(P\)</span>-hacking sono: “That finding seems to have been obtained through <span class="math inline">\(p\)</span>-hacking, the authors dropped one of the conditions so that the overall <span class="math inline">\(p\)</span>-value would be less than .05”, oppure “She is a <span class="math inline">\(p\)</span>-hacker, she always monitors data while it is being collected.” La pratica del <span class="math inline">\(P\)</span>-hacking ha l’effetto di trasformare uno studio esplorativo (che dovrebbe essere sempre considerato con cautela) in uno studio (apparentemente) confermativo, con la conseguenza di proporre risultati che hanno una probabilità pressoché nulla di essere replicati in studi successivi. Le simulazioni di Simonsohn hanno mostrato come il cambiamento di poche decisioni all’interno del processo di analisi dei dati possa aumentare fino al 60% il tasso di falsi positivi in un singolo studio.</p>
+<p>La pratica del <span class="math inline">\(P\)</span>-hacking emerge soprattutto negli studi che si pongono il problema di dimostrare piccoli effetti usando dati molto rumorosi. In un’analisi della letteratura psicologica, Simonsohn ha trovato che i valori-<span class="math inline">\(p\)</span> riportati dagli psicologi tendono a concentrarsi su valori appena superiori alla soglia “minima” dello 0.05 (figura <a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#fig:around05">36.1</a>). Questo risultato può essere interpretato come conseguenza della pratica del <span class="math inline">\(P\)</span>-hacking: infatti, i ricercatori sembrano seguire la prarica che li porta ad eseguire molteplici test di significatività statistica, fino a trovare un risultato “statisticamente significativo”, per poi pubblicare quello. Come mostra la figura <a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#fig:around05">36.1</a>, questa pratica non riguarda solo la psicologia ma è diffusa in tutti i campi della ricerca scientifica.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:around05"></span>
+<img src="images/around_05.png" alt="Distribuzione dei valori-$p$ nelle pubblicazioni scientifiche di economia, psicologia e biologia." width="95%" />
+<p class="caption">
+FIGURA 36.1: Distribuzione dei valori-<span class="math inline">\(p\)</span> nelle pubblicazioni scientifiche di economia, psicologia e biologia.
+</p>
+</div>
+</div>
+<div id="critiche-al-valore-p" class="section level2 hasAnchor" number="36.4">
+<h2><span class="header-section-number">36.4</span> Critiche al valore-<span class="math inline">\(p\)</span><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#critiche-al-valore-p" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Il valore-<span class="math inline">\(p\)</span> è stato paragonato alle zanzare (creature noiose e impossibili da mandare via), ai vestiti nuovi dell’imperatore (ovvero, il fatto per cui la maggioranza sceglie di non riconoscere i problemi che sono ovvi a tutti, ma preferisce fingere di non vederli), o ad un “sterile intellectual rake” che non produce nulla. È stato ironizzato che l’unica ragione di chiamare questa procedura “statistical hypothesis inference testing” è per l’acronimo che tale espressione produce.</p>
+<p>È stato messo in evidenza il fatto che valore-<span class="math inline">\(p\)</span> incoraggia un modo di pensare sbagliato, in quanto sposta l’attenzione dal problema centrale della ricerca, ovvero il problema della dimensione dell’effetto, verso un problema irrilevante, ovvero quello di dimostrare falsa un’ipotesi fantoccio che sappiamo essere falsa (l’ipotesi nulla). L’esempio che <span class="citation">Nuzzo (<a href="#ref-nuzzo2014statistical" role="doc-biblioref">2014</a>)</span> propone è quello di uno studio su più di 19,000 individui che ha mostrato come coloro che incontrano il loro partner online hanno una probabilità minore di divorziare (<span class="math inline">\(p &lt;\)</span> 0.002) e mostrano livelli maggiori di soddisfazione maritale (<span class="math inline">\(p &lt;\)</span> 0.001) rispetto alle coppie che non si sono conosciute online. Questo può sembrare un risultato interessante fino a quando non consideriamo la dimensione dell’effetto: per coloro che si sono conosciuti online il tasso di divorzi diminuisce dal 7.67% al 5.96%, mentre l’indice di soddisfazione maritale aumenta solo da 5.48 a 5.64 su una scala a sette passi. In generale, la domanda da porsi, infatti, non è “c’è un effetto?” ma bensì “quanto è grande l’effetto?”</p>
+</div>
+<div id="leffetto-sperimentale-è-esattamente-nullo" class="section level2 hasAnchor" number="36.5">
+<h2><span class="header-section-number">36.5</span> L’effetto sperimentale è esattamente nullo?<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#leffetto-sperimentale-è-esattamente-nullo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Una delle critiche più ovvie alla logica della verifica delle ipotesi statistiche riguarda il fatto che non è ragionevole supporre che l’effetto della manipolazione sperimentale sia <em>esattamente nullo</em>. Un esempio preso dalla fisica illustra questo punto. <span class="citation">Borel (<a href="#ref-borel1914introduction" role="doc-biblioref">1914</a>)</span> ha dimostrato che lo spostamento di un centimetro di un grammo di massa in una stella a qualche <em>anno luce</em> da noi modifica il movimento delle molecole di un gas sulla terra.</p>
+<p>Se, come sembra, tutto è collegato con tutto, allora è ragionevole supporre che la manipolazione sperimentale, quale essa sia, un qualche effetto lo produca sempre. Come Andrew Gelman ha ripetuto molte volte, il punto non è dimostrare falsa l’affermazione secondo cui la manipolazione sperimentale produce un effetto esattamente nullo. Importante invece è stabilire se la dimensione dell’effetto sia sufficientemente grande da avere una qualche importanza dal punto di vista pratico, e stabilire se l’effetto sia riproducibile.</p>
+<p>Se questi sono gli obiettivi, allora la logica della verifica dell’ipotesi nulla si dimostra problematica. Infatti, come abbiamo visto sopra, nel caso di piccoli campioni e di piccoli effetti (caso, questo, che descrive la quasi la totalità delle ricerche in psicologia), le procedure frequentiste conducono ad una notevole sovrastima della dimensione dell’effetto. Inoltre, tendono a favorire un un pensiero binario basato sulla dicotomia vero/falso, mentre quello che è importante non è rifiutare un’ipotesi (nulla) che è sicuramente falsa, ma riuscire ad ottenere una stima non distorta della vera dimensione dell’effetto.</p>
+<p>La simulazione descritta sopra non mostra soltanto che, nelle condizioni considerate, la stima della grandezza dell’effetto risulti fortemente esagerata, ma anche che la <em>direzione</em> dell’effetto possa anche essere stimata incorrettamente. Nella simulazione descritta, questo si verifica <em>solo</em> in un campione su 40 tra quelli che producono un valore-<span class="math inline">\(p &gt;\)</span> 0.05, ma l’esame di dati reali tratti dalla letteratura psicologica mostra che la probabilità di questo errore di segno possa essere molto maggiore. <span class="citation">Gelman and Carlin (<a href="#ref-gelman2014beyond" role="doc-biblioref">2014</a>)</span> chiamano i due tipi di errori che abbiamo discusso qui <em>errori di Tipo S</em> (Sign) e <em>errori di Tipo M</em> (Magnitude). <span class="citation">Gelman and Carlin (<a href="#ref-gelman2014beyond" role="doc-biblioref">2014</a>)</span> sono molto critici rispetto all’uso corrente che porta a descrivere i dati degli esperimenti per mezzo di concetti quali la “significatività statistica”, il “potere statistico”, l’“errore di tipo I” e l’“errore di tipo II” e affermano che sia più utile mettere in evidenza la probabilità di un errore di Tipo S e di Tipo M (uno script <span class="math inline">\(\mathsf{R}\)</span> che consente di calcolare la probabilità di errore di Tipo S e di Tipo M è fornito nel loro articolo). <span class="citation">Gelman and Carlin (<a href="#ref-gelman2014beyond" role="doc-biblioref">2014</a>)</span> concludono il loro articolo con la raccomandazione secondo la quale, per minimizzare i falsi positivi in psicologia, è necessario aumentare notevolmente la dimensione del campione rispetto agli standard correnti. Un punto analogo è anche fornito nell’articolo di <span class="citation">Loken and Gelman (<a href="#ref-loken2017measurement" role="doc-biblioref">2017</a>)</span>.</p>
+</div>
+<div id="simulazione" class="section level2 hasAnchor" number="36.6">
+<h2><span class="header-section-number">36.6</span> Simulazione<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#simulazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In questa simulazione esaminiamo le conseguenze che derivano dall’applicazione della procedura del test dell’ipotesi nulla al caso di una piccola dimensione dell’effetto nella popolazione e di un campione di piccole dimensioni – ovvero viene considerato il caso tipico di un esperimento di psicologia. L’idea è stata proposta da <span class="citation">Gelman and Carlin (<a href="#ref-gelman2014beyond" role="doc-biblioref">2014</a>)</span>.</p>
+<div id="la-dimensione-delleffetto-1" class="section level3 hasAnchor" number="36.6.1">
+<h3><span class="header-section-number">36.6.1</span> La dimensione dell’effetto<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#la-dimensione-delleffetto-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La dimensione dell’effetto si calcola con la statistica <span class="math inline">\(d\)</span> di Cohen definita come segue:</p>
+<p><span class="math display">\[
+d = \frac{\bar{X}_1 - \bar{X}_2}{s_p}
+\]</span></p>
+<p>dove</p>
+<p><span class="math display">\[
+s_p = \sqrt{
+\frac{s_1^2 (n_1 - 1) + s_2^2 (n_2 - 1)}{n_1 + n_2 - 2}
+}
+\]</span></p>
+<p>La statistica <span class="math inline">\(d\)</span> di Cohen si interpreta nel modo seguente:</p>
+<ul>
+<li>d = 0.2 effetto piccolo</li>
+<li>d = 0.5 effetto medio</li>
+<li>d = 0.8 effetto grande</li>
+</ul>
+</div>
+<div id="una-piccola-dimensione-delleffetto-nella-popolazione" class="section level3 hasAnchor" number="36.6.2">
+<h3><span class="header-section-number">36.6.2</span> Una piccola dimensione dell’effetto nella popolazione<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-piccola-dimensione-delleffetto-nella-popolazione" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consideriamo due ‘popolazioni’ la cui distribuzione è Normale di media 103 (la prima) e 100 (la seconda). Per entrambe, la deviazione standard è uguale a 15.</p>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 1</span></span>
+<span id="cb510-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-2" aria-hidden="true" tabindex="-1"></a>mu_1 <span class="ot">&lt;-</span> <span class="dv">103</span></span>
+<span id="cb510-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 2</span></span>
+<span id="cb510-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-4" aria-hidden="true" tabindex="-1"></a>mu_2 <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb510-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-5" aria-hidden="true" tabindex="-1"></a><span class="co"># SD comune</span></span>
+<span id="cb510-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">15</span></span></code></pre></div>
+<p>La dimensione dell’effetto nella popolazione è dunque uguale a</p>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-1" aria-hidden="true" tabindex="-1"></a>(mu_2 <span class="sc">-</span> mu_1) <span class="sc">/</span> sigma</span>
+<span id="cb511-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.2</span></span></code></pre></div>
+<p>Se prendiamo dei campioni enormi</p>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_1, sigma)</span>
+<span id="cb512-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_2, sigma)</span></code></pre></div>
+<p>e applichiamo la formula precedente, otteniamo una stima non distorta della vera dimensione dell’effetto.</p>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-1" aria-hidden="true" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb513-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(</span>
+<span id="cb513-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">var</span>(x1) <span class="sc">*</span> nn <span class="sc">+</span> <span class="fu">var</span>(x2) <span class="sc">*</span> nn) <span class="sc">/</span> (nn <span class="sc">+</span> nn)</span>
+<span id="cb513-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb513-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-5" aria-hidden="true" tabindex="-1"></a>sp</span>
+<span id="cb513-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.98042</span></span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp</span>
+<span id="cb514-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.200439</span></span></code></pre></div>
+<p>Oppure, in maniera equivalente</p>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-1" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb515-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-2" aria-hidden="true" tabindex="-1"></a>dc</span>
+<span id="cb515-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb515-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d</span></span>
+<span id="cb515-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb515-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; d estimate: 0.200439 (small)</span></span>
+<span id="cb515-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb515-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lower     upper </span></span>
+<span id="cb515-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1916517 0.2092262</span></span></code></pre></div>
+<p>Ma vediamo cosa succede quando i campioni sono piccoli, ovvero simili a quelli che si usano normalmente in psicologia. Supponiamo che <span class="math inline">\(n\)</span> = 30. Nella simulazione consideriamo 100,000 coppie di campioni di 30 osservazioni estratte da ciascuna delle due popolazioni.</p>
+<p>Per ciascuna coppia di 30 osservazioni, calcoliamo un test di significatività statistica (il famoso test <span class="math inline">\(t\)</span> di Student) e il <span class="math inline">\(d\)</span> di Cohen. Alcuni di questi confronti non raggiungono la soglia <span class="math inline">\(p\)</span> = 0.05 e quindi li escludiamo. Infatti, la consuetudine è di <em>non pubblicare</em> i risultati che non sono “statisticamente significativi” (ovvero, con un valore-<span class="math inline">\(p\)</span> &lt; 0.05). Conserviamo invece i campioni che sono risultati “statisticamente significativi”.</p>
+<p>La domanda che ci poniamo è: in che misura i campioni “statisticamente significativi” rispecchiano le caratteristiche della popolazione da cui sono stati estratti?</p>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb516-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb516-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb516-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb516-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb516-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb516-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
+<span id="cb516-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
+<span id="cb516-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
+<span id="cb516-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb516-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb516-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
+<span id="cb516-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Intanto calcolo il la proporzione di campioni che producono risultati “pubblicabili”.</p>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(significant)</span>
+<span id="cb517-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb517-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.0000  0.0000  0.0000  0.1189  0.0000  1.0000</span></span></code></pre></div>
+<p>Dopo avere selezionato soltanto i risultati “statisticamente significativi”</p>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb518-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
+<span id="cb518-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
+<span id="cb518-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb518-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d)</span>
+<span id="cb518-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 100000      2</span></span>
+<span id="cb518-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-7" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb518-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb518-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-9" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb518-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb518-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb518-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d_pub)</span>
+<span id="cb518-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11893     2</span></span></code></pre></div>
+<p>creo un istogramma della dimensione dell’effetto (calcolata soltanto sui campioni nei quali l’effetto è “statisticamente significativo”).</p>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb519-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-2" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
+<span id="cb519-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
+<span id="cb519-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
+<span id="cb519-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
+<span id="cb519-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
+<span id="cb519-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb519-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-524-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>La simulazione mostra due risultati degni di nota.</p>
+<ol style="list-style-type: decimal">
+<li>Complessivamente, la dimensione dell’effetto viene di molto sovrastimata.</li>
+<li>In una proporzione non trascurabile di casi, <em>la direzione dell’effetto</em> è sbagliata.</li>
+</ol>
+<p>Questa simulazione dunque mostra come, seguendo la procedura frequentista, si ottiene proprio il risultato che si voleva evitare: si giunge “normalmente” alla risposta sbagliata.</p>
+</div>
+<div id="una-soluzione-sbagliata" class="section level3 hasAnchor" number="36.6.3">
+<h3><span class="header-section-number">36.6.3</span> Una soluzione (sbagliata)<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-soluzione-sbagliata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Per risolvere questo problema è stato proposto da diversi ricercatori di utilizzare un livello <span class="math inline">\(\alpha\)</span> più “conservativo”.</p>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb520-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb520-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
+<span id="cb520-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb520-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb520-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb520-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
+<span id="cb520-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
+<span id="cb520-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
+<span id="cb520-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb520-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb520-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
+<span id="cb520-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb520-14"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb520-15"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-15" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb520-16"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
+<span id="cb520-17"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
+<span id="cb520-18"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb520-19"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb520-20"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-20" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb520-21"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb520-22"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-22" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb520-23"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb520-24"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb520-25"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb520-26"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-26" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
+<span id="cb520-27"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
+<span id="cb520-28"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
+<span id="cb520-29"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
+<span id="cb520-30"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
+<span id="cb520-31"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb520-32"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-32" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-525-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Come mostrato dai risultati della simulazione, l’uso di una soglia più “conservativa” non ha altro effetto che quello di esacerbare il problema: la sovrastima della dimensione dell’effetto aumenta.</p>
+<p>In conclusione, si può dire che l’uso dell’approccio frequentista garantisce, senza possibilità di dubbio, il fatto di giungere alla conclusione inferenziale sbagliata.</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-borel1914introduction" class="csl-entry">
+Borel, Emile. 1914. <em>Introduction g<span>é</span>om<span>é</span>trique</em>. G. Villars, New York.
+</div>
+<div id="ref-gelman2014beyond" class="csl-entry">
+Gelman, Andrew, and John Carlin. 2014. <span>“Beyond Power Calculations: Assessing Type <span>S</span> (Sign) and Type <span>M</span> (Magnitude) Errors.”</span> <em>Perspectives on Psychological Science</em> 9 (6): 641–51.
+</div>
+<div id="ref-greenland2016statistical" class="csl-entry">
+Greenland, Sander, Stephen J Senn, Kenneth J Rothman, John B Carlin, Charles Poole, Steven N Goodman, and Douglas G Altman. 2016. <span>“Statistical Tests, <span>P</span> Values, Confidence Intervals, and Power: A Guide to Misinterpretations.”</span> <em>European Journal of Epidemiology</em> 31 (4): 1–14.
+</div>
+<div id="ref-loken2017measurement" class="csl-entry">
+Loken, Eric, and Andrew Gelman. 2017. <span>“Measurement Error and the Replication Crisis.”</span> <em>Science</em> 355 (6325): 584–85.
+</div>
+<div id="ref-nuzzo2014statistical" class="csl-entry">
+Nuzzo, Regina. 2014. <span>“Statistical Errors.”</span> <em>Nature</em> 506 (7487): 150–52.
+</div>
+<div id="ref-wasserstein2016asa" class="csl-entry">
+Wasserstein, Ronald L, and Nicole A Lazar. 2016. <span>“The <span>ASA</span>’s Statement on p-Values: Context, Process, and Purpose.”</span> <em>The American Statistician</em> 70 (2): 129–33.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-ttest.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliografia.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/ccaudek/datascience/edit/master/210_pvalue.Rmd",
+"text": "Suggest an edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ds4psy.pdf", "ds4psy.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

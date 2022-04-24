@@ -1,13 +1,17 @@
-\mainmatter
-
-# (PART) Approccio frequentista all'inferenza statistica {-}
-
-# Il valore-$p$ {#ch-pval}
+# La crisi della replicabilità dei risultati della ricerca
 
 ```{r, echo=FALSE}
 source("_common.R")
 suppressPackageStartupMessages(library("effsize"))
 ```
+
+Cito da Wikipedia
+
+> La crisi della replicazione (chiamata anche crisi della replicabilità e crisi della riproducibilità) è una crisi metodologica per cui è stato riscontrato che molti studi scientifici sono difficili o impossibili da replicare o riprodurre. La crisi della replicazione colpisce più gravemente le scienze sociali e la medicina, mentre i dati delle rilevazioni indicano fortemente che anche tutte le scienze naturali sono probabilmente implicate. La frase è stata coniata nei primi anni 2010 come parte di una crescente consapevolezza del problema. La crisi della replicazione rappresenta un importante corpo di ricerca nel campo delle metascienze.
+
+> Poiché la riproducibilità dei risultati sperimentali è una parte essenziale del metodo scientifico, l'incapacità di replicare gli studi di altri ha conseguenze potenzialmente gravi per molti campi della scienza in cui teorie significative sono fondate su un lavoro sperimentale irriproducibile. La crisi della replicazione è stata ampiamente discussa nei campi della medicina, dove sono stati fatti numerosi sforzi per riesaminare i risultati classici, per determinare sia l'attendibilità dei risultati sia, se ritenuto inattendibile, le ragioni del fallimento di replica.
+
+Questa "crisi metodologica" riguarda molto da vicino la psicologia. Questa crisi ha molteplici cause.  Tra tali cause, particolare importanza (in senso negativo) è stata assegnata ad un uso "spensierato" dell'approccio frequentista da parte dei ricercatori.  L'obiettivo di questo capitolo è mostrare come l'uso delle procedure di test dell'ipotesi nulla necessariamente conduce, nella pratica corrente, ad una sistematica distorsione dei risultati della ricerca. Ovvero, aumenta a dismisura i "falsi positivi" e troppo spesso impedisce la replicazione dei risultati degli studi empirici.
 
 ## Che cos'è un valore-$p$?
 

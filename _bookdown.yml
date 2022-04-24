@@ -62,6 +62,7 @@ rmd_files:
     - "092_info_criterion.Rmd"
     # - "093_projpred.Rmd"
     ## PART VI
+    - "205_ttest.Rmd"
     - "210_pvalue.Rmd"
     ## APPENDIX
     - "800_appendix.Rmd"
