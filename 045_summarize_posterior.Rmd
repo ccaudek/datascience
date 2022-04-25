@@ -125,13 +125,13 @@ in realtà è una domanda a cui è difficile rispondere. La stima bayesiana dei 
 Tuttavia talvolta una tale sintesi è richiesta. Diverse risposte sono allora possibili. La media della distribuzione a posteriori per $\theta$ è
 
 $$
-\E(\pi \mid y = 17) = \frac{\alpha}{\alpha + \beta} = \frac{25}{25+15} = 0.625.
+\mathbb{E}(\pi \mid y = 17) = \frac{\alpha}{\alpha + \beta} = \frac{25}{25+15} = 0.625.
 $$
 
 Una stima del massimo della probabilità a posteriori, o brevemente massimo a posteriori, MAP (da *maximum a posteriori probability*), è la moda della distribuzione a posteriori. Nel caso presente, una stima del MAP può essere ottenuta nel modo seguente:
 
 $$
-\Mo(\pi \mid y = 17) = \frac{\alpha-1}{\alpha + \beta-2} = \frac{25-1}{25+15-2} = 0.6316.
+\mbox{Mo}(\pi \mid y = 17) = \frac{\alpha-1}{\alpha + \beta-2} = \frac{25-1}{25+15-2} = 0.6316.
 $$
 
 Gli stessi risultati si ottiengono usando la chiamata a `bayesrules::summarize_beta_binomial()`:
@@ -201,7 +201,7 @@ $$
 P(\theta > 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta \;,
 $$
 
-dove $f(\cdot)$ è la distribuzione $\mbox{\Beta}(25, 15)$:
+dove $f(\cdot)$ è la distribuzione $\mbox{Beta}(25, 15)$:
 
 ```{r}
 pbeta(0.5, shape1 = 25, shape2 = 15, lower.tail = FALSE)
@@ -219,6 +219,8 @@ integrate(
   upper = 1
 )$value
 ```
+
+#### Fattore di Bayes
 
 È anche possibile formulare un test di ipotesi contrastando due ipotesi contrapposte. Per esempio, $H_1: \theta \geq 0.5$ e $H_2: \theta < 0.5$. Ciò consente di calcolare l'_odds a posteriori_ di $\theta > 0.5$:
 
@@ -259,13 +261,13 @@ BF
 
 Quindi, dopo avere osservato i dati, gli odds a posteriori della nostra ipotesi a proposito di $\theta$  sono pari a solo il 34% degli odds a priori. 
 
-Per fare un altro esempio, consideriamo invece il caso in cui le credenze a priori rivelano una credenza diametralmente opposta rispetto a $\theta$ che nel caso considerato in precedenza, ovvero $\mbox{Beta}(2, 8)$. In questo secondo caso, la distribuzione a posteriori diventa
+Per fare un altro esempio, consideriamo il caso in cui le credenze a priori rivelano una credenza diametralmente opposta rispetto a $\theta$ rispetto al caso considerato in precedenza (in precedenza avevamo $\mbox{Beta}(8, 2)$ mentre ora imponiamo su $\theta$ una distribuzione a priori $\mbox{Beta}(2, 8)$). Con una tale scelta della distribuzione a priori, la distribuzione a posteriori diventa una $\mbox{Beta}(19, 21)$.
 
 ```{r}
 summarize_beta_binomial(alpha = 2, beta = 8, y = 17, n = 30)
 ```
 
-e il BF è
+Con questa diversa distribuzione a priori, il BF è uguale a
 
 ```{r}
 posterior_odds <- 
@@ -284,7 +286,6 @@ In alre parole, in questo secondo esempio gli odds a posteriori della nostra ipo
 
 In generale, in un test di ipotesi che contrappone un'ipotesi sostantiva $H_a$ ad un'ipotesi nulla $H_0$ il BF è un rapporto di odds per l'ipotesi sostantiva:
 
-
 $$
 \text{Bayes Factor}
 = \frac{\text{posterior odds}}{\text{prior odds}}
@@ -292,14 +293,15 @@ $$
  \; .
 $$
 
+#### Interpretazione del fattore di Bayes
 
-Essendo un rapporto, il BF deve esere valutato rispetto al valore di 1. Ci sono tre possibilità: 
+Essendo un rapporto, il BF deve essere valutato rispetto al valore di 1. Ci sono tre possibilità: 
 
 - BF = 1: La credibilità di $H_a$ non è cambiata dopo avere osservato i dati. 
 - BF > 1: La credibilità di $H_a$ è aumentata dopo avere osservato i dati. Quindi maggiore è BF, più convincente risulta l'evidenza per $H_a$.
 - BF < 1: La credibilità di $H_a$ è diminuita dopo avere osservato i dati.
 
-Non ci sono delle soglie universalmente riconosciute per interpretare il BF. Per esempio, @lee2014bayesian propongono il seguente schema:
+Non ci sono delle soglie universalmente riconosciute per interpretare il BF, ma uno schema popolare, proposto da @lee2014bayesian, è il seguente:
 
 | BF | Interpretation |
 |--: |:--|
@@ -315,11 +317,15 @@ Non ci sono delle soglie universalmente riconosciute per interpretare il BF. Per
 1/100 - 1/30 |	Very strong evidence for $H_0$
 < 1/100	| Extreme evidence for $H_0$
 
-Tuttavia, è importante notare che l'opinione maggiormente diffusa nella comunità scientifica sia quella che incoraggia a non trarre conclusioni rigide  dai dati utilizzando dei criteri fissati una volta per tutte. Pertanto, non esiste una soglia univoca per il BF che consente di classificare le ipotesi dei ricercatori nelle due categorie "vero" o "falso". Invece, è più utile adottare una pratica più flessibile capace di tenere in considerazione il contesto e le potenziali implicazioni di ogni singolo test di ipotesi. Inoltre, è stato molte volte ripetuto che la distribuzione a posteriori è molto più informativa di una decisione binaria: la rappresentazione di tutta la distribuzione a posteriori fornisce una misura olistica del nostro livello di incertezza riguardo all'affermazione (il parametro, ovvero l'ipotesi) che viene valutata.
+#### Limiti del fattore di Bayes
+
+È importante notare che l'opinione maggiormente diffusa nella comunità scientifica  incoraggia a *non* trarre conclusioni rigide dai dati utilizzando dei criteri fissati una volta per tutte. È stato ripetuto molte volte che *l'esame di tutta la distribuzione a posteriori* fornisce una misura olistica del nostro livello di incertezza riguardo all'affermazione (il parametro, ovvero l'ipotesi) che viene valutata e, dunque, è molto più informativo di una decisione binaria. Non è dunque possibile stabilire una soglia univoca per il BF che consenta di classificare le ipotesi dei ricercatori in una delle due categorie "vero" o "falso". Invece, è più utile adottare una pratica interpretativa più flessibile in grado di tenere in considerazione il contesto e le potenziali implicazioni di ogni singolo test di ipotesi. 
+
+La discussione precedente mette inoltre in evidenza come il BF dipenda fortemente dalle caratteristiche della distribuzione a priori. Dato che la la distribuzione a priori è una scelta arbitraria del ricercatore, da ciò consegue che il BF contiene una componente intrinseca di arbitrarietà. Questo aspetto, tuttavia, è incompatibile con l'idea di un confronto con delle soglie "assolute".
 
 ## La funzione di perdita attesa
 
-Un modo razionale per giungere ad una decisione statistica utilizzando l'intera distribuzione a posteriori è quello di usare la _funzione di perdita_ (_loss function_). La funzione di perdita è concetto nella teoria delle decisioni statistiche che consente di quantificare il costo derivante dalla decisione di scegliere quale stima del parametro il valore $\theta_0$ quando esso in realtà ha il valore $\theta$. 
+Il modo più razionale per giungere ad una decisione statistica utilizzando *l'intera distribuzione a posteriori* è quello di usare la *funzione di perdita* (*loss function*). La funzione di perdita è un concetto nella teoria delle decisioni statistiche e consente di quantificare *il costo* che deriva dalla decisione di scegliere il valore $\theta_0$ quale stima del parametro, quando in realtà il parametro ha il valore $\theta$. 
 
 Per chiarire che cosa si intende per funzione di perdita, esaminiamo qui un semplice esempio nel quale vengono considerati due soli valori di probabilità per l'evento target, anziché l'intera distribuzione a posteriori [il codice è ricavato da @schmettow2021new].
 
@@ -342,7 +348,7 @@ Azione <-
 Azione
 ```
 
-Assegniamo  un costo massimo  (4)  alla  conseguenza  peggiore  ("non prendo  l'ombrello  e piove") e uno minimo (0) alla conseguenza migliore ("non prendo l'ombrello e non piove"):
+Assegniamo un costo massimo (4) alla conseguenza  peggiore  ("non prendo  l'ombrello  e piove") e uno minimo (0) alla conseguenza migliore ("non prendo l'ombrello e non piove"):
 
 ```{r}
 Costi <-
@@ -355,7 +361,7 @@ Costi <-
 Costi
 ```
 
-Calcoliamo ora il costo atteso delle due azioni tenuto conto delle probabilità che si verifichi l'uno o l'altro stato del mondo (ricordiamo che piove/non piove hanno una probabilità rispettivamente del 40% e del 60%), ovvero ponderiamo il costo di ogni azione con la probabilità che si verifichi l'evento corrispondente:
+Calcoliamo ora il costo atteso delle due azioni tenuto conto delle probabilità che si verifichi l'uno o l'altro stato del mondo (ricordiamo che piove/non piove hanno una probabilità rispettivamente del 40% e del 60%). In altre parole ponderiamo il costo di ogni azione con la probabilità che si verifichi l'evento corrispondente:
 
 ```{r}
 Util <-
@@ -366,9 +372,9 @@ Util <-
 Util
 ```
 
-La  regola  di  minimizzazione dei costi  induce  a  scegliere l'alternativa  che comporta  il valore più basso: nel nostro esempio "prendere l'ombrello".
+La  regola  della *minimizzazione dei costi*  ci porta a scegliere l'alternativa che comporta  il costo minore: nel nostro esempio, questo corrisponde all'azione "prendere l'ombrello".
 
-La stessa logica dell'esempio può essere usata anche nel momento in cui, anziché avere solo due valori per la probabilità dello stato del mondo in questione (per esempio, pioverà / non pioverà), utilizziamo l'intera distribuzione a posteriori (per esempio, quella relativa alla previsione di pioggia). Concludiamo questi brevi accenni relativi alla funzione di perdita con una considerazione di @McElreath_rethinking il quale nota che, anche se gli statistici e i teorici dei giochi sono da tempo interessati alle funzioni di perdita e alle relazioni che intercorrono tra esse e l'inferenza bayesiana, i ricercatori non le usano quasi mai in modo esplicito. 
+La stessa logica dell'esempio qui discusso può essere usata anche quando, anziché avere solo due valori per la probabilità dello stato del mondo (per esempio, pioverà / non pioverà), utilizziamo l'intera distribuzione a posteriori (per esempio, quella relativa alla previsione di pioggia). Concludiamo questi brevi accenni relativi alla funzione di perdita con una considerazione di @McElreath_rethinking il quale nota che, anche se gli statistici e i teorici dei giochi sono da tempo interessati alle funzioni di perdita e alle relazioni che intercorrono tra esse e l'inferenza bayesiana, i ricercatori non le usano quasi mai in modo esplicito. 
 
 ## Commenti e considerazioni finali {-}
 

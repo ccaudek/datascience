@@ -1,11 +1,11 @@
-# Il modello lineare visto da vicino {#ch-regr-model-lm}
+# Metodo dei minimi quadrati {#ch-regr-model-lm}
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
 source("_stan_options.R")
 ```
 
-In questo capitolo mi pongo il problema di applicare il modello di regressione bivariata ad un campione di dati. Userò i dati `kidiq`. Riporto qui di seguito la descrizione di questo set di dati.
+In questo capitolo mi pongo il problema di applicare il modello di regressione bivariata ad un campione di dati. Userò il campione di dati `kidiq`. Riporto qui di seguito la descrizione delle variabili.
 
 > Data from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth). 
 
@@ -27,7 +27,7 @@ kidiq <- rio::import(here::here(
 glimpse(kidiq)
 ```
 
-In questo esercizio considererò la relazione tra `kid_score` e `mom_iq`.
+In questo esercizio considererò la relazione tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`).
 
 ```{r}
 kidiq %>% 
@@ -35,7 +35,7 @@ kidiq %>%
   geom_point()
 ```
 
-I dati rappresentati nel diagramma a dispersione suggeriscono che, in questo campione, sembra esserci un'associazione positiva tra l'intelligenza del bambino (kid_score) e l'intelligenza della madre (mom_iq). Mi pongo il problema di descrivere questa associazione mediante una relazione lineare.
+I dati rappresentati nel diagramma a dispersione suggeriscono che, in questo campione, sembra esserci un'associazione positiva tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`). Mi pongo il problema di descrivere questa associazione mediante una relazione lineare.
 
 ```{r}
 kidiq %>% 
@@ -44,9 +44,9 @@ kidiq %>%
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-Ci sono infinite rette che, in linea di principio, possono essere usate per "approssimare" la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste rette.
+Ci sono infinite rette che, in linea di principio, possono essere usate per "approssimare" la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste rette. Vediamo qui di seguito come tale problema viene risolto dall'approccio frequentista mediante il *metodo dei minimi quadrati*.
 
-Un vincolo che viene spesso usato è quello di costringere la retta a passare per il punto $(\bar{x}, \bar{y})$. 
+Un vincolo che viene introdotto dall'approccio frequentista è quello di costringere la retta di regressione a passare per il punto $(\bar{x}, \bar{y})$. 
 
 ```{r}
 kidiq %>% 
@@ -59,20 +59,21 @@ kidiq %>%
   )
 ```
 
-Una retta che passa per il punto $(\bar{x}, \bar{y})$ ha la proprietà descritta di seguito.
+Una retta che passa per il punto $(\bar{x}, \bar{y})$ ha delle desideraibili proprietà statistiche che verranno descritte di seguito.
 
-Iniziamo a descrivere ciascuna osservazione inserita nel diagramma a dispersione con un'equazione:
+Il campione è costituito da $n$ coppie ($x, y$). Per ciascuna coppia $i$-esima di valori $x_i, y_i$, il modello di regressione si aspetta che il valore $y_i$ sia associato al corrispondente valore $x_i$ come indicato dalla seguente equazione:
 
 $$
 y_i = a + b x_i + e_i
 $$
-Le osservazioni $y$ sono `kid_score`. I primi 10 valori sono i seguenti:
+
+Le osservazioni $y_i$ corrispondono, nell'esempio presente, alla variabile `kid_score`. I primi 10 valori della variabile $y$ sono i seguenti:
 
 ```{r}
 kidiq$kid_score[1:10]
 ```
 
-Per fare riferimento a ciascun valore usiamo l'indice $i$. Quindi, ad esempio, $y_3$ è uguale a
+Per fare riferimento a ciascuna osservazione usiamo l'indice $i$. Quindi, ad esempio, $y_3$ è uguale a
 
 ```{r}
 kidiq$kid_score[3]
@@ -90,7 +91,7 @@ In maniera corrispondente alla $y$, uso un indice per fare riferimento ai singol
 kidiq$mom_iq[3]
 ```
 
-L'equazione precedente ci dice che ciascun valore $y$ è dato dalla somma di due componenti: una componente deterministica e una componente aleatoria. Consideriamo il primo valore $y$.  Per esso diciamo che
+L'equazione precedente ci dice che ciascun valore $y$ è dato dalla somma di due componenti: una componente deterministica e una componente aleatoria. Consideriamo il primo valore $y$ del campione.  Per esso, il modello di regressione afferma quanto segue:
 
 $$
 y_1 = a + b x_1 + e_1,
@@ -98,28 +99,32 @@ $$
 
 laddove $a + b x_1$ è la componente deterministica, detta $\hat{y}$, e $e_1$ è la componente aleatoria.
 
-La componente deterministica è, appunto, la componente di ciascun valore $y$ che possiamo prevedere conoscendo $x$.  Non possiamo prevedere perfettamente i valori $y$ -- ciò si verificherebbe soltanto se tutti punti del diagramma a dispersione fossero disposti su una retta. Ma non lo sono: la retta è solo un'approssimazione della relazione (lineare) tra $x$ e $y$. Pertanto, conoscendo $x$ possiamo solo prevedere una "componente" di ciascun valore $y$.
+La componente deterministica è la componente di ciascun valore $y_i$ che è possibile prevedere (in maniera deterministica) conoscendo il corrispondente valore $x_i$.  Tuttavia, non è possibile prevedere *perfettamente* i valori $y$ -- ciò si verificherebbe soltanto se tutti punti del diagramma a dispersione fossero disposti su una retta. Ma non lo sono mai nella pratica concreta: la retta è solo un'approssimazione della relazione (lineare) tra $x$ e $y$. Pertanto, conoscendo $x_i$ possiamo solo prevedere una "componente" del corrispondente valore $y_i$.
 
-Cosa significa che possiamo prevedere una componente di ciascuna osservazione $y$? Significa che il valore $y$ osservato sarà dato dalla somma di due componenti: $y_i = \hat{y}_i + e_i$.
+Cosa significa che possiamo prevedere una componente di ciascuna osservazione $y_i$? Significa che il valore $y_i$ osservato sarà diverso dal valore previsto dal modello. Il che è equivalente a dire che ciascun $y_i$ è dato dalla seguente somma: $y_i = \hat{y}_i + e_i$.
 
-L'affermazione precedente solleva due domande:
+L'affermazione precedente pone due domande:
 
-- come possiamo trovare la quota della $y$ che può essere predetta conoscendo $x$?
-- quant'è grande la porzione della $y$ che può essere predetta conoscendo $x$? In altre parole, conoscendo la $x$ è possibile predire $y$ con accuratezza oppure no?
+- come possiamo trovare i coefficienti $a$ e $b$ che consentono di predire in maniera deterministica una componente della $y$ a partire dalla conoscenda della $x$?
+- quant'è grande la porzione della $y$ che può essere predetta conoscendo la $x$? In altre parole, quant'è accurata la predizione della $y$ che può essere fornita dalla conoscenza della $x$?
 
-Rispondere a tali due domanda definisce i primi due obiettivi del modello statistico della regressione lineare. Il terzo obiettivo è quello dell'inferenza, ovvero di capire che relazioni ci sono tra la relazione tra $x$ e $y$ osservata nel campione e la la relazione tra $x$ e $y$ nella popolazione.
+Rispondere a tali due domanda definisce i primi due obiettivi del modello statistico della regressione lineare. Il terzo obiettivo è quello dell'inferenza, ovvero quello di capire che relazioni ci sono tra la relazione tra $x$ e $y$ osservata nel campione e la la relazione tra $x$ e $y$ nella popolazione.
 
 ## Stima dei coefficienti di regressione
 
-Iniziamo con il primo obiettivo, ovvero quello di predire una frazione di ciascuna osservazione $y$ conoscendo $x$. Quindi, nel caso presente, ci chiediamo quanto segue.  Il primo bambino del campione ha un QI uguale a 65. Sua madre ha un QI di 121.12. Quanto bene riesco a predire il punteggio QI del bambino conoscendo quello di sua madre?
+Iniziamo con il primo obiettivo, ovvero quello di trovare i coefficienti $a$ e $b$ che consentono di predire una frazione di ciascuna osservazione $y$ conoscendo $x$. Quindi, nel caso presente, ci chiediamo quanto segue.  Il primo bambino del campione ha un QI uguale a 65. Sua madre ha un QI di 121.12. Qual è la stima migliore del punteggio QI del bambino che può essere fornita conoscendo il QI di sua madre?
 
-È chiaro, guardando i numeri, che non c'è una corrispondenza perfetta, tutt'altro! Infatti, se guardiamo il diagramma di dispersione ci rendiamo conto che i punti sono piuttosto lontani dalla retta che abbiamo usato per descrivere la relazione tra $x$ e $y$. Tuttavia, il diagramma di dispersione suggerisce che una qualche relazione c'è, seppur debole. Il nostro obiettivo è di descrivere una tale relazione.
+È chiaro, guardando i numeri, che non c'è una corrispondenza perfetta tra QI della madre e QI del bambino, tutt'altro! Infatti, se guardiamo il diagramma di dispersione ci rendiamo conto che i punti sono piuttosto lontani dalla retta che abbiamo usato per descrivere la relazione tra $x$ e $y$. Tuttavia, il diagramma di dispersione suggerisce che, comunque, al di là del rumore, c'è una relazione tra le due variabili. Il nostro obiettivo è di trovare un metodo quantitativo che consenta di descrivere una tale relazione.
 
-Una tale relazione è descritta dalla componente deterministica che costituisce una frazione di ciascuna osservazione $y$. Abbiamo deciso di definire una tale componente "deterministica" $\hat{y}_i$ nei termini della seguente equazione: $\hat{y}_i = a_i + bx_i$.
+Abbiamo detto che, di ciascuna osservazione $y_i$, è possibile prevedere una componente, conoscendo $x_i.$ La componente $y_i$ predicibile da $x_i$ viene denotata da $\hat{y}_i$. Il modello di regressione lineare ci dice che 
 
-L'equazione precedente è detta equazione lineare e, dal punto di vista geometrico, corrisponde ad una retta.  Ci sono infinite equazioni che potremmo usare per mettere in relazione $x$ e $y$. Abbiamo scelto questa perché è la più semplice. Se guardiamo il diagramma di dispersione, infatti, non ci sono ragioni per descrivere la relazione tra $x$ e $y$ con qualche curva, anziché con una retta. In altri campioni, una curva può essere più sensata di una retta, quale descrizione della relazione *media* tra $x$ e $y$, ma non nel caso presente. Ricordiamo il principio del rasoio di Occam (ovvero, il principio che sta alla base del pensiero scientifico moderno): se un modello semplice funziona, non c'è ragione di usare un modello più complesso.
+$$
+\hat{y}_i = a_i + bx_i.
+$$
 
-Dunque, abbiamo capito che vogliamo descrivere la relazione media* tra $x$ e $y$ con una retta, ovvero, con l'equazione lineare
+L'equazione precedente è un'*equazione lineare* e, dal punto di vista geometrico, corrisponde ad una retta.  Ci sono infinite equazioni che, in linea di principio, potremmo pensare di usare per descrivere la relazione tra $x$ e $y$. Abbiamo scelto questa perché è la più semplice. Se guardiamo il diagramma di dispersione, infatti, non ci sono ragioni per descrivere la relazione tra $x$ e $y$ con qualche curva, anziché con una retta. In altri campioni, una curva può essere più sensata di una retta, quale descrizione della relazione *media* tra $x$ e $y$, ma non nel caso presente. Ricordiamo il principio del rasoio di Occam (ovvero, il principio che sta alla base del pensiero scientifico moderno): se un modello semplice funziona, non c'è ragione di usare un modello più complesso.
+
+Dunque, abbiamo capito che vogliamo descrivere la *relazione media* tra $x$ e $y$ con una retta, ovvero, con l'equazione lineare
 
 $$
 \hat{y}_i = a + b x_i.
@@ -127,64 +132,59 @@ $$
 
 L'equazione precedente indica che il modello lineare $a + b x_i$ *non è in grado di prevedere* il valore di ciascuna osservazione $y_i$. Questo, in generale, non è mai possibile (ovvero, è possibile solo in un caso specifico che, nella realtà empirica, non si verifica mai). 
 
-
-L'equazione precedente ci dice che possiamo prevedere solo una frazione di ciascuna osservazione $y_i$, ovvero quella frazione che abbiamo denotato con $\hat{y}_i$. La componente che non possiamo prevedere con l'equazione $a + b x_i$ si denota con $e_i$.
-
-In questo senso diciamo che *scomponiamo* il valore di ciascuna osservazione $y_i$ in due componenti: la componente deterministica (prevedibile conoscendo $x$) e la componente aleatoria (non prevedibile conoscendo $x$):
-
-$$
-y_i = \hat{y}_i + e_i. 
-$$
- 
- Il primo obiettivo del modello di regressione è quello di trovare i coefficienti dell'equazione
- 
- $$
- a + b x_i
- $$
-
-che consente di predire $\hat{y}_i$. Questi due coefficienti sono detti *coefficienti di regressione*.
-
-Per trovare i coefficienti di regressione dobbiamo introdurre dei vincoli per limitare lo spazio delle possibili soluzioni.
-
-Il primo vincolo lo abbiamo espresso prima: vogliamo che la retta $\hat{y}_i = a + b x_i$ passi per il punto $(\bar{x}, \bar{y})$. Il punto $(\bar{x}, \bar{y})$ corrisponde al *baricentro* del diagramma a dispersione.
-
-Ci sono infinite rette che passano per i punto $(\bar{x}, \bar{y})$. Tutte queste rette soddisfano la seguente proprietà. Nel caso di qualsiasi retta passante per il punto $(\bar{x}, \bar{y})$ è vero che
-
-$$
-\sum_{i=1}^n e_i = 0.
-$$
-
-Dal punto di vista geometrico, la componente erratica del modello, $e_i$, corrisponde alla distanza verticale tra ciascun punto e la retta di regressione $a + bx$. Tale componente va sotto il nome di *residuo*:
+L'equazione precedente ci dice che possiamo prevedere solo una frazione di ciascuna osservazione $y_i$, ovvero quella frazione che abbiamo denotato con $\hat{y}_i$. La componente che non possiamo prevedere con l'equazione $a + b x_i$ viene detta *residuo* e si denota con $e_i$:
 
 $$
 e_i = y_i - \hat{y}_i = y_i - (a + bx_i).
 $$
 
-L'affermazione precedente dice che la somma di tutte le distanze verticali (che hanno un segno positivo quando il punto è sopra la retta, e un segno negativo quando il punto è sotto la retta) tra le osservazioni e la retta di regressione (passante per il punto $(\bar{x}, \bar{y})$) è uguale a zero.
+Dal punto di vista geometrico, la componente erratica del modello, $e_i$, corrisponde alla distanza verticale tra ciascun punto e la retta di regressione $a + bx$. Diciamo che *scomponiamo* il valore di ciascuna osservazione $y_i$ in due componenti nel senso che 
 
-Questo significa che non possiamo selezionare una tra le infinite rette che passano per il punto $(\bar{x}, \bar{y})$ usando il criterio che ci porta a scegliere la retta che rende la più piccola possibile (ovvero, minimizza) la somma dei residui. Infatti, tutte le rette passanti per il punto $(\bar{x}, \bar{y})$ rendono uguale a zero la somma dei residui.
+$$
+y_i = \hat{y}_i + e_i = (a + bx_i) + e_i. 
+$$
+ 
+Il primo obiettivo del modello di regressione è quello di trovare i coefficienti dell'equazione
+ 
+ $$
+ a + b x_i
+ $$
 
-Dunque, dobbiamo trovare qualche altri criterio per scegliere tra le infinite rette che passano per il punto $(\bar{x}, \bar{y})$. Il criterio che viene normalmente scelto è quello di minimizzare la somma dei quadrati dei residui $(y_i - \hat{y}_i)^2$. In altri termini, vogliamo trovare i coefficienti $a$ e $b$ tali per cui la quantità
+che consente di trovare $\hat{y}_i$ conoscendo $x_i$. Questi due coefficienti sono detti *coefficienti di regressione*.
+
+Per trovare i coefficienti di regressione dobbiamo introdurre dei vincoli per limitare lo spazio delle possibili soluzioni. Il primo di tali vincoli è stato introdotto in precedenza: vogliamo che la retta $\hat{y}_i = a + b x_i$ passi per il punto $(\bar{x}, \bar{y})$. Il punto $(\bar{x}, \bar{y})$ corrisponde al *baricentro* del diagramma a dispersione.
+
+Ci sono però infinite rette che passano per i punto $(\bar{x}, \bar{y})$. Tutte queste rette soddisfano la seguente proprietà:
+
+$$
+\sum_{i=1}^n e_i = 0,
+$$
+
+ovvero, fanno in modo che la somma dei residui (positivi, per i punti che si trovano al di sopra della retta di regressione, negativi, per punti che si trovano al di sotto della retta di regressione) sia uguale a zero.
+
+Questo significa che non possiamo selezionare una tra le infinite rette che passano per il punto $(\bar{x}, \bar{y})$ usando il criterio che ci porta a scegliere la retta che rende la più piccola possibile (ovvero, minimizza) la somma dei residui. Infatti, tutte le rette passanti per il punto $(\bar{x}, \bar{y})$ soddisfano questo requisito (rendono uguale a zero la somma dei residui). Dunque, dobbiamo trovare qualche altri criterio per scegliere una tra le infinite rette che passano per il punto $(\bar{x}, \bar{y})$. 
+
+Il criterio che viene normalmente scelto è quello di *minimizzare la somma dei quadrati dei residui* $(y_i - \hat{y}_i)^2$. In altri termini, vogliamo trovare i coefficienti $a$ e $b$ tali per cui la quantità
 
 $$
 \sum_{i=1}^{n}{(y_i - (a + b x_i))^2}
 $$
 
-assume il suo valore minimo. I coefficienti che hanno questa proprietà si chiamano *coefficienti dei minimi quadrati*.
+assume il suo valore minimo. I coefficienti $a$ e $b$ che soddisfano questa proprietà si chiamano *coefficienti dei minimi quadrati*.
 
-Questo problema ha una soluzione analitica. La soluzione analitica si trova riconoscendo il fatto che l'equazione precedente definisce una superficie e il problema diventa quello di trovare il punto minore di questa superficie. Per trovare la soluzione ci si deve rendere conto che il punto di minimo è il punto della superficie nel quale la tangente alla superficie è piatta (ovvero uguale a zero). Rendere uguale a zero la tangente ad una superficie significa porre le derivate parziali rispetto alla direzione $x$ e alla direzione $y$ uguali a zero. Ponendo tali derivate parziali uguali a zero si definisce un sistema di equazioni lineari con due incognite, $a$ e $b$. La soluzione di tali equazioni, che si chiamano *equazioni normali*, è la seguente:
-
-$$
-a = \bar{y} - b \bar{x}
-$$
+Questo problema ha una soluzione analitica. La soluzione analitica si trova riconoscendo il fatto che l'equazione precedente definisce una superficie e il problema diventa quello di trovare il punto di minimo di questa superficie. Per trovare la soluzione ci si deve rendere conto che il punto cercato è quello per cui il piano tangente alla superficie (nelle due direzioni $a$ e $b$) è piatto (le tangenti nelle due direzioni sono uguali a zero). Rendere uguale a zero la tangente ad una curva  significa porre uguali a zero la derivata della curva. Nel caso presente, abbiamo una superficie, dunque due tangenti ortogonali e quindi abbiamo il problema di rendere uguali a zero le derivate parziali rispetto ad $a$ e $b$. Così facendo si definisce un sistema di equazioni lineari con due incognite, $a$ e $b$. La soluzione di tali equazioni, che si chiamano *equazioni normali*, è la seguente:
 
 $$
-b = \frac{\mbox{Cov}(x, y)}{\mbox{Var}(x)}
+a = \bar{y} - b \bar{x},
 $$
 
-Le due precedenti equazioni corrispondono alla stima dei minimi quadrati dei coefficienti di regressione della retta che minimizza la somma dei quadrati dei residui.
+$$
+b = \frac{\mbox{Cov}(x, y)}{\mbox{Var}(x)}.
+$$
 
-Nel caso presente, tali coefficienti sono uguali a:
+Le due precedenti equazioni corrispondono alla *stima dei minimi quadrati* dei coefficienti di regressione della retta che minimizza la somma dei quadrati dei residui.
+
+Nel caso dell'esempio presente, tali coefficienti sono uguali a:
 
 ```{r}
 b <- cov(kidiq$kid_score, kidiq$mom_iq) / var(kidiq$mom_iq)
@@ -196,14 +196,14 @@ a <- mean(kidiq$kid_score) - b * mean(kidiq$mom_iq)
 a
 ```
 
-In R li possiamo trovare con la seguente funzione:
+In $\mathsf{R}$ li possiamo facilmente trovare con la seguente funzione:
 
 ```{r}
 fm <- lm(kid_score ~ mom_iq, data = kidiq)
 coef(fm)
 ```
 
-In precedenza abbiamo soltanto accennato al problema di come si possono trovano i coefficienti dei minimi quadrati; ritorneremo su questo punto in seguito. Per ora, chiediamoci cosa significano i due coefficienti che abbiamo calcolato.
+In precedenza abbiamo soltanto accennato al problema di come si possono trovano i coefficienti dei minimi quadrati; ritorneremo su questo punto in seguito, con una simulazione. Per ora, chiediamoci cosa significano i due coefficienti che abbiamo appena trovato.
 
 Il coefficiente $a$ si chiama *intercetta*. L'intercetta, all'interno del diagramma a dispersione, specifica il punto in cui la retta di regressione interseca l'asse $y$ del sistema di assi cartesiani. 
 
@@ -235,7 +235,9 @@ kidiq %>%
   )
 ```
 
-Il diagramma precedente presenta ciascun valore $\hat{y}_i = a + b x_i$ in funzione di $x_i$. Si vede che i valori predetti dal modello di regressione sono i punti che stanno sulla retta di regressione. Dunque, il residuo, ovvero la componente di ciascuna osservazione $y_i$ che non viene predetta dal modello di regressione corrisponde alla distanza verticale tra i punti del diagramma a dispersione e la retta di regressione
+Il diagramma precedente presenta ciascun valore $\hat{y}_i = a + b x_i$ in funzione di $x_i$. Si vede che i valori predetti dal modello di regressione sono i punti che stanno sulla retta di regressione. 
+
+In precedenza abbiamo detto che il residuo, ovvero la componente di ciascuna osservazione $y_i$ che non viene predetta dal modello di regressione, corrisponde alla *distanza verticale* tra il valore $y_i$ osservato e il valore $\hat{y}_i$ predetto dal modello di regressione:
 
 $$
 e_i = y_i - (a + b x_i).
@@ -258,6 +260,7 @@ Dunque
 $$
 e_1 = (a + b x_1) - y_1
 $$
+
 ```{r}
 e_1 <- kidiq$kid_score[1] - (a + b * kidiq$mom_iq[1])
 e_1
@@ -275,6 +278,13 @@ La somma della componente deterministica e della componente erratica, ovviamente
 ```{r}
 yhat_1 + e_1
 ```
+
+Se sommiamo tutti i residui calcolati rispetto alla retta di regressione dei minimi quadrati otteniamo zero:
+
+```{r}
+sum(fm$res)
+```
+
 
 ### Trasformazione dei dati
 
@@ -366,20 +376,20 @@ b
 Una simulazione simile, ma computazionalmente più complessa, può essere usata per stimare simultaneamente entrambi i parametri. Ci siamo limitati qui ad una *proof of concept* del caso più semplice.
 
 
-### Il coefficiente di determinazione
+### L'errore standard della regressione
 
-Il secondo obiettivo del modello statistico di regressione lineare è quello di stabilire *quanto sia grande, in termini proporzionali, la componente $y$ predicibile da $x$, per  ciascuna osservazione*. 
+Il secondo obiettivo del modello statistico di regressione lineare è quello di stabilire *quanto sia grande la componente $y$ predicibile da $x$, per  ciascuna osservazione*. 
 
 Un indice assoluto della bontà di adattamento è fornito dalla deviazione standard dei residui, $s_e$, chiamata anche *errore standard della stima*. Uno stimatore non distorto della varianza dei residui nella popolazione è dato da
 
 $$
-s^2_e = \frac{\sum e_i^2}{n-2}
+s^2_e = \frac{1}{n-2}\sum e_i^2
 $$
 
 e quindi l'errore standard della stima sarà
 
 \begin{equation}
-s_e = \sqrt{\frac{\sum e_i^2}{n-2}}.
+s_e = \sqrt{\frac{1}{n-2}\sum e_i^2}.
 \end{equation}
 
 Si noti che questa è la stessa formula della varianza (dato che la media dei residui è zero), tranne per il fatto che al denominatore abbiamo $n-2$. Dato che, per calcolare $\hat{y}$ abbiamo usato due coefficienti ($a$ e $b$), si dice che "abbiamo perso due gradi di libertà".
@@ -458,7 +468,7 @@ di dispersione}}} + \underbrace{\sum_{i=1}^n  (\hat{y}_i -
 \bar{y})^2}_{\tiny{\text{Devianza di regressione}}} \notag
 \end{align}
 
-La devianza di regressione, $\mbox{dev_R} \triangleq \mbox{dev_T} - \mbox{dev_E}$, indica dunque la riduzione degli errori al quadrato che è imputabile alla regressione lineare. Il rapporto $\mbox{dev_R}/\mbox{dev_T}$, detto \emph{indice di determinazione}, esprime tale riduzione degli errori in termini proporzionali e definisce il coefficiente di correlazione al quadrato:
+La devianza di regressione, $\mbox{dev_R} \triangleq \mbox{dev_T} - \mbox{dev_E}$, indica dunque la riduzione degli errori al quadrato che è imputabile alla regressione lineare. Il rapporto $\mbox{dev_R}/\mbox{dev_T}$, detto *indice di determinazione*, esprime tale riduzione degli errori in termini proporzionali e definisce il coefficiente di correlazione al quadrato:
 
 \begin{equation}
 R^2 \triangleq \frac{\mbox{dev_R}}{\mbox{dev_T}} = 1 - \frac{\mbox{dev_E}}{\mbox{dev_T}}.
@@ -499,7 +509,7 @@ Il risultato ottenuto si può interpretare dicendo che circa il 20% della variab
 
 ### Inferenza sul modello di regressione
 
-La discussione precedente era tutta basata sulla trattazione "classica" del modello lineare, ovvero una trattazione basata sulle stime di massima verosimiglianza (se $y \sim \mathcal{N}(\alpha + \beta x, \sigma)$, allora le stime dei minimi quadrati coincidono con le stime di massima verosimiglianza). In altre parole, nella discussione precedente non abbiamo considerato in alcun modo le distribuzioni a priori dei parametri $\alpha$ e $\beta$. In altre parole, i risultati precedenti si confermano, in un contesto bayesiano, se e solo se imponiamo sui parametri delle distribuzioni a priori non informative (cioè, uniformi). In tali circostanze, le stime di massima verosimiglianza sono identiche al massimo a posteriori bayesiano.
+La discussione precedente era tutta basata sulla trattazione "classica" del modello lineare, ovvero una trattazione basata sulle stime di massima verosimiglianza (se $y \sim \mathcal{N}(\alpha + \beta x, \sigma)$, allora le stime dei minimi quadrati coincidono con le stime di massima verosimiglianza). In altre parole, nella discussione precedente non abbiamo considerato in alcun modo le distribuzioni a priori dei parametri $\alpha$ e $\beta$. I risultati precedenti si confermano, in un contesto bayesiano, se e solo se imponiamo sui parametri delle distribuzioni a priori non informative (cioè, uniformi). In tali circostanze, le stime di massima verosimiglianza risultano identiche al massimo a posteriori bayesiano.
 
 Detto questo, il tema dell'inferenza viene trattato dall'approccio frequentista costruendo la "distribuzione campionaria" dei parametri (ovvero la distribuzione dei valori che i parametri otterrebbero in infiniti campioni casuali ($x, y$) di ampiezza $n$ estratti dalla medesima popolazione) e poi calcolando gli errori standard dei parametri e gli intervalli di fiducia dei parametri. Una domanda frequente è, per esempio, se la pendenza della retta di regressione sia maggiore di zero.  Per rispondere a tale domanda l'approccio frequentista calcola l'intervallo di fiducia al 95% per il parametro $\beta$. Se tale intervallo non include lo zero, e se il limite inferiore di tale intervallo è maggiore di zero, allora si conclude, con un grado di confidenza del 95%, che il vero parametro $\beta$ nella popolazione è maggiore di zero. Ovvero, si conclude che vi sono evidenze di un'associazione lineare positiva tra $x$ e $y$.
 
@@ -510,6 +520,6 @@ Solitamente si usa una distribuzione a priori debolmente informativa centrata su
 
 ## Commenti e considerazioni finali {-}
 
-Il modello lineare semplice viene usato per descrivere la relazione tra due variabili e per determinare il segno e l'intensità di tale relazione. Inoltre, il modello lineare ci consente di prevedere il valore della variabile dipendente in base al valore assunto dalla variabile indipendente. 
+Il modello lineare bivariato viene usato per descrivere la relazione tra due variabili e per determinare il segno e l'intensità di tale relazione. Inoltre, il modello lineare ci consente di prevedere il valore della variabile dipendente in base al valore assunto dalla variabile indipendente. 
 
 

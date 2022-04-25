@@ -5,9 +5,16 @@ source("_common.R")
 source("_stan_options.R")
 ```
 
-Mostreremo qui come sia possibile usare il linguaggio probabilistico Stan per la stima dei parametri del modello di regressione e per l'inferenza. 
+Passiamo ora alla versione bayesiana del modello di regressione. Mostreremo qui che, se vengono usate delle distribuzioni a priori non informative, si ottengono delle distribuzioni a posteriori dei parametri il cui massimo (a posteriori) è simile alle stime dei minimi quadrati frequentiste. In questo capitolo, inoltre, mostreremo come sia possibile usare il linguaggio probabilistico Stan per la stima dei parametri del modello di regressione e per l'inferenza. 
 
 ## Una distribuzione a priori debolmente informativa
+
+La specificazione del modello lineare bayesiano inizia nello stesso modo dell'approccio frequentista, ovvero con la specificazione della seguente equazione:
+
+$$
+y_i = \alpha + \beta x_i + \varepsilon_i, \quad i = 1, \dots, n.
+$$
+Si assume che gli errori, $\varepsilon_i$, siano indipendenti e identicamente distribuiti come variabili casuali Normali con media zero e varianza costante $\sigma^2$. Queste ipotesi sono esattamente uguali a quelle che vengono usato nell'inferenza frequentista. Il nostro obiettivo è aggiornare le distribuzioni a priori dei parametri sconosciuti $\alpha$ e $\beta$ alla luce dei dati $x_1, y_1, \dots, x_n, y_n$. 
 
 Per implementare l'approccio bayesiano è necessario assegnare una distribuzione a priori ai parametri. Nel contesto del modello di regressione è desiderabile scegliere distribuzioni a priori che abbiano uno scarso impatto sulla distribuzione a posteriori.
 

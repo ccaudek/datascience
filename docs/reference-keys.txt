@@ -428,6 +428,9 @@ un-esempio-concreto
 stime-puntuali-della-distribuzione-a-posteriori
 intervallo-di-credibilità-1
 probabilità-della-distribuzione-a-posteriori
+fattore-di-bayes
+interpretazione-del-fattore-di-bayes
+limiti-del-fattore-di-bayes
 la-funzione-di-perdita-attesa
 ch-prediction
 la-distribuzione-predittiva
@@ -451,7 +454,7 @@ ch-regr-model-lm
 stima-dei-coefficienti-di-regressione
 trasformazione-dei-dati
 il-metodo-dei-minimi-quadrati
-il-coefficiente-di-determinazione
+lerrore-standard-della-regressione
 indice-di-determinazione
 inferenza-sul-modello-di-regressione
 ch-reg-lin-stan

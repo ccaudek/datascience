@@ -94,7 +94,7 @@ model {
 "
 ```
 
-Utilizzando il seguente [link](https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html) si può ottenere una formattazione automatica del codice e anche, i qualche misura, una correzione della sintassi, in caso.
+Utilizzando il seguente [link](https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html) si può ottenere una formattazione automatica del codice e anche, in qualche misura, una correzione della sintassi.
 
 Salviamo `modelString` in un file a cui assegniamo il nome `oneprop.stan` (si noti l'estensione `.stan`). Sul mio computer ho creato una cartella chiamata `code` dove salvo i file `.stan`. Se non vogliamo definire una sotto-cartella chiamata `code`, è sufficiente scrivere `writeLines(modelString, con = "oneprop.stan")`.
 

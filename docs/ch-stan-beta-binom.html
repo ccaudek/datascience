@@ -532,13 +532,13 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
 <li class="chapter" data-level="25.1.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
 <li class="chapter" data-level="25.1.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
-<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#lerrore-standard-della-regressione"><i class="fa fa-check"></i><b>25.1.3</b> L’errore standard della regressione</a></li>
 </ul></li>
 <li class="chapter" data-level="25.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
 <ul>
@@ -891,7 +891,7 @@ y &amp;\sim \mbox{Bin}(n, \theta) \notag\\
 <span id="cb190-11"><a href="ch-stan-beta-binom.html#cb190-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ bernoulli(theta);</span></span>
 <span id="cb190-12"><a href="ch-stan-beta-binom.html#cb190-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb190-13"><a href="ch-stan-beta-binom.html#cb190-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span></code></pre></div>
-<p>Utilizzando il seguente <a href="https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html">link</a> si può ottenere una formattazione automatica del codice e anche, i qualche misura, una correzione della sintassi, in caso.</p>
+<p>Utilizzando il seguente <a href="https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html">link</a> si può ottenere una formattazione automatica del codice e anche, in qualche misura, una correzione della sintassi.</p>
 <p>Salviamo <code>modelString</code> in un file a cui assegniamo il nome <code>oneprop.stan</code> (si noti l’estensione <code>.stan</code>). Sul mio computer ho creato una cartella chiamata <code>code</code> dove salvo i file <code>.stan</code>. Se non vogliamo definire una sotto-cartella chiamata <code>code</code>, è sufficiente scrivere <code>writeLines(modelString, con = "oneprop.stan")</code>.</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ch-stan-beta-binom.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/oneprop.stan&quot;</span>)</span></code></pre></div>
 </div>
@@ -1053,7 +1053,7 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 <span id="cb209-3"><a href="ch-stan-beta-binom.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta1&quot;</span>, <span class="st">&quot;theta2&quot;</span>, <span class="st">&quot;oddsratio&quot;</span>),</span>
 <span id="cb209-4"><a href="ch-stan-beta-binom.html#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits_summary =</span> 3L</span>
 <span id="cb209-5"><a href="ch-stan-beta-binom.html#cb209-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb209-6"><a href="ch-stan-beta-binom.html#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204251024-1-5c80eb.</span></span>
+<span id="cb209-6"><a href="ch-stan-beta-binom.html#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204251508-1-5c9ac0.</span></span>
 <span id="cb209-7"><a href="ch-stan-beta-binom.html#cb209-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 chains, each with iter=6000; warmup=2000; thin=1; </span></span>
 <span id="cb209-8"><a href="ch-stan-beta-binom.html#cb209-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; post-warmup draws per chain=4000, total post-warmup draws=16000.</span></span>
 <span id="cb209-9"><a href="ch-stan-beta-binom.html#cb209-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -1062,7 +1062,7 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 <span id="cb209-12"><a href="ch-stan-beta-binom.html#cb209-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta2    0.798   0.001 0.087 0.601 0.744 0.808 0.862  0.937 14193    1</span></span>
 <span id="cb209-13"><a href="ch-stan-beta-binom.html#cb209-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; oddsratio 4.721   0.043 4.411 0.906 2.166 3.514 5.698 15.558 10400    1</span></span>
 <span id="cb209-14"><a href="ch-stan-beta-binom.html#cb209-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb209-15"><a href="ch-stan-beta-binom.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Lun Apr 25 10:24:25 2022.</span></span>
+<span id="cb209-15"><a href="ch-stan-beta-binom.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Lun Apr 25 15:08:45 2022.</span></span>
 <span id="cb209-16"><a href="ch-stan-beta-binom.html#cb209-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></span>
 <span id="cb209-17"><a href="ch-stan-beta-binom.html#cb209-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></span>
 <span id="cb209-18"><a href="ch-stan-beta-binom.html#cb209-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; convergence, Rhat=1).</span></span></code></pre></div>

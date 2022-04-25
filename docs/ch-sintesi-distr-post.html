@@ -532,13 +532,13 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
 <li class="chapter" data-level="25.1.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
 <li class="chapter" data-level="25.1.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
-<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#lerrore-standard-della-regressione"><i class="fa fa-check"></i><b>25.1.3</b> L’errore standard della regressione</a></li>
 </ul></li>
 <li class="chapter" data-level="25.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
 <ul>
@@ -926,11 +926,11 @@ sintesi è necessario riportare? Questa sembra una domanda innocente, ma
 in realtà è una domanda a cui è difficile rispondere. La stima bayesiana dei parametri è fornita dall’intera distribuzione a posteriori, che non è un singolo numero, ma una funzione che mappa ciascun valore del parametro ad un valore di plausibilità. Quindi non è necessario scegliere una stima puntuale. In linea di principio, una stima puntuale non è quasi mai necessaria ed è spesso dannosa in quanto comporta una perdita di informazioni.</p>
 <p>Tuttavia talvolta una tale sintesi è richiesta. Diverse risposte sono allora possibili. La media della distribuzione a posteriori per <span class="math inline">\(\theta\)</span> è</p>
 <p><span class="math display">\[
-\E(\pi \mid y = 17) = \frac{\alpha}{\alpha + \beta} = \frac{25}{25+15} = 0.625.
+\mathbb{E}(\pi \mid y = 17) = \frac{\alpha}{\alpha + \beta} = \frac{25}{25+15} = 0.625.
 \]</span></p>
 <p>Una stima del massimo della probabilità a posteriori, o brevemente massimo a posteriori, MAP (da <em>maximum a posteriori probability</em>), è la moda della distribuzione a posteriori. Nel caso presente, una stima del MAP può essere ottenuta nel modo seguente:</p>
 <p><span class="math display">\[
-\Mo(\pi \mid y = 17) = \frac{\alpha-1}{\alpha + \beta-2} = \frac{25-1}{25+15-2} = 0.6316.
+\mbox{Mo}(\pi \mid y = 17) = \frac{\alpha-1}{\alpha + \beta-2} = \frac{25-1}{25+15-2} = 0.6316.
 \]</span></p>
 <p>Gli stessi risultati si ottiengono usando la chiamata a <code>bayesrules::summarize_beta_binomial()</code>:</p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="ch-sintesi-distr-post.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">8</span>, <span class="at">beta =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
@@ -978,7 +978,7 @@ L’intervallo HPD risulta più semplice da determinare quando la distribuzione 
 <p><span class="math display">\[
 P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta \;,
 \]</span></p>
-<p>dove <span class="math inline">\(f(\cdot)\)</span> è la distribuzione <span class="math inline">\(\mbox{\Beta}(25, 15)\)</span>:</p>
+<p>dove <span class="math inline">\(f(\cdot)\)</span> è la distribuzione <span class="math inline">\(\mbox{Beta}(25, 15)\)</span>:</p>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="ch-sintesi-distr-post.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">25</span>, <span class="at">shape2 =</span> <span class="dv">15</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb233-2"><a href="ch-sintesi-distr-post.html#cb233-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
 <p>il che è equivalente a:</p>
@@ -991,6 +991,8 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 <span id="cb234-7"><a href="ch-sintesi-distr-post.html#cb234-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="dv">1</span></span>
 <span id="cb234-8"><a href="ch-sintesi-distr-post.html#cb234-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>value</span>
 <span id="cb234-9"><a href="ch-sintesi-distr-post.html#cb234-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9459355</span></span></code></pre></div>
+<div id="fattore-di-bayes" class="section level4 hasAnchor" number="21.3.3.1">
+<h4><span class="header-section-number">21.3.3.1</span> Fattore di Bayes<a href="ch-sintesi-distr-post.html#fattore-di-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>È anche possibile formulare un test di ipotesi contrastando due ipotesi contrapposte. Per esempio, <span class="math inline">\(H_1: \theta \geq 0.5\)</span> e <span class="math inline">\(H_2: \theta &lt; 0.5\)</span>. Ciò consente di calcolare l’<em>odds a posteriori</em> di <span class="math inline">\(\theta &gt; 0.5\)</span>:</p>
 <p><span class="math display">\[\begin{equation}
 \text{poterior odds} = \frac{H_1 \mid y = 17}{H_2 \mid y = 17}
@@ -1016,12 +1018,12 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 <span id="cb237-2"><a href="ch-sintesi-distr-post.html#cb237-2" aria-hidden="true" tabindex="-1"></a>BF</span>
 <span id="cb237-3"><a href="ch-sintesi-distr-post.html#cb237-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3485343</span></span></code></pre></div>
 <p>Quindi, dopo avere osservato i dati, gli odds a posteriori della nostra ipotesi a proposito di <span class="math inline">\(\theta\)</span> sono pari a solo il 34% degli odds a priori.</p>
-<p>Per fare un altro esempio, consideriamo invece il caso in cui le credenze a priori rivelano una credenza diametralmente opposta rispetto a <span class="math inline">\(\theta\)</span> che nel caso considerato in precedenza, ovvero <span class="math inline">\(\mbox{Beta}(2, 8)\)</span>. In questo secondo caso, la distribuzione a posteriori diventa</p>
+<p>Per fare un altro esempio, consideriamo il caso in cui le credenze a priori rivelano una credenza diametralmente opposta rispetto a <span class="math inline">\(\theta\)</span> rispetto al caso considerato in precedenza (in precedenza avevamo <span class="math inline">\(\mbox{Beta}(8, 2)\)</span> mentre ora imponiamo su <span class="math inline">\(\theta\)</span> una distribuzione a priori <span class="math inline">\(\mbox{Beta}(2, 8)\)</span>). Con una tale scelta della distribuzione a priori, la distribuzione a posteriori diventa una <span class="math inline">\(\mbox{Beta}(19, 21)\)</span>.</p>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="ch-sintesi-distr-post.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">8</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">n =</span> <span class="dv">30</span>)</span>
 <span id="cb238-2"><a href="ch-sintesi-distr-post.html#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       model alpha beta  mean      mode         var         sd</span></span>
 <span id="cb238-3"><a href="ch-sintesi-distr-post.html#cb238-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     prior     2    8 0.200 0.1250000 0.014545455 0.12060454</span></span>
 <span id="cb238-4"><a href="ch-sintesi-distr-post.html#cb238-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 posterior    19   21 0.475 0.4736842 0.006082317 0.07798921</span></span></code></pre></div>
-<p>e il BF è</p>
+<p>Con questa diversa distribuzione a priori, il BF è uguale a</p>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="ch-sintesi-distr-post.html#cb239-1" aria-hidden="true" tabindex="-1"></a>posterior_odds <span class="ot">&lt;-</span> </span>
 <span id="cb239-2"><a href="ch-sintesi-distr-post.html#cb239-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) <span class="sc">/</span></span>
 <span id="cb239-3"><a href="ch-sintesi-distr-post.html#cb239-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="at">shape1 =</span> <span class="dv">19</span>, <span class="at">shape2 =</span> <span class="dv">21</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
@@ -1041,13 +1043,16 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 = \frac{P(H_a \mid Y) / P(H_0 \mid Y)}{P(H_a) / P(H_0)}
 \; .
 \]</span></p>
-<p>Essendo un rapporto, il BF deve esere valutato rispetto al valore di 1. Ci sono tre possibilità:</p>
+</div>
+<div id="interpretazione-del-fattore-di-bayes" class="section level4 hasAnchor" number="21.3.3.2">
+<h4><span class="header-section-number">21.3.3.2</span> Interpretazione del fattore di Bayes<a href="ch-sintesi-distr-post.html#interpretazione-del-fattore-di-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Essendo un rapporto, il BF deve essere valutato rispetto al valore di 1. Ci sono tre possibilità:</p>
 <ul>
 <li>BF = 1: La credibilità di <span class="math inline">\(H_a\)</span> non è cambiata dopo avere osservato i dati.</li>
 <li>BF &gt; 1: La credibilità di <span class="math inline">\(H_a\)</span> è aumentata dopo avere osservato i dati. Quindi maggiore è BF, più convincente risulta l’evidenza per <span class="math inline">\(H_a\)</span>.</li>
 <li>BF &lt; 1: La credibilità di <span class="math inline">\(H_a\)</span> è diminuita dopo avere osservato i dati.</li>
 </ul>
-<p>Non ci sono delle soglie universalmente riconosciute per interpretare il BF. Per esempio, <span class="citation">Lee and Wagenmakers (<a href="#ref-lee2014bayesian" role="doc-biblioref">2014</a>)</span> propongono il seguente schema:</p>
+<p>Non ci sono delle soglie universalmente riconosciute per interpretare il BF, ma uno schema popolare, proposto da <span class="citation">Lee and Wagenmakers (<a href="#ref-lee2014bayesian" role="doc-biblioref">2014</a>)</span>, è il seguente:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1102,12 +1107,17 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 </tr>
 </tbody>
 </table>
-<p>Tuttavia, è importante notare che l’opinione maggiormente diffusa nella comunità scientifica sia quella che incoraggia a non trarre conclusioni rigide dai dati utilizzando dei criteri fissati una volta per tutte. Pertanto, non esiste una soglia univoca per il BF che consente di classificare le ipotesi dei ricercatori nelle due categorie “vero” o “falso”. Invece, è più utile adottare una pratica più flessibile capace di tenere in considerazione il contesto e le potenziali implicazioni di ogni singolo test di ipotesi. Inoltre, è stato molte volte ripetuto che la distribuzione a posteriori è molto più informativa di una decisione binaria: la rappresentazione di tutta la distribuzione a posteriori fornisce una misura olistica del nostro livello di incertezza riguardo all’affermazione (il parametro, ovvero l’ipotesi) che viene valutata.</p>
+</div>
+<div id="limiti-del-fattore-di-bayes" class="section level4 hasAnchor" number="21.3.3.3">
+<h4><span class="header-section-number">21.3.3.3</span> Limiti del fattore di Bayes<a href="ch-sintesi-distr-post.html#limiti-del-fattore-di-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>È importante notare che l’opinione maggiormente diffusa nella comunità scientifica incoraggia a <em>non</em> trarre conclusioni rigide dai dati utilizzando dei criteri fissati una volta per tutte. È stato ripetuto molte volte che <em>l’esame di tutta la distribuzione a posteriori</em> fornisce una misura olistica del nostro livello di incertezza riguardo all’affermazione (il parametro, ovvero l’ipotesi) che viene valutata e, dunque, è molto più informativo di una decisione binaria. Non è dunque possibile stabilire una soglia univoca per il BF che consenta di classificare le ipotesi dei ricercatori in una delle due categorie “vero” o “falso”. Invece, è più utile adottare una pratica interpretativa più flessibile in grado di tenere in considerazione il contesto e le potenziali implicazioni di ogni singolo test di ipotesi.</p>
+<p>La discussione precedente mette inoltre in evidenza come il BF dipenda fortemente dalle caratteristiche della distribuzione a priori. Dato che la la distribuzione a priori è una scelta arbitraria del ricercatore, da ciò consegue che il BF contiene una componente intrinseca di arbitrarietà. Questo aspetto, tuttavia, è incompatibile con l’idea di un confronto con delle soglie “assolute”.</p>
+</div>
 </div>
 </div>
 <div id="la-funzione-di-perdita-attesa" class="section level2 hasAnchor" number="21.4">
 <h2><span class="header-section-number">21.4</span> La funzione di perdita attesa<a href="ch-sintesi-distr-post.html#la-funzione-di-perdita-attesa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Un modo razionale per giungere ad una decisione statistica utilizzando l’intera distribuzione a posteriori è quello di usare la <em>funzione di perdita</em> (<em>loss function</em>). La funzione di perdita è concetto nella teoria delle decisioni statistiche che consente di quantificare il costo derivante dalla decisione di scegliere quale stima del parametro il valore <span class="math inline">\(\theta_0\)</span> quando esso in realtà ha il valore <span class="math inline">\(\theta\)</span>.</p>
+<p>Il modo più razionale per giungere ad una decisione statistica utilizzando <em>l’intera distribuzione a posteriori</em> è quello di usare la <em>funzione di perdita</em> (<em>loss function</em>). La funzione di perdita è un concetto nella teoria delle decisioni statistiche e consente di quantificare <em>il costo</em> che deriva dalla decisione di scegliere il valore <span class="math inline">\(\theta_0\)</span> quale stima del parametro, quando in realtà il parametro ha il valore <span class="math inline">\(\theta\)</span>.</p>
 <p>Per chiarire che cosa si intende per funzione di perdita, esaminiamo qui un semplice esempio nel quale vengono considerati due soli valori di probabilità per l’evento target, anziché l’intera distribuzione a posteriori <span class="citation">(il codice è ricavato da <a href="#ref-schmettow2021new" role="doc-biblioref">Schmettow 2021</a>)</span>.</p>
 <p>Si consideri la scelta di prendere o meno l’ombrello nell’uscire di casa. Le previsioni del tempo sono le seguenti:</p>
 <div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="ch-sintesi-distr-post.html#cb240-1" aria-hidden="true" tabindex="-1"></a>Risultato <span class="ot">&lt;-</span></span>
@@ -1144,7 +1154,7 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 <span id="cb242-11"><a href="ch-sintesi-distr-post.html#cb242-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello     piove  0.6     4</span></span>
 <span id="cb242-12"><a href="ch-sintesi-distr-post.html#cb242-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     prendo l&#39;ombrello non piove  0.4     2</span></span>
 <span id="cb242-13"><a href="ch-sintesi-distr-post.html#cb242-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 non prendo l&#39;ombrello non piove  0.4     0</span></span></code></pre></div>
-<p>Calcoliamo ora il costo atteso delle due azioni tenuto conto delle probabilità che si verifichi l’uno o l’altro stato del mondo (ricordiamo che piove/non piove hanno una probabilità rispettivamente del 40% e del 60%), ovvero ponderiamo il costo di ogni azione con la probabilità che si verifichi l’evento corrispondente:</p>
+<p>Calcoliamo ora il costo atteso delle due azioni tenuto conto delle probabilità che si verifichi l’uno o l’altro stato del mondo (ricordiamo che piove/non piove hanno una probabilità rispettivamente del 40% e del 60%). In altre parole ponderiamo il costo di ogni azione con la probabilità che si verifichi l’evento corrispondente:</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="ch-sintesi-distr-post.html#cb243-1" aria-hidden="true" tabindex="-1"></a>Util <span class="ot">&lt;-</span></span>
 <span id="cb243-2"><a href="ch-sintesi-distr-post.html#cb243-2" aria-hidden="true" tabindex="-1"></a>  Costi <span class="sc">%&gt;%</span></span>
 <span id="cb243-3"><a href="ch-sintesi-distr-post.html#cb243-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">costo_condizionato =</span> prob <span class="sc">*</span> costo) <span class="sc">%&gt;%</span></span>
@@ -1156,8 +1166,8 @@ P(\theta &gt; 0.5 \; \mid \; y = 17) = \int_{0.5}^{1}f(\theta \mid y=17)d\theta 
 <span id="cb243-9"><a href="ch-sintesi-distr-post.html#cb243-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;                        &lt;dbl&gt;</span></span>
 <span id="cb243-10"><a href="ch-sintesi-distr-post.html#cb243-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 prendo l&#39;ombrello              2  </span></span>
 <span id="cb243-11"><a href="ch-sintesi-distr-post.html#cb243-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 non prendo l&#39;ombrello          2.4</span></span></code></pre></div>
-<p>La regola di minimizzazione dei costi induce a scegliere l’alternativa che comporta il valore più basso: nel nostro esempio “prendere l’ombrello”.</p>
-<p>La stessa logica dell’esempio può essere usata anche nel momento in cui, anziché avere solo due valori per la probabilità dello stato del mondo in questione (per esempio, pioverà / non pioverà), utilizziamo l’intera distribuzione a posteriori (per esempio, quella relativa alla previsione di pioggia). Concludiamo questi brevi accenni relativi alla funzione di perdita con una considerazione di <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> il quale nota che, anche se gli statistici e i teorici dei giochi sono da tempo interessati alle funzioni di perdita e alle relazioni che intercorrono tra esse e l’inferenza bayesiana, i ricercatori non le usano quasi mai in modo esplicito.</p>
+<p>La regola della <em>minimizzazione dei costi</em> ci porta a scegliere l’alternativa che comporta il costo minore: nel nostro esempio, questo corrisponde all’azione “prendere l’ombrello”.</p>
+<p>La stessa logica dell’esempio qui discusso può essere usata anche quando, anziché avere solo due valori per la probabilità dello stato del mondo (per esempio, pioverà / non pioverà), utilizziamo l’intera distribuzione a posteriori (per esempio, quella relativa alla previsione di pioggia). Concludiamo questi brevi accenni relativi alla funzione di perdita con una considerazione di <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> il quale nota che, anche se gli statistici e i teorici dei giochi sono da tempo interessati alle funzioni di perdita e alle relazioni che intercorrono tra esse e l’inferenza bayesiana, i ricercatori non le usano quasi mai in modo esplicito.</p>
 </div>
 <div id="commenti-e-considerazioni-finali-16" class="section level2 unnumbered hasAnchor">
 <h2>Commenti e considerazioni finali<a href="ch-sintesi-distr-post.html#commenti-e-considerazioni-finali-16" class="anchor-section" aria-label="Anchor link to header"></a></h2>

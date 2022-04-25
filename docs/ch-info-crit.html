@@ -532,13 +532,13 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
 <li class="chapter" data-level="25.1.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
 <li class="chapter" data-level="25.1.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
-<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#lerrore-standard-della-regressione"><i class="fa fa-check"></i><b>25.1.3</b> L’errore standard della regressione</a></li>
 </ul></li>
 <li class="chapter" data-level="25.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
 <ul>
@@ -909,315 +909,315 @@ f(Y \mid \mu, \sigma) = \prod_{i=1}^n f(y \mid \mu, \sigma)
 <h2><span class="header-section-number">34.3</span> Confronto tra AIC e LOO-CV<a href="ch-info-crit.html#confronto-tra-aic-e-loo-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Per fare un esempio, faremo qui un confronto tra <span class="math inline">\(\widehat{\mbox{elpd}}_{AIC}\)</span> e <span class="math inline">\(\widehat{\mbox{elpd}}_{LOO-CV}\)</span>. Esaminiamo nuovamente l’associazione tra il QI dei figli e il QI delle madri nel campione di dati discusso da <span class="citation">Gelman, Hill, and Vehtari (<a href="#ref-gelman2020regression" role="doc-biblioref">2020</a>)</span>. Una tale relazione può essere descritta da un modello di regressione nel quale la <span class="math inline">\(y\)</span> corrisponde al QI dei figli e la <span class="math inline">\(x\)</span> al QI delle madri.</p>
 <p>Leggiamo i dati in :</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="ch-info-crit.html#cb469-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
-<span id="cb469-2"><a href="ch-info-crit.html#cb469-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
-<span id="cb469-3"><a href="ch-info-crit.html#cb469-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>kid_score)[, <span class="dv">1</span>]</span>
-<span id="cb469-4"><a href="ch-info-crit.html#cb469-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x1 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>]</span>
-<span id="cb469-5"><a href="ch-info-crit.html#cb469-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
-<span id="cb469-6"><a href="ch-info-crit.html#cb469-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age           y         x1</span></span>
-<span id="cb469-7"><a href="ch-info-crit.html#cb469-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27 -1.06793237  1.4078352</span></span>
-<span id="cb469-8"><a href="ch-info-crit.html#cb469-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25  0.54886757 -0.7092079</span></span>
-<span id="cb469-9"><a href="ch-info-crit.html#cb469-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27 -0.08805362  1.0295443</span></span>
-<span id="cb469-10"><a href="ch-info-crit.html#cb469-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25 -0.18604150 -0.0366907</span></span>
-<span id="cb469-11"><a href="ch-info-crit.html#cb469-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27  1.38176451 -0.4836193</span></span>
-<span id="cb469-12"><a href="ch-info-crit.html#cb469-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18  0.54886757  0.5267892</span></span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch-info-crit.html#cb470-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb470-2"><a href="ch-info-crit.html#cb470-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
+<span id="cb470-3"><a href="ch-info-crit.html#cb470-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>kid_score)[, <span class="dv">1</span>]</span>
+<span id="cb470-4"><a href="ch-info-crit.html#cb470-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x1 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>]</span>
+<span id="cb470-5"><a href="ch-info-crit.html#cb470-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb470-6"><a href="ch-info-crit.html#cb470-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age           y         x1</span></span>
+<span id="cb470-7"><a href="ch-info-crit.html#cb470-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27 -1.06793237  1.4078352</span></span>
+<span id="cb470-8"><a href="ch-info-crit.html#cb470-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25  0.54886757 -0.7092079</span></span>
+<span id="cb470-9"><a href="ch-info-crit.html#cb470-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27 -0.08805362  1.0295443</span></span>
+<span id="cb470-10"><a href="ch-info-crit.html#cb470-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25 -0.18604150 -0.0366907</span></span>
+<span id="cb470-11"><a href="ch-info-crit.html#cb470-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27  1.38176451 -0.4836193</span></span>
+<span id="cb470-12"><a href="ch-info-crit.html#cb470-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18  0.54886757  0.5267892</span></span></code></pre></div>
 <p>Dato che AIC non è una statistica bayesiana, può essere calcolata mediante strumenti frequentisti:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch-info-crit.html#cb470-1" aria-hidden="true" tabindex="-1"></a>m1_freq <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1, <span class="at">data =</span> df)</span>
-<span id="cb470-2"><a href="ch-info-crit.html#cb470-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1_freq) <span class="sc">/</span> <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb470-3"><a href="ch-info-crit.html#cb470-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -569.6384</span></span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="ch-info-crit.html#cb471-1" aria-hidden="true" tabindex="-1"></a>m1_freq <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1, <span class="at">data =</span> df)</span>
+<span id="cb471-2"><a href="ch-info-crit.html#cb471-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1_freq) <span class="sc">/</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb471-3"><a href="ch-info-crit.html#cb471-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -569.6384</span></span></code></pre></div>
 <p>Per ottenere LOO-CV adattiamo ai dati un modello di regressione bayesiano:</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="ch-info-crit.html#cb471-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb471-2"><a href="ch-info-crit.html#cb471-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb471-3"><a href="ch-info-crit.html#cb471-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb471-4"><a href="ch-info-crit.html#cb471-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
-<span id="cb471-5"><a href="ch-info-crit.html#cb471-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb471-6"><a href="ch-info-crit.html#cb471-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb471-7"><a href="ch-info-crit.html#cb471-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb471-8"><a href="ch-info-crit.html#cb471-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb471-9"><a href="ch-info-crit.html#cb471-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
-<span id="cb471-10"><a href="ch-info-crit.html#cb471-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb471-11"><a href="ch-info-crit.html#cb471-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb471-12"><a href="ch-info-crit.html#cb471-12" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
-<span id="cb471-13"><a href="ch-info-crit.html#cb471-13" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
-<span id="cb471-14"><a href="ch-info-crit.html#cb471-14" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb471-15"><a href="ch-info-crit.html#cb471-15" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n];</span></span>
-<span id="cb471-16"><a href="ch-info-crit.html#cb471-16" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb471-17"><a href="ch-info-crit.html#cb471-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb471-18"><a href="ch-info-crit.html#cb471-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb471-19"><a href="ch-info-crit.html#cb471-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
-<span id="cb471-20"><a href="ch-info-crit.html#cb471-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
-<span id="cb471-21"><a href="ch-info-crit.html#cb471-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
-<span id="cb471-22"><a href="ch-info-crit.html#cb471-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
-<span id="cb471-23"><a href="ch-info-crit.html#cb471-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb471-24"><a href="ch-info-crit.html#cb471-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb471-25"><a href="ch-info-crit.html#cb471-25" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
-<span id="cb471-26"><a href="ch-info-crit.html#cb471-26" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
-<span id="cb471-27"><a href="ch-info-crit.html#cb471-27" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb471-28"><a href="ch-info-crit.html#cb471-28" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
-<span id="cb471-29"><a href="ch-info-crit.html#cb471-29" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1, sigma);</span></span>
-<span id="cb471-30"><a href="ch-info-crit.html#cb471-30" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb471-31"><a href="ch-info-crit.html#cb471-31" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb471-32"><a href="ch-info-crit.html#cb471-32" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb471-33"><a href="ch-info-crit.html#cb471-33" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simplereg.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch-info-crit.html#cb472-1" aria-hidden="true" tabindex="-1"></a>data1_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb472-2"><a href="ch-info-crit.html#cb472-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb472-3"><a href="ch-info-crit.html#cb472-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
-<span id="cb472-4"><a href="ch-info-crit.html#cb472-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1</span>
-<span id="cb472-5"><a href="ch-info-crit.html#cb472-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch-info-crit.html#cb473-1" aria-hidden="true" tabindex="-1"></a>file1 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simplereg.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="ch-info-crit.html#cb474-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file1)</span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch-info-crit.html#cb472-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb472-2"><a href="ch-info-crit.html#cb472-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb472-3"><a href="ch-info-crit.html#cb472-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb472-4"><a href="ch-info-crit.html#cb472-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb472-5"><a href="ch-info-crit.html#cb472-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb472-6"><a href="ch-info-crit.html#cb472-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb472-7"><a href="ch-info-crit.html#cb472-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb472-8"><a href="ch-info-crit.html#cb472-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb472-9"><a href="ch-info-crit.html#cb472-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb472-10"><a href="ch-info-crit.html#cb472-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb472-11"><a href="ch-info-crit.html#cb472-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb472-12"><a href="ch-info-crit.html#cb472-12" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb472-13"><a href="ch-info-crit.html#cb472-13" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb472-14"><a href="ch-info-crit.html#cb472-14" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb472-15"><a href="ch-info-crit.html#cb472-15" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n];</span></span>
+<span id="cb472-16"><a href="ch-info-crit.html#cb472-16" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb472-17"><a href="ch-info-crit.html#cb472-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb472-18"><a href="ch-info-crit.html#cb472-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb472-19"><a href="ch-info-crit.html#cb472-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb472-20"><a href="ch-info-crit.html#cb472-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb472-21"><a href="ch-info-crit.html#cb472-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb472-22"><a href="ch-info-crit.html#cb472-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb472-23"><a href="ch-info-crit.html#cb472-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb472-24"><a href="ch-info-crit.html#cb472-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb472-25"><a href="ch-info-crit.html#cb472-25" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb472-26"><a href="ch-info-crit.html#cb472-26" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb472-27"><a href="ch-info-crit.html#cb472-27" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb472-28"><a href="ch-info-crit.html#cb472-28" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb472-29"><a href="ch-info-crit.html#cb472-29" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1, sigma);</span></span>
+<span id="cb472-30"><a href="ch-info-crit.html#cb472-30" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb472-31"><a href="ch-info-crit.html#cb472-31" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb472-32"><a href="ch-info-crit.html#cb472-32" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb472-33"><a href="ch-info-crit.html#cb472-33" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simplereg.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch-info-crit.html#cb473-1" aria-hidden="true" tabindex="-1"></a>data1_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb473-2"><a href="ch-info-crit.html#cb473-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb473-3"><a href="ch-info-crit.html#cb473-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb473-4"><a href="ch-info-crit.html#cb473-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1</span>
+<span id="cb473-5"><a href="ch-info-crit.html#cb473-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="ch-info-crit.html#cb474-1" aria-hidden="true" tabindex="-1"></a>file1 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simplereg.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="ch-info-crit.html#cb475-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file1)</span></code></pre></div>
 <p>Eseguiamo il campionamento MCMC:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="ch-info-crit.html#cb475-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb475-2"><a href="ch-info-crit.html#cb475-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1_list,</span>
-<span id="cb475-3"><a href="ch-info-crit.html#cb475-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb475-4"><a href="ch-info-crit.html#cb475-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb475-5"><a href="ch-info-crit.html#cb475-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb475-6"><a href="ch-info-crit.html#cb475-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb475-7"><a href="ch-info-crit.html#cb475-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
-<span id="cb475-8"><a href="ch-info-crit.html#cb475-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb475-9"><a href="ch-info-crit.html#cb475-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="ch-info-crit.html#cb476-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb476-2"><a href="ch-info-crit.html#cb476-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1_list,</span>
+<span id="cb476-3"><a href="ch-info-crit.html#cb476-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb476-4"><a href="ch-info-crit.html#cb476-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb476-5"><a href="ch-info-crit.html#cb476-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb476-6"><a href="ch-info-crit.html#cb476-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb476-7"><a href="ch-info-crit.html#cb476-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb476-8"><a href="ch-info-crit.html#cb476-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb476-9"><a href="ch-info-crit.html#cb476-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Calcoliamo infine la quantità <span class="math inline">\(\widehat{\mbox{elpd}}_{LOO-CV}\)</span>:</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="ch-info-crit.html#cb476-1" aria-hidden="true" tabindex="-1"></a>loo1_result <span class="ot">&lt;-</span> fit1<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
-<span id="cb476-2"><a href="ch-info-crit.html#cb476-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1_result)</span>
-<span id="cb476-3"><a href="ch-info-crit.html#cb476-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb476-4"><a href="ch-info-crit.html#cb476-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
-<span id="cb476-5"><a href="ch-info-crit.html#cb476-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb476-6"><a href="ch-info-crit.html#cb476-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
-<span id="cb476-7"><a href="ch-info-crit.html#cb476-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.6 14.5</span></span>
-<span id="cb476-8"><a href="ch-info-crit.html#cb476-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         1.9  0.2</span></span>
-<span id="cb476-9"><a href="ch-info-crit.html#cb476-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.2 28.9</span></span>
-<span id="cb476-10"><a href="ch-info-crit.html#cb476-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
-<span id="cb476-11"><a href="ch-info-crit.html#cb476-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
-<span id="cb476-12"><a href="ch-info-crit.html#cb476-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb476-13"><a href="ch-info-crit.html#cb476-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
-<span id="cb476-14"><a href="ch-info-crit.html#cb476-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="ch-info-crit.html#cb477-1" aria-hidden="true" tabindex="-1"></a>loo1_result <span class="ot">&lt;-</span> fit1<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb477-2"><a href="ch-info-crit.html#cb477-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1_result)</span>
+<span id="cb477-3"><a href="ch-info-crit.html#cb477-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb477-4"><a href="ch-info-crit.html#cb477-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb477-5"><a href="ch-info-crit.html#cb477-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb477-6"><a href="ch-info-crit.html#cb477-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb477-7"><a href="ch-info-crit.html#cb477-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.6 14.5</span></span>
+<span id="cb477-8"><a href="ch-info-crit.html#cb477-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         1.9  0.2</span></span>
+<span id="cb477-9"><a href="ch-info-crit.html#cb477-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.2 28.9</span></span>
+<span id="cb477-10"><a href="ch-info-crit.html#cb477-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb477-11"><a href="ch-info-crit.html#cb477-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb477-12"><a href="ch-info-crit.html#cb477-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb477-13"><a href="ch-info-crit.html#cb477-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb477-14"><a href="ch-info-crit.html#cb477-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
 <p>Si noti la somiglianza tra <span class="math inline">\(\widehat{\mbox{elpd}}_{LOO-CV}\)</span> e <span class="math inline">\(\widehat{\mbox{elpd}}_{AIC}\)</span>. In conclusione, possiamo dunque dire che <span class="math inline">\(\widehat{\mbox{elpd}}_{LOO-CV}\)</span> è la risposta bayesiana allo stesso problema che trova una soluzione frequentista nella statistica <span class="math inline">\(\widehat{\mbox{elpd}}_{AIC}\)</span>.</p>
 </div>
 <div id="confronto-tra-modelli-mediante-loo-cv" class="section level2 hasAnchor" number="34.4">
 <h2><span class="header-section-number">34.4</span> Confronto tra modelli mediante LOO-CV<a href="ch-info-crit.html#confronto-tra-modelli-mediante-loo-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Come menzionato in precedenza, l’obiettivo centrale della misurazione dell’accuratezza predittiva è il confronto di modelli. Una volta capito come calcolare LOO-CV con un condice scritto in linguaggio Stan, svolgeremo ora un confronto di modelli.<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a></p>
 <p>Considereremo qui un confronto di modelli di regressione. Il modello di regressione discusso nel Paragrafo precedente prevede il QI dei bambini dal QI delle madri. Aggiungiamo a tale modello un secondo predittore che corrisponde all’età della madre. L’aggiunta di tale predittore migliori l’accuratezza predittiva del modello?</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="ch-info-crit.html#cb477-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb477-2"><a href="ch-info-crit.html#cb477-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb477-3"><a href="ch-info-crit.html#cb477-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb477-4"><a href="ch-info-crit.html#cb477-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
-<span id="cb477-5"><a href="ch-info-crit.html#cb477-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x2;</span></span>
-<span id="cb477-6"><a href="ch-info-crit.html#cb477-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb477-7"><a href="ch-info-crit.html#cb477-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb477-8"><a href="ch-info-crit.html#cb477-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb477-9"><a href="ch-info-crit.html#cb477-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb477-10"><a href="ch-info-crit.html#cb477-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
-<span id="cb477-11"><a href="ch-info-crit.html#cb477-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta2;</span></span>
-<span id="cb477-12"><a href="ch-info-crit.html#cb477-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb477-13"><a href="ch-info-crit.html#cb477-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb477-14"><a href="ch-info-crit.html#cb477-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
-<span id="cb477-15"><a href="ch-info-crit.html#cb477-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
-<span id="cb477-16"><a href="ch-info-crit.html#cb477-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb477-17"><a href="ch-info-crit.html#cb477-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n] + beta2 * x2[n];</span></span>
-<span id="cb477-18"><a href="ch-info-crit.html#cb477-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb477-19"><a href="ch-info-crit.html#cb477-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb477-20"><a href="ch-info-crit.html#cb477-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb477-21"><a href="ch-info-crit.html#cb477-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
-<span id="cb477-22"><a href="ch-info-crit.html#cb477-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
-<span id="cb477-23"><a href="ch-info-crit.html#cb477-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta2 ~ normal(0, 1);</span></span>
-<span id="cb477-24"><a href="ch-info-crit.html#cb477-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
-<span id="cb477-25"><a href="ch-info-crit.html#cb477-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
-<span id="cb477-26"><a href="ch-info-crit.html#cb477-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb477-27"><a href="ch-info-crit.html#cb477-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb477-28"><a href="ch-info-crit.html#cb477-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
-<span id="cb477-29"><a href="ch-info-crit.html#cb477-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
-<span id="cb477-30"><a href="ch-info-crit.html#cb477-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb477-31"><a href="ch-info-crit.html#cb477-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
-<span id="cb477-32"><a href="ch-info-crit.html#cb477-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x2[n] * beta2, sigma);</span></span>
-<span id="cb477-33"><a href="ch-info-crit.html#cb477-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb477-34"><a href="ch-info-crit.html#cb477-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb477-35"><a href="ch-info-crit.html#cb477-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb477-36"><a href="ch-info-crit.html#cb477-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg2.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="ch-info-crit.html#cb478-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_age)[, <span class="dv">1</span>]</span></code></pre></div>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="ch-info-crit.html#cb479-1" aria-hidden="true" tabindex="-1"></a>data2_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb479-2"><a href="ch-info-crit.html#cb479-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb479-3"><a href="ch-info-crit.html#cb479-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
-<span id="cb479-4"><a href="ch-info-crit.html#cb479-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
-<span id="cb479-5"><a href="ch-info-crit.html#cb479-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> df<span class="sc">$</span>x2</span>
-<span id="cb479-6"><a href="ch-info-crit.html#cb479-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="ch-info-crit.html#cb480-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg2.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="ch-info-crit.html#cb481-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compile model</span></span>
-<span id="cb481-2"><a href="ch-info-crit.html#cb481-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch-info-crit.html#cb482-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running MCMC</span></span>
-<span id="cb482-2"><a href="ch-info-crit.html#cb482-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb482-3"><a href="ch-info-crit.html#cb482-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data2_list,</span>
-<span id="cb482-4"><a href="ch-info-crit.html#cb482-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb482-5"><a href="ch-info-crit.html#cb482-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb482-6"><a href="ch-info-crit.html#cb482-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb482-7"><a href="ch-info-crit.html#cb482-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb482-8"><a href="ch-info-crit.html#cb482-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
-<span id="cb482-9"><a href="ch-info-crit.html#cb482-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb482-10"><a href="ch-info-crit.html#cb482-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="ch-info-crit.html#cb483-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta2&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
-<span id="cb483-2"><a href="ch-info-crit.html#cb483-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
-<span id="cb483-3"><a href="ch-info-crit.html#cb483-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable      mean    median     sd    mad      q5    q95  rhat ess_bulk</span></span>
-<span id="cb483-4"><a href="ch-info-crit.html#cb483-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb483-5"><a href="ch-info-crit.html#cb483-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.000255 -0.000162 0.0431 0.0427 -0.0714 0.0705  1.00   19419.</span></span>
-<span id="cb483-6"><a href="ch-info-crit.html#cb483-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.442     0.442    0.0427 0.0427  0.372  0.512   1.00   17850.</span></span>
-<span id="cb483-7"><a href="ch-info-crit.html#cb483-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta2     0.0515    0.0514   0.0427 0.0428 -0.0179 0.121   1.00   16802.</span></span>
-<span id="cb483-8"><a href="ch-info-crit.html#cb483-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.896     0.895    0.0305 0.0303  0.848  0.948   1.00   19032.</span></span>
-<span id="cb483-9"><a href="ch-info-crit.html#cb483-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="ch-info-crit.html#cb484-1" aria-hidden="true" tabindex="-1"></a>loo2_result <span class="ot">&lt;-</span> fit2<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
-<span id="cb484-2"><a href="ch-info-crit.html#cb484-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo2_result)</span>
-<span id="cb484-3"><a href="ch-info-crit.html#cb484-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb484-4"><a href="ch-info-crit.html#cb484-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
-<span id="cb484-5"><a href="ch-info-crit.html#cb484-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb484-6"><a href="ch-info-crit.html#cb484-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
-<span id="cb484-7"><a href="ch-info-crit.html#cb484-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.9 14.5</span></span>
-<span id="cb484-8"><a href="ch-info-crit.html#cb484-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         3.0  0.3</span></span>
-<span id="cb484-9"><a href="ch-info-crit.html#cb484-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.8 29.0</span></span>
-<span id="cb484-10"><a href="ch-info-crit.html#cb484-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
-<span id="cb484-11"><a href="ch-info-crit.html#cb484-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
-<span id="cb484-12"><a href="ch-info-crit.html#cb484-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb484-13"><a href="ch-info-crit.html#cb484-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
-<span id="cb484-14"><a href="ch-info-crit.html#cb484-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="ch-info-crit.html#cb478-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb478-2"><a href="ch-info-crit.html#cb478-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb478-3"><a href="ch-info-crit.html#cb478-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb478-4"><a href="ch-info-crit.html#cb478-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb478-5"><a href="ch-info-crit.html#cb478-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x2;</span></span>
+<span id="cb478-6"><a href="ch-info-crit.html#cb478-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb478-7"><a href="ch-info-crit.html#cb478-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb478-8"><a href="ch-info-crit.html#cb478-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb478-9"><a href="ch-info-crit.html#cb478-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb478-10"><a href="ch-info-crit.html#cb478-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb478-11"><a href="ch-info-crit.html#cb478-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta2;</span></span>
+<span id="cb478-12"><a href="ch-info-crit.html#cb478-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb478-13"><a href="ch-info-crit.html#cb478-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb478-14"><a href="ch-info-crit.html#cb478-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb478-15"><a href="ch-info-crit.html#cb478-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb478-16"><a href="ch-info-crit.html#cb478-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb478-17"><a href="ch-info-crit.html#cb478-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n] + beta2 * x2[n];</span></span>
+<span id="cb478-18"><a href="ch-info-crit.html#cb478-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb478-19"><a href="ch-info-crit.html#cb478-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb478-20"><a href="ch-info-crit.html#cb478-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb478-21"><a href="ch-info-crit.html#cb478-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb478-22"><a href="ch-info-crit.html#cb478-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb478-23"><a href="ch-info-crit.html#cb478-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta2 ~ normal(0, 1);</span></span>
+<span id="cb478-24"><a href="ch-info-crit.html#cb478-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb478-25"><a href="ch-info-crit.html#cb478-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb478-26"><a href="ch-info-crit.html#cb478-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb478-27"><a href="ch-info-crit.html#cb478-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb478-28"><a href="ch-info-crit.html#cb478-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb478-29"><a href="ch-info-crit.html#cb478-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb478-30"><a href="ch-info-crit.html#cb478-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb478-31"><a href="ch-info-crit.html#cb478-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb478-32"><a href="ch-info-crit.html#cb478-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x2[n] * beta2, sigma);</span></span>
+<span id="cb478-33"><a href="ch-info-crit.html#cb478-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb478-34"><a href="ch-info-crit.html#cb478-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb478-35"><a href="ch-info-crit.html#cb478-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb478-36"><a href="ch-info-crit.html#cb478-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="ch-info-crit.html#cb479-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_age)[, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="ch-info-crit.html#cb480-1" aria-hidden="true" tabindex="-1"></a>data2_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb480-2"><a href="ch-info-crit.html#cb480-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb480-3"><a href="ch-info-crit.html#cb480-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb480-4"><a href="ch-info-crit.html#cb480-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
+<span id="cb480-5"><a href="ch-info-crit.html#cb480-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> df<span class="sc">$</span>x2</span>
+<span id="cb480-6"><a href="ch-info-crit.html#cb480-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="ch-info-crit.html#cb481-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg2.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch-info-crit.html#cb482-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compile model</span></span>
+<span id="cb482-2"><a href="ch-info-crit.html#cb482-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="ch-info-crit.html#cb483-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running MCMC</span></span>
+<span id="cb483-2"><a href="ch-info-crit.html#cb483-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb483-3"><a href="ch-info-crit.html#cb483-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data2_list,</span>
+<span id="cb483-4"><a href="ch-info-crit.html#cb483-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb483-5"><a href="ch-info-crit.html#cb483-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb483-6"><a href="ch-info-crit.html#cb483-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb483-7"><a href="ch-info-crit.html#cb483-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb483-8"><a href="ch-info-crit.html#cb483-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb483-9"><a href="ch-info-crit.html#cb483-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb483-10"><a href="ch-info-crit.html#cb483-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="ch-info-crit.html#cb484-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta2&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb484-2"><a href="ch-info-crit.html#cb484-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb484-3"><a href="ch-info-crit.html#cb484-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable      mean    median     sd    mad      q5    q95  rhat ess_bulk</span></span>
+<span id="cb484-4"><a href="ch-info-crit.html#cb484-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb484-5"><a href="ch-info-crit.html#cb484-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.000255 -0.000162 0.0431 0.0427 -0.0714 0.0705  1.00   19419.</span></span>
+<span id="cb484-6"><a href="ch-info-crit.html#cb484-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.442     0.442    0.0427 0.0427  0.372  0.512   1.00   17850.</span></span>
+<span id="cb484-7"><a href="ch-info-crit.html#cb484-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta2     0.0515    0.0514   0.0427 0.0428 -0.0179 0.121   1.00   16802.</span></span>
+<span id="cb484-8"><a href="ch-info-crit.html#cb484-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.896     0.895    0.0305 0.0303  0.848  0.948   1.00   19032.</span></span>
+<span id="cb484-9"><a href="ch-info-crit.html#cb484-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="ch-info-crit.html#cb485-1" aria-hidden="true" tabindex="-1"></a>loo2_result <span class="ot">&lt;-</span> fit2<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb485-2"><a href="ch-info-crit.html#cb485-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo2_result)</span>
+<span id="cb485-3"><a href="ch-info-crit.html#cb485-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb485-4"><a href="ch-info-crit.html#cb485-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb485-5"><a href="ch-info-crit.html#cb485-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb485-6"><a href="ch-info-crit.html#cb485-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb485-7"><a href="ch-info-crit.html#cb485-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -568.9 14.5</span></span>
+<span id="cb485-8"><a href="ch-info-crit.html#cb485-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         3.0  0.3</span></span>
+<span id="cb485-9"><a href="ch-info-crit.html#cb485-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1137.8 29.0</span></span>
+<span id="cb485-10"><a href="ch-info-crit.html#cb485-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb485-11"><a href="ch-info-crit.html#cb485-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb485-12"><a href="ch-info-crit.html#cb485-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb485-13"><a href="ch-info-crit.html#cb485-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb485-14"><a href="ch-info-crit.html#cb485-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
 <p>Consideriamo infine un terzo modello che utilizza come predittori, oltre al QI della madre, una variabile dicotomica (codificata 0 o 1) che distingue madri che hanno completato le scuole superiori da quelle che non le hanno completate. Nuovamente, la domanda è se l’aggiunta di tale predittore migliori la capacità predittiva del modello.</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="ch-info-crit.html#cb485-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb485-2"><a href="ch-info-crit.html#cb485-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb485-3"><a href="ch-info-crit.html#cb485-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb485-4"><a href="ch-info-crit.html#cb485-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
-<span id="cb485-5"><a href="ch-info-crit.html#cb485-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x3;</span></span>
-<span id="cb485-6"><a href="ch-info-crit.html#cb485-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb485-7"><a href="ch-info-crit.html#cb485-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb485-8"><a href="ch-info-crit.html#cb485-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb485-9"><a href="ch-info-crit.html#cb485-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb485-10"><a href="ch-info-crit.html#cb485-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
-<span id="cb485-11"><a href="ch-info-crit.html#cb485-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta3;</span></span>
-<span id="cb485-12"><a href="ch-info-crit.html#cb485-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb485-13"><a href="ch-info-crit.html#cb485-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb485-14"><a href="ch-info-crit.html#cb485-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
-<span id="cb485-15"><a href="ch-info-crit.html#cb485-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
-<span id="cb485-16"><a href="ch-info-crit.html#cb485-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb485-17"><a href="ch-info-crit.html#cb485-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n] + beta3 * x3[n];</span></span>
-<span id="cb485-18"><a href="ch-info-crit.html#cb485-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb485-19"><a href="ch-info-crit.html#cb485-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb485-20"><a href="ch-info-crit.html#cb485-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb485-21"><a href="ch-info-crit.html#cb485-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
-<span id="cb485-22"><a href="ch-info-crit.html#cb485-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
-<span id="cb485-23"><a href="ch-info-crit.html#cb485-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta3 ~ normal(0, 1);</span></span>
-<span id="cb485-24"><a href="ch-info-crit.html#cb485-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
-<span id="cb485-25"><a href="ch-info-crit.html#cb485-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
-<span id="cb485-26"><a href="ch-info-crit.html#cb485-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb485-27"><a href="ch-info-crit.html#cb485-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb485-28"><a href="ch-info-crit.html#cb485-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
-<span id="cb485-29"><a href="ch-info-crit.html#cb485-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
-<span id="cb485-30"><a href="ch-info-crit.html#cb485-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
-<span id="cb485-31"><a href="ch-info-crit.html#cb485-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
-<span id="cb485-32"><a href="ch-info-crit.html#cb485-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x3[n] * beta3, sigma);</span></span>
-<span id="cb485-33"><a href="ch-info-crit.html#cb485-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb485-34"><a href="ch-info-crit.html#cb485-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb485-35"><a href="ch-info-crit.html#cb485-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb485-36"><a href="ch-info-crit.html#cb485-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg3.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="ch-info-crit.html#cb486-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x3 <span class="ot">&lt;-</span> df<span class="sc">$</span>mom_hs</span></code></pre></div>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="ch-info-crit.html#cb487-1" aria-hidden="true" tabindex="-1"></a>data3_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb487-2"><a href="ch-info-crit.html#cb487-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb487-3"><a href="ch-info-crit.html#cb487-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
-<span id="cb487-4"><a href="ch-info-crit.html#cb487-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
-<span id="cb487-5"><a href="ch-info-crit.html#cb487-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x3 =</span> df<span class="sc">$</span>x3</span>
-<span id="cb487-6"><a href="ch-info-crit.html#cb487-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="ch-info-crit.html#cb488-1" aria-hidden="true" tabindex="-1"></a>file3 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg3.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch-info-crit.html#cb489-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file3)</span></code></pre></div>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="ch-info-crit.html#cb490-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> mod3<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb490-2"><a href="ch-info-crit.html#cb490-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data3_list,</span>
-<span id="cb490-3"><a href="ch-info-crit.html#cb490-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb490-4"><a href="ch-info-crit.html#cb490-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb490-5"><a href="ch-info-crit.html#cb490-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb490-6"><a href="ch-info-crit.html#cb490-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb490-7"><a href="ch-info-crit.html#cb490-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
-<span id="cb490-8"><a href="ch-info-crit.html#cb490-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb490-9"><a href="ch-info-crit.html#cb490-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="ch-info-crit.html#cb491-1" aria-hidden="true" tabindex="-1"></a>fit3<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta3&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
-<span id="cb491-2"><a href="ch-info-crit.html#cb491-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
-<span id="cb491-3"><a href="ch-info-crit.html#cb491-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5     q95  rhat ess_bulk ess_tail</span></span>
-<span id="cb491-4"><a href="ch-info-crit.html#cb491-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb491-5"><a href="ch-info-crit.html#cb491-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.225 -0.224 0.0947 0.0945 -0.382 -0.0705  1.00    8433.    9191.</span></span>
-<span id="cb491-6"><a href="ch-info-crit.html#cb491-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.415  0.414 0.0449 0.0450  0.341  0.488   1.00   10941.   10324.</span></span>
-<span id="cb491-7"><a href="ch-info-crit.html#cb491-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta3     0.286  0.285 0.108  0.108   0.111  0.465   1.00    8452.    8606.</span></span>
-<span id="cb491-8"><a href="ch-info-crit.html#cb491-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.890  0.889 0.0302 0.0302  0.842  0.941   1.00   10828.    9623.</span></span></code></pre></div>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="ch-info-crit.html#cb492-1" aria-hidden="true" tabindex="-1"></a>loo3_result <span class="ot">&lt;-</span> fit3<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
-<span id="cb492-2"><a href="ch-info-crit.html#cb492-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo3_result)</span>
-<span id="cb492-3"><a href="ch-info-crit.html#cb492-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb492-4"><a href="ch-info-crit.html#cb492-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
-<span id="cb492-5"><a href="ch-info-crit.html#cb492-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb492-6"><a href="ch-info-crit.html#cb492-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
-<span id="cb492-7"><a href="ch-info-crit.html#cb492-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -584.2 16.4</span></span>
-<span id="cb492-8"><a href="ch-info-crit.html#cb492-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         7.5  0.6</span></span>
-<span id="cb492-9"><a href="ch-info-crit.html#cb492-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1168.3 32.8</span></span>
-<span id="cb492-10"><a href="ch-info-crit.html#cb492-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
-<span id="cb492-11"><a href="ch-info-crit.html#cb492-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
-<span id="cb492-12"><a href="ch-info-crit.html#cb492-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb492-13"><a href="ch-info-crit.html#cb492-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
-<span id="cb492-14"><a href="ch-info-crit.html#cb492-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="ch-info-crit.html#cb486-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb486-2"><a href="ch-info-crit.html#cb486-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb486-3"><a href="ch-info-crit.html#cb486-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb486-4"><a href="ch-info-crit.html#cb486-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x1;</span></span>
+<span id="cb486-5"><a href="ch-info-crit.html#cb486-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x3;</span></span>
+<span id="cb486-6"><a href="ch-info-crit.html#cb486-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb486-7"><a href="ch-info-crit.html#cb486-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb486-8"><a href="ch-info-crit.html#cb486-8" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb486-9"><a href="ch-info-crit.html#cb486-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb486-10"><a href="ch-info-crit.html#cb486-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta1;</span></span>
+<span id="cb486-11"><a href="ch-info-crit.html#cb486-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta3;</span></span>
+<span id="cb486-12"><a href="ch-info-crit.html#cb486-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb486-13"><a href="ch-info-crit.html#cb486-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb486-14"><a href="ch-info-crit.html#cb486-14" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb486-15"><a href="ch-info-crit.html#cb486-15" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] mu;</span></span>
+<span id="cb486-16"><a href="ch-info-crit.html#cb486-16" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb486-17"><a href="ch-info-crit.html#cb486-17" aria-hidden="true" tabindex="-1"></a><span class="st">    mu[n] = alpha + beta1 * x1[n] + beta3 * x3[n];</span></span>
+<span id="cb486-18"><a href="ch-info-crit.html#cb486-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb486-19"><a href="ch-info-crit.html#cb486-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb486-20"><a href="ch-info-crit.html#cb486-20" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb486-21"><a href="ch-info-crit.html#cb486-21" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb486-22"><a href="ch-info-crit.html#cb486-22" aria-hidden="true" tabindex="-1"></a><span class="st">  beta1 ~ normal(0, 1);</span></span>
+<span id="cb486-23"><a href="ch-info-crit.html#cb486-23" aria-hidden="true" tabindex="-1"></a><span class="st">  beta3 ~ normal(0, 1);</span></span>
+<span id="cb486-24"><a href="ch-info-crit.html#cb486-24" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ cauchy(0, 1);</span></span>
+<span id="cb486-25"><a href="ch-info-crit.html#cb486-25" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(mu, sigma);</span></span>
+<span id="cb486-26"><a href="ch-info-crit.html#cb486-26" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb486-27"><a href="ch-info-crit.html#cb486-27" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb486-28"><a href="ch-info-crit.html#cb486-28" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb486-29"><a href="ch-info-crit.html#cb486-29" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] log_lik;</span></span>
+<span id="cb486-30"><a href="ch-info-crit.html#cb486-30" aria-hidden="true" tabindex="-1"></a><span class="st">  for (n in 1 : N) {</span></span>
+<span id="cb486-31"><a href="ch-info-crit.html#cb486-31" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[n] = normal_rng(mu[n], sigma);</span></span>
+<span id="cb486-32"><a href="ch-info-crit.html#cb486-32" aria-hidden="true" tabindex="-1"></a><span class="st">    log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x3[n] * beta3, sigma);</span></span>
+<span id="cb486-33"><a href="ch-info-crit.html#cb486-33" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb486-34"><a href="ch-info-crit.html#cb486-34" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb486-35"><a href="ch-info-crit.html#cb486-35" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb486-36"><a href="ch-info-crit.html#cb486-36" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/mreg3.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="ch-info-crit.html#cb487-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>x3 <span class="ot">&lt;-</span> df<span class="sc">$</span>mom_hs</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="ch-info-crit.html#cb488-1" aria-hidden="true" tabindex="-1"></a>data3_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb488-2"><a href="ch-info-crit.html#cb488-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb488-3"><a href="ch-info-crit.html#cb488-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb488-4"><a href="ch-info-crit.html#cb488-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df<span class="sc">$</span>x1,</span>
+<span id="cb488-5"><a href="ch-info-crit.html#cb488-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x3 =</span> df<span class="sc">$</span>x3</span>
+<span id="cb488-6"><a href="ch-info-crit.html#cb488-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch-info-crit.html#cb489-1" aria-hidden="true" tabindex="-1"></a>file3 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;mreg3.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="ch-info-crit.html#cb490-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file3)</span></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="ch-info-crit.html#cb491-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> mod3<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb491-2"><a href="ch-info-crit.html#cb491-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data3_list,</span>
+<span id="cb491-3"><a href="ch-info-crit.html#cb491-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb491-4"><a href="ch-info-crit.html#cb491-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb491-5"><a href="ch-info-crit.html#cb491-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb491-6"><a href="ch-info-crit.html#cb491-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb491-7"><a href="ch-info-crit.html#cb491-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> 4L,</span>
+<span id="cb491-8"><a href="ch-info-crit.html#cb491-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb491-9"><a href="ch-info-crit.html#cb491-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="ch-info-crit.html#cb492-1" aria-hidden="true" tabindex="-1"></a>fit3<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;beta3&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span>
+<span id="cb492-2"><a href="ch-info-crit.html#cb492-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb492-3"><a href="ch-info-crit.html#cb492-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5     q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb492-4"><a href="ch-info-crit.html#cb492-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb492-5"><a href="ch-info-crit.html#cb492-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    -0.225 -0.224 0.0947 0.0945 -0.382 -0.0705  1.00    8433.    9191.</span></span>
+<span id="cb492-6"><a href="ch-info-crit.html#cb492-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta1     0.415  0.414 0.0449 0.0450  0.341  0.488   1.00   10941.   10324.</span></span>
+<span id="cb492-7"><a href="ch-info-crit.html#cb492-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta3     0.286  0.285 0.108  0.108   0.111  0.465   1.00    8452.    8606.</span></span>
+<span id="cb492-8"><a href="ch-info-crit.html#cb492-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma     0.890  0.889 0.0302 0.0302  0.842  0.941   1.00   10828.    9623.</span></span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="ch-info-crit.html#cb493-1" aria-hidden="true" tabindex="-1"></a>loo3_result <span class="ot">&lt;-</span> fit3<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span>
+<span id="cb493-2"><a href="ch-info-crit.html#cb493-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo3_result)</span>
+<span id="cb493-3"><a href="ch-info-crit.html#cb493-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb493-4"><a href="ch-info-crit.html#cb493-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb493-5"><a href="ch-info-crit.html#cb493-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb493-6"><a href="ch-info-crit.html#cb493-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb493-7"><a href="ch-info-crit.html#cb493-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -584.2 16.4</span></span>
+<span id="cb493-8"><a href="ch-info-crit.html#cb493-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         7.5  0.6</span></span>
+<span id="cb493-9"><a href="ch-info-crit.html#cb493-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1168.3 32.8</span></span>
+<span id="cb493-10"><a href="ch-info-crit.html#cb493-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb493-11"><a href="ch-info-crit.html#cb493-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is 0.0.</span></span>
+<span id="cb493-12"><a href="ch-info-crit.html#cb493-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb493-13"><a href="ch-info-crit.html#cb493-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All Pareto k estimates are good (k &lt; 0.5).</span></span>
+<span id="cb493-14"><a href="ch-info-crit.html#cb493-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
 <p>Per eseguire un confronto tra modelli in termini della loro capacità predittiva esaminiamo la differenza di LOO-CV tra coppie di modelli. Le seguenti istruzioni <span class="math inline">\(\mathsf{R}\)</span> producono la quantità <code>elpd_diff</code>, ovvero la differenza tra stime della <span class="math inline">\(elpd\)</span> fornite da due modelli. Il primo argomento della funzione <code>loo_compare()</code> specifica il modello che viene usato come confronto. Nella prima riga dell’output, il valore <code>elpd_diff</code> è 0 (cioè, <span class="math inline">\(x − x = 0\)</span>). Nelle righe successive sono riportate le differenze rispetto al modello di confronto (in questo caso, il modello 1). La colonna <code>se_diff</code> riporta l’errore standard di tali differenze.</p>
 <p>L’incertezza della stima dell’accuratezza <em>out-of-sample</em> si distribuisce in maniera approssimativamente normale con media uguale al valore riportato dal software e deviazione standard uguale a ciò che è indicato nell’output come errore standard. Quando il campione è piccolo, questa approssimazione produce una forte sottostima dell’incertezza, ma fornisce comunque una stima migliore di AIC, DIC e WAIC.</p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="ch-info-crit.html#cb493-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">loo_compare</span>(loo1_result, loo2_result, loo3_result)</span>
-<span id="cb493-2"><a href="ch-info-crit.html#cb493-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(w)</span>
-<span id="cb493-3"><a href="ch-info-crit.html#cb493-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        elpd_diff se_diff</span></span>
-<span id="cb493-4"><a href="ch-info-crit.html#cb493-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model1   0.0       0.0  </span></span>
-<span id="cb493-5"><a href="ch-info-crit.html#cb493-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model2  -0.3       1.3  </span></span>
-<span id="cb493-6"><a href="ch-info-crit.html#cb493-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model3 -15.6       6.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="ch-info-crit.html#cb494-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">loo_compare</span>(loo1_result, loo2_result, loo3_result)</span>
+<span id="cb494-2"><a href="ch-info-crit.html#cb494-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(w)</span>
+<span id="cb494-3"><a href="ch-info-crit.html#cb494-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        elpd_diff se_diff</span></span>
+<span id="cb494-4"><a href="ch-info-crit.html#cb494-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model1   0.0       0.0  </span></span>
+<span id="cb494-5"><a href="ch-info-crit.html#cb494-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model2  -0.3       1.3  </span></span>
+<span id="cb494-6"><a href="ch-info-crit.html#cb494-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; model3 -15.6       6.0</span></span></code></pre></div>
 <p>Per interpretare l’output, usiamo il criterio suggerito da <span class="citation">Gelman et al. (<a href="#ref-gelman1995bayesian" role="doc-biblioref">1995</a>)</span>: consideriamo “credibile” una differenza se <code>elpd_diff</code> è almeno due volte maggiore di <code>se_diff</code>. Nel caso presente, dunque, il confronto tra il modello 2 e il modello 1 indica che la quantità <code>elpd_diff</code> è molto piccola rispetto al suo errore standard.
 Questo accade se un predittore è associato in modo trascurabile con la variabile dipendente. I dati presenti, dunque, non offrono alcuna evidenza che aggiungere dell’età della madre come predittore migliori la capacità predittiva del modello. Nel confronto tra modello 3 e modello 1, invece, la quantità <code>elpd_diff</code> è maggiore di due volte il valore dell’errore standard. Questo suggerisce un incremento della capacità predittiva del modello quiando il livello di istruzione della madre viene incluso tra i predittori.</p>
 <p>È anche possibile calcolare l’intervallo di credibilità per <code>elpd_diff</code>:</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="ch-info-crit.html#cb494-1" aria-hidden="true" tabindex="-1"></a><span class="fl">15.5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">95</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">6.0</span></span>
-<span id="cb494-2"><a href="ch-info-crit.html#cb494-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  5.630878 25.369122</span></span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="ch-info-crit.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="fl">15.5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">95</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">6.0</span></span>
+<span id="cb495-2"><a href="ch-info-crit.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  5.630878 25.369122</span></span></code></pre></div>
 </div>
 <div id="outlier" class="section level2 hasAnchor" number="34.5">
 <h2><span class="header-section-number">34.5</span> Outlier<a href="ch-info-crit.html#outlier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Si è soliti pensare che la maggior parte delle osservazioni del campione sia prodotta da un unico meccanismo generatore dei dati, mentre le rimanenti osservazioni sono la realizzazione di un diverso processo stocastico. Le osservazioni che appartengono a questo secondo gruppo si chiamano <em>outlier</em>. È dunque necessario identificare gli outlier e limitare la loro influenza sull’inferenza.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
 <p>Poniamoci ora il problema di identificare gli outlier con la tecnica PSIS-LOO-CV. Quando PSIS-LOO-CV viene calcolato con il pacchetto <code>loo</code>, l’output riporta il parametro di forma della distribuzione di Pareto (valore <code>k</code>). Tale valore può essere utilizzato per identificare gli outlier. Infatti, il valore <code>k</code> valuta, per ciascun punto del campione, l’approssimazione usata da PSIS-LOO-CV. Se <span class="math inline">\(k &lt; 0.5\)</span>, i pesi di importanza vengono stimati in modo accurato; se il valore <span class="math inline">\(k\)</span> di Pareto di un punto è <span class="math inline">\(&gt; 0.7\)</span>, i pesi di importanza possono essere inaccurati. Le osservazioni con <span class="math inline">\(k &gt; 0.7\)</span> sono dunque osservazioni outlier.</p>
 <p>Per fare un esempio concreto, introduciamo nel campione dell’esempio precedente una singola osservazione outlier.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="ch-info-crit.html#cb495-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df</span>
-<span id="cb495-2"><a href="ch-info-crit.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df1)</span>
-<span id="cb495-3"><a href="ch-info-crit.html#cb495-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434   9</span></span>
-<span id="cb495-4"><a href="ch-info-crit.html#cb495-4" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>x1[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb495-5"><a href="ch-info-crit.html#cb495-5" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>y[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="ch-info-crit.html#cb496-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df</span>
+<span id="cb496-2"><a href="ch-info-crit.html#cb496-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df1)</span>
+<span id="cb496-3"><a href="ch-info-crit.html#cb496-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434   9</span></span>
+<span id="cb496-4"><a href="ch-info-crit.html#cb496-4" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>x1[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb496-5"><a href="ch-info-crit.html#cb496-5" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>y[<span class="dv">434</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
 <p>Sistemiamo i dati nel formato appropriato per Stan:</p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="ch-info-crit.html#cb496-1" aria-hidden="true" tabindex="-1"></a>data1a_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb496-2"><a href="ch-info-crit.html#cb496-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df1<span class="sc">$</span>kid_score),</span>
-<span id="cb496-3"><a href="ch-info-crit.html#cb496-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df1<span class="sc">$</span>y,</span>
-<span id="cb496-4"><a href="ch-info-crit.html#cb496-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df1<span class="sc">$</span>x1</span>
-<span id="cb496-5"><a href="ch-info-crit.html#cb496-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="ch-info-crit.html#cb497-1" aria-hidden="true" tabindex="-1"></a>data1a_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb497-2"><a href="ch-info-crit.html#cb497-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df1<span class="sc">$</span>kid_score),</span>
+<span id="cb497-3"><a href="ch-info-crit.html#cb497-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df1<span class="sc">$</span>y,</span>
+<span id="cb497-4"><a href="ch-info-crit.html#cb497-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> df1<span class="sc">$</span>x1</span>
+<span id="cb497-5"><a href="ch-info-crit.html#cb497-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Adattiamo nuovamente il modello 1 ad un campione di dati che contiene un outlier.</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="ch-info-crit.html#cb497-1" aria-hidden="true" tabindex="-1"></a>fit1a <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb497-2"><a href="ch-info-crit.html#cb497-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1a_list,</span>
-<span id="cb497-3"><a href="ch-info-crit.html#cb497-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb497-4"><a href="ch-info-crit.html#cb497-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb497-5"><a href="ch-info-crit.html#cb497-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb497-6"><a href="ch-info-crit.html#cb497-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb497-7"><a href="ch-info-crit.html#cb497-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb497-8"><a href="ch-info-crit.html#cb497-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="ch-info-crit.html#cb498-1" aria-hidden="true" tabindex="-1"></a>loo1a_result <span class="ot">&lt;-</span> fit1a<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="ch-info-crit.html#cb498-1" aria-hidden="true" tabindex="-1"></a>fit1a <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb498-2"><a href="ch-info-crit.html#cb498-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1a_list,</span>
+<span id="cb498-3"><a href="ch-info-crit.html#cb498-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb498-4"><a href="ch-info-crit.html#cb498-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb498-5"><a href="ch-info-crit.html#cb498-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb498-6"><a href="ch-info-crit.html#cb498-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb498-7"><a href="ch-info-crit.html#cb498-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb498-8"><a href="ch-info-crit.html#cb498-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="ch-info-crit.html#cb499-1" aria-hidden="true" tabindex="-1"></a>loo1a_result <span class="ot">&lt;-</span> fit1a<span class="sc">$</span><span class="fu">loo</span>(<span class="at">cores =</span> <span class="dv">4</span>)</span></code></pre></div>
 <p>Una tabella diagnostica che riassume le stime dei parametri di forma della distribuzione di Pareto si ottiene nel modo seguente:</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="ch-info-crit.html#cb499-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1a_result)</span>
-<span id="cb499-2"><a href="ch-info-crit.html#cb499-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb499-3"><a href="ch-info-crit.html#cb499-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
-<span id="cb499-4"><a href="ch-info-crit.html#cb499-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb499-5"><a href="ch-info-crit.html#cb499-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
-<span id="cb499-6"><a href="ch-info-crit.html#cb499-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -586.2 19.9</span></span>
-<span id="cb499-7"><a href="ch-info-crit.html#cb499-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         6.6  5.0</span></span>
-<span id="cb499-8"><a href="ch-info-crit.html#cb499-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1172.5 39.8</span></span>
-<span id="cb499-9"><a href="ch-info-crit.html#cb499-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
-<span id="cb499-10"><a href="ch-info-crit.html#cb499-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is NA.</span></span>
-<span id="cb499-11"><a href="ch-info-crit.html#cb499-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb499-12"><a href="ch-info-crit.html#cb499-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pareto k diagnostic values:</span></span>
-<span id="cb499-13"><a href="ch-info-crit.html#cb499-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          Count Pct.    Min. n_eff</span></span>
-<span id="cb499-14"><a href="ch-info-crit.html#cb499-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (-Inf, 0.5]   (good)     433   99.8%   10708     </span></span>
-<span id="cb499-15"><a href="ch-info-crit.html#cb499-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (0.5, 0.7]   (ok)         0    0.0%   &lt;NA&gt;      </span></span>
-<span id="cb499-16"><a href="ch-info-crit.html#cb499-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (0.7, 1]   (bad)        1    0.2%   75        </span></span>
-<span id="cb499-17"><a href="ch-info-crit.html#cb499-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (1, Inf)   (very bad)   0    0.0%   &lt;NA&gt;      </span></span>
-<span id="cb499-18"><a href="ch-info-crit.html#cb499-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="ch-info-crit.html#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loo1a_result)</span>
+<span id="cb500-2"><a href="ch-info-crit.html#cb500-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb500-3"><a href="ch-info-crit.html#cb500-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computed from 16000 by 434 log-likelihood matrix</span></span>
+<span id="cb500-4"><a href="ch-info-crit.html#cb500-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb500-5"><a href="ch-info-crit.html#cb500-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Estimate   SE</span></span>
+<span id="cb500-6"><a href="ch-info-crit.html#cb500-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; elpd_loo   -586.2 19.9</span></span>
+<span id="cb500-7"><a href="ch-info-crit.html#cb500-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; p_loo         6.6  5.0</span></span>
+<span id="cb500-8"><a href="ch-info-crit.html#cb500-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; looic      1172.5 39.8</span></span>
+<span id="cb500-9"><a href="ch-info-crit.html#cb500-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------</span></span>
+<span id="cb500-10"><a href="ch-info-crit.html#cb500-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Monte Carlo SE of elpd_loo is NA.</span></span>
+<span id="cb500-11"><a href="ch-info-crit.html#cb500-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb500-12"><a href="ch-info-crit.html#cb500-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pareto k diagnostic values:</span></span>
+<span id="cb500-13"><a href="ch-info-crit.html#cb500-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          Count Pct.    Min. n_eff</span></span>
+<span id="cb500-14"><a href="ch-info-crit.html#cb500-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (-Inf, 0.5]   (good)     433   99.8%   10708     </span></span>
+<span id="cb500-15"><a href="ch-info-crit.html#cb500-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (0.5, 0.7]   (ok)         0    0.0%   &lt;NA&gt;      </span></span>
+<span id="cb500-16"><a href="ch-info-crit.html#cb500-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (0.7, 1]   (bad)        1    0.2%   75        </span></span>
+<span id="cb500-17"><a href="ch-info-crit.html#cb500-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (1, Inf)   (very bad)   0    0.0%   &lt;NA&gt;      </span></span>
+<span id="cb500-18"><a href="ch-info-crit.html#cb500-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span></span></code></pre></div>
 <p>Un grafico che riporta le stime dei parametri di forma della distribuzione di Pareto per ciascuna osservazione è dato da:</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="ch-info-crit.html#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(loo1a_result)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-504-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="ch-info-crit.html#cb501-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(loo1a_result)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-505-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il valore <code>k</code> stimato da PSIS-LOO-CV mette chiaramente in luce il fatto che il valore introdotto nel campione è un outlier. L’indice dell’osservazione outlier è identificato con:</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="ch-info-crit.html#cb501-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pareto_k_ids</span>(loo1a_result, <span class="at">threshold =</span> <span class="fl">0.7</span>)</span>
-<span id="cb501-2"><a href="ch-info-crit.html#cb501-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434</span></span></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="ch-info-crit.html#cb502-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pareto_k_ids</span>(loo1a_result, <span class="at">threshold =</span> <span class="fl">0.7</span>)</span>
+<span id="cb502-2"><a href="ch-info-crit.html#cb502-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 434</span></span></code></pre></div>
 </div>
 <div id="regolarizzazione" class="section level2 hasAnchor" number="34.6">
 <h2><span class="header-section-number">34.6</span> Regolarizzazione<a href="ch-info-crit.html#regolarizzazione" class="anchor-section" aria-label="Anchor link to header"></a></h2>

@@ -532,13 +532,13 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Il modello lineare visto da vicino</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
 <li class="chapter" data-level="25.1.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#trasformazione-dei-dati"><i class="fa fa-check"></i><b>25.1.1</b> Trasformazione dei dati</a></li>
 <li class="chapter" data-level="25.1.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-metodo-dei-minimi-quadrati"><i class="fa fa-check"></i><b>25.1.2</b> Il metodo dei minimi quadrati</a></li>
-<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#il-coefficiente-di-determinazione"><i class="fa fa-check"></i><b>25.1.3</b> Il coefficiente di determinazione</a></li>
+<li class="chapter" data-level="25.1.3" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#lerrore-standard-della-regressione"><i class="fa fa-check"></i><b>25.1.3</b> L’errore standard della regressione</a></li>
 </ul></li>
 <li class="chapter" data-level="25.2" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#indice-di-determinazione"><i class="fa fa-check"></i><b>25.2</b> Indice di determinazione</a>
 <ul>
@@ -860,17 +860,17 @@ p(y) &amp;= \int p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta \notag\\
 <div class="exercise">
 <p><span id="exr:unlabeled-div-100" class="exercise"><strong>Esercizio G.1  </strong></span>Si verifichi la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> mediante di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Per replicare mediante la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> il risultato trovato per via numerica nella Sezione <a href="ch-bayes-workflow.html#sec:const-normaliz-bino23">14.4</a> assumiamo una distribuzione a priori uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. I valori del problema dunque diventano i seguenti:</p>
-<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="appendix:const-norm-bino23.html#cb530-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb530-2"><a href="appendix:const-norm-bino23.html#cb530-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb530-3"><a href="appendix:const-norm-bino23.html#cb530-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb530-4"><a href="appendix:const-norm-bino23.html#cb530-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="appendix:const-norm-bino23.html#cb531-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb531-2"><a href="appendix:const-norm-bino23.html#cb531-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb531-3"><a href="appendix:const-norm-bino23.html#cb531-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb531-4"><a href="appendix:const-norm-bino23.html#cb531-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
 <p>Definiamo</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="appendix:const-norm-bino23.html#cb531-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb531-2"><a href="appendix:const-norm-bino23.html#cb531-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
-<span id="cb531-3"><a href="appendix:const-norm-bino23.html#cb531-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="appendix:const-norm-bino23.html#cb532-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb532-2"><a href="appendix:const-norm-bino23.html#cb532-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
+<span id="cb532-3"><a href="appendix:const-norm-bino23.html#cb532-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Il risultato cercato è</p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="appendix:const-norm-bino23.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
-<span id="cb532-2"><a href="appendix:const-norm-bino23.html#cb532-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="appendix:const-norm-bino23.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
+<span id="cb533-2"><a href="appendix:const-norm-bino23.html#cb533-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
 </div>
 
 </div>
