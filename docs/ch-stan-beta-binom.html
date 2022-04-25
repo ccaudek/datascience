@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capitolo 19 Il modello beta-binomiale in linguaggio Stan | Data Science per psicologi</title>
   <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capitolo 19 Il modello beta-binomiale in linguaggio Stan | Data Science per psicologi" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-24" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -465,8 +465,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="19.3.1" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
 <li class="chapter" data-level="19.3.2" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
-<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
-<li class="chapter" data-level="19.3.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-3"><i class="fa fa-check"></i><b>19.3.3</b> Fase 3</a></li>
 </ul></li>
 <li class="chapter" data-level="19.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
 <li class="chapter" data-level="19.5" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
@@ -864,12 +863,8 @@ y &amp;\sim \mbox{Bin}(n, \theta) \notag\\
 <p>Iniziamo con il caricare i pacchetti necessari:</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ch-stan-beta-binom.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;cmdstanr&quot;</span>)</span>
 <span id="cb186-2"><a href="ch-stan-beta-binom.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;posterior&quot;</span>)</span>
-<span id="cb186-3"><a href="ch-stan-beta-binom.html#cb186-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rstan_options(auto_write = TRUE) # avoid recompilation of models</span></span>
-<span id="cb186-4"><a href="ch-stan-beta-binom.html#cb186-4" aria-hidden="true" tabindex="-1"></a><span class="co"># parallelize across all CPUs</span></span>
-<span id="cb186-5"><a href="ch-stan-beta-binom.html#cb186-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()) </span>
-<span id="cb186-6"><a href="ch-stan-beta-binom.html#cb186-6" aria-hidden="true" tabindex="-1"></a><span class="co"># improve execution time</span></span>
-<span id="cb186-7"><a href="ch-stan-beta-binom.html#cb186-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">LOCAL_CPPFLAGS =</span> <span class="st">&#39;-march=native&#39;</span>) </span>
-<span id="cb186-8"><a href="ch-stan-beta-binom.html#cb186-8" aria-hidden="true" tabindex="-1"></a>SEED <span class="ot">&lt;-</span> <span class="dv">374237</span> <span class="co"># set random seed for reproducibility</span></span></code></pre></div>
+<span id="cb186-3"><a href="ch-stan-beta-binom.html#cb186-3" aria-hidden="true" tabindex="-1"></a><span class="fu">availableCores</span>()</span>
+<span id="cb186-4"><a href="ch-stan-beta-binom.html#cb186-4" aria-hidden="true" tabindex="-1"></a>SEED <span class="ot">&lt;-</span> <span class="dv">84735</span> <span class="co"># set random seed for reproducibility</span></span></code></pre></div>
 <p>Per svolgere l’analisi mediante <code>cmdstanr</code> è necessario prima specificare la struttura del modello bayesiano nella notazione Stan e, poi, eseguire il campionamento dalla distribuzione a posteriori. Esaminiamo questi due passaggi per il caso dell’esempio presente.</p>
 <div id="fase-1" class="section level3 hasAnchor" number="19.3.1">
 <h3><span class="header-section-number">19.3.1</span> Fase 1<a href="ch-stan-beta-binom.html#fase-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -878,15 +873,15 @@ y &amp;\sim \mbox{Bin}(n, \theta) \notag\\
 <span id="cb187-2"><a href="ch-stan-beta-binom.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">16</span>,</span>
 <span id="cb187-3"><a href="ch-stan-beta-binom.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">14</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>))</span>
 <span id="cb187-4"><a href="ch-stan-beta-binom.html#cb187-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>Il <em>modello</em> è <span class="math inline">\(\mbox{Bin}(n, \theta)\)</span> e, in linguaggio Stan, può essere specificato come</p>
+<p>Il <em>modello</em> è <span class="math inline">\(\mbox{Bin}(n, \theta)\)</span>. Oppure, dato che abbiamo specificato in input ciascuna singola osservazione, <span class="math inline">\(\mbox{Bernoulli}(\theta)\)</span>. In linguaggio Stan, la verosimiglianza si specifica nel modo seguente.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ch-stan-beta-binom.html#cb188-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="fu">bernoulli</span>(theta);</span></code></pre></div>
-<p>Il modello dipende dal <em>parametro</em> <code>theta</code>. In Stan, dobbiamo specificare che <code>theta</code> può essere un qualsiasi numero reale compreso tra 0 e 1. Inoltre, dobbiamo specificare la distribuzione a priori di <span class="math inline">\(\theta\)</span>. Per questo parametro abbiamo scelto una <span class="math inline">\(\mbox{Beta}(2, 2)\)</span> e, in linguaggio Stan, scriviamo</p>
+<p>La verosimiglianza dipende dal <em>parametro</em> <code>theta</code>. In Stan, è necessario specificare che <code>theta</code> è un numero reale compreso tra 0 e 1. Inoltre, è necessario imporre su <span class="math inline">\(\theta\)</span> una distribuzione a priori. Nel caso presente abbiamo scelto una <span class="math inline">\(\mbox{Beta}(2, 2)\)</span> e, in linguaggio Stan, scriviamo la distribuzione a priori per <span class="math inline">\(\theta\)</span> ne modo seguente.</p>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ch-stan-beta-binom.html#cb189-1" aria-hidden="true" tabindex="-1"></a>theta <span class="sc">~</span> <span class="fu">beta</span>(<span class="dv">2</span>, <span class="dv">2</span>);</span></code></pre></div>
-<p>Memorizziamo ora il modello beta-binomiale specificato in linguaggio Stan come stringa di caratteri nel file <code>oneprop.stan</code>:</p>
+<p>Memorizziamo il modello beta-binomiale che abbiamo specificato in linguaggio Stan come stringa di caratteri.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ch-stan-beta-binom.html#cb190-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
 <span id="cb190-2"><a href="ch-stan-beta-binom.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
 <span id="cb190-3"><a href="ch-stan-beta-binom.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb190-4"><a href="ch-stan-beta-binom.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=1&gt; y[N];</span></span>
+<span id="cb190-4"><a href="ch-stan-beta-binom.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] int&lt;lower=0, upper=1&gt; y;</span></span>
 <span id="cb190-5"><a href="ch-stan-beta-binom.html#cb190-5" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb190-6"><a href="ch-stan-beta-binom.html#cb190-6" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
 <span id="cb190-7"><a href="ch-stan-beta-binom.html#cb190-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; theta;</span></span>
@@ -895,75 +890,70 @@ y &amp;\sim \mbox{Bin}(n, \theta) \notag\\
 <span id="cb190-10"><a href="ch-stan-beta-binom.html#cb190-10" aria-hidden="true" tabindex="-1"></a><span class="st">  theta ~ beta(2, 2);</span></span>
 <span id="cb190-11"><a href="ch-stan-beta-binom.html#cb190-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ bernoulli(theta);</span></span>
 <span id="cb190-12"><a href="ch-stan-beta-binom.html#cb190-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb190-13"><a href="ch-stan-beta-binom.html#cb190-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb190-14"><a href="ch-stan-beta-binom.html#cb190-14" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/oneprop.stan&quot;</span>)</span></code></pre></div>
+<span id="cb190-13"><a href="ch-stan-beta-binom.html#cb190-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span></code></pre></div>
+<p>Utilizzando il seguente <a href="https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html">link</a> si può ottenere una formattazione automatica del codice e anche, i qualche misura, una correzione della sintassi, in caso.</p>
+<p>Salviamo <code>modelString</code> in un file a cui assegniamo il nome <code>oneprop.stan</code> (si noti l’estensione <code>.stan</code>). Sul mio computer ho creato una cartella chiamata <code>code</code> dove salvo i file <code>.stan</code>. Se non vogliamo definire una sotto-cartella chiamata <code>code</code>, è sufficiente scrivere <code>writeLines(modelString, con = "oneprop.stan")</code>.</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ch-stan-beta-binom.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/oneprop.stan&quot;</span>)</span></code></pre></div>
 </div>
 <div id="fase-2" class="section level3 hasAnchor" number="19.3.2">
 <h3><span class="header-section-number">19.3.2</span> Fase 2<a href="ch-stan-beta-binom.html#fase-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Per utilizzare il modello specificato, leggiamo l’indirizzo del file che contiene il codice Stan:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ch-stan-beta-binom.html#cb191-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;oneprop.stan&quot;</span>)</span></code></pre></div>
-<p>Compiliamo il codice</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ch-stan-beta-binom.html#cb192-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
-<p>ed eseguiamo il campionamento MCMC con la chiamata</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ch-stan-beta-binom.html#cb193-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb193-2"><a href="ch-stan-beta-binom.html#cb193-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1_list,</span>
-<span id="cb193-3"><a href="ch-stan-beta-binom.html#cb193-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb193-4"><a href="ch-stan-beta-binom.html#cb193-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb193-5"><a href="ch-stan-beta-binom.html#cb193-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">84735</span>,</span>
-<span id="cb193-6"><a href="ch-stan-beta-binom.html#cb193-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb193-7"><a href="ch-stan-beta-binom.html#cb193-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 4L,</span>
-<span id="cb193-8"><a href="ch-stan-beta-binom.html#cb193-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
-<span id="cb193-9"><a href="ch-stan-beta-binom.html#cb193-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
-<span id="cb193-10"><a href="ch-stan-beta-binom.html#cb193-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Per utilizzare il modello che abbiamo specificato, prima leggiamo l’indirizzo del file che contiene il codice Stan</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ch-stan-beta-binom.html#cb192-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;oneprop.stan&quot;</span>)</span></code></pre></div>
+<p>poi compiliamo il codice Stan. Questo crea un file eseguibile che, nel caso presente, abbiamo chiamato <code>mod</code>.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ch-stan-beta-binom.html#cb193-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<p>Possiamo ora eseguire il campionamento MCMC con la seguente chiamata.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ch-stan-beta-binom.html#cb194-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb194-2"><a href="ch-stan-beta-binom.html#cb194-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data1_list,</span>
+<span id="cb194-3"><a href="ch-stan-beta-binom.html#cb194-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb194-4"><a href="ch-stan-beta-binom.html#cb194-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb194-5"><a href="ch-stan-beta-binom.html#cb194-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">84735</span>,</span>
+<span id="cb194-6"><a href="ch-stan-beta-binom.html#cb194-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb194-7"><a href="ch-stan-beta-binom.html#cb194-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb194-8"><a href="ch-stan-beta-binom.html#cb194-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Si noti che <code>$sample()</code> è un “metodo” che viene applicato al file eseguibile che abbiamo compilato, al quale è stato assegnato il nome <code>mod</code>.</p>
+<p>Il metodo <code>$sample()</code> richiede una serie di argomenti.</p>
+<ul>
+<li><code>data</code>, ovvero i dati in input in formato lista (nel caso presente, <code>data1_list</code>).</li>
+<li><code>chains</code> specifica quante catene di Markov parallele eseguire. Eseguiamo qui quattro catene, quindi otterremo quattro campioni distinti di valori <span class="math inline">\(\pi\)</span>.</li>
+<li><code>iter</code> specifica il numero desiderato di iterazioni o la lunghezza di ciascuna catena di Markov. Per impostazione predefinita, la prima metà di queste iterazioni è costituita da campioni “burn-in” o “warm-up” che verranno ignorati. La seconda metà è conservata e costituisce un campione della distribuzione a posteriori.</li>
+<li><code>iter_warmup</code> specifica il numero di campioni “warm-up” che vogliamo vengano ignorati.</li>
+<li><code>seed</code> imposta il numero casuale che viene usato per generare il punto di partenza di ciascuna catena di Markov.</li>
+</ul>
 <p>Avendo assunto una distribuzione a priori per il parametro <span class="math inline">\(\theta\)</span>, l’algoritmo procede in maniera ciclica, correggendo la distribuzione a priori di <span class="math inline">\(\theta\)</span> condizionandola ai valori già generati. Dopo un certo numero di cicli, necessari per portare l’algoritmo a convergenza, i valori estratti possono essere assunti come campionati dalla distribuzione a posteriori di <span class="math inline">\(\theta\)</span>.</p>
-<p>Si noti che <code>$sample()</code> richiede due tipi di informazioni. Innanzitutto, dobbiamo specificare le informazioni sul modello in base a:</p>
-<ul>
-<li><code>mod</code> = la stringa di caratteri che definisce il modello (qui <code>oneprop.stan</code>),</li>
-<li><code>data</code> = i dati in formato lista (<code>data1_list</code>).</li>
-</ul>
-<p>Dobbiamo inoltre specificare le informazioni sul campionamento MCMC utilizzando alcuni argomenti aggiuntivi:</p>
-<ul>
-<li>L’argomento <code>chains</code> specifica quante catene di Markov parallele eseguire. Eseguiamo qui quattro catene, quindi otteniamo quattro campioni distinti di valori <span class="math inline">\(\pi\)</span>.</li>
-<li>L’argomento <code>iter</code> specifica il numero desiderato di iterazioni o la lunghezza di ciascuna catena di Markov. Per impostazione predefinita, la prima metà di queste iterazioni è costituita da campioni “burn-in” o “warm-up” che verranno ignorati. La seconda metà è conservata e costituisce un campione della distribuzione a posteriori.</li>
-<li>L’argomento <code>seed</code> per impostare il numero casuale che genera il seme per una simulazione <code>cmdstanr</code>.</li>
-</ul>
-</div>
-<div id="burn-in" class="section level3 hasAnchor" number="19.3.3">
-<h3><span class="header-section-number">19.3.3</span> Burn-in<a href="ch-stan-beta-binom.html#burn-in" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Al crescere del numero di passi della catena, la distribuzione di target viene sempre meglio approssimata. All’inizio del campionamento, però, la distribuzione può essere significativamente lontana da quella stazionaria, e ci vuole un certo tempo prima di raggiungere la distribuzione stazionaria di equilibrio, detto, appunto, periodo di <em>burn-in</em>. I campioni provenienti da tale parte iniziale della catena vanno tipicamente scartati perché possono non rappresentare accuratamente la distribuzione a posteriori.</p>
 </div>
-<div id="inferenza" class="section level3 hasAnchor" number="19.3.4">
-<h3><span class="header-section-number">19.3.4</span> Inferenza<a href="ch-stan-beta-binom.html#inferenza" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Un sommario della distribuzione a posteriori si ottiene con:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ch-stan-beta-binom.html#cb194-1" aria-hidden="true" tabindex="-1"></a>fit1<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>))</span>
-<span id="cb194-2"><a href="ch-stan-beta-binom.html#cb194-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 10</span></span>
-<span id="cb194-3"><a href="ch-stan-beta-binom.html#cb194-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median     sd    mad    q5   q95  rhat ess_bulk ess_tail</span></span>
-<span id="cb194-4"><a href="ch-stan-beta-binom.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb194-5"><a href="ch-stan-beta-binom.html#cb194-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 theta    0.798  0.808 0.0876 0.0872 0.638 0.924  1.00    5769.    6359.</span></span></code></pre></div>
+<div id="fase-3" class="section level3 hasAnchor" number="19.3.3">
+<h3><span class="header-section-number">19.3.3</span> Fase 3<a href="ch-stan-beta-binom.html#fase-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Possiamo ora fare inferenza usando i risultati ottenuti. Un sommario della distribuzione a posteriori si ottiene con:</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="ch-stan-beta-binom.html#cb195-1" aria-hidden="true" tabindex="-1"></a>fit1<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>))</span>
+<span id="cb195-2"><a href="ch-stan-beta-binom.html#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 10</span></span>
+<span id="cb195-3"><a href="ch-stan-beta-binom.html#cb195-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable  mean median     sd    mad    q5   q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb195-4"><a href="ch-stan-beta-binom.html#cb195-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb195-5"><a href="ch-stan-beta-binom.html#cb195-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 theta    0.798  0.808 0.0876 0.0872 0.638 0.924  1.00    5769.    6359.</span></span></code></pre></div>
 <p>Creiamo un oggetto di classe <code>stanfit</code></p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="ch-stan-beta-binom.html#cb195-1" aria-hidden="true" tabindex="-1"></a>stanfit1 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit1<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ch-stan-beta-binom.html#cb196-1" aria-hidden="true" tabindex="-1"></a>stanfit1 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit1<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>di dimensioni</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ch-stan-beta-binom.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">as.matrix</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span>
-<span id="cb196-2"><a href="ch-stan-beta-binom.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16000     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ch-stan-beta-binom.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">as.matrix</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span>
+<span id="cb197-2"><a href="ch-stan-beta-binom.html#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16000     1</span></span></code></pre></div>
 <p>I primi 10 valori sono presentati qui di seguito</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ch-stan-beta-binom.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb197-2"><a href="ch-stan-beta-binom.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
-<span id="cb197-3"><a href="ch-stan-beta-binom.html#cb197-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           parameters</span></span>
-<span id="cb197-4"><a href="ch-stan-beta-binom.html#cb197-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; iterations    theta</span></span>
-<span id="cb197-5"><a href="ch-stan-beta-binom.html#cb197-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1,] 0.852111</span></span>
-<span id="cb197-6"><a href="ch-stan-beta-binom.html#cb197-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2,] 0.784496</span></span>
-<span id="cb197-7"><a href="ch-stan-beta-binom.html#cb197-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3,] 0.784496</span></span>
-<span id="cb197-8"><a href="ch-stan-beta-binom.html#cb197-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4,] 0.755076</span></span>
-<span id="cb197-9"><a href="ch-stan-beta-binom.html#cb197-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5,] 0.725578</span></span>
-<span id="cb197-10"><a href="ch-stan-beta-binom.html#cb197-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [6,] 0.774385</span></span>
-<span id="cb197-11"><a href="ch-stan-beta-binom.html#cb197-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [7,] 0.774385</span></span>
-<span id="cb197-12"><a href="ch-stan-beta-binom.html#cb197-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [8,] 0.806225</span></span>
-<span id="cb197-13"><a href="ch-stan-beta-binom.html#cb197-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [9,] 0.826550</span></span>
-<span id="cb197-14"><a href="ch-stan-beta-binom.html#cb197-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [10,] 0.849894</span></span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ch-stan-beta-binom.html#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb198-2"><a href="ch-stan-beta-binom.html#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb198-3"><a href="ch-stan-beta-binom.html#cb198-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           parameters</span></span>
+<span id="cb198-4"><a href="ch-stan-beta-binom.html#cb198-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; iterations    theta</span></span>
+<span id="cb198-5"><a href="ch-stan-beta-binom.html#cb198-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1,] 0.852111</span></span>
+<span id="cb198-6"><a href="ch-stan-beta-binom.html#cb198-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2,] 0.784496</span></span>
+<span id="cb198-7"><a href="ch-stan-beta-binom.html#cb198-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3,] 0.784496</span></span>
+<span id="cb198-8"><a href="ch-stan-beta-binom.html#cb198-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4,] 0.755076</span></span>
+<span id="cb198-9"><a href="ch-stan-beta-binom.html#cb198-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5,] 0.725578</span></span>
+<span id="cb198-10"><a href="ch-stan-beta-binom.html#cb198-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [6,] 0.774385</span></span>
+<span id="cb198-11"><a href="ch-stan-beta-binom.html#cb198-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [7,] 0.774385</span></span>
+<span id="cb198-12"><a href="ch-stan-beta-binom.html#cb198-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [8,] 0.806225</span></span>
+<span id="cb198-13"><a href="ch-stan-beta-binom.html#cb198-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [9,] 0.826550</span></span>
+<span id="cb198-14"><a href="ch-stan-beta-binom.html#cb198-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [10,] 0.849894</span></span></code></pre></div>
 <p>La matrice precedente include i valori assunti dalla catena di Markov, ovvero un insieme di valori plausibili <span class="math inline">\(\theta\)</span> estratti dalla distribuzione a posteriori.
 Un tracciato della catena di Markov illustra questa esplorazione rappresentando il valore <span class="math inline">\(\theta\)</span> sulle ordinate e l’indice progressivo di in ogni iterazione sull’ascissa. Usiamo la funzione <code>mcmc_trace()</code> del pacchetto <code>bayesplot</code> per costruire il grafico che include tutte e quattro le catene di Markov:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ch-stan-beta-binom.html#cb198-1" aria-hidden="true" tabindex="-1"></a>stanfit1 <span class="sc">%&gt;%</span> </span>
-<span id="cb198-2"><a href="ch-stan-beta-binom.html#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>), <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ch-stan-beta-binom.html#cb199-1" aria-hidden="true" tabindex="-1"></a>stanfit1 <span class="sc">%&gt;%</span> </span>
+<span id="cb199-2"><a href="ch-stan-beta-binom.html#cb199-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>), <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:trace-plot-gautret"></span>
 <img src="ds4psy_files/figure-html/trace-plot-gautret-1.png" alt="Trace-plot per il parametro $\theta$ nel modello Beta-Binomiale." width="576" />
 <p class="caption">
@@ -972,9 +962,9 @@ FIGURA 19.1: Trace-plot per il parametro <span class="math inline">\(\theta\)</s
 </div>
 <p>La figura <a href="ch-stan-beta-binom.html#fig:trace-plot-gautret">19.1</a> mostra che le catene esplorano uno spazio compreso approssimativamenre tra 0.5 e 0.95; questa figura descrive il comportamento <em>longitudinale</em> delle catene di Markov.</p>
 <p>Possiamo anche esaminare la distribuzione degli stati della catena di Markov, ovvero, dei valori che queste catene visitano lungo il loro percorso, ignorando l’ordine di queste visite. L’istogramma della figura <a href="ch-stan-beta-binom.html#fig:hist-post-gautret">19.2</a> fornisce una rappresentazione grafica di questa distribuzione per i 16000 valori complessivi delle quattro catene, ovvero per 4000 valori provienienti da ciascuna catena.</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ch-stan-beta-binom.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_hist</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb199-2"><a href="ch-stan-beta-binom.html#cb199-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">yaxis_text</span>(<span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb199-3"><a href="ch-stan-beta-binom.html#cb199-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;count&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ch-stan-beta-binom.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_hist</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb200-2"><a href="ch-stan-beta-binom.html#cb200-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">yaxis_text</span>(<span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb200-3"><a href="ch-stan-beta-binom.html#cb200-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;count&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hist-post-gautret"></span>
 <img src="ds4psy_files/figure-html/hist-post-gautret-1.png" alt="Istogramma che illustra l'approssimazione della distribuzione a posteriori per il parametro $\theta$ nel modello Beta-Binomiale." width="576" />
 <p class="caption">
@@ -982,10 +972,10 @@ FIGURA 19.2: Istogramma che illustra l’approssimazione della distribuzione a p
 </p>
 </div>
 <p>Nello schema beta-binomiale in cui la verosimiglianza è binomiale con 14 successi su 16 prove e in cui assumiamo una distribuzione a priori <span class="math inline">\(\mbox{Beta}(2, 2)\)</span> sul parametro <span class="math inline">\(\theta\)</span>, la distribuzione a posteriori è una distribuzione Beta di parametri <span class="math inline">\(\alpha\)</span> = 2 + 14 e <span class="math inline">\(\beta\)</span> = 2 + 16 - 14. La figura <a href="ch-stan-beta-binom.html#fig:hist-post-gautret-plus-correct">19.3</a> riporta un kernel density plot per i valori delle quattro catene di Markov con sovrapposta in nero la densità <span class="math inline">\(\mbox{Beta}(16, 4)\)</span>. Si noti come la distribuzione dei valori delle catene di Markov produca un’eccellente approssimazione alla distribuzione bersaglio.<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a></p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ch-stan-beta-binom.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb200-2"><a href="ch-stan-beta-binom.html#cb200-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">yaxis_text</span>(<span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb200-3"><a href="ch-stan-beta-binom.html#cb200-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;density&quot;</span>) <span class="sc">+</span></span>
-<span id="cb200-4"><a href="ch-stan-beta-binom.html#cb200-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dbeta, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">shape1 =</span> <span class="dv">16</span>, <span class="at">shape2=</span><span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ch-stan-beta-binom.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_dens</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb201-2"><a href="ch-stan-beta-binom.html#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">yaxis_text</span>(<span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb201-3"><a href="ch-stan-beta-binom.html#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb201-4"><a href="ch-stan-beta-binom.html#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dbeta, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">shape1 =</span> <span class="dv">16</span>, <span class="at">shape2=</span><span class="dv">4</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hist-post-gautret-plus-correct"></span>
 <img src="ds4psy_files/figure-html/hist-post-gautret-plus-correct-1.png" alt="Istogramma che illustra l'approssimazione della distribuzione a posteriori per il parametro $\theta$ nel modello Beta-Binomiale. La curva nera rappresenta la corretta distribuzione a posteriori Beta(16, 4)." width="576" />
 <p class="caption">
@@ -993,11 +983,11 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 </p>
 </div>
 <p>Un intervallo di credibilità al 95% per <span class="math inline">\(\theta\)</span> si ottiene con la seguente chiamata:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ch-stan-beta-binom.html#cb201-1" aria-hidden="true" tabindex="-1"></a>posterior1 <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit1)</span>
-<span id="cb201-2"><a href="ch-stan-beta-binom.html#cb201-2" aria-hidden="true" tabindex="-1"></a>rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(<span class="fu">as.matrix</span>(stanfit1), <span class="at">prob =</span> <span class="fl">0.95</span>)</span>
-<span id="cb201-3"><a href="ch-stan-beta-binom.html#cb201-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%       97.5%</span></span>
-<span id="cb201-4"><a href="ch-stan-beta-binom.html#cb201-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta   0.5990419   0.9376123</span></span>
-<span id="cb201-5"><a href="ch-stan-beta-binom.html#cb201-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__  -12.5817650 -10.0086000</span></span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ch-stan-beta-binom.html#cb202-1" aria-hidden="true" tabindex="-1"></a>posterior1 <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit1)</span>
+<span id="cb202-2"><a href="ch-stan-beta-binom.html#cb202-2" aria-hidden="true" tabindex="-1"></a>rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(<span class="fu">as.matrix</span>(stanfit1), <span class="at">prob =</span> <span class="fl">0.95</span>)</span>
+<span id="cb202-3"><a href="ch-stan-beta-binom.html#cb202-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%       97.5%</span></span>
+<span id="cb202-4"><a href="ch-stan-beta-binom.html#cb202-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta   0.5990419   0.9376123</span></span>
+<span id="cb202-5"><a href="ch-stan-beta-binom.html#cb202-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__  -12.5817650 -10.0086000</span></span></code></pre></div>
 <p>Svolgendo un’analisi bayesiana simile a questa, <span class="citation">Gautret et al. (<a href="#ref-Gautret_2020" role="doc-biblioref">2020</a>)</span> hanno trovato che gli intervalli di credibilità del gruppo di controllo e del gruppo sperimentale non si sovrappongono. Questo fatto viene interpretato dicendo che il parametro <span class="math inline">\(\theta\)</span> è diverso nei due gruppi. Sulla base di queste evidenza, <span class="citation">Gautret et al. (<a href="#ref-Gautret_2020" role="doc-biblioref">2020</a>)</span> hanno concluso, con un grado di certezza soggettiva del 95%, che nel gruppo sperimentale vi è una probabilità più bassa di risultare positivi al SARS-CoV-2 rispetto al gruppo di controllo. In altri termini, l’analisi statistica condotta da <span class="citation">Gautret et al. (<a href="#ref-Gautret_2020" role="doc-biblioref">2020</a>)</span> suggerisce che l’idrossiclorochina è una terapia efficace per il Covid-19.</p>
 </div>
 </div>
@@ -1016,69 +1006,66 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 <p><span class="math display">\[
 \omega = \frac{\theta_2 / (1-\theta_2)}{\theta_1 / (1-\theta_1)},
 \]</span></p>
-<p>ovvero il rapporto tra gli Odds di positività tra i pazienti del gruppo di controllo e gli Odds di positività tra i pazienti del gruppo sperimentale. Se il valore dell’OR è uguale a 1, significa che l’Odds di positività nel gruppo di controllo è uguale all’Odds di positività nel gruppo sperimentale, cioè il fattore in esame (somministrazione dell’idrossiclorochina) è ininfluente sulla comparsa della malattia. L’inferenza statistica sull’efficacia dell’idrossiclorochina come terapia per il Covid-19 può dunque essere effettuata esaminando l’intervallo di credibilità al 95% per l’OR: se tale intervallo include il valore 1, allora non vi è evidenza che l’idrossiclorochina sia efficace come terapia per il Covid-19.</p>
-<p>Nell’implementazione di questo modello, la quantità di interesse è dunque l’odds ratio; tale quantità viene calcolata nel blocco <code>generated quantities</code> del programma Stan. Per i parametri <span class="math inline">\(\theta_1\)</span> e <span class="math inline">\(\theta_2\)</span> useremo delle distribuzioni a priori debolmente informative il cui unico scopo è la regolarizzazione dei dati.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ch-stan-beta-binom.html#cb202-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb202-2"><a href="ch-stan-beta-binom.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N1 =</span> <span class="dv">18</span>, </span>
-<span id="cb202-3"><a href="ch-stan-beta-binom.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y1 =</span> <span class="dv">10</span>, </span>
-<span id="cb202-4"><a href="ch-stan-beta-binom.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N2 =</span> <span class="dv">16</span>, </span>
-<span id="cb202-5"><a href="ch-stan-beta-binom.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y2 =</span> <span class="dv">14</span></span>
-<span id="cb202-6"><a href="ch-stan-beta-binom.html#cb202-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ch-stan-beta-binom.html#cb203-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
-<span id="cb203-2"><a href="ch-stan-beta-binom.html#cb203-2" aria-hidden="true" tabindex="-1"></a><span class="st">//  Comparison of two groups with Binomial</span></span>
-<span id="cb203-3"><a href="ch-stan-beta-binom.html#cb203-3" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb203-4"><a href="ch-stan-beta-binom.html#cb203-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N1;              // number of experiments in group 1</span></span>
-<span id="cb203-5"><a href="ch-stan-beta-binom.html#cb203-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; y1;              // number of deaths in group 1</span></span>
-<span id="cb203-6"><a href="ch-stan-beta-binom.html#cb203-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N2;              // number of experiments in group 2</span></span>
-<span id="cb203-7"><a href="ch-stan-beta-binom.html#cb203-7" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; y2;              // number of deaths in group 2</span></span>
-<span id="cb203-8"><a href="ch-stan-beta-binom.html#cb203-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb203-9"><a href="ch-stan-beta-binom.html#cb203-9" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb203-10"><a href="ch-stan-beta-binom.html#cb203-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; theta1; // probability of death in group 1</span></span>
-<span id="cb203-11"><a href="ch-stan-beta-binom.html#cb203-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0,upper=1&gt; theta2; // probability of death in group 2</span></span>
-<span id="cb203-12"><a href="ch-stan-beta-binom.html#cb203-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb203-13"><a href="ch-stan-beta-binom.html#cb203-13" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb203-14"><a href="ch-stan-beta-binom.html#cb203-14" aria-hidden="true" tabindex="-1"></a><span class="st">  theta1 ~ beta(2, 2);          // prior</span></span>
-<span id="cb203-15"><a href="ch-stan-beta-binom.html#cb203-15" aria-hidden="true" tabindex="-1"></a><span class="st">  theta2 ~ beta(2, 2);          // prior</span></span>
-<span id="cb203-16"><a href="ch-stan-beta-binom.html#cb203-16" aria-hidden="true" tabindex="-1"></a><span class="st">  y1 ~ binomial(N1, theta1);    // observation model / likelihood</span></span>
-<span id="cb203-17"><a href="ch-stan-beta-binom.html#cb203-17" aria-hidden="true" tabindex="-1"></a><span class="st">  y2 ~ binomial(N2, theta2);    // observation model / likelihood</span></span>
-<span id="cb203-18"><a href="ch-stan-beta-binom.html#cb203-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb203-19"><a href="ch-stan-beta-binom.html#cb203-19" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb203-20"><a href="ch-stan-beta-binom.html#cb203-20" aria-hidden="true" tabindex="-1"></a><span class="st">  // generated quantities are computed after sampling</span></span>
-<span id="cb203-21"><a href="ch-stan-beta-binom.html#cb203-21" aria-hidden="true" tabindex="-1"></a><span class="st">  real oddsratio = (theta2/(1-theta2))/(theta1/(1-theta1));</span></span>
-<span id="cb203-22"><a href="ch-stan-beta-binom.html#cb203-22" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb203-23"><a href="ch-stan-beta-binom.html#cb203-23" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb203-24"><a href="ch-stan-beta-binom.html#cb203-24" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/twoprop1.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ch-stan-beta-binom.html#cb204-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;twoprop1.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ch-stan-beta-binom.html#cb205-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ch-stan-beta-binom.html#cb206-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb206-2"><a href="ch-stan-beta-binom.html#cb206-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
-<span id="cb206-3"><a href="ch-stan-beta-binom.html#cb206-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb206-4"><a href="ch-stan-beta-binom.html#cb206-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb206-5"><a href="ch-stan-beta-binom.html#cb206-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb206-6"><a href="ch-stan-beta-binom.html#cb206-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb206-7"><a href="ch-stan-beta-binom.html#cb206-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">parallel_chains =</span> 4L,</span>
-<span id="cb206-8"><a href="ch-stan-beta-binom.html#cb206-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>,</span>
-<span id="cb206-9"><a href="ch-stan-beta-binom.html#cb206-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">thin =</span> <span class="dv">1</span></span>
-<span id="cb206-10"><a href="ch-stan-beta-binom.html#cb206-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ch-stan-beta-binom.html#cb207-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ch-stan-beta-binom.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(</span>
-<span id="cb208-2"><a href="ch-stan-beta-binom.html#cb208-2" aria-hidden="true" tabindex="-1"></a>  stanfit,</span>
-<span id="cb208-3"><a href="ch-stan-beta-binom.html#cb208-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta1&quot;</span>, <span class="st">&quot;theta2&quot;</span>, <span class="st">&quot;oddsratio&quot;</span>),</span>
-<span id="cb208-4"><a href="ch-stan-beta-binom.html#cb208-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits_summary =</span> 3L</span>
-<span id="cb208-5"><a href="ch-stan-beta-binom.html#cb208-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb208-6"><a href="ch-stan-beta-binom.html#cb208-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204240941-1-5c0316.</span></span>
-<span id="cb208-7"><a href="ch-stan-beta-binom.html#cb208-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 chains, each with iter=6000; warmup=2000; thin=1; </span></span>
-<span id="cb208-8"><a href="ch-stan-beta-binom.html#cb208-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; post-warmup draws per chain=4000, total post-warmup draws=16000.</span></span>
-<span id="cb208-9"><a href="ch-stan-beta-binom.html#cb208-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb208-10"><a href="ch-stan-beta-binom.html#cb208-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            mean se_mean    sd  2.5%   25%   50%   75%  97.5% n_eff Rhat</span></span>
-<span id="cb208-11"><a href="ch-stan-beta-binom.html#cb208-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta1    0.546   0.001 0.103 0.344 0.475 0.546 0.620  0.740 12795    1</span></span>
-<span id="cb208-12"><a href="ch-stan-beta-binom.html#cb208-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta2    0.798   0.001 0.087 0.601 0.744 0.808 0.862  0.937 14193    1</span></span>
-<span id="cb208-13"><a href="ch-stan-beta-binom.html#cb208-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; oddsratio 4.721   0.043 4.411 0.906 2.166 3.514 5.698 15.558 10400    1</span></span>
-<span id="cb208-14"><a href="ch-stan-beta-binom.html#cb208-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb208-15"><a href="ch-stan-beta-binom.html#cb208-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Dom Apr 24 09:41:46 2022.</span></span>
-<span id="cb208-16"><a href="ch-stan-beta-binom.html#cb208-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></span>
-<span id="cb208-17"><a href="ch-stan-beta-binom.html#cb208-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></span>
-<span id="cb208-18"><a href="ch-stan-beta-binom.html#cb208-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; convergence, Rhat=1).</span></span></code></pre></div>
+<p>ovvero il rapporto tra gli Odds di positività tra i pazienti del gruppo di controllo e gli Odds di positività tra i pazienti del gruppo sperimentale. Se il valore dell’OR è uguale a 1, significa che l’Odds di positività nel gruppo di controllo è uguale all’Odds di positività nel gruppo sperimentale, cioè il fattore in esame (somministrazione dell’idrossiclorochina) è ininfluente sulla comparsa della malattia. L’inferenza statistica sull’efficacia dell’idrossiclorochina come terapia per il Covid-19 può dunque essere effettuata esaminando l’intervallo di credibilità al 95% per l’OR: se tale intervallo include il valore 1, allora non c’è evidenza che l’idrossiclorochina sia efficace come terapia per il Covid-19.</p>
+<p>Nell’implementazione di questo modello, la quantità di interesse è l’odds ratio; tale quantità viene calcolata nel blocco <code>generated quantities</code>. Per i parametri <span class="math inline">\(\theta_1\)</span> e <span class="math inline">\(\theta_2\)</span> useremo delle distribuzioni a priori debolmente informative il cui scopo è la regolarizzazione dei dati.</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ch-stan-beta-binom.html#cb203-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb203-2"><a href="ch-stan-beta-binom.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N1 =</span> <span class="dv">18</span>, </span>
+<span id="cb203-3"><a href="ch-stan-beta-binom.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y1 =</span> <span class="dv">10</span>, </span>
+<span id="cb203-4"><a href="ch-stan-beta-binom.html#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N2 =</span> <span class="dv">16</span>, </span>
+<span id="cb203-5"><a href="ch-stan-beta-binom.html#cb203-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y2 =</span> <span class="dv">14</span></span>
+<span id="cb203-6"><a href="ch-stan-beta-binom.html#cb203-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ch-stan-beta-binom.html#cb204-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb204-2"><a href="ch-stan-beta-binom.html#cb204-2" aria-hidden="true" tabindex="-1"></a><span class="st">//  Comparison of two groups with Binomial</span></span>
+<span id="cb204-3"><a href="ch-stan-beta-binom.html#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb204-4"><a href="ch-stan-beta-binom.html#cb204-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N1; // number of experiments in group 1</span></span>
+<span id="cb204-5"><a href="ch-stan-beta-binom.html#cb204-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; y1; // number of deaths in group 1</span></span>
+<span id="cb204-6"><a href="ch-stan-beta-binom.html#cb204-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N2; // number of experiments in group 2</span></span>
+<span id="cb204-7"><a href="ch-stan-beta-binom.html#cb204-7" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; y2; // number of deaths in group 2</span></span>
+<span id="cb204-8"><a href="ch-stan-beta-binom.html#cb204-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb204-9"><a href="ch-stan-beta-binom.html#cb204-9" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb204-10"><a href="ch-stan-beta-binom.html#cb204-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; theta1; // probability of death in group 1</span></span>
+<span id="cb204-11"><a href="ch-stan-beta-binom.html#cb204-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; theta2; // probability of death in group 2</span></span>
+<span id="cb204-12"><a href="ch-stan-beta-binom.html#cb204-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb204-13"><a href="ch-stan-beta-binom.html#cb204-13" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb204-14"><a href="ch-stan-beta-binom.html#cb204-14" aria-hidden="true" tabindex="-1"></a><span class="st">  theta1 ~ beta(2, 2); // prior</span></span>
+<span id="cb204-15"><a href="ch-stan-beta-binom.html#cb204-15" aria-hidden="true" tabindex="-1"></a><span class="st">  theta2 ~ beta(2, 2); // prior</span></span>
+<span id="cb204-16"><a href="ch-stan-beta-binom.html#cb204-16" aria-hidden="true" tabindex="-1"></a><span class="st">  y1 ~ binomial(N1, theta1); // likelihood</span></span>
+<span id="cb204-17"><a href="ch-stan-beta-binom.html#cb204-17" aria-hidden="true" tabindex="-1"></a><span class="st">  y2 ~ binomial(N2, theta2); // likelihood</span></span>
+<span id="cb204-18"><a href="ch-stan-beta-binom.html#cb204-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb204-19"><a href="ch-stan-beta-binom.html#cb204-19" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb204-20"><a href="ch-stan-beta-binom.html#cb204-20" aria-hidden="true" tabindex="-1"></a><span class="st">  real oddsratio = (theta2 / (1 - theta2)) / (theta1 / (1 - theta1));</span></span>
+<span id="cb204-21"><a href="ch-stan-beta-binom.html#cb204-21" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb204-22"><a href="ch-stan-beta-binom.html#cb204-22" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb204-23"><a href="ch-stan-beta-binom.html#cb204-23" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/twoprop1.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ch-stan-beta-binom.html#cb205-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;twoprop1.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ch-stan-beta-binom.html#cb206-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ch-stan-beta-binom.html#cb207-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb207-2"><a href="ch-stan-beta-binom.html#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb207-3"><a href="ch-stan-beta-binom.html#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb207-4"><a href="ch-stan-beta-binom.html#cb207-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb207-5"><a href="ch-stan-beta-binom.html#cb207-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb207-6"><a href="ch-stan-beta-binom.html#cb207-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb207-7"><a href="ch-stan-beta-binom.html#cb207-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb207-8"><a href="ch-stan-beta-binom.html#cb207-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ch-stan-beta-binom.html#cb208-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="ch-stan-beta-binom.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(</span>
+<span id="cb209-2"><a href="ch-stan-beta-binom.html#cb209-2" aria-hidden="true" tabindex="-1"></a>  stanfit,</span>
+<span id="cb209-3"><a href="ch-stan-beta-binom.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta1&quot;</span>, <span class="st">&quot;theta2&quot;</span>, <span class="st">&quot;oddsratio&quot;</span>),</span>
+<span id="cb209-4"><a href="ch-stan-beta-binom.html#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits_summary =</span> 3L</span>
+<span id="cb209-5"><a href="ch-stan-beta-binom.html#cb209-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb209-6"><a href="ch-stan-beta-binom.html#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204251024-1-5c80eb.</span></span>
+<span id="cb209-7"><a href="ch-stan-beta-binom.html#cb209-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 chains, each with iter=6000; warmup=2000; thin=1; </span></span>
+<span id="cb209-8"><a href="ch-stan-beta-binom.html#cb209-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; post-warmup draws per chain=4000, total post-warmup draws=16000.</span></span>
+<span id="cb209-9"><a href="ch-stan-beta-binom.html#cb209-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb209-10"><a href="ch-stan-beta-binom.html#cb209-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            mean se_mean    sd  2.5%   25%   50%   75%  97.5% n_eff Rhat</span></span>
+<span id="cb209-11"><a href="ch-stan-beta-binom.html#cb209-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta1    0.546   0.001 0.103 0.344 0.475 0.546 0.620  0.740 12795    1</span></span>
+<span id="cb209-12"><a href="ch-stan-beta-binom.html#cb209-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta2    0.798   0.001 0.087 0.601 0.744 0.808 0.862  0.937 14193    1</span></span>
+<span id="cb209-13"><a href="ch-stan-beta-binom.html#cb209-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; oddsratio 4.721   0.043 4.411 0.906 2.166 3.514 5.698 15.558 10400    1</span></span>
+<span id="cb209-14"><a href="ch-stan-beta-binom.html#cb209-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb209-15"><a href="ch-stan-beta-binom.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Lun Apr 25 10:24:25 2022.</span></span>
+<span id="cb209-16"><a href="ch-stan-beta-binom.html#cb209-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></span>
+<span id="cb209-17"><a href="ch-stan-beta-binom.html#cb209-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></span>
+<span id="cb209-18"><a href="ch-stan-beta-binom.html#cb209-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; convergence, Rhat=1).</span></span></code></pre></div>
 <p>L’intervallo di credibilità del 95% per l’OR include il valore di 1.0 (ovvero, il valore che indica che gli Odds di positività sono uguali nei due gruppi). In base agli standard correnti, un risultato di questo tipo non viene considerato come evidenza sufficiente per potere concludere che il parametro <span class="math inline">\(\theta\)</span> assume un valore diverso nei due gruppi. In conclusione, se consideriamo tutti i dati, e non solo quelli selezionati da <span class="citation">Gautret et al. (<a href="#ref-Gautret_2020" role="doc-biblioref">2020</a>)</span>, non vi sono evidenze sull’efficacia dell’idrossiclorochina come terapia per i casi di Covid-19.</p>
 </div>
 <div id="commenti-e-considerazioni-finali-15" class="section level2 unnumbered hasAnchor">

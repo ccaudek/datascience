@@ -6,7 +6,7 @@ source("_stan_options.R")
 library("rstan")
 ```
 
-Nel Capitolo \@ref(chapter-ppc) abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un'unica variabile con una data distribuzione di probabilità. In questo capitolo estenderemo questa discussione al modello lineare. Esamineremo un esempio di _posterior predictive check_ in cui simuleremo da  $p(y^{rep} \mid \theta, y)$, usando le stime a posteriori dei parametri $\theta$ del modello, e un esempio di _prior predictive check_ in cui simuleremo da $p(y^{rep} \mid \mathcal{M})$, ovvero usando il meccanismo generatore dei dati del modello $\mathcal{M}$ in esame, senza però includere i dati. 
+In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un'unica variabile con una data distribuzione di probabilità. In questo capitolo estenderemo questa discussione al modello lineare. Esamineremo un esempio di _posterior predictive check_ in cui simuleremo da  $p(y^{rep} \mid \theta, y)$, usando le stime a posteriori dei parametri $\theta$ del modello, e un esempio di _prior predictive check_ in cui simuleremo da $p(y^{rep} \mid \mathcal{M})$, ovvero usando il meccanismo generatore dei dati del modello $\mathcal{M}$ in esame, senza però includere i dati. 
 
 ## Campionamento dalla distribuzione predittiva a posteriori
 
@@ -42,9 +42,9 @@ Il seguente listato specifica il codice Stan necessario per simulare dati dalla 
 ```{r}
 stancode <- '
 data {
-  int<lower=0> N;  
-  vector[N] x; 
-  vector[N] y; 
+  int<lower=0> N;
+  vector[N] x;
+  vector[N] y;
 }
 parameters {
   real alpha;
@@ -59,7 +59,7 @@ model {
 }
 generated quantities {
   vector[N] y_rep;
-  for(i in 1:N){
+  for (i in 1 : N) {
     y_rep[i] = normal_rng(alpha + beta * x[i], sigma);
   }
 }
@@ -81,9 +81,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
@@ -97,7 +95,6 @@ Un istogramme dei valori $y^{rep}$ può essere generato nel modo seguente:
 ```{r}
 hist(as.matrix(stanfit1, pars = "y_rep"), breaks = 100)
 ```
-
 
 ## Campionamento dalla distribuzione predittiva a priori
 
@@ -115,8 +112,8 @@ data_list <- list(
 ```{r}
 stancode <- '
 data {
-  int<lower=0> N;  
-  vector[N] x; 
+  int<lower=0> N;
+  vector[N] x;
 }
 parameters {
   real alpha;
@@ -130,7 +127,7 @@ model {
 }
 generated quantities {
   vector[N] y_rep;
-  for(i in 1:N){
+  for (i in 1 : N) {
     y_rep[i] = normal_rng(alpha + beta * x[i], sigma);
   }
 }
@@ -152,9 +149,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 

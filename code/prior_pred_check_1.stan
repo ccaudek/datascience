@@ -1,7 +1,7 @@
 
 data {
-  int<lower=0> N;  
-  vector[N] x; 
+  int<lower=0> N;
+  vector[N] x;
 }
 parameters {
   real alpha;
@@ -15,7 +15,7 @@ model {
 }
 generated quantities {
   vector[N] y_rep;
-  for(i in 1:N){
+  for (i in 1 : N) {
     y_rep[i] = normal_rng(alpha + beta * x[i], sigma);
   }
 }

@@ -162,20 +162,20 @@ Nella presenta formulazione dell'ANOVA bayesiana, l'assunto di normalità non è
 modelString = "
 // Comparison of k groups with common variance (ANOVA)
 data {
-  int<lower=0> N;            // number of observations
-  int<lower=0> K;            // number of groups
-  int<lower=1,upper=K> x[N]; // discrete group indicators
-  vector[N] y;               // real valued observations
+  int<lower=0> N; // number of observations
+  int<lower=0> K; // number of groups
+  array[N] int<lower=1, upper=K> x; // discrete group indicators
+  vector[N] y; // real valued observations
 }
 parameters {
-  vector[K] mu;        // group means
+  vector[K] mu; // group means
   real<lower=0> sigma; // common standard deviation 
-  real<lower=1> nu; 
+  real<lower=1> nu;
 }
 model {
-  mu ~ normal(0, 2);      // weakly informative prior
-  sigma ~ normal(0, 1);     // weakly informative prior
-  nu ~ gamma(2, 0.1);   // Juárez and Steel(2010)
+  mu ~ normal(0, 2); // weakly informative prior
+  sigma ~ normal(0, 1); // weakly informative prior
+  nu ~ gamma(2, 0.1); // Juárez and Steel(2010)
   y ~ student_t(nu, mu[x], sigma); // observation model / likelihood
 }
 "
@@ -209,9 +209,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
@@ -364,30 +362,30 @@ e corrisponde, in ordine di grandezza, alla probabilità frequentista riportata 
 modelString = "
 // Comparison of k groups with common variance (ANOVA)
 data {
-  int<lower=0> N;            // number of observations
-  int<lower=0> K;            // number of groups
-  int<lower=1,upper=K> x[N]; // discrete group indicators
-  vector[N] y;               // real valued observations
+  int<lower=0> N; // number of observations
+  int<lower=0> K; // number of groups
+  array[N] int<lower=1, upper=K> x; // discrete group indicators
+  vector[N] y; // real valued observations
 }
 transformed data {
   vector[N] y_std;
   y_std = (y - mean(y)) / sd(y);
 }
 parameters {
-  vector[K] mu_std;        // group means
+  vector[K] mu_std; // group means
   real<lower=0> sigma_std; // common standard deviation 
   real<lower=1> nu;
 }
 model {
-  mu_std ~ normal(0, 2);  
-  sigma_std ~ normal(0, 2);     
-  nu ~ gamma(2, 0.1);   // Juárez and Steel(2010)
-  y_std ~ student_t(nu, mu_std[x], sigma_std); 
+  mu_std ~ normal(0, 2);
+  sigma_std ~ normal(0, 2);
+  nu ~ gamma(2, 0.1); // Juárez and Steel(2010)
+  y_std ~ student_t(nu, mu_std[x], sigma_std);
 }
 generated quantities {
   vector[K] mu;
   real<lower=0> sigma;
-  for (i in 1:K) {
+  for (i in 1 : K) {
     mu[i] = mu_std[i] * sd(y) + mean(y);
   }
   sigma = sd(y) * sigma_std;
@@ -410,9 +408,7 @@ fit2 <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 

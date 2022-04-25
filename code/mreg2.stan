@@ -13,8 +13,8 @@ parameters {
 }
 transformed parameters {
   vector[N] mu;
-  for (n in 1:N){
-    mu[n] = alpha + beta1*x1[n] + beta2*x2[n];
+  for (n in 1 : N) {
+    mu[n] = alpha + beta1 * x1[n] + beta2 * x2[n];
   }
 }
 model {
@@ -27,7 +27,7 @@ model {
 generated quantities {
   vector[N] y_rep;
   vector[N] log_lik;
-  for (n in 1:N){
+  for (n in 1 : N) {
     y_rep[n] = normal_rng(mu[n], sigma);
     log_lik[n] = normal_lpdf(y[n] | x1[n] * beta1 + x2[n] * beta2, sigma);
   }

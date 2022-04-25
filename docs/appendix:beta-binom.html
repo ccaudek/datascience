@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Appendice F Modello Beta-binomiale | Data Science per psicologi</title>
   <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Appendice F Modello Beta-binomiale | Data Science per psicologi" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-24" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -465,8 +465,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="19.3.1" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
 <li class="chapter" data-level="19.3.2" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
-<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
-<li class="chapter" data-level="19.3.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-3"><i class="fa fa-check"></i><b>19.3.3</b> Fase 3</a></li>
 </ul></li>
 <li class="chapter" data-level="19.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
 <li class="chapter" data-level="19.5" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
@@ -837,42 +836,42 @@ div.csl-indent {
 <div id="funzione-per-il-modello-beta-binomiale" class="section level2 hasAnchor" number="43.1">
 <h2><span class="header-section-number">F.1</span> Funzione per il modello Beta-binomiale<a href="appendix:beta-binom.html#funzione-per-il-modello-beta-binomiale" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La seguente funzione può essere usata per rappresentare la distribuzione a priori, la distribuzione a posteriori e la versosimiglianza (normalizzata) nel caso del modello Beta-binomiale. I parametri in input sono, nell’ordine, i parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> della distribuzione a priori Beta, <span class="math inline">\(y\)</span> (numero di successi) e <span class="math inline">\(n\)</span> (numero di prove).</p>
-<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="appendix:beta-binom.html#cb528-1" aria-hidden="true" tabindex="-1"></a>plot_beta_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, y, n) {</span>
-<span id="cb528-2"><a href="appendix:beta-binom.html#cb528-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb528-3"><a href="appendix:beta-binom.html#cb528-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb528-4"><a href="appendix:beta-binom.html#cb528-4" aria-hidden="true" tabindex="-1"></a>  df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>))</span>
-<span id="cb528-5"><a href="appendix:beta-binom.html#cb528-5" aria-hidden="true" tabindex="-1"></a>  prior_un <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(df1<span class="sc">$</span>theta, a, b)</span>
-<span id="cb528-6"><a href="appendix:beta-binom.html#cb528-6" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>prior <span class="ot">&lt;-</span> prior_un <span class="sc">/</span> <span class="fu">sum</span>(prior_un)</span>
-<span id="cb528-7"><a href="appendix:beta-binom.html#cb528-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-8"><a href="appendix:beta-binom.html#cb528-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Likelihood</span></span>
-<span id="cb528-9"><a href="appendix:beta-binom.html#cb528-9" aria-hidden="true" tabindex="-1"></a>  like_un <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, n, <span class="at">prob =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>))</span>
-<span id="cb528-10"><a href="appendix:beta-binom.html#cb528-10" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>like <span class="ot">&lt;-</span> like_un <span class="sc">/</span> <span class="fu">sum</span>(like_un)</span>
-<span id="cb528-11"><a href="appendix:beta-binom.html#cb528-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-12"><a href="appendix:beta-binom.html#cb528-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Posterior</span></span>
-<span id="cb528-13"><a href="appendix:beta-binom.html#cb528-13" aria-hidden="true" tabindex="-1"></a>  post_un <span class="ot">&lt;-</span> df1<span class="sc">$</span>prior <span class="sc">*</span> df1<span class="sc">$</span>like</span>
-<span id="cb528-14"><a href="appendix:beta-binom.html#cb528-14" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>post <span class="ot">&lt;-</span> post_un <span class="sc">/</span> <span class="fu">sum</span>(post_un)</span>
-<span id="cb528-15"><a href="appendix:beta-binom.html#cb528-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-16"><a href="appendix:beta-binom.html#cb528-16" aria-hidden="true" tabindex="-1"></a>  df2 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
-<span id="cb528-17"><a href="appendix:beta-binom.html#cb528-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">!</span>theta, <span class="at">names_to =</span> <span class="st">&quot;grp&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;val&quot;</span>)</span>
-<span id="cb528-18"><a href="appendix:beta-binom.html#cb528-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-19"><a href="appendix:beta-binom.html#cb528-19" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>grp <span class="ot">&lt;-</span> <span class="fu">factor</span>(df2<span class="sc">$</span>grp)</span>
-<span id="cb528-20"><a href="appendix:beta-binom.html#cb528-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># levels(df2$grp)</span></span>
-<span id="cb528-21"><a href="appendix:beta-binom.html#cb528-21" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>grp <span class="ot">&lt;-</span> <span class="fu">factor</span>(df2<span class="sc">$</span>grp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;like&quot;</span>, <span class="st">&quot;post&quot;</span>))</span>
-<span id="cb528-22"><a href="appendix:beta-binom.html#cb528-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">levels</span>(df2<span class="sc">$</span>grp) <span class="ot">&lt;-</span></span>
-<span id="cb528-23"><a href="appendix:beta-binom.html#cb528-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
-<span id="cb528-24"><a href="appendix:beta-binom.html#cb528-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Distribuzione a priori&quot;</span>, <span class="st">&quot;Verosimiglianza&quot;</span>,</span>
-<span id="cb528-25"><a href="appendix:beta-binom.html#cb528-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Distribuzione a posteriori&quot;</span></span>
-<span id="cb528-26"><a href="appendix:beta-binom.html#cb528-26" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb528-27"><a href="appendix:beta-binom.html#cb528-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-28"><a href="appendix:beta-binom.html#cb528-28" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df2) <span class="sc">+</span></span>
-<span id="cb528-29"><a href="appendix:beta-binom.html#cb528-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(theta, val)) <span class="sc">+</span></span>
-<span id="cb528-30"><a href="appendix:beta-binom.html#cb528-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>grp, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
-<span id="cb528-31"><a href="appendix:beta-binom.html#cb528-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb528-32"><a href="appendix:beta-binom.html#cb528-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb528-33"><a href="appendix:beta-binom.html#cb528-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb528-34"><a href="appendix:beta-binom.html#cb528-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb528-35"><a href="appendix:beta-binom.html#cb528-35" aria-hidden="true" tabindex="-1"></a>  p</span>
-<span id="cb528-36"><a href="appendix:beta-binom.html#cb528-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="appendix:beta-binom.html#cb529-1" aria-hidden="true" tabindex="-1"></a>plot_beta_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, y, n) {</span>
+<span id="cb529-2"><a href="appendix:beta-binom.html#cb529-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb529-3"><a href="appendix:beta-binom.html#cb529-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb529-4"><a href="appendix:beta-binom.html#cb529-4" aria-hidden="true" tabindex="-1"></a>  df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>))</span>
+<span id="cb529-5"><a href="appendix:beta-binom.html#cb529-5" aria-hidden="true" tabindex="-1"></a>  prior_un <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(df1<span class="sc">$</span>theta, a, b)</span>
+<span id="cb529-6"><a href="appendix:beta-binom.html#cb529-6" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>prior <span class="ot">&lt;-</span> prior_un <span class="sc">/</span> <span class="fu">sum</span>(prior_un)</span>
+<span id="cb529-7"><a href="appendix:beta-binom.html#cb529-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-8"><a href="appendix:beta-binom.html#cb529-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Likelihood</span></span>
+<span id="cb529-9"><a href="appendix:beta-binom.html#cb529-9" aria-hidden="true" tabindex="-1"></a>  like_un <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, n, <span class="at">prob =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="fl">0.001</span>))</span>
+<span id="cb529-10"><a href="appendix:beta-binom.html#cb529-10" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>like <span class="ot">&lt;-</span> like_un <span class="sc">/</span> <span class="fu">sum</span>(like_un)</span>
+<span id="cb529-11"><a href="appendix:beta-binom.html#cb529-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-12"><a href="appendix:beta-binom.html#cb529-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Posterior</span></span>
+<span id="cb529-13"><a href="appendix:beta-binom.html#cb529-13" aria-hidden="true" tabindex="-1"></a>  post_un <span class="ot">&lt;-</span> df1<span class="sc">$</span>prior <span class="sc">*</span> df1<span class="sc">$</span>like</span>
+<span id="cb529-14"><a href="appendix:beta-binom.html#cb529-14" aria-hidden="true" tabindex="-1"></a>  df1<span class="sc">$</span>post <span class="ot">&lt;-</span> post_un <span class="sc">/</span> <span class="fu">sum</span>(post_un)</span>
+<span id="cb529-15"><a href="appendix:beta-binom.html#cb529-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-16"><a href="appendix:beta-binom.html#cb529-16" aria-hidden="true" tabindex="-1"></a>  df2 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
+<span id="cb529-17"><a href="appendix:beta-binom.html#cb529-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">!</span>theta, <span class="at">names_to =</span> <span class="st">&quot;grp&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;val&quot;</span>)</span>
+<span id="cb529-18"><a href="appendix:beta-binom.html#cb529-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-19"><a href="appendix:beta-binom.html#cb529-19" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>grp <span class="ot">&lt;-</span> <span class="fu">factor</span>(df2<span class="sc">$</span>grp)</span>
+<span id="cb529-20"><a href="appendix:beta-binom.html#cb529-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># levels(df2$grp)</span></span>
+<span id="cb529-21"><a href="appendix:beta-binom.html#cb529-21" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>grp <span class="ot">&lt;-</span> <span class="fu">factor</span>(df2<span class="sc">$</span>grp, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;like&quot;</span>, <span class="st">&quot;post&quot;</span>))</span>
+<span id="cb529-22"><a href="appendix:beta-binom.html#cb529-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">levels</span>(df2<span class="sc">$</span>grp) <span class="ot">&lt;-</span></span>
+<span id="cb529-23"><a href="appendix:beta-binom.html#cb529-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb529-24"><a href="appendix:beta-binom.html#cb529-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Distribuzione a priori&quot;</span>, <span class="st">&quot;Verosimiglianza&quot;</span>,</span>
+<span id="cb529-25"><a href="appendix:beta-binom.html#cb529-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Distribuzione a posteriori&quot;</span></span>
+<span id="cb529-26"><a href="appendix:beta-binom.html#cb529-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb529-27"><a href="appendix:beta-binom.html#cb529-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-28"><a href="appendix:beta-binom.html#cb529-28" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df2) <span class="sc">+</span></span>
+<span id="cb529-29"><a href="appendix:beta-binom.html#cb529-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(theta, val)) <span class="sc">+</span></span>
+<span id="cb529-30"><a href="appendix:beta-binom.html#cb529-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>grp, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb529-31"><a href="appendix:beta-binom.html#cb529-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb529-32"><a href="appendix:beta-binom.html#cb529-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb529-33"><a href="appendix:beta-binom.html#cb529-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb529-34"><a href="appendix:beta-binom.html#cb529-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb529-35"><a href="appendix:beta-binom.html#cb529-35" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb529-36"><a href="appendix:beta-binom.html#cb529-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
 </div>

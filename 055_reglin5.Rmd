@@ -85,8 +85,7 @@ generated quantities {
   real beta;
   real<lower=0> sigma;
   real cohen_d;
-  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x))
-           + mean(y);
+  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x)) + mean(y);
   beta = beta_std * sd(y) / sd(x);
   sigma = sd(y) * sigma_std;
   cohen_d = beta / sigma;
@@ -121,9 +120,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
@@ -201,6 +198,6 @@ In conclusione, il valore $d$ di Cohen di entità "media" [$d$ > 0.5; @sawilowsk
 
 ## Commenti e considerazioni finali {-}
 
-La dimensione dell'effetto formulata nei termini dell'indice $d$ di Cohen fornisce un indice che non dipende dall'unità di misura delle variabili, ovvero è una differenza media standardizzata. L'intrepretazione di $d$ è semplice: la scala di $d$ è la deviazione standard. Se, per esempio, $d = 0.5$, allora la media di un primo gruppo è mezza deviazione standard più grande della media del secondo gruppo. In questo Capitolo abbiamo visto come $d$ possa essere calcolato mediante un modello lineare bayesiano implementato in linguaggio Stan.
+La dimensione dell'effetto formulata nei termini dell'indice $d$ di Cohen fornisce un indice che non dipende dall'unità di misura delle variabili, ovvero è una differenza media standardizzata. L'interpretazione di $d$ è semplice: la scala di $d$ è la deviazione standard. Se, per esempio, $d = 0.5$, allora la media di un primo gruppo è mezza deviazione standard più grande della media del secondo gruppo. In questo Capitolo abbiamo visto come $d$ possa essere calcolato mediante un modello lineare bayesiano implementato in linguaggio Stan.
 
 

@@ -3,7 +3,7 @@
 ```{r c040, include = FALSE}
 source("_common.R")
 source("_stan_options.R")
-suppressPackageStartupMessages(library("rethinking")) 
+# suppressPackageStartupMessages(library("rethinking")) 
 ```
 
 In questo Capitolo introdurremo un linguaggio di programmazione probabilistica chiamato [Stan](http://mc-stan.org/) [@carpenter2017stan]. Stan consente di generare campioni da distribuzioni di probabilità basati sulla costruzione di una catena di Markov avente come distribuzione di equilibrio (o stazionaria) la distribuzione desiderata. Prende il nome da uno dei creatori del metodo Monte Carlo, Stanislaw Ulam [@Eckhardt1987stan]. Un'introduzione al linguaggio Stan è fornita nell'Appendice \@ref(appendix:intro-stan). In questo Capitolo useremo Stan per fare inferenza su una proporzione.
@@ -47,12 +47,8 @@ Iniziamo con il caricare i pacchetti necessari:
 ```{r, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library("cmdstanr")
 library("posterior")
-# rstan_options(auto_write = TRUE) # avoid recompilation of models
-# parallelize across all CPUs
-options(mc.cores = parallel::detectCores()) 
-# improve execution time
-Sys.setenv(LOCAL_CPPFLAGS = '-march=native') 
-SEED <- 374237 # set random seed for reproducibility
+availableCores()
+SEED <- 84735 # set random seed for reproducibility
 ```
 
 Per svolgere l'analisi mediante `cmdstanr` è necessario prima specificare la struttura del modello bayesiano nella notazione Stan e, poi, eseguire il campionamento dalla distribuzione a posteriori. Esaminiamo questi due passaggi per il caso dell'esempio presente. 
@@ -68,25 +64,25 @@ data1_list <- list(
 )
 ```
 
-Il *modello* è $\mbox{Bin}(n, \theta)$ e, in linguaggio Stan, può essere specificato come 
+Il *modello* è $\mbox{Bin}(n, \theta)$. Oppure, dato che abbiamo specificato in input ciascuna singola osservazione, $\mbox{Bernoulli}(\theta)$. In linguaggio Stan, la verosimiglianza si specifica nel modo seguente. 
 
 ```{r, eval=FALSE}
 y ~ bernoulli(theta);
 ```
 
-Il modello dipende dal *parametro* `theta`. In Stan, dobbiamo specificare che `theta` può essere un qualsiasi numero reale compreso tra 0 e 1. Inoltre, dobbiamo specificare la distribuzione a priori di  $\theta$. Per questo parametro abbiamo scelto una $\mbox{Beta}(2, 2)$ e, in linguaggio Stan, scriviamo 
+La verosimiglianza dipende dal *parametro* `theta`. In Stan, è necessario specificare che `theta` è un numero reale compreso tra 0 e 1. Inoltre, è necessario imporre su   $\theta$ una distribuzione a priori. Nel caso presente abbiamo scelto una $\mbox{Beta}(2, 2)$ e, in linguaggio Stan, scriviamo la distribuzione a priori per $\theta$ ne modo seguente.
 
 ```{r, eval=FALSE}
 theta ~ beta(2, 2);
 ```
 
-Memorizziamo ora il modello beta-binomiale specificato in linguaggio Stan come stringa di caratteri nel file `oneprop.stan`:
+Memorizziamo il modello beta-binomiale che abbiamo specificato in linguaggio Stan come stringa di caratteri.
 
 ```{r}
 modelString = "
 data {
   int<lower=0> N;
-  int<lower=0, upper=1> y[N];
+  array[N] int<lower=0, upper=1> y;
 }
 parameters {
   real<lower=0, upper=1> theta;
@@ -96,24 +92,31 @@ model {
   y ~ bernoulli(theta);
 }
 "
+```
+
+Utilizzando il seguente [link](https://rok-cesnovar.github.io/stanc3js-demo/autoformat.html) si può ottenere una formattazione automatica del codice e anche, i qualche misura, una correzione della sintassi, in caso.
+
+Salviamo `modelString` in un file a cui assegniamo il nome `oneprop.stan` (si noti l'estensione `.stan`). Sul mio computer ho creato una cartella chiamata `code` dove salvo i file `.stan`. Se non vogliamo definire una sotto-cartella chiamata `code`, è sufficiente scrivere `writeLines(modelString, con = "oneprop.stan")`.
+
+```{r}
 writeLines(modelString, con = "code/oneprop.stan")
 ```
 
 ### Fase 2
 
-Per utilizzare il modello specificato, leggiamo l'indirizzo del file che contiene il codice Stan:
+Per utilizzare il modello che abbiamo specificato, prima leggiamo l'indirizzo del file che contiene il codice Stan
 
 ```{r}
 file <- file.path("code", "oneprop.stan")
 ```
 
-Compiliamo il codice 
+poi compiliamo il codice Stan. Questo crea un file eseguibile che, nel caso presente, abbiamo chiamato `mod`.
 
 ```{r, message=FALSE, comment=FALSE, error=FALSE}
 mod <- cmdstan_model(file)
 ```
 
-ed eseguiamo il campionamento MCMC con la chiamata
+Possiamo ora eseguire il campionamento MCMC con la seguente chiamata.
 
 ```{r, message=FALSE, comment=FALSE, error=FALSE, results='hide'}
 fit1 <- mod$sample(
@@ -122,32 +125,27 @@ fit1 <- mod$sample(
   iter_warmup = 2000L,
   seed = 84735,
   chains = 4L,
-  parallel_chains = 4L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
+Si noti che `$sample()` è un "metodo" che viene applicato al file eseguibile che abbiamo compilato, al quale è stato assegnato il nome `mod`.
+
+Il metodo `$sample()` richiede una serie di argomenti.
+
+- `data`, ovvero i dati in input in formato lista (nel caso presente, `data1_list`).
+- `chains` specifica quante catene di Markov parallele eseguire. Eseguiamo qui quattro catene, quindi otterremo quattro campioni distinti di valori $\pi$. 
+- `iter` specifica il numero desiderato di iterazioni o la lunghezza di ciascuna catena di Markov. Per impostazione predefinita, la prima metà di queste iterazioni è costituita da campioni "burn-in" o "warm-up" che verranno ignorati. La seconda metà è conservata e costituisce un campione della distribuzione a posteriori.
+- `iter_warmup` specifica il numero di campioni "warm-up" che vogliamo vengano ignorati. 
+- `seed` imposta il numero casuale che viene usato per generare il punto di partenza di ciascuna catena di Markov. 
+
 Avendo assunto una distribuzione a priori per il parametro $\theta$, l'algoritmo procede in maniera ciclica, correggendo la distribuzione a priori di $\theta$ condizionandola ai valori già generati. Dopo un certo numero di cicli, necessari per portare l'algoritmo a convergenza, i valori estratti possono essere assunti come campionati dalla distribuzione a posteriori di $\theta$.
 
-Si noti che `$sample()` richiede due tipi di informazioni. Innanzitutto, dobbiamo specificare le informazioni sul modello in base a:
-
-- `mod` = la stringa di caratteri che definisce il modello (qui `oneprop.stan`),
-- `data` = i dati in formato lista (`data1_list`).
-
-Dobbiamo inoltre specificare le informazioni sul campionamento MCMC utilizzando alcuni argomenti aggiuntivi:
-
-- L'argomento `chains` specifica quante catene di Markov parallele eseguire. Eseguiamo qui quattro catene, quindi otteniamo quattro campioni distinti di valori $\pi$. 
-- L'argomento `iter` specifica il numero desiderato di iterazioni o la lunghezza di ciascuna catena di Markov. Per impostazione predefinita, la prima metà di queste iterazioni è costituita da campioni "burn-in" o "warm-up" che verranno ignorati. La seconda metà è conservata e costituisce un campione della distribuzione a posteriori.
-- L'argomento `seed` per impostare il numero casuale che genera il seme per una simulazione `cmdstanr`.
-
-### Burn-in
-
 Al crescere del numero di passi della catena, la distribuzione di target viene sempre meglio approssimata. All'inizio del campionamento, però, la distribuzione può essere significativamente lontana da quella stazionaria, e ci vuole un certo tempo prima di raggiungere la distribuzione stazionaria di equilibrio, detto, appunto, periodo di *burn-in*. I campioni provenienti da tale parte iniziale della catena vanno tipicamente scartati perché possono non rappresentare accuratamente la distribuzione a posteriori.
- 
-### Inferenza
 
-Un sommario della distribuzione a posteriori si ottiene con:
+### Fase 3
+
+Possiamo ora fare inferenza usando i risultati ottenuti. Un sommario della distribuzione a posteriori si ottiene con:
 
 ```{r}
 fit1$summary(c("theta"))
@@ -225,9 +223,9 @@ $$
 \omega = \frac{\theta_2 / (1-\theta_2)}{\theta_1 / (1-\theta_1)},
 $$
 
-ovvero il rapporto tra gli Odds di positività tra i pazienti del gruppo di controllo e gli Odds di positività tra i pazienti del gruppo sperimentale. Se il valore dell'OR è uguale a 1, significa che l'Odds di positività nel gruppo di controllo è uguale all'Odds di positività nel gruppo sperimentale, cioè il fattore in esame (somministrazione dell'idrossiclorochina) è ininfluente sulla comparsa della malattia. L'inferenza statistica sull'efficacia dell'idrossiclorochina come terapia per il Covid-19 può dunque essere effettuata esaminando l'intervallo di credibilità al 95% per l'OR: se tale intervallo include il valore 1, allora non vi è evidenza che l'idrossiclorochina sia efficace come terapia per il Covid-19.
+ovvero il rapporto tra gli Odds di positività tra i pazienti del gruppo di controllo e gli Odds di positività tra i pazienti del gruppo sperimentale. Se il valore dell'OR è uguale a 1, significa che l'Odds di positività nel gruppo di controllo è uguale all'Odds di positività nel gruppo sperimentale, cioè il fattore in esame (somministrazione dell'idrossiclorochina) è ininfluente sulla comparsa della malattia. L'inferenza statistica sull'efficacia dell'idrossiclorochina come terapia per il Covid-19 può dunque essere effettuata esaminando l'intervallo di credibilità al 95% per l'OR: se tale intervallo include il valore 1, allora non c'è evidenza che l'idrossiclorochina sia efficace come terapia per il Covid-19.
 
-Nell'implementazione di questo modello, la quantità di interesse è dunque l'odds ratio; tale quantità viene calcolata nel blocco `generated quantities` del programma Stan. Per i parametri $\theta_1$ e $\theta_2$ useremo delle distribuzioni a priori debolmente informative il cui unico scopo è la regolarizzazione dei dati.
+Nell'implementazione di questo modello, la quantità di interesse è l'odds ratio; tale quantità viene calcolata nel blocco `generated quantities`. Per i parametri $\theta_1$ e $\theta_2$ useremo delle distribuzioni a priori debolmente informative il cui scopo è la regolarizzazione dei dati.
 
 ```{r}
 data_list <- list(
@@ -242,24 +240,23 @@ data_list <- list(
 modelString <- "
 //  Comparison of two groups with Binomial
 data {
-  int<lower=0> N1;              // number of experiments in group 1
-  int<lower=0> y1;              // number of deaths in group 1
-  int<lower=0> N2;              // number of experiments in group 2
-  int<lower=0> y2;              // number of deaths in group 2
+  int<lower=0> N1; // number of experiments in group 1
+  int<lower=0> y1; // number of deaths in group 1
+  int<lower=0> N2; // number of experiments in group 2
+  int<lower=0> y2; // number of deaths in group 2
 }
 parameters {
-  real<lower=0,upper=1> theta1; // probability of death in group 1
-  real<lower=0,upper=1> theta2; // probability of death in group 2
+  real<lower=0, upper=1> theta1; // probability of death in group 1
+  real<lower=0, upper=1> theta2; // probability of death in group 2
 }
 model {
-  theta1 ~ beta(2, 2);          // prior
-  theta2 ~ beta(2, 2);          // prior
-  y1 ~ binomial(N1, theta1);    // observation model / likelihood
-  y2 ~ binomial(N2, theta2);    // observation model / likelihood
+  theta1 ~ beta(2, 2); // prior
+  theta2 ~ beta(2, 2); // prior
+  y1 ~ binomial(N1, theta1); // likelihood
+  y2 ~ binomial(N2, theta2); // likelihood
 }
 generated quantities {
-  // generated quantities are computed after sampling
-  real oddsratio = (theta2/(1-theta2))/(theta1/(1-theta1));
+  real oddsratio = (theta2 / (1 - theta2)) / (theta1 / (1 - theta1));
 }
 "
 writeLines(modelString, con = "code/twoprop1.stan")
@@ -280,9 +277,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 4L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 

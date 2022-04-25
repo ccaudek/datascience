@@ -26,8 +26,7 @@ generated quantities {
   real beta;
   real<lower=0> sigma;
   real cohen_d;
-  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x))
-           + mean(y);
+  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x)) + mean(y);
   beta = beta_std * sd(y) / sd(x);
   sigma = sd(y) * sigma_std;
   cohen_d = beta / sigma;

@@ -149,7 +149,7 @@ Riportiamo qui sotto il codice Stan per generare $p(y^{rep} \mid y)$ nel caso de
 modelString = "
 data {
   int<lower=0> N;
-  int<lower=0, upper=1> y[N];
+  array[N] int<lower=0, upper=1> y;
 }
 parameters {
   real<lower=0, upper=1> theta;
@@ -159,9 +159,9 @@ model {
   y ~ bernoulli(theta);
 }
 generated quantities {
-  int y_rep[N];
-  real log_lik[N];
-  for (n in 1:N) {
+  array[N] int y_rep;
+  array[N] real log_lik;
+  for (n in 1 : N) {
     y_rep[n] = bernoulli_rng(theta);
     log_lik[n] = bernoulli_lpmf(y[n] | theta);
   }
@@ -294,7 +294,7 @@ model {
 }
 generated quantities {
   vector[N] y_rep;
-  for (n in 1:N) {
+  for (n in 1 : N) {
     y_rep[n] = normal_rng(mu, sigma);
   }
 }
@@ -313,9 +313,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  cores = 4L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
@@ -390,7 +388,7 @@ model {
 }
 generated quantities {
   vector[N] y_rep;
-  for (n in 1:N) {
+  for (n in 1 : N) {
     y_rep[n] = student_t_rng(nu, mu, sigma);
   }
 }
@@ -409,10 +407,7 @@ fit <- mod$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  cores = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 

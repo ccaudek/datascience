@@ -1,8 +1,8 @@
 
 data {
   int<lower=1> N; //number of data points
-  real rt[N]; //reading time
-  real<lower=-0.5, upper=0.5> so[N]; //predictor
+  array[N] real rt; //reading time
+  array[N] real<lower=-0.5, upper=0.5> so; //predictor
 }
 parameters {
   vector[2] beta; //fixed intercept and slope
@@ -14,7 +14,7 @@ model {
   beta[1] ~ normal(6, 1.5);
   beta[2] ~ normal(0, 1);
   sigma_e ~ cauchy(0, 1);
-  for (i in 1:N){
+  for (i in 1 : N) {
     mu = beta[1] + beta[2] * so[i];
     rt[i] ~ lognormal(mu, sigma_e);
   }

@@ -408,8 +408,7 @@ una-proporzione
 cmdstanr-gautret
 fase-1
 fase-2
-burn-in
-inferenza
+fase-3
 la-critica-di-hulme_2020
 due-proporzioni
 ch-diagn-markov-chains

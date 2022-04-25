@@ -1,12 +1,12 @@
 
 data {
   int<lower=1> N; //number of data points
-  real rt[N]; //reading time
-  real<lower=-0.5, upper=0.5> so[N]; //predictor
+  array[N] real rt; //reading time
+  array[N] real<lower=-0.5, upper=0.5> so; //predictor
   int<lower=1> J; //number of subjects
   int<lower=1> K; //number of items
-  int<lower=1, upper=J> subj[N]; //subject id
-  int<lower=1, upper=K> item[N]; //item id
+  array[N] int<lower=1, upper=J> subj; //subject id
+  array[N] int<lower=1, upper=K> item; //item id
 }
 parameters {
   vector[2] beta; //fixed intercept and slope
@@ -22,7 +22,7 @@ model {
   u ~ normal(0, sigma_u); //subj random effects
   w ~ normal(0, sigma_w); //item random effects
   // likelihood
-  for (i in 1:N){
+  for (i in 1 : N) {
     mu = beta[1] + u[subj[i]] + w[item[i]] + beta[2] * so[i];
     rt[i] ~ lognormal(mu, sigma_e);
   }

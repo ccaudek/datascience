@@ -80,7 +80,7 @@ model {
   beta ~ normal(0, 1);
   sigma ~ cauchy(18, 5);
   // likelihood
-  for (n in 1:N)
+  for (n in 1 : N) 
     y[n] ~ normal(alpha + beta * x[n], sigma);
 }
 "
@@ -218,9 +218,9 @@ Modificando il codice del modello precedente otteniamo il modello Stan per dati 
 ```{r}
 model_string_2 = "
 data {
-  int<lower=0> N; 
-  vector[N] y; 
-  vector[N] x; 
+  int<lower=0> N;
+  vector[N] y;
+  vector[N] x;
 }
 transformed data {
   vector[N] x_std;
@@ -234,13 +234,13 @@ parameters {
   real<lower=0> sigma_std;
 }
 transformed parameters {
-  vector[N] mu_std = alpha_std + beta_std * x_std; 
+  vector[N] mu_std = alpha_std + beta_std * x_std;
 }
 model {
-  alpha_std ~ normal(0, 1); 
-  beta_std ~ normal(0, 1);  
-  sigma_std ~ normal(0, 1); 
-  y_std ~ normal(mu_std, sigma_std); 
+  alpha_std ~ normal(0, 1);
+  beta_std ~ normal(0, 1);
+  sigma_std ~ normal(0, 1);
+  y_std ~ normal(mu_std, sigma_std);
 }
 generated quantities {
   // transform to the original data scale

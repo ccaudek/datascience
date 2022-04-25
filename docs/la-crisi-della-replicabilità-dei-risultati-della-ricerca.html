@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capitolo 36 La crisi della replicabilità dei risultati della ricerca | Data Science per psicologi</title>
   <meta name="description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="generator" content="bookdown 0.26.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capitolo 36 La crisi della replicabilità dei risultati della ricerca | Data Science per psicologi" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-24" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -465,8 +465,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="19.3.1" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-1"><i class="fa fa-check"></i><b>19.3.1</b> Fase 1</a></li>
 <li class="chapter" data-level="19.3.2" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-2"><i class="fa fa-check"></i><b>19.3.2</b> Fase 2</a></li>
-<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#burn-in"><i class="fa fa-check"></i><b>19.3.3</b> Burn-in</a></li>
-<li class="chapter" data-level="19.3.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#inferenza"><i class="fa fa-check"></i><b>19.3.4</b> Inferenza</a></li>
+<li class="chapter" data-level="19.3.3" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#fase-3"><i class="fa fa-check"></i><b>19.3.3</b> Fase 3</a></li>
 </ul></li>
 <li class="chapter" data-level="19.4" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#la-critica-di-hulme_2020"><i class="fa fa-check"></i><b>19.4</b> La critica di <span class="citation">Hulme et al. (<span>2020</span>)</span></a></li>
 <li class="chapter" data-level="19.5" data-path="ch-stan-beta-binom.html"><a href="ch-stan-beta-binom.html#due-proporzioni"><i class="fa fa-check"></i><b>19.5</b> Due proporzioni</a></li>
@@ -913,81 +912,81 @@ s_p = \sqrt{
 <div id="una-piccola-dimensione-delleffetto-nella-popolazione" class="section level3 hasAnchor" number="36.6.2">
 <h3><span class="header-section-number">36.6.2</span> Una piccola dimensione dell’effetto nella popolazione<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-piccola-dimensione-delleffetto-nella-popolazione" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consideriamo due ‘popolazioni’ la cui distribuzione è Normale di media 103 (la prima) e 100 (la seconda). Per entrambe, la deviazione standard è uguale a 15.</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 1</span></span>
-<span id="cb510-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-2" aria-hidden="true" tabindex="-1"></a>mu_1 <span class="ot">&lt;-</span> <span class="dv">103</span></span>
-<span id="cb510-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 2</span></span>
-<span id="cb510-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-4" aria-hidden="true" tabindex="-1"></a>mu_2 <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb510-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-5" aria-hidden="true" tabindex="-1"></a><span class="co"># SD comune</span></span>
-<span id="cb510-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb510-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">15</span></span></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 1</span></span>
+<span id="cb511-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-2" aria-hidden="true" tabindex="-1"></a>mu_1 <span class="ot">&lt;-</span> <span class="dv">103</span></span>
+<span id="cb511-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Popolazione 2</span></span>
+<span id="cb511-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-4" aria-hidden="true" tabindex="-1"></a>mu_2 <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb511-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-5" aria-hidden="true" tabindex="-1"></a><span class="co"># SD comune</span></span>
+<span id="cb511-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">15</span></span></code></pre></div>
 <p>La dimensione dell’effetto nella popolazione è dunque uguale a</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-1" aria-hidden="true" tabindex="-1"></a>(mu_2 <span class="sc">-</span> mu_1) <span class="sc">/</span> sigma</span>
-<span id="cb511-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb511-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-1" aria-hidden="true" tabindex="-1"></a>(mu_2 <span class="sc">-</span> mu_1) <span class="sc">/</span> sigma</span>
+<span id="cb512-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.2</span></span></code></pre></div>
 <p>Se prendiamo dei campioni enormi</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_1, sigma)</span>
-<span id="cb512-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb512-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_2, sigma)</span></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_1, sigma)</span>
+<span id="cb513-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e5</span>, mu_2, sigma)</span></code></pre></div>
 <p>e applichiamo la formula precedente, otteniamo una stima non distorta della vera dimensione dell’effetto.</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-1" aria-hidden="true" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb513-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(</span>
-<span id="cb513-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">var</span>(x1) <span class="sc">*</span> nn <span class="sc">+</span> <span class="fu">var</span>(x2) <span class="sc">*</span> nn) <span class="sc">/</span> (nn <span class="sc">+</span> nn)</span>
-<span id="cb513-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb513-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-5" aria-hidden="true" tabindex="-1"></a>sp</span>
-<span id="cb513-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb513-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.98042</span></span></code></pre></div>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp</span>
-<span id="cb514-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.200439</span></span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-1" aria-hidden="true" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb514-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(</span>
+<span id="cb514-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">var</span>(x1) <span class="sc">*</span> nn <span class="sc">+</span> <span class="fu">var</span>(x2) <span class="sc">*</span> nn) <span class="sc">/</span> (nn <span class="sc">+</span> nn)</span>
+<span id="cb514-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb514-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-5" aria-hidden="true" tabindex="-1"></a>sp</span>
+<span id="cb514-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb514-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.98042</span></span></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp</span>
+<span id="cb515-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.200439</span></span></code></pre></div>
 <p>Oppure, in maniera equivalente</p>
-<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-1" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
-<span id="cb515-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-2" aria-hidden="true" tabindex="-1"></a>dc</span>
-<span id="cb515-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb515-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d</span></span>
-<span id="cb515-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb515-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; d estimate: 0.200439 (small)</span></span>
-<span id="cb515-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb515-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lower     upper </span></span>
-<span id="cb515-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb515-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1916517 0.2092262</span></span></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-1" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb516-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-2" aria-hidden="true" tabindex="-1"></a>dc</span>
+<span id="cb516-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb516-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d</span></span>
+<span id="cb516-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb516-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; d estimate: 0.200439 (small)</span></span>
+<span id="cb516-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb516-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lower     upper </span></span>
+<span id="cb516-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1916517 0.2092262</span></span></code></pre></div>
 <p>Ma vediamo cosa succede quando i campioni sono piccoli, ovvero simili a quelli che si usano normalmente in psicologia. Supponiamo che <span class="math inline">\(n\)</span> = 30. Nella simulazione consideriamo 100,000 coppie di campioni di 30 osservazioni estratte da ciascuna delle due popolazioni.</p>
 <p>Per ciascuna coppia di 30 osservazioni, calcoliamo un test di significatività statistica (il famoso test <span class="math inline">\(t\)</span> di Student) e il <span class="math inline">\(d\)</span> di Cohen. Alcuni di questi confronti non raggiungono la soglia <span class="math inline">\(p\)</span> = 0.05 e quindi li escludiamo. Infatti, la consuetudine è di <em>non pubblicare</em> i risultati che non sono “statisticamente significativi” (ovvero, con un valore-<span class="math inline">\(p\)</span> &lt; 0.05). Conserviamo invece i campioni che sono risultati “statisticamente significativi”.</p>
 <p>La domanda che ci poniamo è: in che misura i campioni “statisticamente significativi” rispecchiano le caratteristiche della popolazione da cui sono stati estratti?</p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb516-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb516-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb516-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb516-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb516-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb516-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
-<span id="cb516-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
-<span id="cb516-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
-<span id="cb516-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb516-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
-<span id="cb516-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
-<span id="cb516-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb516-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb517-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb517-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb517-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb517-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb517-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb517-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
+<span id="cb517-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
+<span id="cb517-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
+<span id="cb517-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb517-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb517-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
+<span id="cb517-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Intanto calcolo il la proporzione di campioni che producono risultati “pubblicabili”.</p>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(significant)</span>
-<span id="cb517-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb517-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb517-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.0000  0.0000  0.0000  0.1189  0.0000  1.0000</span></span></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(significant)</span>
+<span id="cb518-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb518-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.0000  0.0000  0.0000  0.1189  0.0000  1.0000</span></span></code></pre></div>
 <p>Dopo avere selezionato soltanto i risultati “statisticamente significativi”</p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb518-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
-<span id="cb518-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
-<span id="cb518-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb518-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d)</span>
-<span id="cb518-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 100000      2</span></span>
-<span id="cb518-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-7" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb518-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb518-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-9" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
-<span id="cb518-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb518-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb518-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d_pub)</span>
-<span id="cb518-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb518-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11893     2</span></span></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb519-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
+<span id="cb519-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
+<span id="cb519-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb519-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d)</span>
+<span id="cb519-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 100000      2</span></span>
+<span id="cb519-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-7" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb519-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb519-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-9" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb519-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb519-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb519-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d_pub)</span>
+<span id="cb519-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11893     2</span></span></code></pre></div>
 <p>creo un istogramma della dimensione dell’effetto (calcolata soltanto sui campioni nei quali l’effetto è “statisticamente significativo”).</p>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
-<span id="cb519-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-2" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
-<span id="cb519-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
-<span id="cb519-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
-<span id="cb519-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
-<span id="cb519-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
-<span id="cb519-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb519-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb519-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-524-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb520-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-2" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
+<span id="cb520-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
+<span id="cb520-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
+<span id="cb520-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
+<span id="cb520-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
+<span id="cb520-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb520-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-526-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La simulazione mostra due risultati degni di nota.</p>
 <ol style="list-style-type: decimal">
 <li>Complessivamente, la dimensione dell’effetto viene di molto sovrastimata.</li>
@@ -998,39 +997,39 @@ s_p = \sqrt{
 <div id="una-soluzione-sbagliata" class="section level3 hasAnchor" number="36.6.3">
 <h3><span class="header-section-number">36.6.3</span> Una soluzione (sbagliata)<a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#una-soluzione-sbagliata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Per risolvere questo problema è stato proposto da diversi ricercatori di utilizzare un livello <span class="math inline">\(\alpha\)</span> più “conservativo”.</p>
-<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb520-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb520-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
-<span id="cb520-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb520-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb520-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb520-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
-<span id="cb520-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
-<span id="cb520-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
-<span id="cb520-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb520-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
-<span id="cb520-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
-<span id="cb520-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb520-14"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb520-15"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-15" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb520-16"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
-<span id="cb520-17"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
-<span id="cb520-18"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb520-19"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb520-20"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-20" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
-<span id="cb520-21"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb520-22"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-22" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
-<span id="cb520-23"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb520-24"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb520-25"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
-<span id="cb520-26"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-26" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
-<span id="cb520-27"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
-<span id="cb520-28"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
-<span id="cb520-29"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
-<span id="cb520-30"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
-<span id="cb520-31"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-31" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb520-32"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb520-32" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-525-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-1" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb521-2"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-2" aria-hidden="true" tabindex="-1"></a>nsample <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb521-3"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
+<span id="cb521-4"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-4" aria-hidden="true" tabindex="-1"></a>significant <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb521-5"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-5" aria-hidden="true" tabindex="-1"></a>cohen_d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb521-6"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb521-7"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-7" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_1, sigma)</span>
+<span id="cb521-8"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-8" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nsample, mu_2, sigma)</span>
+<span id="cb521-9"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-9" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x2)</span>
+<span id="cb521-10"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-10" aria-hidden="true" tabindex="-1"></a>  significant[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(out<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb521-11"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-11" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">cohen.d</span>(x1, x2)</span>
+<span id="cb521-12"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-12" aria-hidden="true" tabindex="-1"></a>  cohen_d[i] <span class="ot">&lt;-</span> dc<span class="sc">$</span>estimate</span>
+<span id="cb521-13"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb521-14"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb521-15"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-15" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb521-16"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">is_significant =</span> significant,</span>
+<span id="cb521-17"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> cohen_d</span>
+<span id="cb521-18"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb521-19"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb521-20"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-20" aria-hidden="true" tabindex="-1"></a>d_pub <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb521-21"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb521-22"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-22" aria-hidden="true" tabindex="-1"></a>    is_significant <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb521-23"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb521-24"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb521-25"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb521-26"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-26" aria-hidden="true" tabindex="-1"></a>  d_pub<span class="sc">$</span>d,</span>
+<span id="cb521-27"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Indice d di Cohen&quot;</span>,</span>
+<span id="cb521-28"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Densità&quot;</span>,</span>
+<span id="cb521-29"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Soltanto risultati pubblicabili&quot;</span>,</span>
+<span id="cb521-30"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span></span>
+<span id="cb521-31"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb521-32"><a href="la-crisi-della-replicabilità-dei-risultati-della-ricerca.html#cb521-32" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-527-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Come mostrato dai risultati della simulazione, l’uso di una soglia più “conservativa” non ha altro effetto che quello di esacerbare il problema: la sovrastima della dimensione dell’effetto aumenta.</p>
 <p>In conclusione, si può dire che l’uso dell’approccio frequentista garantisce, senza possibilità di dubbio, il fatto di giungere alla conclusione inferenziale sbagliata.</p>
 
