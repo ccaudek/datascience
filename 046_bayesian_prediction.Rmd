@@ -6,20 +6,20 @@ source("_stan_options.R")
 register_knitr_engine()
 ```
 
-Oltre ad una sintesi della distribuzione a posteriori attraverso il computo di indici caratteristici e alla verifica di ipotesi, un altro compito dell'analisi bayesiana è la predizione di nuovi dati futuri. Dopo aver osservato i dati di un campione e dopo avere ricavato le distribuzioni a posteriori dei parametri, è infatti possibile ottenere delle indicazioni sulle proprietà di dati futuri. L'uso più immediato della stima della distribuzione dei possibili valori futuri della variabile di esito è la verifica del modello. Infatti, il modo più diretto per testare un modello è quello di utilizzare il modello per fare previsioni sui possibili dati futuri per poi confrontare i dati predetti con i dati effettivi. Questa pratica va sotto il nome di _controllo predittivo a posteriori_. In questo capitolo ci focalizzeremo sul problema della predizione bayesiana esaminando il caso più semplice, ovvero lo schema beta-binomiale. In seguito estenderemo questa discussione al caso generale.
+Oltre ad una sintesi della distribuzione a posteriori attraverso il computo di indici caratteristici e alla verifica di ipotesi, un altro compito dell'analisi bayesiana è la predizione di nuovi dati futuri. Dopo aver osservato i dati di un campione e dopo avere ricavato le distribuzioni a posteriori dei parametri, è infatti possibile ottenere delle indicazioni sulle proprietà di dati futuri. L'uso più immediato della stima della distribuzione dei possibili valori futuri della variabile di esito è la verifica del modello in esame. Infatti, il modo più diretto per testare un modello è quello di utilizzare il modello corrente per fare previsioni sui possibili dati futuri per poi confrontare i dati predetti con i dati che sono stati effettivamente osservati nel campione corrente. Questa pratica va sotto il nome di _controllo predittivo a posteriori_. In questo capitolo ci focalizzeremo sul problema della predizione bayesiana esaminando il caso più semplice, ovvero lo schema beta-binomiale. In seguito estenderemo questa discussione al caso generale.
 
 ## La distribuzione predittiva 
 
-Una volta costruita la distribuzione a posteriori del parametro $\theta$, potremmo essere interessati a utilizzare il nostro modello statistico allo scopo di prevedere la probabilità di risultati futuri basandosi sui dati storici. L'obiettivo è andare oltre la comprensione di cosa è successo per arrivare a una migliore valutazione di quello che accadrà in futuro. Questo tipo di analisi inferenziale va sotto il nome di _analisi predittiva_. L'analisi predittiva utilizza i dati che sono già disponibili per sviluppare un modello che può essere usato per prevedere i valori di dati diversi o nuovi. 
+Una volta costruita la distribuzione a posteriori del parametro o dei parametri sconosciuti, potremmo essere interessati a utilizzare il modello bayesiano allo scopo di prevedere la probabilità di risultati futuri basandoci sui dati già osservati. Questo tipo di analisi inferenziale va sotto il nome di _analisi predittiva_. 
 
-L'esempio che considereremo nei dettagli riguarda il caso beta-binomiale, nel quale la distribuzione a priori per il parametro $\theta$ (probabilità di successo) è una distribuzione Beta, la verosimiglianza è binomiale e i dati sono costituiti dal numero $y$ di successi in $n$ prove Bernoulliane indipendenti. Nell'esempio che discuteremo useremo un'altra volta i dati del campione di pazienti clinici depressi di @zetschefuture2019 -- si veda l'Appendice \@ref(es-pratico-zetsche). Supponendo di volere esaminare in futuro altri $m$ pazienti clinici, ci chiediamo: quanti di essi manifesteranno una depressione grave?
+L'esempio che considereremo qui nei dettagli riguarda il caso beta-binomiale, nel quale la distribuzione a priori per il parametro ignoto $\theta$ (ovvero, la probabilità di successo) è una distribuzione Beta, la verosimiglianza è binomiale e i dati sono costituiti dal numero $y$ di successi in $n$ prove Bernoulliane indipendenti. Nell'esempio che discuteremo useremo un'altra volta i dati del campione di pazienti clinici depressi di @zetschefuture2019. Supponendo di volere esaminare in futuro altri $m$ pazienti clinici, ci chiediamo: quanti di essi manifesteranno una depressione grave?
 
-Siamo interessati a predire i risultati che si potrebbero osservare in nuovi campioni di $m$ osservazioni. Denotiamo con $\tilde{y}$ la manifestazione della variabile casuale $\tilde{Y}$. In un nuovo campione di $m$ osservazioni, $\tilde{y}$ potrà assumere il valore $\tilde{y}_1$, in un altro campione potrà assumere il valore $\tilde{y}_2$, e così via. Siamo interessati a descrivere la _distribuzione predittiva a posteriori_ $p(\tilde{Y} = \tilde{y} \mid Y = y)$, ovvero, siamo interessati a descrivere la verosimiglianza relativa di ciascuno di questi possibili valori. 
+Siamo interessati a predire i risultati che si potrebbero osservare in nuovi campioni di $m$ osservazioni. Denotiamo con $\tilde{y}$ la manifestazione della variabile casuale $\tilde{Y}$. In un nuovo campione di $m$ osservazioni, $\tilde{y}$ potrà assumere il valore $\tilde{y}_1$, in un altro campione potrà assumere il valore $\tilde{y}_2$, e così via. Siamo interessati a descrivere la _distribuzione predittiva a posteriori_ $p(\tilde{Y} = \tilde{y} \mid Y = y)$, ovvero, siamo interessati a descrivere la distribuzione dei valori possibili $\tilde{y}$ del numero di successi in $m$ osservazioni future. 
 
-Nel caso dell'esempio in discussione, la distribuzione di $\tilde{Y}$ dipende da $\theta$ e ciò che sappiamo di $\theta$ è sintetizzato nella distribuzione a posteriori. Usando la regola della catena, possiamo scrivere la distribuzione congiunta di $\tilde{Y}$ e $\theta$ nel modo seguente
+Nel caso dell'esempio in discussione, la distribuzione di $\tilde{Y}$ dipende da $\theta$ e ciò che sappiamo di $\theta$ è sintetizzato nella distribuzione a posteriori $p(\theta \mid y)$. Usando la regola della catena, possiamo scrivere la distribuzione congiunta di $\tilde{y}$ e $\theta$ nel modo seguente
 
 \begin{equation}
-p(\tilde{Y} = \tilde{y}, \theta \mid Y = y) = p(\tilde{Y} = \tilde{y} \mid \theta) p(\theta \mid Y = y).
+p(\tilde{y}, \theta \mid y) = p(\tilde{y} \mid \theta) p(\theta \mid y).
 \end{equation}
 
 La distribuzione predittiva a posteriori può essere ottenuta integrando rispetto a $\theta$ la distribuzione congiunta:
@@ -63,25 +63,25 @@ tibble(Y=0:20, Probability = prob) %>%
   ProbBayes::prob_plot(Color = "black")
 ```
 
-La distribuzione predittiva a posteriori illustrata nella figura precedente ci dice qual è la plausibilità relativa di osservare $0, 1, \dots, 20$ successi su $m = 20$ prove in un futuro campione di osservazioni, considerati i dati che abbiamo osservato nel campione corrente (23 successi in 30 prove), e tenuto conto delle nostre opinioni a precedenti sul valore $\theta$ (ovvero, $\mbox{Beta}(2, 10)$).
+La distribuzione predittiva a posteriori illustrata nella figura precedente ci dice qual è la plausibilità relativa di osservare $0, 1, \dots, 20$ successi su $m = 20$ prove in un futuro campione di osservazioni, alla luce dei dati che abbiamo osservato nel campione corrente (23 successi in 30 prove) e tenuto conto delle nostre opinioni a priori sulla plausibilità dei possibili valori $\theta$ (ovvero, $\mbox{Beta}(2, 10)$).
 
-Esaminando la distribuzione predittiva notiamo che, nei possibili campioni futuri di 20 osservazioni, il valore $\tilde{y}$ più plausibile è 12. Tuttavia, $\tilde{y}$ può assumere anche altri valori e la distribuzione predittiva ci informa sulla plausibilità relativa di ciascuno dei possibili valori futuri $\tilde{y}$ -- nel caso dell'esempio, $\tilde{y}$ corrisponde al numero di pazienti clinici (su 20) che manifestano una depressione grave. 
+Esaminando la distribuzione predittiva notiamo che, nei possibili campioni futuri di 20 osservazioni, il valore $\tilde{y}$ più plausibile è 12. Tuttavia, $\tilde{y}$ può assumere anche altri valori e la distribuzione predittiva ci informa sulla *plausibilità relativa* di ciascuno dei possibili valori futuri $\tilde{y}$ -- nel presente esempio, $\tilde{y}$ corrisponde al numero di pazienti clinici (su 20) che manifestano una depressione grave. 
 
-È desiderabile costruire un intervallo che contiene le realizzazioni della $\tilde{Y}$ ad un livello specificato di probabilità. Supponiamo che il livello di probabilità richiesto sia 0.89. L'intervallo si costruisce aggiungendo valori $\tilde{y}$ all'intervallo fino a che il contenuto di probabilità dell'insieme eccede la soglia di 0.89. La procedura è implementata nella  funzione `discint()` del pacchetto `LearnBayes`. Per i dati dell'esempio otteniamo
+È desiderabile costruire un intervallo che contiene le realizzazioni $\tilde{y}$ ad un livello specificato di probabilità. Supponiamo che il livello di probabilità richiesto sia 0.89. L'intervallo si costruisce aggiungendo valori $\tilde{y}$ all'intervallo fino a che il contenuto di probabilità dell'insieme eccede la soglia di 0.89. La procedura è implementata nella  funzione `discint()` del pacchetto `LearnBayes`. Per i dati dell'esempio otteniamo
 
 ```{r}
 LearnBayes::discint(cbind(0:20, prob), 0.89)
 ```
 
-da cui 
+Sulla base delle informazioni disponibili, possiamo dunque prevedere, con un livello di certezza soggettiva che eccede la soglia di 0.91, che in un futuro campione di 20 soggetti clinici depressi, il numero di pazienti con depressione grave sarà compreso tra 8 e 16.
 
 $$
-P(8 \leq \tilde{Y} \leq 16) = 0.9145.
+P(8 \leq \tilde{y} \leq 16) = 0.9145.
 $$
 
 ## La distribuzione predittiva a posteriori mediante simulazione
 
-In situazioni dove è difficile derivare l'esatta distribuzione predittiva a posteriori è possibile simulare valori estratti da tale distribuzione. Consideriamo un esempio riferito all'esempio che stiamo discutendo. È possibile implementare una simulazione predittiva estraendo prima i valori del parametro (in questo caso, $\theta$) dalla distribuzione a posteriori. Con i valori del parametro così determinati, poi, si possono generare i valori delle possibili osservazioni future (nel caso presente, usando la distribuzione binomiale).  
+In situazioni dove è difficile derivare l'esatta distribuzione predittiva a posteriori è possibile ottenere mediante simulazione un campione casuale di valori della distribuzione predittiva posteriori. Consideriamo un esempio riferito all'esempio che stiamo discutendo. È possibile implementare una simulazione predittiva estraendo prima i valori del parametro (in questo caso, $\theta$) dalla distribuzione a posteriori. Con i valori del parametro così determinati, poi, si possono generare i valori delle possibili osservazioni future (nel caso presente, usando la distribuzione binomiale).  
 
 Per l'esempio che stiamo discutendo, la distribuzione a posteriori è una Beta(25, 17). Estaiamo 100,000 valori da tale distribuzione:
 
@@ -160,10 +160,8 @@ model {
 }
 generated quantities {
   array[N] int y_rep;
-  array[N] real log_lik;
   for (n in 1 : N) {
     y_rep[n] = bernoulli_rng(theta);
-    log_lik[n] = bernoulli_lpmf(y[n] | theta);
   }
 }
 "
@@ -197,11 +195,8 @@ fit <- mod$sample(
   iter_sampling = 4000L,
   iter_warmup = 2000L,
   seed = SEED,
-  cores = 4L,
   chains = 4L,
-  parallel_chains = 4L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 

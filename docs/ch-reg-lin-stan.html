@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-25" />
+<meta name="date" content="2022-04-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -954,9 +954,9 @@ y_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
 <span id="cb350-2"><a href="ch-reg-lin-stan.html#cb350-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 10</span></span>
 <span id="cb350-3"><a href="ch-reg-lin-stan.html#cb350-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median     sd    mad     q5    q95  rhat ess_bulk ess_tail</span></span>
 <span id="cb350-4"><a href="ch-reg-lin-stan.html#cb350-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb350-5"><a href="ch-reg-lin-stan.html#cb350-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    25.9   25.8   6.02   6.02   16.0   35.8    1.00   20176.   10983.</span></span>
-<span id="cb350-6"><a href="ch-reg-lin-stan.html#cb350-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta      0.609  0.609 0.0596 0.0603  0.511  0.707  1.00   20084.   10981.</span></span>
-<span id="cb350-7"><a href="ch-reg-lin-stan.html#cb350-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    18.3   18.3   0.634  0.644  17.3   19.4    1.00   18813.   12511.</span></span></code></pre></div>
+<span id="cb350-5"><a href="ch-reg-lin-stan.html#cb350-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    25.7   25.7   5.95   6.00   16.0   35.5    1.00   16007.   11770.</span></span>
+<span id="cb350-6"><a href="ch-reg-lin-stan.html#cb350-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta      0.610  0.611 0.0589 0.0597  0.515  0.708  1.00   15771.   11703.</span></span>
+<span id="cb350-7"><a href="ch-reg-lin-stan.html#cb350-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    18.3   18.3   0.627  0.626  17.3   19.4    1.00   15126.   12112.</span></span></code></pre></div>
 <p>Da questo output possiamo valutare rapidamente la convergenza del modello osservando i valori di Rhat per ciascun parametro. Quando questi sono pari o vicini a 1, le catene hanno realizzato la convergenza. Ci sono molti altri test diagnostici, ma questo test è importante per Stan.</p>
 <p>Oppure è possibile usare:</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="ch-reg-lin-stan.html#cb351-1" aria-hidden="true" tabindex="-1"></a>fit_1<span class="sc">$</span><span class="fu">cmdstan_summary</span>()</span></code></pre></div>

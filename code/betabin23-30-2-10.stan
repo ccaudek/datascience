@@ -12,10 +12,8 @@ model {
 }
 generated quantities {
   array[N] int y_rep;
-  array[N] real log_lik;
   for (n in 1 : N) {
     y_rep[n] = bernoulli_rng(theta);
-    log_lik[n] = bernoulli_lpmf(y[n] | theta);
   }
 }
 
