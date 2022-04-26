@@ -841,9 +841,13 @@ div.csl-indent {
 <p>Siamo interessati a predire i risultati che si potrebbero osservare in nuovi campioni di <span class="math inline">\(m\)</span> osservazioni. Denotiamo con <span class="math inline">\(\tilde{y}\)</span> la manifestazione della variabile casuale <span class="math inline">\(\tilde{Y}\)</span>. In un nuovo campione di <span class="math inline">\(m\)</span> osservazioni, <span class="math inline">\(\tilde{y}\)</span> potrà assumere il valore <span class="math inline">\(\tilde{y}_1\)</span>, in un altro campione potrà assumere il valore <span class="math inline">\(\tilde{y}_2\)</span>, e così via. Siamo interessati a descrivere la <em>distribuzione predittiva a posteriori</em> <span class="math inline">\(p(\tilde{Y} = \tilde{y} \mid Y = y)\)</span>, ovvero, siamo interessati a descrivere la distribuzione dei valori possibili <span class="math inline">\(\tilde{y}\)</span> del numero di successi in <span class="math inline">\(m\)</span> osservazioni future.</p>
 <p>Nel caso dell’esempio in discussione, la distribuzione di <span class="math inline">\(\tilde{Y}\)</span> dipende da <span class="math inline">\(\theta\)</span> e ciò che sappiamo di <span class="math inline">\(\theta\)</span> è sintetizzato nella distribuzione a posteriori <span class="math inline">\(p(\theta \mid y)\)</span>. Usando la regola della catena, possiamo scrivere la distribuzione congiunta di <span class="math inline">\(\tilde{y}\)</span> e <span class="math inline">\(\theta\)</span> nel modo seguente</p>
 <p><span class="math display">\[\begin{equation}
+p(\tilde{y}, \theta \mid y) = p(\tilde{y} \mid \theta, y) p(\theta \mid y).
+\end{equation}\]</span></p>
+<p>Assumendo che le osservazioni future e passate siano condizionalmente indipendenti dato <span class="math inline">\(\theta\)</span>, l’espressione precedente può essere scritta come</p>
+<p><span class="math display">\[\begin{equation}
 p(\tilde{y}, \theta \mid y) = p(\tilde{y} \mid \theta) p(\theta \mid y).
 \end{equation}\]</span></p>
-<p>La distribuzione predittiva a posteriori può essere ottenuta integrando rispetto a <span class="math inline">\(\theta\)</span> la distribuzione congiunta:</p>
+<p>La distribuzione predittiva a posteriori viene dunque ottenuta integrando rispetto a <span class="math inline">\(\theta\)</span>:</p>
 <p><span class="math display" id="eq:post-pred-distr">\[\begin{equation}
 p(\tilde{y} \mid y) = \int_{\theta} p(\tilde{y} \mid \theta) p(\theta \mid y) \,\operatorname {d}\!\theta.
 \tag{14.6}
@@ -1154,7 +1158,7 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb275-12"><a href="ch-prediction.html#cb275-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb275-13"><a href="ch-prediction.html#cb275-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.3 seconds.</span></span>
 <span id="cb275-14"><a href="ch-prediction.html#cb275-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.3 seconds.</span></span>
-<span id="cb275-15"><a href="ch-prediction.html#cb275-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.3 seconds.</span></span>
+<span id="cb275-15"><a href="ch-prediction.html#cb275-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.2 seconds.</span></span>
 <span id="cb275-16"><a href="ch-prediction.html#cb275-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.3 seconds.</span></span>
 <span id="cb275-17"><a href="ch-prediction.html#cb275-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb275-18"><a href="ch-prediction.html#cb275-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>

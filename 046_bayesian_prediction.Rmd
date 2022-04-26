@@ -19,10 +19,16 @@ Siamo interessati a predire i risultati che si potrebbero osservare in nuovi cam
 Nel caso dell'esempio in discussione, la distribuzione di $\tilde{Y}$ dipende da $\theta$ e ciò che sappiamo di $\theta$ è sintetizzato nella distribuzione a posteriori $p(\theta \mid y)$. Usando la regola della catena, possiamo scrivere la distribuzione congiunta di $\tilde{y}$ e $\theta$ nel modo seguente
 
 \begin{equation}
+p(\tilde{y}, \theta \mid y) = p(\tilde{y} \mid \theta, y) p(\theta \mid y).
+\end{equation}
+
+Assumendo che le osservazioni future e passate siano condizionalmente indipendenti dato $\theta$, l'espressione precedente può essere scritta come
+
+\begin{equation}
 p(\tilde{y}, \theta \mid y) = p(\tilde{y} \mid \theta) p(\theta \mid y).
 \end{equation}
 
-La distribuzione predittiva a posteriori può essere ottenuta integrando rispetto a $\theta$ la distribuzione congiunta:
+La distribuzione predittiva a posteriori viene dunque ottenuta integrando rispetto a $\theta$:
 
 \begin{equation}
 p(\tilde{y} \mid y) = \int_{\theta} p(\tilde{y} \mid \theta) p(\theta \mid y) \,\operatorname {d}\!\theta.
