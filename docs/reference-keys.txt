@@ -433,7 +433,8 @@ interpretazione-del-fattore-di-bayes
 limiti-del-fattore-di-bayes
 la-funzione-di-perdita-attesa
 ch-prediction
-la-distribuzione-predittiva
+la-distribuzione-predittiva-a-posteriori
+soluzione-analitica
 la-distribuzione-predittiva-a-posteriori-mediante-simulazione
 la-distribuzione-predittiva-a-posteriori-mediante-mcmc
 i-metodi-per-la-valutazione-del-modello

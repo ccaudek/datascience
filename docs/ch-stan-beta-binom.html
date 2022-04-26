@@ -500,14 +500,15 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="22" data-path="ch-prediction.html"><a href="ch-prediction.html"><i class="fa fa-check"></i><b>22</b> La predizione bayesiana</a>
 <ul>
-<li class="chapter" data-level="22.1" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva"><i class="fa fa-check"></i><b>22.1</b> La distribuzione predittiva</a></li>
-<li class="chapter" data-level="22.2" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-simulazione"><i class="fa fa-check"></i><b>22.2</b> La distribuzione predittiva a posteriori mediante simulazione</a></li>
-<li class="chapter" data-level="22.3" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-mcmc"><i class="fa fa-check"></i><b>22.3</b> La distribuzione predittiva a posteriori mediante MCMC</a></li>
-<li class="chapter" data-level="22.4" data-path="ch-prediction.html"><a href="ch-prediction.html#i-metodi-per-la-valutazione-del-modello"><i class="fa fa-check"></i><b>22.4</b> I metodi per la valutazione del modello</a>
+<li class="chapter" data-level="22.1" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>22.1</b> La distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="22.2" data-path="ch-prediction.html"><a href="ch-prediction.html#soluzione-analitica"><i class="fa fa-check"></i><b>22.2</b> Soluzione analitica</a></li>
+<li class="chapter" data-level="22.3" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-simulazione"><i class="fa fa-check"></i><b>22.3</b> La distribuzione predittiva a posteriori mediante simulazione</a></li>
+<li class="chapter" data-level="22.4" data-path="ch-prediction.html"><a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori-mediante-mcmc"><i class="fa fa-check"></i><b>22.4</b> La distribuzione predittiva a posteriori mediante MCMC</a></li>
+<li class="chapter" data-level="22.5" data-path="ch-prediction.html"><a href="ch-prediction.html#i-metodi-per-la-valutazione-del-modello"><i class="fa fa-check"></i><b>22.5</b> I metodi per la valutazione del modello</a>
 <ul>
-<li class="chapter" data-level="22.4.1" data-path="ch-prediction.html"><a href="ch-prediction.html#posterior-predictive-checks"><i class="fa fa-check"></i><b>22.4.1</b> Posterior predictive checks</a></li>
+<li class="chapter" data-level="22.5.1" data-path="ch-prediction.html"><a href="ch-prediction.html#posterior-predictive-checks"><i class="fa fa-check"></i><b>22.5.1</b> Posterior predictive checks</a></li>
 </ul></li>
-<li class="chapter" data-level="22.5" data-path="ch-prediction.html"><a href="ch-prediction.html#distribuzione-predittiva-a-priori-1"><i class="fa fa-check"></i><b>22.5</b> Distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="22.6" data-path="ch-prediction.html"><a href="ch-prediction.html#distribuzione-predittiva-a-priori-1"><i class="fa fa-check"></i><b>22.6</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-prediction.html"><a href="ch-prediction.html#commenti-e-considerazioni-finali-17"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="23" data-path="ch-normal-normal-mod-stan.html"><a href="ch-normal-normal-mod-stan.html"><i class="fa fa-check"></i><b>23</b> Inferenza sul parametro <span class="math inline">\(\mu\)</span> (media di una v.c. Normale)</a>
@@ -1053,7 +1054,7 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 <span id="cb209-3"><a href="ch-stan-beta-binom.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta1&quot;</span>, <span class="st">&quot;theta2&quot;</span>, <span class="st">&quot;oddsratio&quot;</span>),</span>
 <span id="cb209-4"><a href="ch-stan-beta-binom.html#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits_summary =</span> 3L</span>
 <span id="cb209-5"><a href="ch-stan-beta-binom.html#cb209-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb209-6"><a href="ch-stan-beta-binom.html#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204260732-1-5ccbaf.</span></span>
+<span id="cb209-6"><a href="ch-stan-beta-binom.html#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inference for Stan model: twoprop1-202204261525-1-5c151e.</span></span>
 <span id="cb209-7"><a href="ch-stan-beta-binom.html#cb209-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 chains, each with iter=6000; warmup=2000; thin=1; </span></span>
 <span id="cb209-8"><a href="ch-stan-beta-binom.html#cb209-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; post-warmup draws per chain=4000, total post-warmup draws=16000.</span></span>
 <span id="cb209-9"><a href="ch-stan-beta-binom.html#cb209-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -1062,7 +1063,7 @@ FIGURA 19.3: Istogramma che illustra l’approssimazione della distribuzione a p
 <span id="cb209-12"><a href="ch-stan-beta-binom.html#cb209-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; theta2    0.798   0.001 0.087 0.601 0.744 0.808 0.862  0.937 14193    1</span></span>
 <span id="cb209-13"><a href="ch-stan-beta-binom.html#cb209-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; oddsratio 4.721   0.043 4.411 0.906 2.166 3.514 5.698 15.558 10400    1</span></span>
 <span id="cb209-14"><a href="ch-stan-beta-binom.html#cb209-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb209-15"><a href="ch-stan-beta-binom.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mar Apr 26 07:32:48 2022.</span></span>
+<span id="cb209-15"><a href="ch-stan-beta-binom.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Mar Apr 26 15:25:33 2022.</span></span>
 <span id="cb209-16"><a href="ch-stan-beta-binom.html#cb209-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></span>
 <span id="cb209-17"><a href="ch-stan-beta-binom.html#cb209-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></span>
 <span id="cb209-18"><a href="ch-stan-beta-binom.html#cb209-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; convergence, Rhat=1).</span></span></code></pre></div>
