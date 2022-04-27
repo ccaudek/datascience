@@ -14,15 +14,15 @@ Una volta costruita la distribuzione a posteriori del parametro o dei parametri 
 
 L'esempio che considereremo qui nei dettagli riguarda il caso beta-binomiale, nel quale la distribuzione a priori per il parametro ignoto $\theta$ (ovvero, la probabilità di successo) è una distribuzione Beta, la verosimiglianza è binomiale e i dati sono costituiti dal numero $y$ di successi in $n$ prove Bernoulliane indipendenti. Nell'esempio che discuteremo useremo un'altra volta i dati del campione di pazienti clinici depressi di @zetschefuture2019. Supponendo di volere esaminare in futuro altri $m$ pazienti clinici, ci chiediamo: quanti di essi manifesteranno una depressione grave?
 
-Siamo dunque interessati a predire i risultati che si potrebbero osservare in nuovi campioni di $m = 30$ osservazioni. Denotiamo con $\tilde{y}$ la manifestazione della variabile casuale $\tilde{Y}$. In un nuovo campione di $m$ osservazioni, $\tilde{y}$ assumerà il valore $\tilde{y}_1$ (ad es., 12), in un altro campione assumerà il valore $\tilde{y}_2$ (ad es., 23), e così via. Siamo interessati a descrivere la probabilità che $\tilde{y}$ assuma i valori $0, 1, 2, \dots, 29, 30$. Tale distribuzione (in questo caso, di massa) di probabilità si chiama _distribuzione predittiva a posteriori_ $p(\tilde{Y} = \tilde{y} \mid Y = y)$, e corrisponde alla probabilità assegnata a ciascuno dei $\tilde{y}$ ($0, 1, 2, \dots, 29, 30$) in $m$ osservazioni future. 
+Siamo dunque interessati a predire i risultati che si potrebbero osservare in nuovi campioni di $m = 30$ osservazioni. Denotiamo con $\tilde{y}$ la manifestazione della variabile casuale $\tilde{Y}$. In un nuovo campione di $m$ osservazioni, $\tilde{y}$ assumerà il valore $\tilde{y}_1$ (ad es., 12), in un altro campione assumerà il valore $\tilde{y}_2$ (ad es., 23), e così via. Siamo interessati a descrivere la probabilità che $\tilde{y}$ assuma i valori $0, 1, 2, \dots, 29, 30$. Tale distribuzione (in questo caso) di massa di probabilità si chiama _distribuzione predittiva a posteriori_ $p(\tilde{Y} = \tilde{y} \mid Y = y)$ e corrisponde alla probabilità assegnata a ciascuno dei possibili valori $\tilde{y}$ ($0, 1, 2, \dots, 29, 30$) nei possibili campioni futuri di $m$ osservazioni. 
 
-In questo capitolo esamineremo il problema di trovare la distribuzione predittiva a posteriori usando tre metodi diversi:
+In questo Capitolo ci porremo il problema di trovare la distribuzione predittiva a posteriori nel caso beta-binomiale. Useremo tre metodi diversi:
 
 - la soluzione analitica,
 - i risultati di una simulazione,
 - il campionamento MCMC.
 
-I tre metodi producono risultati equivalenti. In futuro, dunque, useremo il metodo MCMC perché ci consente facilmente di trovare la risposta cercata anche quando non è possibile trovare una soluzione analitica.
+I tre metodi producono risultati equivalenti. In seguito useremo il metodo MCMC perché ci consente di trovare facilmente la risposta cercata, anche quando una soluzione analitica non è disponibile.
 
 ## Soluzione analitica
 

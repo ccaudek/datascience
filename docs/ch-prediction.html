@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-26" />
+<meta name="date" content="2022-04-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -839,14 +839,14 @@ div.csl-indent {
 <h2><span class="header-section-number">22.1</span> La distribuzione predittiva a posteriori<a href="ch-prediction.html#la-distribuzione-predittiva-a-posteriori" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Una volta costruita la distribuzione a posteriori del parametro o dei parametri sconosciuti, potremmo essere interessati a utilizzare il modello bayesiano allo scopo di prevedere la probabilità di risultati futuri basandoci sui dati già osservati. Questo tipo di analisi inferenziale va sotto il nome di <em>analisi predittiva</em>.</p>
 <p>L’esempio che considereremo qui nei dettagli riguarda il caso beta-binomiale, nel quale la distribuzione a priori per il parametro ignoto <span class="math inline">\(\theta\)</span> (ovvero, la probabilità di successo) è una distribuzione Beta, la verosimiglianza è binomiale e i dati sono costituiti dal numero <span class="math inline">\(y\)</span> di successi in <span class="math inline">\(n\)</span> prove Bernoulliane indipendenti. Nell’esempio che discuteremo useremo un’altra volta i dati del campione di pazienti clinici depressi di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Supponendo di volere esaminare in futuro altri <span class="math inline">\(m\)</span> pazienti clinici, ci chiediamo: quanti di essi manifesteranno una depressione grave?</p>
-<p>Siamo dunque interessati a predire i risultati che si potrebbero osservare in nuovi campioni di <span class="math inline">\(m = 30\)</span> osservazioni. Denotiamo con <span class="math inline">\(\tilde{y}\)</span> la manifestazione della variabile casuale <span class="math inline">\(\tilde{Y}\)</span>. In un nuovo campione di <span class="math inline">\(m\)</span> osservazioni, <span class="math inline">\(\tilde{y}\)</span> assumerà il valore <span class="math inline">\(\tilde{y}_1\)</span> (ad es., 12), in un altro campione assumerà il valore <span class="math inline">\(\tilde{y}_2\)</span> (ad es., 23), e così via. Siamo interessati a descrivere la probabilità che <span class="math inline">\(\tilde{y}\)</span> assuma i valori <span class="math inline">\(0, 1, 2, \dots, 29, 30\)</span>. Tale distribuzione (in questo caso, di massa) di probabilità si chiama <em>distribuzione predittiva a posteriori</em> <span class="math inline">\(p(\tilde{Y} = \tilde{y} \mid Y = y)\)</span>, e corrisponde alla probabilità assegnata a ciascuno dei <span class="math inline">\(\tilde{y}\)</span> (<span class="math inline">\(0, 1, 2, \dots, 29, 30\)</span>) in <span class="math inline">\(m\)</span> osservazioni future.</p>
-<p>In questo capitolo esamineremo il problema di trovare la distribuzione predittiva a posteriori usando tre metodi diversi:</p>
+<p>Siamo dunque interessati a predire i risultati che si potrebbero osservare in nuovi campioni di <span class="math inline">\(m = 30\)</span> osservazioni. Denotiamo con <span class="math inline">\(\tilde{y}\)</span> la manifestazione della variabile casuale <span class="math inline">\(\tilde{Y}\)</span>. In un nuovo campione di <span class="math inline">\(m\)</span> osservazioni, <span class="math inline">\(\tilde{y}\)</span> assumerà il valore <span class="math inline">\(\tilde{y}_1\)</span> (ad es., 12), in un altro campione assumerà il valore <span class="math inline">\(\tilde{y}_2\)</span> (ad es., 23), e così via. Siamo interessati a descrivere la probabilità che <span class="math inline">\(\tilde{y}\)</span> assuma i valori <span class="math inline">\(0, 1, 2, \dots, 29, 30\)</span>. Tale distribuzione (in questo caso) di massa di probabilità si chiama <em>distribuzione predittiva a posteriori</em> <span class="math inline">\(p(\tilde{Y} = \tilde{y} \mid Y = y)\)</span> e corrisponde alla probabilità assegnata a ciascuno dei possibili valori <span class="math inline">\(\tilde{y}\)</span> (<span class="math inline">\(0, 1, 2, \dots, 29, 30\)</span>) nei possibili campioni futuri di <span class="math inline">\(m\)</span> osservazioni.</p>
+<p>In questo Capitolo ci porremo il problema di trovare la distribuzione predittiva a posteriori nel caso beta-binomiale. Useremo tre metodi diversi:</p>
 <ul>
 <li>la soluzione analitica,</li>
 <li>i risultati di una simulazione,</li>
 <li>il campionamento MCMC.</li>
 </ul>
-<p>I tre metodi producono risultati equivalenti. In futuro, dunque, useremo il metodo MCMC perché ci consente facilmente di trovare la risposta cercata anche quando non è possibile trovare una soluzione analitica.</p>
+<p>I tre metodi producono risultati equivalenti. In seguito useremo il metodo MCMC perché ci consente di trovare facilmente la risposta cercata, anche quando una soluzione analitica non è disponibile.</p>
 </div>
 <div id="soluzione-analitica" class="section level2 hasAnchor" number="22.2">
 <h2><span class="header-section-number">22.2</span> Soluzione analitica<a href="ch-prediction.html#soluzione-analitica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1184,9 +1184,9 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb277-10"><a href="ch-prediction.html#cb277-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb277-11"><a href="ch-prediction.html#cb277-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running MCMC with 4 sequential chains...</span></span>
 <span id="cb277-12"><a href="ch-prediction.html#cb277-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.2 seconds.</span></span>
+<span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.3 seconds.</span></span>
 <span id="cb277-14"><a href="ch-prediction.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.3 seconds.</span></span>
-<span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.2 seconds.</span></span>
+<span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.3 seconds.</span></span>
 <span id="cb277-16"><a href="ch-prediction.html#cb277-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.3 seconds.</span></span>
 <span id="cb277-17"><a href="ch-prediction.html#cb277-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-18"><a href="ch-prediction.html#cb277-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>
