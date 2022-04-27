@@ -7,6 +7,7 @@
 ```{r c051, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
 source("_stan_options.R")
+library("magick")
 ```
 
 Lo scopo della ricerca è trovare le associazioni tra le variabili e fare confronti fra le condizioni sperimentali. Nel caso della psicologia, il ricercatore vuole scoprire le leggi generali che descrivono le relazioni tra i costrutti psicologici e le relazioni che intercorrono tra i fenomeni psicologici e quelli non psicologici (sociali, economici, storici, ...). Abbiamo già visto come la correlazione di Pearson sia uno strumento adatto a questo scopo. Infatti, essa ci informa sulla direzione e sull'intensità della relazione lineare tra due variabili. Tuttavia, la correlazione non è sufficiente, in quanto il ricercatore ha a disposizione solo i dati di un campione, mentre vorrebbe descrivere la relazione tra le variabili nella popolazione. A causa della variabilità campionaria, le proprietà dei campioni sono necessariamente diverse da quelle della popolazione: ciò che si può osservare nella popolazione potrebbe non emergere nel campione e, al contrario, il campione manifesta caratteristiche che non sono necessariamente presenti nella popolazione. È dunque necessario chiarire, dal punto di vista statistico, il legame che intercorre tra le proprietà del campione e le proprietà della popolazione da cui esso è stato estratto.  Il modello lineare utilizza la funzione matematica più semplice per descrivere la relazione fra due variabili, ovvero la funzione lineare. In questo Capitolo vedremo come si possa fare inferenza sulla relazione tra due variabili mediante il modello lineare bayesiano. Inizieremo a descrivere le proprietà geometriche della funzione lineare per poi utilizzare questa semplice funzione per costruire un modello statistico secondo un approccio bayesiano. 
@@ -82,8 +83,10 @@ Il modello \@ref(eq:normalsamplingmodel) assume che ogni $Y_i$ sia la realizzazi
 \begin{align}
 Y_i \mid \mu, \sigma & \stackrel{iid}{\sim} \mathcal{N}(\mu, \sigma^2)\notag\\
 \mu       & \sim \mathcal{N}(\mu_0, \tau^2) \notag\\
-\sigma    & \sim \Cauchy(x_0, \gamma) \notag
+\sigma    & \sim \mbox{Cauchy}(x_0, \gamma) \notag
 \end{align}
+
+## Relazione lineare tra la media $y \mid x$ e il predittore
 
 È però comune che vengano registrate altre variabili che possono essere associate alla risposta di interesse $y_i$. Chiamiamo $x$ una di tali variabili. La variabile $x$ viene chiamata *predittore* (o variabile indipendente) in quanto il ricercatore è tipicamente interessato a predire $y_i$ a partire dal valore assunto da $x_i$. Come si può estende il modello \@ref(eq:normalsamplingmodel) descritto in precedenza per lo studio della relazione tra $y_i$ e $x_i$?
 
@@ -96,8 +99,6 @@ Y_i \mid \mu_i, \sigma \stackrel{ind}{\sim} \mathcal{N}(\mu_i, \sigma), \quad i 
 
 Si noti che le osservazioni $Y_1, \dots, Y_n$ non sono più identicamente distribuite poiché hanno medie diverse, ma sono ancora indipendenti come indicato dalla notazione `ind` posta sopra il simbolo $\sim$ nella \@ref(eq:normalsamplinglinearmodel).
 
-### Relazione lineare tra la media $y \mid x$ e il predittore
-
 L'approccio che consente di mettere in relazione un predittore $x_i$ con la risposta $Y_i$ è quello di assumere che la media di ciascuna $Y_i$, ovvero $\mu_i$, sia una funzione lineare del predittore $x_i$. Una tale relazione lineare è scritta come 
 
 \begin{equation}
@@ -109,7 +110,7 @@ Nella \@ref(eq:regmodel), ciascuna $x_i$ è una costante nota (ecco perché vien
 
 Nel modello \@ref(eq:regmodel), la funzione lineare $\beta_0 + \beta_ 1 x_i$ è interpretata come il valore atteso della $Y_i$ per ciascun valore $x_i$, mentre l'intercetta $\beta_0$ rappresenta il valore atteso della $Y_i$ quando $x_i = 0$. Il parametro $\beta_ 1$ (pendenza) rappresenta invece l'aumento medio della $Y_i$ quando $x_i$ aumenta di un'unità. È importante notare che la relazione lineare  \@ref(eq:normalsamplinglinearmodel) di parametri $\beta_0$ e  $\beta_ 1$ descrive l'associazione tra _la media_ $\mu_i$ e il predittore $x_i$. In altri termini, tale relazione lineare ci fornisce una predizione sul valore medio $\mu_i$, non sul valore _effettivo_ $Y_i$.
 
-### Il modello lineare
+## Il modello lineare
 
 Sostituendo la \@ref(eq:regmodel) nella \@ref(eq:normalsamplinglinearmodel) otteniamo il modello lineare:
 
@@ -118,16 +119,9 @@ Y_i \mid \beta_0, \beta_ 1, \sigma \stackrel{ind}{\sim} \mathcal{N}(\beta_0 + \b
 (\#eq:samplinglinearmodel)
 \end{equation}
 
-Questo è un caso speciale del modello di campionamento Normale, dove le $Y_i$ seguono indipendentemente una densità Normale con una media ($\beta_0 + \beta_ 1 x_i$) specifica per ciascuna osservazione e con una deviazione standard ($\sigma$) comune a tutte le osservazioni. Poiché include un solo predittore ($x$), questo modello è comunemente chiamato _modello di regressione lineare semplice_.
+Questo è dunque un caso speciale del modello di campionamento Normale, dove le $Y_i$ seguono indipendentemente una densità Normale con una media ($\beta_0 + \beta_ 1 x_i$) specifica per ciascuna osservazione e con una deviazione standard ($\sigma$) comune a tutte le osservazioni. Poiché include un solo predittore ($x$), questo modello è  chiamato _modello di regressione lineare bivariata_.
 
-<!-- In maniera equivalente, il modello \@ref(eq:samplinglinearmodel) può essere formulato come -->
-
-<!-- \begin{equation} -->
-<!-- Y_i = \mu_i + \varepsilon_i, \quad i = 1, \dots, n, -->
-<!-- (\#eq:samplinglinearmodel2) -->
-<!-- \end{equation} -->
-
-<!-- dove la risposta media è $\mu_i = \beta_0 + \beta_ 1 x_i$ e i residui $\varepsilon_1, \dots, \varepsilon_n$ sono i.i.d. da una Normale con media 0 e deviazione standard $\sigma$.  -->
+Il modello statistico di regressione lineare bivariata può essere rappresentato in forma geometrica come indicato di seguito. La figura illustra che, in tale modello statistico, la variabile $X$ è fissa per disegno -- in altre parole, i valori $x$ restano immutati tra campioni diversi. Potendo ipotizzare infiniti campioni tutti con gli stessi valori $x$, in corrispondenza di ciascun valore $x_i$ vi sarà una distribuzione di valori $y$. La figura illustra il caso di tre valori $x$. A ciascun valore $x_i$, con $i = 1, 2, 3$ per l'esempio della figura, corrisponde una distribuzione di valori $y$ condizionati a $x_i$, $p(y \mid x_i)$. 
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 x <- runif(100, 0, 15)
@@ -171,6 +165,24 @@ ggplot(df, mapping = aes(x=x, y=y)) +
     )
 ```
 
+Il modello statistico di regressione lineare assume che le distribuzioni condizionate $p(y \mid x_i)$ siano 
+
+$$
+y_i \sim \mathcal{N}(\mu_i, \sigma),
+$$
+
+(assunzione di *normalità*), laddove
+
+$$
+\mu_i = \mathbb{E}(y \mid x_i) = \alpha + \beta x_i.
+$$
+
+L'equazione precedente descrive l'assunzione di *linearità*.
+
+Si noti che il parametro $\sigma$ non ha un pedice: questo significa che il modello ipotizza una dispersione costante delle distribuzioni $p(y \mid x_i), \forall i$. Tale assunzione va sotto il nome di *omoschedasticità*.
+
+Se questa è la struttura della popolazione, possiamo pensare ad un campione casuale di ampiezza $n$ come ad una serie di coppie $x_i, y_i$, con $i = 1, \dots, n$, nelle quali i valori $x$ sono fissi per disegno e ciascun valore $y_i$ è una realizzazione della variabile casuale $Y = y_i \mid X = x_i$. Questa è l'ultima assunzione del modello statistico lineare: l'*indipendenza*. In maniera equivalente possiamo dire che gli *errori* $\varepsilon_i = y_i - \hat{y}_i = y_i - (\beta_0 + \beta_1 x_i)$ sono variabili casuali distribuite secondo la legge Normale di parametri $\mathcal{N}(0, \sigma)$.
+
 <!-- Nel modello lineare, l'osservazione $Y_i$ è una variabile casuale, il predittore $x_i$ è una costante fissa, e $\beta_0$, $\beta_1$ e $\sigma$ sono parametri incogniti. Utilizzando il paradigma bayesiano, viene assegnata una distribuzione a priori congiunta a $(\beta_0, \beta_1, \sigma)$. Dopo avere osservato le risposte $Y_i, i = 1, \dots, n$, l'inferenza procede stimando la distribuzione a posteriori dei parametri.  -->
 
 <!-- ::: {.remark} -->
@@ -196,6 +208,16 @@ ggplot(df, mapping = aes(x=x, y=y)) +
 <!-- \end{align} -->
 
 <!-- Un algoritmo MCMC viene usato per simulare i campioni dalle distribuzioni a posteriori e, mediante tali campioni, si fanno inferenze sulla risposta attesa $\beta_0 + \beta_1 x$ per ciascuno specifico valore del predittore $x$. Inoltre, è possibile valutare le dimensioni degli errori di previsione mediante un indice sintetico della densità a posteriori della deviazione standard $\sigma$. -->
+
+<!-- In maniera equivalente, il modello \@ref(eq:samplinglinearmodel) può essere formulato come -->
+
+<!-- \begin{equation} -->
+<!-- Y_i = \mu_i + \varepsilon_i, \quad i = 1, \dots, n, -->
+<!-- (\#eq:samplinglinearmodel2) -->
+<!-- \end{equation} -->
+
+<!-- dove la risposta media è $\mu_i = \beta_0 + \beta_ 1 x_i$ e i residui $\varepsilon_1, \dots, \varepsilon_n$ sono i.i.d. da una Normale con media 0 e deviazione standard $\sigma$.  -->
+
 
 ## Commenti e considerazioni finali {-}
 

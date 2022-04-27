@@ -526,11 +526,9 @@ div.csl-indent {
 <li class="chapter" data-level="24" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html"><i class="fa fa-check"></i><b>24</b> Introduzione</a>
 <ul>
 <li class="chapter" data-level="24.1" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#la-funzione-lineare"><i class="fa fa-check"></i><b>24.1</b> La funzione lineare</a></li>
-<li class="chapter" data-level="24.2" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>24.2</b> Una media per ciascuna osservazione</a>
-<ul>
-<li class="chapter" data-level="24.2.1" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>24.2.1</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
-<li class="chapter" data-level="24.2.2" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.2.2</b> Il modello lineare</a></li>
-</ul></li>
+<li class="chapter" data-level="24.2" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#una-media-per-ciascuna-osservazione"><i class="fa fa-check"></i><b>24.2</b> Una media per ciascuna osservazione</a></li>
+<li class="chapter" data-level="24.3" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore"><i class="fa fa-check"></i><b>24.3</b> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore</a></li>
+<li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
@@ -888,8 +886,11 @@ Y_i \stackrel{i.i.d.}{\sim} \mathcal{N}(\mu, \sigma), \quad i = 1, \dots, n.
 <p><span class="math display">\[\begin{align}
 Y_i \mid \mu, \sigma &amp; \stackrel{iid}{\sim} \mathcal{N}(\mu, \sigma^2)\notag\\
 \mu       &amp; \sim \mathcal{N}(\mu_0, \tau^2) \notag\\
-\sigma    &amp; \sim \Cauchy(x_0, \gamma) \notag
+\sigma    &amp; \sim \mbox{Cauchy}(x_0, \gamma) \notag
 \end{align}\]</span></p>
+</div>
+<div id="relazione-lineare-tra-la-media-y-mid-x-e-il-predittore" class="section level2 hasAnchor" number="24.3">
+<h2><span class="header-section-number">24.3</span> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore<a href="ch-regr-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>È però comune che vengano registrate altre variabili che possono essere associate alla risposta di interesse <span class="math inline">\(y_i\)</span>. Chiamiamo <span class="math inline">\(x\)</span> una di tali variabili. La variabile <span class="math inline">\(x\)</span> viene chiamata <em>predittore</em> (o variabile indipendente) in quanto il ricercatore è tipicamente interessato a predire <span class="math inline">\(y_i\)</span> a partire dal valore assunto da <span class="math inline">\(x_i\)</span>. Come si può estende il modello <a href="ch-regr-intro.html#eq:normalsamplingmodel">(24.1)</a> descritto in precedenza per lo studio della relazione tra <span class="math inline">\(y_i\)</span> e <span class="math inline">\(x_i\)</span>?</p>
 <p>Il modello <a href="ch-regr-intro.html#eq:normalsamplingmodel">(24.1)</a> assume una media <span class="math inline">\(\mu\)</span> comune per ciascuna osservazione <span class="math inline">\(Y_i\)</span>. Dal momento che desideriamo introdurre una nuova variabile <span class="math inline">\(x_i\)</span> che assume un diverso valore per ciascuna osservazione <span class="math inline">\(y_i\)</span>, il modello <a href="ch-regr-intro.html#eq:normalsamplingmodel">(24.1)</a> può essere modificato in modo che la media comune <span class="math inline">\(\mu\)</span> venga sostituita da una media <span class="math inline">\(\mu_i\)</span> specifica a ciascuna osservazione <span class="math inline">\(i\)</span>-esima:</p>
 <p><span class="math display" id="eq:normalsamplinglinearmodel">\[\begin{equation}
@@ -897,8 +898,6 @@ Y_i \mid \mu_i, \sigma \stackrel{ind}{\sim} \mathcal{N}(\mu_i, \sigma), \quad i 
 \tag{24.2}
 \end{equation}\]</span></p>
 <p>Si noti che le osservazioni <span class="math inline">\(Y_1, \dots, Y_n\)</span> non sono più identicamente distribuite poiché hanno medie diverse, ma sono ancora indipendenti come indicato dalla notazione <code>ind</code> posta sopra il simbolo <span class="math inline">\(\sim\)</span> nella <a href="ch-regr-intro.html#eq:normalsamplinglinearmodel">(24.2)</a>.</p>
-<div id="relazione-lineare-tra-la-media-y-mid-x-e-il-predittore" class="section level3 hasAnchor" number="24.2.1">
-<h3><span class="header-section-number">24.2.1</span> Relazione lineare tra la media <span class="math inline">\(y \mid x\)</span> e il predittore<a href="ch-regr-intro.html#relazione-lineare-tra-la-media-y-mid-x-e-il-predittore" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>L’approccio che consente di mettere in relazione un predittore <span class="math inline">\(x_i\)</span> con la risposta <span class="math inline">\(Y_i\)</span> è quello di assumere che la media di ciascuna <span class="math inline">\(Y_i\)</span>, ovvero <span class="math inline">\(\mu_i\)</span>, sia una funzione lineare del predittore <span class="math inline">\(x_i\)</span>. Una tale relazione lineare è scritta come</p>
 <p><span class="math display" id="eq:regmodel">\[\begin{equation}
 \mu_i = \beta_0 + \beta_ 1 x_i, \quad i = 1, \dots, n.
@@ -907,21 +906,27 @@ Y_i \mid \mu_i, \sigma \stackrel{ind}{\sim} \mathcal{N}(\mu_i, \sigma), \quad i 
 <p>Nella <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a>, ciascuna <span class="math inline">\(x_i\)</span> è una costante nota (ecco perché viene usata una lettera minuscola per la <span class="math inline">\(x\)</span>) e <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_ 1\)</span> sono parametri incogniti. Questi parametri rappresentano l’intercetta e la pendenza della retta di regressione e sono delle variabili casuali.<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> L’inferenza bayesiana procede assegnando una distribuzione a priori a <span class="math inline">\(\beta_0\)</span> e a <span class="math inline">\(\beta_ 1\)</span> e si esegue l’inferenza riassumendo la distribuzione a posteriori di questi parametri.</p>
 <p>Nel modello <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a>, la funzione lineare <span class="math inline">\(\beta_0 + \beta_ 1 x_i\)</span> è interpretata come il valore atteso della <span class="math inline">\(Y_i\)</span> per ciascun valore <span class="math inline">\(x_i\)</span>, mentre l’intercetta <span class="math inline">\(\beta_0\)</span> rappresenta il valore atteso della <span class="math inline">\(Y_i\)</span> quando <span class="math inline">\(x_i = 0\)</span>. Il parametro <span class="math inline">\(\beta_ 1\)</span> (pendenza) rappresenta invece l’aumento medio della <span class="math inline">\(Y_i\)</span> quando <span class="math inline">\(x_i\)</span> aumenta di un’unità. È importante notare che la relazione lineare <a href="ch-regr-intro.html#eq:normalsamplinglinearmodel">(24.2)</a> di parametri <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_ 1\)</span> descrive l’associazione tra <em>la media</em> <span class="math inline">\(\mu_i\)</span> e il predittore <span class="math inline">\(x_i\)</span>. In altri termini, tale relazione lineare ci fornisce una predizione sul valore medio <span class="math inline">\(\mu_i\)</span>, non sul valore <em>effettivo</em> <span class="math inline">\(Y_i\)</span>.</p>
 </div>
-<div id="il-modello-lineare" class="section level3 hasAnchor" number="24.2.2">
-<h3><span class="header-section-number">24.2.2</span> Il modello lineare<a href="ch-regr-intro.html#il-modello-lineare" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="il-modello-lineare" class="section level2 hasAnchor" number="24.4">
+<h2><span class="header-section-number">24.4</span> Il modello lineare<a href="ch-regr-intro.html#il-modello-lineare" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Sostituendo la <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a> nella <a href="ch-regr-intro.html#eq:normalsamplinglinearmodel">(24.2)</a> otteniamo il modello lineare:</p>
 <p><span class="math display" id="eq:samplinglinearmodel">\[\begin{equation}
 Y_i \mid \beta_0, \beta_ 1, \sigma \stackrel{ind}{\sim} \mathcal{N}(\beta_0 + \beta_ 1 x_i, \sigma), \quad i = 1, \dots, n.
 \tag{24.4}
 \end{equation}\]</span></p>
-<p>Questo è un caso speciale del modello di campionamento Normale, dove le <span class="math inline">\(Y_i\)</span> seguono indipendentemente una densità Normale con una media (<span class="math inline">\(\beta_0 + \beta_ 1 x_i\)</span>) specifica per ciascuna osservazione e con una deviazione standard (<span class="math inline">\(\sigma\)</span>) comune a tutte le osservazioni. Poiché include un solo predittore (<span class="math inline">\(x\)</span>), questo modello è comunemente chiamato <em>modello di regressione lineare semplice</em>.</p>
-<!-- In maniera equivalente, il modello \@ref(eq:samplinglinearmodel) può essere formulato come -->
-<!-- \begin{equation} -->
-<!-- Y_i = \mu_i + \varepsilon_i, \quad i = 1, \dots, n, -->
-<!-- (\#eq:samplinglinearmodel2) -->
-<!-- \end{equation} -->
-<!-- dove la risposta media è $\mu_i = \beta_0 + \beta_ 1 x_i$ e i residui $\varepsilon_1, \dots, \varepsilon_n$ sono i.i.d. da una Normale con media 0 e deviazione standard $\sigma$.  -->
+<p>Questo è dunque un caso speciale del modello di campionamento Normale, dove le <span class="math inline">\(Y_i\)</span> seguono indipendentemente una densità Normale con una media (<span class="math inline">\(\beta_0 + \beta_ 1 x_i\)</span>) specifica per ciascuna osservazione e con una deviazione standard (<span class="math inline">\(\sigma\)</span>) comune a tutte le osservazioni. Poiché include un solo predittore (<span class="math inline">\(x\)</span>), questo modello è chiamato <em>modello di regressione lineare bivariata</em>.</p>
+<p>Il modello statistico di regressione lineare bivariata può essere rappresentato in forma geometrica come indicato di seguito. La figura illustra che, in tale modello statistico, la variabile <span class="math inline">\(X\)</span> è fissa per disegno – in altre parole, i valori <span class="math inline">\(x\)</span> restano immutati tra campioni diversi. Potendo ipotizzare infiniti campioni tutti con gli stessi valori <span class="math inline">\(x\)</span>, in corrispondenza di ciascun valore <span class="math inline">\(x_i\)</span> vi sarà una distribuzione di valori <span class="math inline">\(y\)</span>. La figura illustra il caso di tre valori <span class="math inline">\(x\)</span>. A ciascun valore <span class="math inline">\(x_i\)</span>, con <span class="math inline">\(i = 1, 2, 3\)</span> per l’esempio della figura, corrisponde una distribuzione di valori <span class="math inline">\(y\)</span> condizionati a <span class="math inline">\(x_i\)</span>, <span class="math inline">\(p(y \mid x_i)\)</span>.</p>
 <p><img src="ds4psy_files/figure-html/unnamed-chunk-305-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Il modello statistico di regressione lineare assume che le distribuzioni condizionate <span class="math inline">\(p(y \mid x_i)\)</span> siano</p>
+<p><span class="math display">\[
+y_i \sim \mathcal{N}(\mu_i, \sigma),
+\]</span></p>
+<p>(assunzione di <em>normalità</em>), laddove</p>
+<p><span class="math display">\[
+\mu_i = \mathbb{E}(y \mid x_i) = \alpha + \beta x_i.
+\]</span></p>
+<p>L’equazione precedente descrive l’assunzione di <em>linearità</em>.</p>
+<p>Si noti che il parametro <span class="math inline">\(\sigma\)</span> non ha un pedice: questo significa che il modello ipotizza una dispersione costante delle distribuzioni <span class="math inline">\(p(y \mid x_i), \forall i\)</span>. Tale assunzione va sotto il nome di <em>omoschedasticità</em>.</p>
+<p>Se questa è la struttura della popolazione, possiamo pensare ad un campione casuale di ampiezza <span class="math inline">\(n\)</span> come ad una serie di coppie <span class="math inline">\(x_i, y_i\)</span>, con <span class="math inline">\(i = 1, \dots, n\)</span>, nelle quali i valori <span class="math inline">\(x\)</span> sono fissi per disegno e ciascun valore <span class="math inline">\(y_i\)</span> è una realizzazione della variabile casuale <span class="math inline">\(Y = y_i \mid X = x_i\)</span>. Questa è l’ultima assunzione del modello statistico lineare: l’<em>indipendenza</em>. In maniera equivalente possiamo dire che gli <em>errori</em> <span class="math inline">\(\varepsilon_i = y_i - \hat{y}_i = y_i - (\beta_0 + \beta_1 x_i)\)</span> sono variabili casuali distribuite secondo la legge Normale di parametri <span class="math inline">\(\mathcal{N}(0, \sigma)\)</span>.</p>
 <!-- Nel modello lineare, l'osservazione $Y_i$ è una variabile casuale, il predittore $x_i$ è una costante fissa, e $\beta_0$, $\beta_1$ e $\sigma$ sono parametri incogniti. Utilizzando il paradigma bayesiano, viene assegnata una distribuzione a priori congiunta a $(\beta_0, \beta_1, \sigma)$. Dopo avere osservato le risposte $Y_i, i = 1, \dots, n$, l'inferenza procede stimando la distribuzione a posteriori dei parametri.  -->
 <!-- ::: {.remark} -->
 <!-- Nella costruzione di un modello di regressione bayesiano, è importante iniziare dalle basi e procedere un passo alla volta. Sia $Y$ una variabile di risposta e -->
@@ -939,7 +944,12 @@ Y_i \mid \beta_0, \beta_ 1, \sigma \stackrel{ind}{\sim} \mathcal{N}(\beta_0 + \b
 <!-- \sigma & \sim \text{Cauchy}(x_0, \gamma) \; .\notag -->
 <!-- \end{align} -->
 <!-- Un algoritmo MCMC viene usato per simulare i campioni dalle distribuzioni a posteriori e, mediante tali campioni, si fanno inferenze sulla risposta attesa $\beta_0 + \beta_1 x$ per ciascuno specifico valore del predittore $x$. Inoltre, è possibile valutare le dimensioni degli errori di previsione mediante un indice sintetico della densità a posteriori della deviazione standard $\sigma$. -->
-</div>
+<!-- In maniera equivalente, il modello \@ref(eq:samplinglinearmodel) può essere formulato come -->
+<!-- \begin{equation} -->
+<!-- Y_i = \mu_i + \varepsilon_i, \quad i = 1, \dots, n, -->
+<!-- (\#eq:samplinglinearmodel2) -->
+<!-- \end{equation} -->
+<!-- dove la risposta media è $\mu_i = \beta_0 + \beta_ 1 x_i$ e i residui $\varepsilon_1, \dots, \varepsilon_n$ sono i.i.d. da una Normale con media 0 e deviazione standard $\sigma$.  -->
 </div>
 <div id="commenti-e-considerazioni-finali-19" class="section level2 unnumbered hasAnchor">
 <h2>Commenti e considerazioni finali<a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19" class="anchor-section" aria-label="Anchor link to header"></a></h2>
