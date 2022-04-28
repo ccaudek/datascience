@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -857,118 +855,118 @@ mentre, quando <span class="math inline">\(x=1\)</span>, il modello diventa</p>
 <li><span class="math inline">\(x=1\)</span>: la madre ha completato la scuola media superiore.</li>
 </ul>
 <p>Supponiamo che i dati siano contenuti nel data.frame <code>df</code>.</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ch-comp-two-means-stan.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
-<span id="cb389-2"><a href="ch-comp-two-means-stan.html#cb389-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ch-comp-two-means-stan.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
+<span id="cb393-2"><a href="ch-comp-two-means-stan.html#cb393-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span></code></pre></div>
 <p>Calcoliamo le statistiche descrittive per i due gruppi:</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="ch-comp-two-means-stan.html#cb390-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb390-2"><a href="ch-comp-two-means-stan.html#cb390-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mom_hs) <span class="sc">%&gt;%</span> </span>
-<span id="cb390-3"><a href="ch-comp-two-means-stan.html#cb390-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb390-4"><a href="ch-comp-two-means-stan.html#cb390-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_kid_score =</span> <span class="fu">mean</span>(kid_score),</span>
-<span id="cb390-5"><a href="ch-comp-two-means-stan.html#cb390-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">std =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(kid_score))</span>
-<span id="cb390-6"><a href="ch-comp-two-means-stan.html#cb390-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb390-7"><a href="ch-comp-two-means-stan.html#cb390-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
-<span id="cb390-8"><a href="ch-comp-two-means-stan.html#cb390-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mom_hs mean_kid_score   std</span></span>
-<span id="cb390-9"><a href="ch-comp-two-means-stan.html#cb390-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb390-10"><a href="ch-comp-two-means-stan.html#cb390-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      0           77.5  22.6</span></span>
-<span id="cb390-11"><a href="ch-comp-two-means-stan.html#cb390-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2      1           89.3  19.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="ch-comp-two-means-stan.html#cb394-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb394-2"><a href="ch-comp-two-means-stan.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mom_hs) <span class="sc">%&gt;%</span> </span>
+<span id="cb394-3"><a href="ch-comp-two-means-stan.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb394-4"><a href="ch-comp-two-means-stan.html#cb394-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_kid_score =</span> <span class="fu">mean</span>(kid_score),</span>
+<span id="cb394-5"><a href="ch-comp-two-means-stan.html#cb394-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">std =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(kid_score))</span>
+<span id="cb394-6"><a href="ch-comp-two-means-stan.html#cb394-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb394-7"><a href="ch-comp-two-means-stan.html#cb394-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb394-8"><a href="ch-comp-two-means-stan.html#cb394-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mom_hs mean_kid_score   std</span></span>
+<span id="cb394-9"><a href="ch-comp-two-means-stan.html#cb394-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb394-10"><a href="ch-comp-two-means-stan.html#cb394-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      0           77.5  22.6</span></span>
+<span id="cb394-11"><a href="ch-comp-two-means-stan.html#cb394-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2      1           89.3  19.0</span></span></code></pre></div>
 <p>Il punteggio medio PIAT è pari a 77.5 per i bambini la cui madre non ha il diploma di scuola media superiore e pari a 89.3 per i bambini la cui madre ha completato la scuola media superiore. Questa differenza suggerisce un’associazione tra le variabili, ma tale differenza potrebbe essere soltanto la conseguenza della variabilità campionaria, senza riflettere una caratteristica generale della popolazione. Come possiamo usare il modello statistico lineare per fare inferenza sulla differenza osservata tra i due gruppi? Non dobbiamo fare nient’altro che usare il modello lineare che abbiamo definito in precedenza.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ch-comp-two-means-stan.html#cb391-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb391-2"><a href="ch-comp-two-means-stan.html#cb391-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb391-3"><a href="ch-comp-two-means-stan.html#cb391-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb391-4"><a href="ch-comp-two-means-stan.html#cb391-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb391-5"><a href="ch-comp-two-means-stan.html#cb391-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
-<span id="cb391-6"><a href="ch-comp-two-means-stan.html#cb391-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb391-7"><a href="ch-comp-two-means-stan.html#cb391-7" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
-<span id="cb391-8"><a href="ch-comp-two-means-stan.html#cb391-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x_std;</span></span>
-<span id="cb391-9"><a href="ch-comp-two-means-stan.html#cb391-9" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_std;</span></span>
-<span id="cb391-10"><a href="ch-comp-two-means-stan.html#cb391-10" aria-hidden="true" tabindex="-1"></a><span class="st">  x_std = (x - mean(x)) / sd(x);</span></span>
-<span id="cb391-11"><a href="ch-comp-two-means-stan.html#cb391-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std = (y - mean(y)) / sd(y);</span></span>
-<span id="cb391-12"><a href="ch-comp-two-means-stan.html#cb391-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb391-13"><a href="ch-comp-two-means-stan.html#cb391-13" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb391-14"><a href="ch-comp-two-means-stan.html#cb391-14" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha_std;</span></span>
-<span id="cb391-15"><a href="ch-comp-two-means-stan.html#cb391-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta_std;</span></span>
-<span id="cb391-16"><a href="ch-comp-two-means-stan.html#cb391-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_std;</span></span>
-<span id="cb391-17"><a href="ch-comp-two-means-stan.html#cb391-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb391-18"><a href="ch-comp-two-means-stan.html#cb391-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb391-19"><a href="ch-comp-two-means-stan.html#cb391-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha_std ~ normal(0, 2);</span></span>
-<span id="cb391-20"><a href="ch-comp-two-means-stan.html#cb391-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_std ~ normal(0, 2);</span></span>
-<span id="cb391-21"><a href="ch-comp-two-means-stan.html#cb391-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_std ~ cauchy(0, 2);</span></span>
-<span id="cb391-22"><a href="ch-comp-two-means-stan.html#cb391-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);</span></span>
-<span id="cb391-23"><a href="ch-comp-two-means-stan.html#cb391-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb391-24"><a href="ch-comp-two-means-stan.html#cb391-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb391-25"><a href="ch-comp-two-means-stan.html#cb391-25" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb391-26"><a href="ch-comp-two-means-stan.html#cb391-26" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
-<span id="cb391-27"><a href="ch-comp-two-means-stan.html#cb391-27" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb391-28"><a href="ch-comp-two-means-stan.html#cb391-28" aria-hidden="true" tabindex="-1"></a><span class="st">  real cohen_d;</span></span>
-<span id="cb391-29"><a href="ch-comp-two-means-stan.html#cb391-29" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x)) + mean(y);</span></span>
-<span id="cb391-30"><a href="ch-comp-two-means-stan.html#cb391-30" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = beta_std * sd(y) / sd(x);</span></span>
-<span id="cb391-31"><a href="ch-comp-two-means-stan.html#cb391-31" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma = sd(y) * sigma_std;</span></span>
-<span id="cb391-32"><a href="ch-comp-two-means-stan.html#cb391-32" aria-hidden="true" tabindex="-1"></a><span class="st">  cohen_d = beta / sigma;</span></span>
-<span id="cb391-33"><a href="ch-comp-two-means-stan.html#cb391-33" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb391-34"><a href="ch-comp-two-means-stan.html#cb391-34" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb391-35"><a href="ch-comp-two-means-stan.html#cb391-35" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simpleregstd.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ch-comp-two-means-stan.html#cb395-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb395-2"><a href="ch-comp-two-means-stan.html#cb395-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb395-3"><a href="ch-comp-two-means-stan.html#cb395-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb395-4"><a href="ch-comp-two-means-stan.html#cb395-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb395-5"><a href="ch-comp-two-means-stan.html#cb395-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb395-6"><a href="ch-comp-two-means-stan.html#cb395-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb395-7"><a href="ch-comp-two-means-stan.html#cb395-7" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
+<span id="cb395-8"><a href="ch-comp-two-means-stan.html#cb395-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x_std;</span></span>
+<span id="cb395-9"><a href="ch-comp-two-means-stan.html#cb395-9" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_std;</span></span>
+<span id="cb395-10"><a href="ch-comp-two-means-stan.html#cb395-10" aria-hidden="true" tabindex="-1"></a><span class="st">  x_std = (x - mean(x)) / sd(x);</span></span>
+<span id="cb395-11"><a href="ch-comp-two-means-stan.html#cb395-11" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std = (y - mean(y)) / sd(y);</span></span>
+<span id="cb395-12"><a href="ch-comp-two-means-stan.html#cb395-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb395-13"><a href="ch-comp-two-means-stan.html#cb395-13" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb395-14"><a href="ch-comp-two-means-stan.html#cb395-14" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha_std;</span></span>
+<span id="cb395-15"><a href="ch-comp-two-means-stan.html#cb395-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta_std;</span></span>
+<span id="cb395-16"><a href="ch-comp-two-means-stan.html#cb395-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_std;</span></span>
+<span id="cb395-17"><a href="ch-comp-two-means-stan.html#cb395-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb395-18"><a href="ch-comp-two-means-stan.html#cb395-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb395-19"><a href="ch-comp-two-means-stan.html#cb395-19" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha_std ~ normal(0, 2);</span></span>
+<span id="cb395-20"><a href="ch-comp-two-means-stan.html#cb395-20" aria-hidden="true" tabindex="-1"></a><span class="st">  beta_std ~ normal(0, 2);</span></span>
+<span id="cb395-21"><a href="ch-comp-two-means-stan.html#cb395-21" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_std ~ cauchy(0, 2);</span></span>
+<span id="cb395-22"><a href="ch-comp-two-means-stan.html#cb395-22" aria-hidden="true" tabindex="-1"></a><span class="st">  y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);</span></span>
+<span id="cb395-23"><a href="ch-comp-two-means-stan.html#cb395-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb395-24"><a href="ch-comp-two-means-stan.html#cb395-24" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb395-25"><a href="ch-comp-two-means-stan.html#cb395-25" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb395-26"><a href="ch-comp-two-means-stan.html#cb395-26" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb395-27"><a href="ch-comp-two-means-stan.html#cb395-27" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb395-28"><a href="ch-comp-two-means-stan.html#cb395-28" aria-hidden="true" tabindex="-1"></a><span class="st">  real cohen_d;</span></span>
+<span id="cb395-29"><a href="ch-comp-two-means-stan.html#cb395-29" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha = sd(y) * (alpha_std - beta_std * mean(x) / sd(x)) + mean(y);</span></span>
+<span id="cb395-30"><a href="ch-comp-two-means-stan.html#cb395-30" aria-hidden="true" tabindex="-1"></a><span class="st">  beta = beta_std * sd(y) / sd(x);</span></span>
+<span id="cb395-31"><a href="ch-comp-two-means-stan.html#cb395-31" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma = sd(y) * sigma_std;</span></span>
+<span id="cb395-32"><a href="ch-comp-two-means-stan.html#cb395-32" aria-hidden="true" tabindex="-1"></a><span class="st">  cohen_d = beta / sigma;</span></span>
+<span id="cb395-33"><a href="ch-comp-two-means-stan.html#cb395-33" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb395-34"><a href="ch-comp-two-means-stan.html#cb395-34" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb395-35"><a href="ch-comp-two-means-stan.html#cb395-35" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/simpleregstd.stan&quot;</span>)</span></code></pre></div>
 <p>Come in precedenza, salviamo i dati in un oggetto di classe <code>list</code>:</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="ch-comp-two-means-stan.html#cb392-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb392-2"><a href="ch-comp-two-means-stan.html#cb392-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb392-3"><a href="ch-comp-two-means-stan.html#cb392-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>kid_score,</span>
-<span id="cb392-4"><a href="ch-comp-two-means-stan.html#cb392-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>mom_hs</span>
-<span id="cb392-5"><a href="ch-comp-two-means-stan.html#cb392-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="ch-comp-two-means-stan.html#cb396-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb396-2"><a href="ch-comp-two-means-stan.html#cb396-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb396-3"><a href="ch-comp-two-means-stan.html#cb396-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb396-4"><a href="ch-comp-two-means-stan.html#cb396-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>mom_hs</span>
+<span id="cb396-5"><a href="ch-comp-two-means-stan.html#cb396-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Compiliamo il modello:</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ch-comp-two-means-stan.html#cb393-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simpleregstd.stan&quot;</span>)</span>
-<span id="cb393-2"><a href="ch-comp-two-means-stan.html#cb393-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch-comp-two-means-stan.html#cb397-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;simpleregstd.stan&quot;</span>)</span>
+<span id="cb397-2"><a href="ch-comp-two-means-stan.html#cb397-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
 <p>Adattiamo il modello ai dati:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="ch-comp-two-means-stan.html#cb394-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb394-2"><a href="ch-comp-two-means-stan.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
-<span id="cb394-3"><a href="ch-comp-two-means-stan.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb394-4"><a href="ch-comp-two-means-stan.html#cb394-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb394-5"><a href="ch-comp-two-means-stan.html#cb394-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb394-6"><a href="ch-comp-two-means-stan.html#cb394-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb394-7"><a href="ch-comp-two-means-stan.html#cb394-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb394-8"><a href="ch-comp-two-means-stan.html#cb394-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="ch-comp-two-means-stan.html#cb398-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb398-2"><a href="ch-comp-two-means-stan.html#cb398-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb398-3"><a href="ch-comp-two-means-stan.html#cb398-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb398-4"><a href="ch-comp-two-means-stan.html#cb398-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb398-5"><a href="ch-comp-two-means-stan.html#cb398-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb398-6"><a href="ch-comp-two-means-stan.html#cb398-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb398-7"><a href="ch-comp-two-means-stan.html#cb398-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb398-8"><a href="ch-comp-two-means-stan.html#cb398-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Creiamo un grafico con i valori predetti dal modello lineare:</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ch-comp-two-means-stan.html#cb395-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
-<span id="cb395-2"><a href="ch-comp-two-means-stan.html#cb395-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit)</span></code></pre></div>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="ch-comp-two-means-stan.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb396-2"><a href="ch-comp-two-means-stan.html#cb396-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">kid_score =</span> df<span class="sc">$</span>kid_score,</span>
-<span id="cb396-3"><a href="ch-comp-two-means-stan.html#cb396-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mom_hs =</span> df<span class="sc">$</span>mom_hs</span>
-<span id="cb396-4"><a href="ch-comp-two-means-stan.html#cb396-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb396-5"><a href="ch-comp-two-means-stan.html#cb396-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mom_hs, kid_score)) <span class="sc">+</span> </span>
-<span id="cb396-6"><a href="ch-comp-two-means-stan.html#cb396-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb396-7"><a href="ch-comp-two-means-stan.html#cb396-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>alpha), </span>
-<span id="cb396-8"><a href="ch-comp-two-means-stan.html#cb396-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>beta)) <span class="sc">+</span></span>
-<span id="cb396-9"><a href="ch-comp-two-means-stan.html#cb396-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb396-10"><a href="ch-comp-two-means-stan.html#cb396-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Quoziente di intelligenza del bambino&quot;</span>,</span>
-<span id="cb396-11"><a href="ch-comp-two-means-stan.html#cb396-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Diploma di istruzione secondaria di secondo grado della madre</span><span class="sc">\n</span><span class="st">(0 = no; 1 = sì)&quot;</span></span>
-<span id="cb396-12"><a href="ch-comp-two-means-stan.html#cb396-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
-<span id="cb396-13"><a href="ch-comp-two-means-stan.html#cb396-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-396-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="ch-comp-two-means-stan.html#cb399-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
+<span id="cb399-2"><a href="ch-comp-two-means-stan.html#cb399-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit)</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="ch-comp-two-means-stan.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb400-2"><a href="ch-comp-two-means-stan.html#cb400-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">kid_score =</span> df<span class="sc">$</span>kid_score,</span>
+<span id="cb400-3"><a href="ch-comp-two-means-stan.html#cb400-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mom_hs =</span> df<span class="sc">$</span>mom_hs</span>
+<span id="cb400-4"><a href="ch-comp-two-means-stan.html#cb400-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb400-5"><a href="ch-comp-two-means-stan.html#cb400-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mom_hs, kid_score)) <span class="sc">+</span> </span>
+<span id="cb400-6"><a href="ch-comp-two-means-stan.html#cb400-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb400-7"><a href="ch-comp-two-means-stan.html#cb400-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>alpha), </span>
+<span id="cb400-8"><a href="ch-comp-two-means-stan.html#cb400-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">mean</span>(posterior<span class="sc">$</span>beta)) <span class="sc">+</span></span>
+<span id="cb400-9"><a href="ch-comp-two-means-stan.html#cb400-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb400-10"><a href="ch-comp-two-means-stan.html#cb400-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Quoziente di intelligenza del bambino&quot;</span>,</span>
+<span id="cb400-11"><a href="ch-comp-two-means-stan.html#cb400-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Diploma di istruzione secondaria di secondo grado della madre</span><span class="sc">\n</span><span class="st">(0 = no; 1 = sì)&quot;</span></span>
+<span id="cb400-12"><a href="ch-comp-two-means-stan.html#cb400-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb400-13"><a href="ch-comp-two-means-stan.html#cb400-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-400-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Le stime a posteriori dei parametri si ottengono con:</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch-comp-two-means-stan.html#cb397-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;cohen_d&quot;</span>))</span>
-<span id="cb397-2"><a href="ch-comp-two-means-stan.html#cb397-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
-<span id="cb397-3"><a href="ch-comp-two-means-stan.html#cb397-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median    sd   mad     q5    q95  rhat ess_bulk ess_tail</span></span>
-<span id="cb397-4"><a href="ch-comp-two-means-stan.html#cb397-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb397-5"><a href="ch-comp-two-means-stan.html#cb397-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    77.6   77.5   2.08  2.06  74.1   81.0    1.00   16538.   12192.</span></span>
-<span id="cb397-6"><a href="ch-comp-two-means-stan.html#cb397-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta     11.8   11.7   2.35  2.34   7.88  15.6    1.00   16718.   12319.</span></span>
-<span id="cb397-7"><a href="ch-comp-two-means-stan.html#cb397-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    19.9   19.9   0.676 0.671 18.8   21.0    1.00   15949.   10908.</span></span>
-<span id="cb397-8"><a href="ch-comp-two-means-stan.html#cb397-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 cohen_d   0.592  0.591 0.120 0.119  0.393  0.788  1.00   16771.   12647.</span></span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="ch-comp-two-means-stan.html#cb401-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;cohen_d&quot;</span>))</span>
+<span id="cb401-2"><a href="ch-comp-two-means-stan.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>
+<span id="cb401-3"><a href="ch-comp-two-means-stan.html#cb401-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable   mean median    sd   mad     q5    q95  rhat ess_bulk ess_tail</span></span>
+<span id="cb401-4"><a href="ch-comp-two-means-stan.html#cb401-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb401-5"><a href="ch-comp-two-means-stan.html#cb401-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha    77.6   77.5   2.08  2.06  74.1   81.0    1.00   16538.   12192.</span></span>
+<span id="cb401-6"><a href="ch-comp-two-means-stan.html#cb401-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta     11.8   11.7   2.35  2.34   7.88  15.6    1.00   16718.   12319.</span></span>
+<span id="cb401-7"><a href="ch-comp-two-means-stan.html#cb401-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma    19.9   19.9   0.676 0.671 18.8   21.0    1.00   15949.   10908.</span></span>
+<span id="cb401-8"><a href="ch-comp-two-means-stan.html#cb401-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 cohen_d   0.592  0.591 0.120 0.119  0.393  0.788  1.00   16771.   12647.</span></span></code></pre></div>
 <p>I risultati confermano ciò che ci aspettavamo:</p>
 <ul>
 <li>il coefficiente <span class="math inline">\(\texttt{alpha} = 77.56\)</span> corrisponde alla media del gruppo codificato con <span class="math inline">\(x = 0\)</span>, ovvero la media dei punteggi PIAT per i bambini la cui madre non ha completato la scuola media superiore;</li>
 <li>il coefficiente <span class="math inline">\(\texttt{beta} = 11.76\)</span> corrisponde alla differenza tra le medie dei due gruppi, ovvero 89.32 - 77.55 = 11.77 (con piccoli errori di approssimazione).</li>
 </ul>
 <p>La seguente chiamata ritorna l’intervallo di credibilità al 95% per tutti i parametri del modello:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="ch-comp-two-means-stan.html#cb398-1" aria-hidden="true" tabindex="-1"></a>rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
-<span id="cb398-2"><a href="ch-comp-two-means-stan.html#cb398-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), <span class="at">prob =</span> <span class="fl">0.95</span></span>
-<span id="cb398-3"><a href="ch-comp-two-means-stan.html#cb398-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb398-4"><a href="ch-comp-two-means-stan.html#cb398-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    2.5%         97.5%</span></span>
-<span id="cb398-5"><a href="ch-comp-two-means-stan.html#cb398-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha_std   -0.09401587    0.09248375</span></span>
-<span id="cb398-6"><a href="ch-comp-two-means-stan.html#cb398-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta_std     0.14360650    0.32886135</span></span>
-<span id="cb398-7"><a href="ch-comp-two-means-stan.html#cb398-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_std    0.91337438    1.04372000</span></span>
-<span id="cb398-8"><a href="ch-comp-two-means-stan.html#cb398-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha       73.43237000   81.62094500</span></span>
-<span id="cb398-9"><a href="ch-comp-two-means-stan.html#cb398-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta         7.13510525   16.33961500</span></span>
-<span id="cb398-10"><a href="ch-comp-two-means-stan.html#cb398-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma       18.64258750   21.30290500</span></span>
-<span id="cb398-11"><a href="ch-comp-two-means-stan.html#cb398-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cohen_d      0.35667085    0.82770125</span></span>
-<span id="cb398-12"><a href="ch-comp-two-means-stan.html#cb398-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__      -208.90605000 -204.32400000</span></span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="ch-comp-two-means-stan.html#cb402-1" aria-hidden="true" tabindex="-1"></a>rstantools<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb402-2"><a href="ch-comp-two-means-stan.html#cb402-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit), <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb402-3"><a href="ch-comp-two-means-stan.html#cb402-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb402-4"><a href="ch-comp-two-means-stan.html#cb402-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    2.5%         97.5%</span></span>
+<span id="cb402-5"><a href="ch-comp-two-means-stan.html#cb402-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha_std   -0.09401587    0.09248375</span></span>
+<span id="cb402-6"><a href="ch-comp-two-means-stan.html#cb402-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta_std     0.14360650    0.32886135</span></span>
+<span id="cb402-7"><a href="ch-comp-two-means-stan.html#cb402-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_std    0.91337438    1.04372000</span></span>
+<span id="cb402-8"><a href="ch-comp-two-means-stan.html#cb402-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha       73.43237000   81.62094500</span></span>
+<span id="cb402-9"><a href="ch-comp-two-means-stan.html#cb402-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta         7.13510525   16.33961500</span></span>
+<span id="cb402-10"><a href="ch-comp-two-means-stan.html#cb402-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma       18.64258750   21.30290500</span></span>
+<span id="cb402-11"><a href="ch-comp-two-means-stan.html#cb402-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cohen_d      0.35667085    0.82770125</span></span>
+<span id="cb402-12"><a href="ch-comp-two-means-stan.html#cb402-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__      -208.90605000 -204.32400000</span></span></code></pre></div>
 <p>Possiamo dunque concludere che i bambini la cui madre ha completato la scuola superiore ottengono in media circa 12 punti in più rispetto ai bambini la cui madre non ha completato la scuola superiore. L’intervallo di credibilità al 95% ci dice che possiamo essere sicuri al 95% che tale differenza sia di almeno 7 punti e possa arrivare fino a ben 16 punti. Per riassumere, possiamo concludere, con un grado di certezza soggettiva del 95%, che c’è un’associazione positiva tra il livello di scolarità della madre e l’intelligenza del bambino: le madri che hanno livello di istruzione più alto della media tendo ad avere bambini il cui QI è anch’esso più alto della media.</p>
 </div>
 </div>
@@ -979,29 +977,29 @@ mentre, quando <span class="math inline">\(x=1\)</span>, il modello diventa</p>
 d={\frac {{\bar {y}}_{1}-{\bar {y}}_{2}}{s}}.
 \]</span></p>
 <p>Nel caso presente, la differenza <span class="math inline">\({\bar {y}}_{1}-{\bar {y}}_{2}\)</span> corrisponde a al parametro <span class="math inline">\(\beta\)</span> del modello lineare. Inoltre, una stima della deviazione starndard comune dei due gruppi è fornita dalla deviazione standard della regressione, ovvero dal parametro <span class="math inline">\(\sigma\)</span>. Nel blocco <code>generated quantities</code> del modello Stan ho calcolato <code>cohen_d = beta / sigma</code>. Ciò significa che Stan calcolerà la distribuzione a posteriori del parametro <code>cohen_d</code>. Possiamo dunque riassumere la distribuzione a posteriori di <code>cohen_d</code> con un qualche indice di tendenza centrale (che sarà la nostra stima della dimensione dell’effetto) e calcolare l’intervallo di credibilità, per esempio al 95%. Questi risultati si ottengono con l’istruzione riportata di seguito:</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="ch-comp-two-means-stan.html#cb399-1" aria-hidden="true" tabindex="-1"></a>posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
-<span id="cb399-2"><a href="ch-comp-two-means-stan.html#cb399-2" aria-hidden="true" tabindex="-1"></a>  stanfit,</span>
-<span id="cb399-3"><a href="ch-comp-two-means-stan.html#cb399-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">quantile</span>(.x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span>
-<span id="cb399-4"><a href="ch-comp-two-means-stan.html#cb399-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb399-5"><a href="ch-comp-two-means-stan.html#cb399-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 8 × 4</span></span>
-<span id="cb399-6"><a href="ch-comp-two-means-stan.html#cb399-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable     `2.5%`       `50%`   `97.5%`</span></span>
-<span id="cb399-7"><a href="ch-comp-two-means-stan.html#cb399-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb399-8"><a href="ch-comp-two-means-stan.html#cb399-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha_std   -0.0940   -0.000366    0.0925</span></span>
-<span id="cb399-9"><a href="ch-comp-two-means-stan.html#cb399-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta_std     0.144     0.236       0.329 </span></span>
-<span id="cb399-10"><a href="ch-comp-two-means-stan.html#cb399-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_std    0.913     0.974       1.04  </span></span>
-<span id="cb399-11"><a href="ch-comp-two-means-stan.html#cb399-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 alpha       73.4      77.5        81.6   </span></span>
-<span id="cb399-12"><a href="ch-comp-two-means-stan.html#cb399-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 beta         7.14     11.7        16.3   </span></span>
-<span id="cb399-13"><a href="ch-comp-two-means-stan.html#cb399-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 sigma       18.6      19.9        21.3   </span></span>
-<span id="cb399-14"><a href="ch-comp-two-means-stan.html#cb399-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 cohen_d      0.357     0.591       0.828 </span></span>
-<span id="cb399-15"><a href="ch-comp-two-means-stan.html#cb399-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 lp__      -209.     -205.       -204.</span></span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="ch-comp-two-means-stan.html#cb403-1" aria-hidden="true" tabindex="-1"></a>posterior<span class="sc">::</span><span class="fu">summarise_draws</span>(</span>
+<span id="cb403-2"><a href="ch-comp-two-means-stan.html#cb403-2" aria-hidden="true" tabindex="-1"></a>  stanfit,</span>
+<span id="cb403-3"><a href="ch-comp-two-means-stan.html#cb403-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">quantile</span>(.x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>))</span>
+<span id="cb403-4"><a href="ch-comp-two-means-stan.html#cb403-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb403-5"><a href="ch-comp-two-means-stan.html#cb403-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 8 × 4</span></span>
+<span id="cb403-6"><a href="ch-comp-two-means-stan.html#cb403-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable     `2.5%`       `50%`   `97.5%`</span></span>
+<span id="cb403-7"><a href="ch-comp-two-means-stan.html#cb403-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb403-8"><a href="ch-comp-two-means-stan.html#cb403-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 alpha_std   -0.0940   -0.000366    0.0925</span></span>
+<span id="cb403-9"><a href="ch-comp-two-means-stan.html#cb403-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta_std     0.144     0.236       0.329 </span></span>
+<span id="cb403-10"><a href="ch-comp-two-means-stan.html#cb403-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_std    0.913     0.974       1.04  </span></span>
+<span id="cb403-11"><a href="ch-comp-two-means-stan.html#cb403-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 alpha       73.4      77.5        81.6   </span></span>
+<span id="cb403-12"><a href="ch-comp-two-means-stan.html#cb403-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 beta         7.14     11.7        16.3   </span></span>
+<span id="cb403-13"><a href="ch-comp-two-means-stan.html#cb403-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 sigma       18.6      19.9        21.3   </span></span>
+<span id="cb403-14"><a href="ch-comp-two-means-stan.html#cb403-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 cohen_d      0.357     0.591       0.828 </span></span>
+<span id="cb403-15"><a href="ch-comp-two-means-stan.html#cb403-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 lp__      -209.     -205.       -204.</span></span></code></pre></div>
 <p>I risultati dell’analisi bayesiana coincidono con quelli che si ottengono utilizzando la formula del <span class="math inline">\(d\)</span> di Cohen con le medie dei due gruppi e una stima della varianza <em>pooled</em>. Il calcolo della statistica <span class="math inline">\(d\)</span> di Cohen è fornita, ad esempio, dal pacchetto <code>effectsize</code>:</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="ch-comp-two-means-stan.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;effectsize&quot;</span>)</span>
-<span id="cb400-2"><a href="ch-comp-two-means-stan.html#cb400-2" aria-hidden="true" tabindex="-1"></a>(d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(kid_score <span class="sc">~</span> mom_hs, <span class="at">data =</span> df))</span>
-<span id="cb400-3"><a href="ch-comp-two-means-stan.html#cb400-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d |         95% CI</span></span>
-<span id="cb400-4"><a href="ch-comp-two-means-stan.html#cb400-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
-<span id="cb400-5"><a href="ch-comp-two-means-stan.html#cb400-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.59     | [-0.83, -0.36]</span></span>
-<span id="cb400-6"><a href="ch-comp-two-means-stan.html#cb400-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb400-7"><a href="ch-comp-two-means-stan.html#cb400-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - Estimated using pooled SD.</span></span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="ch-comp-two-means-stan.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;effectsize&quot;</span>)</span>
+<span id="cb404-2"><a href="ch-comp-two-means-stan.html#cb404-2" aria-hidden="true" tabindex="-1"></a>(d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(kid_score <span class="sc">~</span> mom_hs, <span class="at">data =</span> df))</span>
+<span id="cb404-3"><a href="ch-comp-two-means-stan.html#cb404-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d |         95% CI</span></span>
+<span id="cb404-4"><a href="ch-comp-two-means-stan.html#cb404-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
+<span id="cb404-5"><a href="ch-comp-two-means-stan.html#cb404-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.59     | [-0.83, -0.36]</span></span>
+<span id="cb404-6"><a href="ch-comp-two-means-stan.html#cb404-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb404-7"><a href="ch-comp-two-means-stan.html#cb404-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - Estimated using pooled SD.</span></span></code></pre></div>
 <p>Il fatto che l’output abbia un segno negativo dipende dal fatto che è stata sottratta la media maggiore dalla media minore (in altri termini, dobbiamo guardare il risultato in valore assoluto).</p>
 <p>In conclusione, il valore <span class="math inline">\(d\)</span> di Cohen di entità “media” [<span class="math inline">\(d\)</span> &gt; 0.5; <span class="citation">Sawilowsky (<a href="#ref-sawilowsky2009new" role="doc-biblioref">2009</a>)</span>] può essere interpretato dicendo che la scolarità delle madri ha un’influenza non trascurabile sul QI dei bambini.</p>
 </div>

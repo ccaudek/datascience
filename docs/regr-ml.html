@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -858,12 +856,12 @@ La correzione standard di questa sottostima consiste nel sostituire <span class=
 <div id="calcolare-la-somma-dei-quadrati" class="section level2 hasAnchor" number="46.2">
 <h2><span class="header-section-number">I.2</span> Calcolare la somma dei quadrati<a href="regr-ml.html#calcolare-la-somma-dei-quadrati" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Seguendo <a href="https://github.com/ASKurz/Working-through-Regression-and-other-stories/blob/main/08.Rmd">Solomon Kurz</a>, creiamo una funzione per calcolare la somma dei quadrati per diversi valori di <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> che, per semplicità, qui verranno chiamati <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span>:</p>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="regr-ml.html#cb538-1" aria-hidden="true" tabindex="-1"></a>rss <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, a, b) {  </span>
-<span id="cb538-2"><a href="regr-ml.html#cb538-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x and y are vectors, </span></span>
-<span id="cb538-3"><a href="regr-ml.html#cb538-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a and b are scalars </span></span>
-<span id="cb538-4"><a href="regr-ml.html#cb538-4" aria-hidden="true" tabindex="-1"></a>  resid <span class="ot">&lt;-</span> y <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> x)</span>
-<span id="cb538-5"><a href="regr-ml.html#cb538-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(resid<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb538-6"><a href="regr-ml.html#cb538-6" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="regr-ml.html#cb542-1" aria-hidden="true" tabindex="-1"></a>rss <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, a, b) {  </span>
+<span id="cb542-2"><a href="regr-ml.html#cb542-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x and y are vectors, </span></span>
+<span id="cb542-3"><a href="regr-ml.html#cb542-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a and b are scalars </span></span>
+<span id="cb542-4"><a href="regr-ml.html#cb542-4" aria-hidden="true" tabindex="-1"></a>  resid <span class="ot">&lt;-</span> y <span class="sc">-</span> (a <span class="sc">+</span> b <span class="sc">*</span> x)</span>
+<span id="cb542-5"><a href="regr-ml.html#cb542-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(resid<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb542-6"><a href="regr-ml.html#cb542-6" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 <p>Per fare un esempio concreto useremo un famoso dataset chiamato <code>kidiq</code> <span class="citation">(<a href="#ref-gelman2020regression" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span> che riporta i dati di un’indagine del 2007 su un campione di donne americane adulte e sui loro bambini di età compresa tra i 3 e i 4 anni. I dati sono costituiti da 434 osservazioni e 4 variabili:</p>
 <ul>
 <li><code>kid_score</code>: QI del bambino; è il punteggio totale del <em>Peabody Individual Achievement Test</em> (PIAT) costituito dalla somma dei punteggi di tre sottoscale (Mathematics, Reading comprehension, Reading recognition);</li>
@@ -871,73 +869,73 @@ La correzione standard di questa sottostima consiste nel sostituire <span class=
 <li><code>mom_iq</code>: QI della madre;</li>
 <li><code>mom_age</code>: età della madre.</li>
 </ul>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="regr-ml.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
-<span id="cb539-2"><a href="regr-ml.html#cb539-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
-<span id="cb539-3"><a href="regr-ml.html#cb539-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
-<span id="cb539-4"><a href="regr-ml.html#cb539-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age</span></span>
-<span id="cb539-5"><a href="regr-ml.html#cb539-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27</span></span>
-<span id="cb539-6"><a href="regr-ml.html#cb539-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25</span></span>
-<span id="cb539-7"><a href="regr-ml.html#cb539-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27</span></span>
-<span id="cb539-8"><a href="regr-ml.html#cb539-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25</span></span>
-<span id="cb539-9"><a href="regr-ml.html#cb539-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27</span></span>
-<span id="cb539-10"><a href="regr-ml.html#cb539-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18</span></span></code></pre></div>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="regr-ml.html#cb543-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
+<span id="cb543-2"><a href="regr-ml.html#cb543-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span>
+<span id="cb543-3"><a href="regr-ml.html#cb543-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb543-4"><a href="regr-ml.html#cb543-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kid_score mom_hs    mom_iq mom_work mom_age</span></span>
+<span id="cb543-5"><a href="regr-ml.html#cb543-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        65      1 121.11753        4      27</span></span>
+<span id="cb543-6"><a href="regr-ml.html#cb543-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        98      1  89.36188        4      25</span></span>
+<span id="cb543-7"><a href="regr-ml.html#cb543-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        85      1 115.44316        4      27</span></span>
+<span id="cb543-8"><a href="regr-ml.html#cb543-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        83      1  99.44964        3      25</span></span>
+<span id="cb543-9"><a href="regr-ml.html#cb543-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       115      1  92.74571        4      27</span></span>
+<span id="cb543-10"><a href="regr-ml.html#cb543-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        98      0 107.90184        1      18</span></span></code></pre></div>
 <p>Calcoliamo alcune statistiche descrittive:</p>
-<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="regr-ml.html#cb540-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span>
-<span id="cb540-2"><a href="regr-ml.html#cb540-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    kid_score         mom_hs           mom_iq          mom_work    </span></span>
-<span id="cb540-3"><a href="regr-ml.html#cb540-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   : 20.0   Min.   :0.0000   Min.   : 71.04   Min.   :1.000  </span></span>
-<span id="cb540-4"><a href="regr-ml.html#cb540-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: 74.0   1st Qu.:1.0000   1st Qu.: 88.66   1st Qu.:2.000  </span></span>
-<span id="cb540-5"><a href="regr-ml.html#cb540-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median : 90.0   Median :1.0000   Median : 97.92   Median :3.000  </span></span>
-<span id="cb540-6"><a href="regr-ml.html#cb540-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   : 86.8   Mean   :0.7857   Mean   :100.00   Mean   :2.896  </span></span>
-<span id="cb540-7"><a href="regr-ml.html#cb540-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:102.0   3rd Qu.:1.0000   3rd Qu.:110.27   3rd Qu.:4.000  </span></span>
-<span id="cb540-8"><a href="regr-ml.html#cb540-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :144.0   Max.   :1.0000   Max.   :138.89   Max.   :4.000  </span></span>
-<span id="cb540-9"><a href="regr-ml.html#cb540-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     mom_age     </span></span>
-<span id="cb540-10"><a href="regr-ml.html#cb540-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :17.00  </span></span>
-<span id="cb540-11"><a href="regr-ml.html#cb540-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:21.00  </span></span>
-<span id="cb540-12"><a href="regr-ml.html#cb540-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :23.00  </span></span>
-<span id="cb540-13"><a href="regr-ml.html#cb540-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :22.79  </span></span>
-<span id="cb540-14"><a href="regr-ml.html#cb540-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:25.00  </span></span>
-<span id="cb540-15"><a href="regr-ml.html#cb540-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :29.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="regr-ml.html#cb544-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span>
+<span id="cb544-2"><a href="regr-ml.html#cb544-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    kid_score         mom_hs           mom_iq          mom_work    </span></span>
+<span id="cb544-3"><a href="regr-ml.html#cb544-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   : 20.0   Min.   :0.0000   Min.   : 71.04   Min.   :1.000  </span></span>
+<span id="cb544-4"><a href="regr-ml.html#cb544-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: 74.0   1st Qu.:1.0000   1st Qu.: 88.66   1st Qu.:2.000  </span></span>
+<span id="cb544-5"><a href="regr-ml.html#cb544-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median : 90.0   Median :1.0000   Median : 97.92   Median :3.000  </span></span>
+<span id="cb544-6"><a href="regr-ml.html#cb544-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   : 86.8   Mean   :0.7857   Mean   :100.00   Mean   :2.896  </span></span>
+<span id="cb544-7"><a href="regr-ml.html#cb544-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:102.0   3rd Qu.:1.0000   3rd Qu.:110.27   3rd Qu.:4.000  </span></span>
+<span id="cb544-8"><a href="regr-ml.html#cb544-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :144.0   Max.   :1.0000   Max.   :138.89   Max.   :4.000  </span></span>
+<span id="cb544-9"><a href="regr-ml.html#cb544-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     mom_age     </span></span>
+<span id="cb544-10"><a href="regr-ml.html#cb544-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :17.00  </span></span>
+<span id="cb544-11"><a href="regr-ml.html#cb544-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:21.00  </span></span>
+<span id="cb544-12"><a href="regr-ml.html#cb544-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :23.00  </span></span>
+<span id="cb544-13"><a href="regr-ml.html#cb544-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :22.79  </span></span>
+<span id="cb544-14"><a href="regr-ml.html#cb544-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:25.00  </span></span>
+<span id="cb544-15"><a href="regr-ml.html#cb544-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :29.00</span></span></code></pre></div>
 <p>Il QI medio dei bambini è di circa 87 mentre quello della madre è di 100. La gamma di età delle madri va da 17 a 29 anni con una media di circa 23 anni. Si noti infine che il 79% delle mamme ha un diploma di scuola superiore.</p>
 <p>Ci poniamo ora il problema di descrivere l’associazione tra il QI dei figli, <code>kid_score</code>, e il QI delle madri, <code>mom_iq</code>, mediante un modello lineare. Le stime dei minimi quadrati sono fornite dalla funzione <code>lm()</code>:</p>
-<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="regr-ml.html#cb541-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> mom_iq, <span class="at">data =</span> df)</span>
-<span id="cb541-2"><a href="regr-ml.html#cb541-2" aria-hidden="true" tabindex="-1"></a>fm <span class="sc">%&gt;%</span></span>
-<span id="cb541-3"><a href="regr-ml.html#cb541-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb541-4"><a href="regr-ml.html#cb541-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;mom_iq&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb541-5"><a href="regr-ml.html#cb541-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(estimate)</span>
-<span id="cb541-6"><a href="regr-ml.html#cb541-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 25.7997778  0.6099746</span></span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="regr-ml.html#cb545-1" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">lm</span>(kid_score <span class="sc">~</span> mom_iq, <span class="at">data =</span> df)</span>
+<span id="cb545-2"><a href="regr-ml.html#cb545-2" aria-hidden="true" tabindex="-1"></a>fm <span class="sc">%&gt;%</span></span>
+<span id="cb545-3"><a href="regr-ml.html#cb545-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb545-4"><a href="regr-ml.html#cb545-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;mom_iq&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb545-5"><a href="regr-ml.html#cb545-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(estimate)</span>
+<span id="cb545-6"><a href="regr-ml.html#cb545-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 25.7997778  0.6099746</span></span></code></pre></div>
 <p>
 Calcoliamo la somma dei residui quadratici in base al modello di regressione <span class="math inline">\(\hat{y}_i = 25.8 + 0.61 x_i\)</span>:</p>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="regr-ml.html#cb542-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rss</span>(df<span class="sc">$</span>mom_iq, df<span class="sc">$</span>kid_score, <span class="fl">25.8</span>, <span class="fl">0.61</span>)</span>
-<span id="cb542-2"><a href="regr-ml.html#cb542-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 144137.3</span></span></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="regr-ml.html#cb546-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rss</span>(df<span class="sc">$</span>mom_iq, df<span class="sc">$</span>kid_score, <span class="fl">25.8</span>, <span class="fl">0.61</span>)</span>
+<span id="cb546-2"><a href="regr-ml.html#cb546-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 144137.3</span></span></code></pre></div>
 <p>Per sviluppare una comprensione intuitiva del metodo dei minimi quadrati, esploriamo i valori assunti da <code>rss</code> per diversi valori di <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span>. Per semplicità, manteniamo costante <code>b = 0.61</code> e variamo i valori <code>a</code>.</p>
-<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="regr-ml.html#cb543-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">a =</span> <span class="fu">seq</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">30</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb543-2"><a href="regr-ml.html#cb543-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb543-3"><a href="regr-ml.html#cb543-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rss =</span> purrr<span class="sc">::</span><span class="fu">map_dbl</span>(</span>
-<span id="cb543-4"><a href="regr-ml.html#cb543-4" aria-hidden="true" tabindex="-1"></a>      a, </span>
-<span id="cb543-5"><a href="regr-ml.html#cb543-5" aria-hidden="true" tabindex="-1"></a>      rss, </span>
-<span id="cb543-6"><a href="regr-ml.html#cb543-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> df<span class="sc">$</span>mom_iq, </span>
-<span id="cb543-7"><a href="regr-ml.html#cb543-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> df<span class="sc">$</span>kid_score,  </span>
-<span id="cb543-8"><a href="regr-ml.html#cb543-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">b =</span> <span class="fl">0.61</span>)</span>
-<span id="cb543-9"><a href="regr-ml.html#cb543-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb543-10"><a href="regr-ml.html#cb543-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> rss)) <span class="sc">+</span></span>
-<span id="cb543-11"><a href="regr-ml.html#cb543-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb543-12"><a href="regr-ml.html#cb543-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Il valore b è tenuto costante (b = 0.61)&quot;</span>) </span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-551-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="regr-ml.html#cb547-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">a =</span> <span class="fu">seq</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">30</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb547-2"><a href="regr-ml.html#cb547-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb547-3"><a href="regr-ml.html#cb547-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rss =</span> purrr<span class="sc">::</span><span class="fu">map_dbl</span>(</span>
+<span id="cb547-4"><a href="regr-ml.html#cb547-4" aria-hidden="true" tabindex="-1"></a>      a, </span>
+<span id="cb547-5"><a href="regr-ml.html#cb547-5" aria-hidden="true" tabindex="-1"></a>      rss, </span>
+<span id="cb547-6"><a href="regr-ml.html#cb547-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> df<span class="sc">$</span>mom_iq, </span>
+<span id="cb547-7"><a href="regr-ml.html#cb547-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> df<span class="sc">$</span>kid_score,  </span>
+<span id="cb547-8"><a href="regr-ml.html#cb547-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">b =</span> <span class="fl">0.61</span>)</span>
+<span id="cb547-9"><a href="regr-ml.html#cb547-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb547-10"><a href="regr-ml.html#cb547-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> rss)) <span class="sc">+</span></span>
+<span id="cb547-11"><a href="regr-ml.html#cb547-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb547-12"><a href="regr-ml.html#cb547-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Il valore b è tenuto costante (b = 0.61)&quot;</span>) </span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-555-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il minimo della funzione che qui abbiamo discretizzato costituisce la stima dei minimi quadrati del parametro <span class="math inline">\(\beta_0\)</span>.</p>
 <p>Lo stesso può essere fatto per <span class="math inline">\(b\)</span>:</p>
-<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="regr-ml.html#cb544-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">b =</span> <span class="fu">seq</span>(<span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="at">length.out =</span> <span class="dv">30</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb544-2"><a href="regr-ml.html#cb544-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb544-3"><a href="regr-ml.html#cb544-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rss =</span> purrr<span class="sc">::</span><span class="fu">map_dbl</span>(</span>
-<span id="cb544-4"><a href="regr-ml.html#cb544-4" aria-hidden="true" tabindex="-1"></a>      b, </span>
-<span id="cb544-5"><a href="regr-ml.html#cb544-5" aria-hidden="true" tabindex="-1"></a>      rss, </span>
-<span id="cb544-6"><a href="regr-ml.html#cb544-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> df<span class="sc">$</span>mom_iq, </span>
-<span id="cb544-7"><a href="regr-ml.html#cb544-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> df<span class="sc">$</span>kid_score,  </span>
-<span id="cb544-8"><a href="regr-ml.html#cb544-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">a =</span> <span class="fl">25.8</span>)</span>
-<span id="cb544-9"><a href="regr-ml.html#cb544-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb544-10"><a href="regr-ml.html#cb544-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> b, <span class="at">y =</span> rss)) <span class="sc">+</span></span>
-<span id="cb544-11"><a href="regr-ml.html#cb544-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb544-12"><a href="regr-ml.html#cb544-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Il valore a è tenuto costante (a = 25.8)&quot;</span>) </span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-552-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="regr-ml.html#cb548-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">b =</span> <span class="fu">seq</span>(<span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="at">length.out =</span> <span class="dv">30</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb548-2"><a href="regr-ml.html#cb548-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb548-3"><a href="regr-ml.html#cb548-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">rss =</span> purrr<span class="sc">::</span><span class="fu">map_dbl</span>(</span>
+<span id="cb548-4"><a href="regr-ml.html#cb548-4" aria-hidden="true" tabindex="-1"></a>      b, </span>
+<span id="cb548-5"><a href="regr-ml.html#cb548-5" aria-hidden="true" tabindex="-1"></a>      rss, </span>
+<span id="cb548-6"><a href="regr-ml.html#cb548-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> df<span class="sc">$</span>mom_iq, </span>
+<span id="cb548-7"><a href="regr-ml.html#cb548-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> df<span class="sc">$</span>kid_score,  </span>
+<span id="cb548-8"><a href="regr-ml.html#cb548-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">a =</span> <span class="fl">25.8</span>)</span>
+<span id="cb548-9"><a href="regr-ml.html#cb548-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb548-10"><a href="regr-ml.html#cb548-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> b, <span class="at">y =</span> rss)) <span class="sc">+</span></span>
+<span id="cb548-11"><a href="regr-ml.html#cb548-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb548-12"><a href="regr-ml.html#cb548-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Il valore a è tenuto costante (a = 25.8)&quot;</span>) </span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-556-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Il minimo della funzione rappresentata qui sopra costituisce la stima dei minimi quadrati del parametro <span class="math inline">\(\beta_1\)</span>.</p>
 <p>In generale, possiamo dire che il metodo dei minimi quadrati consente di minimizzare la funzione quadratica <span class="math inline">\(RSS = \sum_{i=1}^n \left(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)\right)^2\)</span> rispetto alle due incognite <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span>. Numericamente, ciò corrisponde a variare sia <code>a</code> che <code>b</code> simultaneamente in un listato simile a quello riportato sopra. Anche se il codice <span class="math inline">\(\R\)</span> necessario per ottenere questo risultato è più complesso di quello qui esaminato, l’idea di base non cambia.</p>
 <div class="remark">

@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -1182,14 +1180,14 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb277-10"><a href="ch-prediction.html#cb277-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb277-11"><a href="ch-prediction.html#cb277-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running MCMC with 4 sequential chains...</span></span>
 <span id="cb277-12"><a href="ch-prediction.html#cb277-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.2 seconds.</span></span>
+<span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.3 seconds.</span></span>
 <span id="cb277-14"><a href="ch-prediction.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.3 seconds.</span></span>
 <span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.3 seconds.</span></span>
 <span id="cb277-16"><a href="ch-prediction.html#cb277-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.3 seconds.</span></span>
 <span id="cb277-17"><a href="ch-prediction.html#cb277-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-18"><a href="ch-prediction.html#cb277-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>
 <span id="cb277-19"><a href="ch-prediction.html#cb277-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mean chain execution time: 0.3 seconds.</span></span>
-<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.4 seconds.</span></span></code></pre></div>
+<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.5 seconds.</span></span></code></pre></div>
 <p>Per questo secondo modello il confronto tra la funzione di densità empirica della <span class="math inline">\(y\)</span> e quella di diversi campioni <span class="math inline">\(y^{rep}\)</span> risulta adeguato:</p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch-prediction.html#cb278-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
 <span id="cb278-2"><a href="ch-prediction.html#cb278-2" aria-hidden="true" tabindex="-1"></a>y_rep <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>)</span>

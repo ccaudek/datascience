@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -859,17 +857,17 @@ p(y) &amp;= \int p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta \notag\\
 <div class="exercise">
 <p><span id="exr:unlabeled-div-100" class="exercise"><strong>Esercizio G.1  </strong></span>Si verifichi la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> mediante di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Per replicare mediante la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> il risultato trovato per via numerica nella Sezione <a href="ch-bayes-workflow.html#sec:const-normaliz-bino23">14.4</a> assumiamo una distribuzione a priori uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. I valori del problema dunque diventano i seguenti:</p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="appendix:const-norm-bino23.html#cb533-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb533-2"><a href="appendix:const-norm-bino23.html#cb533-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb533-3"><a href="appendix:const-norm-bino23.html#cb533-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb533-4"><a href="appendix:const-norm-bino23.html#cb533-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="appendix:const-norm-bino23.html#cb537-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb537-2"><a href="appendix:const-norm-bino23.html#cb537-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb537-3"><a href="appendix:const-norm-bino23.html#cb537-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb537-4"><a href="appendix:const-norm-bino23.html#cb537-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
 <p>Definiamo</p>
-<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="appendix:const-norm-bino23.html#cb534-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb534-2"><a href="appendix:const-norm-bino23.html#cb534-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
-<span id="cb534-3"><a href="appendix:const-norm-bino23.html#cb534-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="appendix:const-norm-bino23.html#cb538-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb538-2"><a href="appendix:const-norm-bino23.html#cb538-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
+<span id="cb538-3"><a href="appendix:const-norm-bino23.html#cb538-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Il risultato cercato è</p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="appendix:const-norm-bino23.html#cb535-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
-<span id="cb535-2"><a href="appendix:const-norm-bino23.html#cb535-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="appendix:const-norm-bino23.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
+<span id="cb539-2"><a href="appendix:const-norm-bino23.html#cb539-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
 </div>
 
 </div>

@@ -1,42 +1,40 @@
-# Modello lineare in Stan {#ch-reg-lin-stan}
+# Modello di regressione in linguaggio Stan {#ch-reg-lin-stan}
 
 ```{r c053, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
 source("_stan_options.R")
 ```
 
-Passiamo ora alla versione bayesiana del modello di regressione. Mostreremo qui che, se vengono usate delle distribuzioni a priori non informative, si ottengono delle distribuzioni a posteriori dei parametri il cui massimo (a posteriori) è simile alle stime dei minimi quadrati frequentiste. In questo capitolo, inoltre, mostreremo come sia possibile usare il linguaggio probabilistico Stan per la stima dei parametri del modello di regressione e per l'inferenza. 
+Passiamo ora alla versione bayesiana del modello di regressione. Mostreremo qui che, se vengono usate delle distribuzioni a priori non informative, si ottengono delle distribuzioni a posteriori dei parametri il cui massimo a posteriori è simile alle stime frequentiste dei minimi quadrati. In questo Capitolo, inoltre, mostreremo come sia possibile usare il linguaggio probabilistico Stan per la stima dei parametri del modello di regressione e per l'inferenza. 
 
-## Una distribuzione a priori debolmente informativa
+## Specificazione del modello
 
 La specificazione del modello lineare bayesiano inizia nello stesso modo dell'approccio frequentista, ovvero con la specificazione della seguente equazione:
 
 $$
 y_i = \alpha + \beta x_i + \varepsilon_i, \quad i = 1, \dots, n.
 $$
-Si assume che gli errori, $\varepsilon_i$, siano indipendenti e identicamente distribuiti come variabili casuali Normali con media zero e varianza costante $\sigma^2$. Queste ipotesi sono esattamente uguali a quelle che vengono usato nell'inferenza frequentista. Il nostro obiettivo è aggiornare le distribuzioni a priori dei parametri sconosciuti $\alpha$ e $\beta$ alla luce dei dati $x_1, y_1, \dots, x_n, y_n$. 
+Si assume che gli errori, $\varepsilon_i$, siano indipendenti e identicamente distribuiti come variabili casuali Normali con media zero e varianza costante $\sigma^2$. Queste ipotesi sono esattamente uguali a quelle che vengono usato nell'inferenza frequentista. Il nostro obiettivo è aggiornare le distribuzioni a priori dei parametri sconosciuti $\alpha$ e $\beta$ alla luce dei dati $x_1, y_1, \dots, x_n, y_n$. Solitamente, è desiderabile scegliere distribuzioni a priori che hanno uno scarso impatto sulla distribuzione a posteriori.
 
-Per implementare l'approccio bayesiano è necessario assegnare una distribuzione a priori ai parametri. Nel contesto del modello di regressione è desiderabile scegliere distribuzioni a priori che abbiano uno scarso impatto sulla distribuzione a posteriori.
-
-Supponiamo che le nostre credenza a priori sui parametri del modello, $\beta_0$, $\beta_1$ e $\sigma$ siano tra loro indipendenti. Allora possiamo scrivere la distribuzione congiunta dei parametri nel modo seguente:
+Supponiamo che le nostre credenza a priori sui parametri del modello, $\alpha$, $\beta$ e $\sigma$ siano tra loro indipendenti. Allora possiamo scrivere la distribuzione congiunta dei parametri nel modo seguente:
 
 $$
-p(\beta_0, \beta_1, \sigma) = p(\beta_0)p(\beta_1)p(\sigma).
+p(\alpha, \beta, \sigma) = p(\alpha)p(\beta)p(\sigma).
 $$
 
-Per i coefficienti di regressione possiamo assumere $\beta_0 \sim \mathcal{N}(\mu_0, s_0)$ e $\beta_1 \sim \mathcal{N}(\mu_1, s_1)$. Per $\sigma$ possiamo assumere, ad esempio, $\sigma \sim \mbox{Cauchy}(a, b)$. Moltiplicando la verosimiglianza 
+Possiamo assumere $\alpha \sim \mathcal{N}(\mu_{\alpha}, \sigma_{\alpha})$ e $\beta \sim \mathcal{N}(\mu_{\beta}, \sigma_{\beta})$. Per $\sigma$ possiamo assumere, ad esempio, $\sigma \sim \mbox{Cauchy}(a, b)$. 
+
+Moltiplicando la verosimiglianza 
 
 $$
-\prod_{i=1}^n p(y_i \mid x_i; \beta_0, \beta_1, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(y_i-(\beta_0+\beta_1 x_i))^2}{2\sigma^2}}
+\prod_{i=1}^n p(y_i \mid x_i; \alpha, \beta, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(y_i-(\alpha + \beta x_i))^2}{2\sigma^2}}
 $$
 
 per le distribuzioni a priori dei parametri, si ottiene la distribuzione a posteriori. Tuttavia, tale distribuzione non è risolvibile per via analitica. Come in precedenza, usiamo invece un algoritmo MCMC per ottenere una sequenza di campioni casuali dalla distribuzione a posteriori. 
 
-## Linguaggio Stan
+## Stima bayesiana in linguaggio Stan
 
-È conveniente usare il linguaggio Stan per ottenere una sequenza MCMC dalla distribuzione a posteriori di un modello di regressione. È semplice formulare la descrizione di un modello bayesiano (verosimiglianza e distribuzione a priori) in uno script scritto in linguaggio Stan.
-
-Continuiamo qui l'esempio precedente in cui ci si poneva il problema di descrivere l'associazione tra il QI dei figli e il QI delle madri mediante un modello lineare. I dati sono quelli del dataset `kidiq`:
+È conveniente usare il linguaggio Stan per ottenere una sequenza MCMC dalla distribuzione a posteriori dei parametri di un modello di regressione. Continuiamo qui l'esempio precedente in cui ci si poneva il problema di descrivere mediante un modello lineare l'associazione tra il QI dei figli e il QI delle madri. Leggiamo i dati `kidiq` in $\mathsf{R}$:
 
 ```{r}
 library("rio")
@@ -51,23 +49,21 @@ fm <- lm(kid_score ~ mom_iq, data = df)
 summary(fm)
 ```
 
-Sulla base delle informazioni precedenti, giungiamo alla seguente formulazione bayesiana del modello lineare:
+Sulla base delle informazioni precedenti, giungiamo alla seguente formulazione bayesiana del modello di regressione lineare:
 
 $$
 \begin{aligned}
 y_i &\sim \mathcal{N}(\mu_i, \sigma) \\
-\mu_i &= \beta_0 + \beta_1 x_i \\
-\beta_0 &\sim \mathcal{N}(25, 10) \\
-\beta_1 &\sim \mathcal{N}(0, 1) \\
+\mu_i &= \alpha + \beta x_i \\
+\alpha &\sim \mathcal{N}(25, 10) \\
+\beta &\sim \mathcal{N}(0, 1) \\
 \sigma &\sim \text{Cauchy}(18, 5) 
 \end{aligned}
 $$
 
-La prima riga definisce la funzione di verosimiglianza e le righe successive definiscono le distribuzioni a priori dei parametri. Il segno $\sim$ (tilde) si può leggere "si distribuisce come". La prima riga ci dice che ciascuna osservazione $y_i$ è una variabile casuale che segue la distribuzione gaussiana di parametri $\mu_i$ e $\sigma$. La seconda riga specifica, in maniera deterministica, che ciascun $\mu_i$ è una funzione lineare di $x_i$, con parametri $\beta_0$ e $\beta_1$. Le due righe successive specificano le distribuzioni a priori per $\beta_0$ e $\beta_1$. La distribuzione a priori di $\beta_0$ è una distribuzione gaussiana di parametri $\mu_{\alpha} = 25$ e deviazione standard $\sigma_{\alpha} = 10$; la distribuzione a priori di $\beta_1$ è una distribuzione gaussiana standardizzata. L'ultima riga definisce la distribuzione a priori di $\sigma$, ovvero una Cauchy di parametri 18 e 5.
+Il segno $\sim$ (tilde) si può leggere "si distribuisce come". La prima riga definisce la funzione di verosimiglianza e ci dice che ciascuna osservazione $y_i$ è una variabile casuale che segue la distribuzione gaussiana di parametri $\mu_i$ e $\sigma$. Le righe successive definiscono le distribuzioni a priori dei parametri. La seconda riga specifica, in maniera deterministica, ciascun $\mu_i$ come funzione lineare di $x_i$, con parametri $\alpha$ e $\beta$. Le due righe successive specificano le distribuzioni a priori per $\alpha$ e $\beta$. La distribuzione a priori di $\alpha$ è una distribuzione gaussiana di parametri $\mu_{\alpha} = 25$ e deviazione standard $\sigma_{\alpha} = 10$; la distribuzione a priori di $\beta$ è una distribuzione gaussiana standardizzata. L'ultima riga definisce la distribuzione a priori di $\sigma$, ovvero una Cauchy di parametri 18 e 5.
 
-Dobbiamo ora specificare il modello bayesiano descritto sopra in linguaggio Stan^[Nella discussione che segue ripeto pari pari ciò che è riportato nel manuale del linguaggio [Stan](https://mc-stan.org/docs/2_27/stan-users-guide/standardizing-predictors-and-outputs.html).]. 
-
-Consideriamo il seguente modello in linguaggio Stan:
+Avendo descritto in termini astratti le caratteristiche del modello, passiamo ora alla specificazione in linguaggio Stan. 
 
 ```{r}
 model_string_1 = "
@@ -87,8 +83,7 @@ model {
   beta ~ normal(0, 1);
   sigma ~ cauchy(18, 5);
   // likelihood
-  for (n in 1 : N) 
-    y[n] ~ normal(alpha + beta * x[n], sigma);
+  y ~ normal(alpha + beta * x, sigma);
 }
 "
 writeLines(model_string_1, con = "code/simpleregkidiq.stan")
@@ -96,7 +91,7 @@ writeLines(model_string_1, con = "code/simpleregkidiq.stan")
 
 La funzione `modelString()` registra una stringa di testo mentre `writeLines()` crea un file nell'indirizzo specificato. Tale file deve avere l'estensione `.stan`. 
 
-Per svolgere l'analisi bayesiana sistemiamo i dati nel formato appropriato per Stan:
+Sistemiamo i dati nel formato appropriato per Stan.
 
 ```{r}
 data_list <- list(
@@ -106,13 +101,13 @@ data_list <- list(
 )
 ```
 
-La funzione `file.path()` ritorna l'indirizzo del file con il codice Stan:
+La funzione `file.path()` ritorna l'indirizzo del file con il codice Stan.
 
 ```{r}
-file_simple_reg <- file.path("code", "simpleregstd.stan")
+file_simple_reg <- file.path("code", "simpleregkidiq.stan")
 ```
 
-Prendendo come input un file contenente un programma Stan, la funzione `cmdstan_model()` ritorna un oggetto di classe `CmdStanModel`. In pratica, `CmdStan` traduce un programma Stan in C++ e crea un eseguibile compilato. 
+La funzione `cmdstan_model()` traduce il programma Stan in C++ e crea un eseguibile compilato. 
 
 ```{r}
 mod1 <- cmdstan_model(file_simple_reg)
@@ -140,12 +135,9 @@ fit_1 <- mod1$sample(
   seed = SEED,
   chains = 4L,
   parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
-
-Al metodo `$sample()` possono essere passati molti argomenti. La pagina di documentazione è disponibile al seguente [link](https://mc-stan.org/cmdstanr/reference/model-method-sample.html).
 
 Un sommario della distribuzione a posteriori per i parametri stimati si ottiene con il metodo `$summary()`, il quale chiama la funzione `summarise_draws()` del pacchetto `posterior`:
 
@@ -153,9 +145,11 @@ Un sommario della distribuzione a posteriori per i parametri stimati si ottiene 
 fit_1$summary(c("alpha", "beta", "sigma"))
 ```
 
-Da questo output possiamo valutare rapidamente la convergenza del modello osservando i valori di Rhat per ciascun parametro. Quando questi sono pari o vicini a 1, le catene hanno realizzato la convergenza. Ci sono molti altri test diagnostici, ma questo test è importante per Stan. 
+Si noti come la soluzione ottenuta sia molto simile (dal punto di vista pratico, equivalente) a quella ottenuta con il metodo dei minimi quadrati.
 
-Oppure è possibile usare:
+Dall'output possiamo anche valutare la convergenza del modello osservando i valori di Rhat per ciascun parametro. Quando questi sono pari o vicini a 1, le catene hanno realizzato la convergenza. Ci sono molti altri test diagnostici, ma questo test è il più importante per Stan. 
+
+Oppure possiamo visualizzare i risultati come indicato di seguito.
 
 ```{r eval=FALSE}
 fit_1$cmdstan_summary()
@@ -167,13 +161,13 @@ Le statistiche diagnostiche sono fornite dal metodo `$cmdstan_diagnose()`:
 fit_1$cmdstan_diagnose()
 ```
 
-È possibile creare un oggetto di classe `stanfit`
+È conveniente creare un oggetto di classe `stanfit`
 
 ```{r}
 stanfit_1 <- rstan::read_stan_csv(fit_1$output_files())
 ```
 
-per poi utilizzare le funzioni del pacchetto `bayesplot`. Ad esempio:
+per poi potere utilizzare le funzioni del pacchetto `bayesplot`. Ad esempio:
 
 ```{r}
 stanfit_1 %>% 
@@ -182,10 +176,15 @@ stanfit_1 %>%
 
 Infine, eseguendo la funzione `launch_shinystan(fit)`, è possibile analizzare oggetti di classe `stanfit` mediante le funzionalità del pacchetto `ShinyStan`.
 
-
 ### Standardizzare i dati
 
-Il codice Stan viene eseguito più velocemente se l'input è standardizzato così da avere una media pari a zero e una varianza unitaria.^[Si noti un punto importante. Il fatto di standardizzare i dati fa in modo che le distribuzioni a priori sui parametri vadano espresse sulla scala delle v.c. normali standardizzate. Se centriamo sullo 0 tali distribuzioni a priori, con una deviazione standard dell'ordine di grandezza dell'unità, i discorsi sull'arbitrarietà delle distribuzioni a priori perdono di significato: nel caso di dati standardizzati le distribuzioni a priori formulate come indicato sopra sono distribuzioni debolmente informative il cui unico scopo è la regolarizzazione dei dati, ovvero di mantenere le inferenze in una gamma ragionevole di valori. L'uso di distribuzioni a priori debolmente informative contribuisce nel contempo a limitare l'influenza eccessiva delle osservazioni estreme (valori anomali). Il punto importante qui è che tali distribuzioni a priori non introducono alcuna distorsione sistematica nella stima a posteriori.] Ponendo $y = (y_1, \dots, y_n)$ e $x = (x_1, \dots, x_n)$, il modello lineare può essere scritto come 
+Il codice Stan viene eseguito più velocemente se l'input è standardizzato così da avere una media pari a zero e una varianza unitaria. Inoltre, si noti un punto importante. Il fatto di standardizzare i dati fa in modo che le distribuzioni a priori sui parametri vengano espresse sulla scala di una v.c. normale standardizzata. Se centriamo sullo 0 le distribuzioni a priori, con una deviazione standard dell'ordine di grandezza dell'unità, perdono di significato i discorsi sull'arbitrarietà delle distribuzioni a priori: nel caso di dati standardizzati le distribuzioni a priori formulate come indicato sopra sono distribuzioni debolmente informative il cui unico scopo è la regolarizzazione dei dati, ovvero di mantenere le inferenze in una gamma ragionevole di valori. Inoltre, l'uso di distribuzioni a priori debolmente informative ha l'effetto desiderabile di limitare l'influenza eccessiva delle osservazioni estreme (valori anomali). Il punto importante è che una tale scelta delle distribuzioni a priori non introduce alcuna distorsione sistematica nella stima a posteriori. 
+
+Sono possibili due strade per la standardizzazione dei dati. Se non ci sono ragioni particolari per mantenere l'unità di misura dei dati grezzi (ad esempio, se è sufficiente valutare l'intervallo di credibilità per $\beta$ per determinare se include o meno lo 0), allora possiamo standardizzare i dati *prima* di passarli a Stan (questa è la procedura usuale).
+
+In alternativa, se vogliamo mantenere la soluzione sulla scala delle variabili originarie, è possibile seguire la procedura indicata di seguito. Si passano a Stan i dati grezzi; i dati vengono standardizzati con una trasformazione di variabili all'interno del codice Stan. Viene poi eseguito il campionamento sui dati standardizzati; infine, le stime dei parametri vengono nuovamente trasformate sulla scala delle variabili originarie^[Nella discussione che segue ripeto pari pari ciò che è riportato nel manuale del linguaggio [Stan](https://mc-stan.org/docs/2_27/stan-users-guide/standardizing-predictors-and-outputs.html).]. 
+
+Per ottenere il risultato descritto sopra, si procede come segue. Ponendo $y = (y_1, \dots, y_n)$ e $x = (x_1, \dots, x_n)$, il modello lineare può essere scritto come 
 
 $$
 y_i = \alpha + \beta x_i + \varepsilon_i,
@@ -197,7 +196,7 @@ $$
 \varepsilon_i \sim \mathcal{N}(0, \sigma).
 $$
 
-Seguendo la notazione del manuale Stan, i parametri del modello lineare sono qui denotati da $\alpha$ e $\beta$. Per eseguire la standardizzazione dei dati, è necessario centrare i dati, sottraendo da essi la media campionaria, per poi scalarli dividendo per la deviazione standard campionaria. Una singola osservazione $u$ viene standardizzata dalla funzione $z$ definita da
+Seguendo la notazione del manuale Stan, i parametri del modello lineare sono denotati da $\alpha$ e $\beta$. Per eseguire la standardizzazione dei dati, è necessario centrare i dati, sottraendo da essi la media campionaria, per poi scalarli dividendo per la deviazione standard campionaria. Una singola osservazione $u$ viene standardizzata dalla funzione $z$ definita da
 
 $$
 z_y(u) = \frac{u - \bar{y}}{\texttt{sd}(y)}
@@ -220,7 +219,44 @@ $$
 z_y^{-1}(u) = \texttt{sd}(y)u + \bar{y}.
 $$
 
-Modificando il codice del modello precedente otteniamo il modello Stan per dati standardizzati. Il blocco `data` è identico a quello del caso precedente. I predittori e la risposta standardizzati sono definiti nel blocco `transformed data`. Per semplificare la notazione (e velocizzare l'esecuzione), nel blocco `model` l'istruzione di campionamento è espressa in forma vettorializzata: `y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);`.
+I risultati riportati sopra consentono di modificare il modello Stan che abbiamo descritto all'inizio del Capitolo al fine di creare un nuovo modello che realizza un campionamento sulla base dei dati standardizzati. 
+
+Il blocco `data` è identico al caso precedente. I predittori e la risposta standardizzati sono definiti nel blocco `transformed data`. Vengono definte due nuove variabili, `x_std` e `y_std`, che corrispondono, appunto, ai valori standardizzati $x$ e $y$. I parametri sono chiamati `alpha_std` e `alpha_std` in quanto verranno campionati utilizzando la verosimiglianza che deriva dai dati standardizzati: `y_std ~ normal(mu_std, sigma_std);`. La media delle distribuzioni condizionate $y \mid x_i$, ovvero $\hat{y}$, è calcolata come `vector[N] mu_std = alpha_std + beta_std * x_std;`, ovvero usando i valori $x$ standardizzati, `x_std`, e i parametri `alpha_std` e `beta_std`. Una tale specificazione è contenuta nel blocco `transformed parameters`. Nel blocco `model` sono presenti le distribuzioni a priori dei parametri `alpha_std` e `beta_std`. In questo esempio, per entrambi i parametri è stata usata una distribuzione a priori $\mathcal{N}(0, 1)$. Per semplificare la notazione, nel blocco `model` l'istruzione di campionamento è espressa in forma vettorializzata: `y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);`.
+
+Si pone ancora il problema di trasformare i parametri dalla scala delle variabili standardizzate alla scala delle variabili originarie. I valori dei parametri sulla scala delle variabili originarie calcolati nel blocco `generated quantities`. I parametri "naturali" così trasformati vengono chiamati `alpha`, `beta` e `sigma`. Le formule necessarie per questa trasformazione possono essere recuperati con un po' di algebra. 
+
+\begin{align}
+y_n &= \textrm{z}_y^{-1}(\textrm{z}_y(y_n)) \notag\\
+    &= \textrm{z}_y^{-1}
+\left( \alpha' + \beta' \textrm{z}_x(x_n) + \epsilon_n' \right) \notag\\
+    &= \textrm{z}_y^{-1}
+\left( \alpha' + \beta' \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n' \right) \notag\\
+    &= \texttt{sd}(y)
+\left( \alpha' + \beta' \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n' \right) + \bar{y} \notag\\
+    &=
+\left( \texttt{sd}(y) \left( \alpha' - \beta' \frac{\bar{x}}{\texttt{sd}(x)} \right) + \bar{y} \right)
++ \left( \beta' \frac{\texttt{sd}(y)}{\texttt{sd}(x)} \right) x_n
++ \texttt{sd}(y) \epsilon'_n,
+\end{align}
+
+da cui
+
+$$
+\alpha
+=
+\texttt{sd}(y)
+      \left(
+          \alpha'
+          - \beta' \frac{\bar{x}}{\texttt{sd}(x)}
+      \right)
+  + \bar{y};
+\qquad
+\beta = \beta' \frac{\texttt{sd}(y)}{\texttt{sd}(x)};
+\qquad
+\sigma = \texttt{sd}(y) \sigma'.
+$$
+
+Possiamo dunque scrivere il modello in linguaggio Stan nel modo seguente.
 
 ```{r}
 model_string_2 = "
@@ -262,54 +298,19 @@ generated quantities {
 writeLines(model_string_2, con = "code/simpleregstd.stan")
 ```
 
-Si noti che i parametri vengono rinominati per indicare che non sono i parametri "naturali", ma per il resto il modello è identico. Sono qui utilizzate distribuzioni a priori debolmente informative per i parametri `alpha` e `beta`.
-
-I valori dei parametri sulla scala originale dei dati vengono calcolati nel blocco `generated quantities` e possono essere recuperati con un po' di algebra. 
-
-\begin{align}
-y_n &= \textrm{z}_y^{-1}(\textrm{z}_y(y_n)) \notag\\
-    &= \textrm{z}_y^{-1}
-\left( \alpha' + \beta' \textrm{z}_x(x_n) + \epsilon_n' \right) \notag\\
-    &= \textrm{z}_y^{-1}
-\left( \alpha' + \beta' \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n' \right) \notag\\
-    &= \texttt{sd}(y)
-\left( \alpha' + \beta' \left( \frac{x_n - \bar{x}}{\texttt{sd}(x)} \right) + \epsilon_n' \right) + \bar{y} \notag\\
-    &=
-\left( \texttt{sd}(y) \left( \alpha' - \beta' \frac{\bar{x}}{\texttt{sd}(x)} \right) + \bar{y} \right)
-+ \left( \beta' \frac{\texttt{sd}(y)}{\texttt{sd}(x)} \right) x_n
-+ \texttt{sd}(y) \epsilon'_n,
-\end{align}
-
-da cui
-
-$$
-\alpha
-=
-\texttt{sd}(y)
-      \left(
-          \alpha'
-          - \beta' \frac{\bar{x}}{\texttt{sd}(x)}
-      \right)
-  + \bar{y};
-\qquad
-\beta = \beta' \frac{\texttt{sd}(y)}{\texttt{sd}(x)};
-\qquad
-\sigma = \texttt{sd}(y) \sigma'.
-$$
-
-La funzione `file.path()` ritorna l'indirizzo del file con il codice Stan:
+Usiamo la funzione `file.path()` per ottenere l'indirizzo del file con il codice Stan.
 
 ```{r}
 file_simple_reg_std <- file.path("code", "simpleregstd.stan")
 ```
 
-Compiliamo.
+Compiliamo in C++.
 
 ```{r}
 mod2 <- cmdstan_model(file_simple_reg_std)
 ```
 
-Eseguo il campionamento MCMC.
+Eseguiamo il campionamento MCMC.
 
 ```{r, message = FALSE, warning=FALSE, results='hide'}
 fit_2 <- mod2$sample(
@@ -318,38 +319,34 @@ fit_2 <- mod2$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
-Esamino i risultati
+Usiamo il metodo `$summary()` per esaminare i risultati.
 
 ```{r}
 fit_2$summary(c("alpha_std", "beta_std", "sigma_std", "alpha", "beta", "sigma"))
 ```
 
-Si noti che, avendo usato delle distribuzioni a priori debolmente informative, le stime dei parametri sono molto simili a quelle ottenute mediante la procedura di massima verosimiglianza.
+Si noti anche in questo caso che, avendo usato delle distribuzioni a priori debolmente informative, le stime dei parametri sono molto simili a quelle ottenute mediante la procedura di massima verosimiglianza.
 
 ```{r}
 coef(fm)
 ```
 
-Anziché standardizzare i dati all'interno del programma Stan è anche possibile procedere in un modo diverso, ovvero standardizzare i dati forniti in input. Questa, in realtà, è la procedura usuale. Ciò consente di specificare, per ciascun parametro, una distribuzione a priori su una scala "naturale" per Stan, ovvero quella di una variabile Normale standardizzata. Se non ci sono ragioni particolari per mantenere l'unità di misura dei dati grezzi, standardizzare i dati in input è la strategia migliore.
+### Interpretazione dei parametri
 
-## Interpretazione dei parametri
+Ripeto qui la discussione del capitolo precedente. Assegniamo ai parametri la seguente interpretazione.
 
-Ripeto qui la discussione del capitolo precedente. Assegnamo ai parametri la seguente interpretazione.
-
-- L'intercetta pari a 25.9 indica il QI medio dei bamini la cui madre ha un QI = 0. Ovviamente questo non ha alcun significato. Vedremo nel modello successivo come trasformare il modello in modo da potere assegnare all'intercetta un'interpretazione sensata.
+- L'intercetta pari a 25.9 indica il QI medio dei bambini la cui madre ha un QI = 0. Ovviamente questo non ha alcun significato. Vedremo nel modello successivo come trasformare il modello in modo da potere assegnare all'intercetta un'interpretazione sensata.
 - La pendenza di 0.61 indica che, all'aumentare di un punto del QI delle madri, il QI medio dei loro bambini aumenta di 0.61 unità. Se consideriamo la gamma di variazione del QI delle madri nel campione, il QI medio dei bambini cambia di 41 punti. Questo  indica un sostanziale effetto del QI delle madri sul QI dei loro bambini: $(138.89 - 71.04) * 0.61 = 41.39$.
 
 - Il parametro $\sigma$ = 18.3 fornisce una stima della dispersione delle osservazioni attorno al valore predetto dal modello lineare, ovvero fornisce una stima della deviazione standard dei residui attorno al valore atteso del modello lineare.
 
 ### Centrare i predittori
 
-Come abbiamo detto in precedenza, per migliorare l'interpretazione dell'intercetta possiamo "centrare" la $x$, ovvero esprimere la $x$ nei termini degli scarti dalla media: $x - \bar{x}$. In tali circostanze, la pendenza della retta specificata dal modello lineare resta immutata, ma l'intercetta corrisponde a $\mathbb{E}(y \mid x = \bar{x})$. Per ottenere questo risultato, modifichiamo i dati da passare a Stan:
+Come abbiamo detto in precedenza, per migliorare l'interpretazione dell'intercetta possiamo "centrare" la $x$, ovvero esprimere la $x$ in termini di scarti dalla media: $x - \bar{x}$. In tali circostanze, la pendenza della retta specificata dal modello lineare resta immutata, ma l'intercetta corrisponde a $\mathbb{E}(y \mid x = \bar{x})$. Per ottenere questo risultato, è sufficiente modificare i dati passati a Stan.
 
 ```{r}
 data2_list <- list(
@@ -359,7 +356,7 @@ data2_list <- list(
 )
 ```
 
-Adattiamo il modello:
+Adattiamo il modello con il nuovo input.
 
 ```{r, message = FALSE, warning=FALSE, results='hide'}
 fit_3 <- mod2$sample(
@@ -368,9 +365,7 @@ fit_3 <- mod2$sample(
   iter_warmup = 2000L,
   seed = SEED,
   chains = 4L,
-  parallel_chains = 2L,
-  refresh = 0,
-  thin = 1
+  refresh = 0
 )
 ```
 
@@ -380,7 +375,7 @@ Trasformiamo l'oggetto `fit` in un oggetto di classe `stanfit`:
 stanfit_3 <- rstan::read_stan_csv(fit_3$output_files())
 ```
 
-Le stime a posteriori dei parametri si ottengono con
+Esaminiamo le stime a posteriori dei parametri.
 
 ```{r}
 fit_3$summary(c("alpha", "beta", "sigma"))
@@ -388,8 +383,7 @@ fit_3$summary(c("alpha", "beta", "sigma"))
 
 Si noti la nuova intercetta, ovvero 86.8. Questo valore indica il QI medio dei bambini le cui madri hanno un QI pari alla media del campione. Centrare i dati consente dunque di assegnare all'intercetta un'interpretazione utile. Dall'output ottenuto possiamo ricavare, ad esempio, l'intervallo di credibilità al 90%. Ovvero, con un grado di certezza soggettiva del 90%, possiamo concludere che, se consideriamo solo le madri con un QI pari alla media del presente campione, possiamo prevedere che il QI medio dei loro figli sarà compreso nell'intervallo [85.4, 88.2].
 
-
 ## Commenti e considerazioni finali {-}
 
-La presente discussione suggerisce che è conveniente standardizzare i dati prima di procedere con l'analisi. Ciò può essere fatto all'interno del codice Stan (come negli esempi di questo Capitolo), oppure prima di passare i dati a Stan. Se vengono usati dati standardizzati diventa poi facile utilizzare distribuzioni a priori debolmente informative per i parametri. Tali distribuzioni a priori hanno, come unico scopo, quello di regolarizzare i dati e di facilitare la stima dei parametri mediante la procedura MCMC. 
+La presente discussione suggerisce che è conveniente standardizzare i dati prima di procedere con l'analisi di regressione lineare. Ciò può essere fatto all'interno del codice Stan, oppure prima di passare i dati a Stan. Se i dati vengono standardizzati è facile specificare delle distribuzioni a priori debolmente informative per i parametri centrate sullo zero. Tali distribuzioni a priori hanno, come unico scopo, quello di regolarizzare i dati e di facilitare la stima dei parametri mediante la procedura MCMC, e non introducono alcuna distorsione "arbitraria" nella soluzione. 
 

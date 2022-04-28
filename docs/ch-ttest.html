@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -893,8 +891,8 @@ div.csl-indent {
 <p>Per fare l’avvocato del diavolo, il ricercatore frequentista usa il risultato che abbiamo illustrato in precedenza, ovvero la specificazione della distribuzione campionaria della media dei campioni di ampiezza <span class="math inline">\(n\)</span>. Se <span class="math inline">\(\sigma\)</span> è conosciuto, allora l’unica incognita è <span class="math inline">\(\mu\)</span>. Ma, dal punto di vista dell’avvocato del diavolo, il parametro <span class="math inline">\(\mu\)</span>, in realtà, è conosciuto. Infatti, secondo tale punto di vista il trattamento non ha alcun effetto e, dunque, <span class="math inline">\(\mu = 0\)</span>. In questi termini, dunque, la distribuzione campionaria della media dei campioni di ampiezza <span class="math inline">\(n\)</span> è <em>completamente</em> specificata.</p>
 <p>Supponiamo che, per un campione di <span class="math inline">\(n = 30\)</span> pazienti, la differenza post-pre sia uguale a -5 punti sulla scala OCI. Supponiamo inoltre di sapere che i punteggi OCI sono distribuiti normalmente con una deviazione standard <span class="math inline">\(\sigma = 13.9\)</span> (ho preso questo valore dall’articolo di Sica et al. (2009)).</p>
 <p>Dobbiamo dunque calcolare la probabilità di osservare un valore minore o uguale a -5 nel caso di una variabile casuale che segue la legge Normale di parametri <span class="math inline">\(\mu = 0\)</span> e <span class="math inline">\(\sigma = \frac{13.9}{\sqrt{30}}\)</span>. Otteniamo il seguente risultato:</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="ch-ttest.html#cb505-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="fl">13.9</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>))</span>
-<span id="cb505-2"><a href="ch-ttest.html#cb505-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.02440629</span></span></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="ch-ttest.html#cb509-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="fl">13.9</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>))</span>
+<span id="cb509-2"><a href="ch-ttest.html#cb509-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.02440629</span></span></code></pre></div>
 <p>Questa probabilità viene chiamata dall’approccio frequentista <em>valore</em>-<span class="math inline">\(p\)</span>. Nel caso presente ci dice che, se fosse vero che il trattamento non è efficace, allora la probabilità di osservare una differenza dei sintomi di 5 punti o più (sulla scala OCI) sarebbe uguale a solo 0.024. In altre parole, se fosse vera l’ipotesi nulla (il trattamento non è efficace), per effetto del caso soltanto si osserverebbe una riduzione dei sintomi uguale o maggiore di quella osservata nel campione esaminato solo nel 2.4% dei casi, se venissero esaminati infiniti campioni di ampiezza <span class="math inline">\(n = 30\)</span>.</p>
 <p>Dunque, la situazione è questa. L’avvocato del diavolo ci dice che i risultati osservati sono solo frutto del caso (il trattamento non è efficace). La teoria della probabilità ci dice che, se l’avvocato del diavolo ha ragione (il trattamento non è efficace), allora osservare una riduzione dei sintomi uguale o maggiore di quella che abbiamo effettivamente osservato si verifica in solo 2.4% degli infiniti campioni di ampiezza <span class="math inline">\(n\)</span> che si possono estrarre dalla popolazione di parametri <span class="math inline">\(\mu = 0\)</span> e <span class="math inline">\(\sigma = \frac{13.9}{\sqrt{30}}\)</span>. Quindi, in base al ragionamento dell’avvocato del diavolo (il trattamento non è efficace) noi dovremmo trovare una riduzione dei sintomi pari a 0. Oppure poco distante da 0, come semplice effetto del caso. Ma noi abbiamo trovato un valore (-5) che, se l’avvocato del diavolo avesse ragione (il trattamento non è efficace) si dovrebbe osservare solo nel 2.4% di infiniti campioni possibili? In tali circostanze, dobbiamo credere all’avvocato del diavolo che ci dice che il trattamento non è efficace?</p>
 <p>L’approccio frequentista decide nel modo seguente. Se, assumendo che l’avvocato del diavolo abbia ragione (ovvero, se assumento che il trattamento non è efficace), la probabilità di osservare i risultati campionari è bassa, allora non crediamo più all’avvocato del diavolo ma accettiamo l’ipotesi complementare. Se rifiutiamo l’ipotesi dell’avvocato del diavolo che il trattamento non è efficace, dobbiamo concludere che il trattamento è efficace.</p>
@@ -912,12 +910,12 @@ div.csl-indent {
 T = \frac{\bar{X} - 0}{s/\sqrt{n}}.
 \]</span></p>
 <p>Per l’esempio presente avremo</p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="ch-ttest.html#cb506-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="dv">5</span> <span class="sc">-</span> <span class="dv">0</span>) <span class="sc">/</span> (<span class="fl">14.5</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">30</span>))</span>
-<span id="cb506-2"><a href="ch-ttest.html#cb506-2" aria-hidden="true" tabindex="-1"></a>T</span>
-<span id="cb506-3"><a href="ch-ttest.html#cb506-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.888698</span></span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="ch-ttest.html#cb510-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="dv">5</span> <span class="sc">-</span> <span class="dv">0</span>) <span class="sc">/</span> (<span class="fl">14.5</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">30</span>))</span>
+<span id="cb510-2"><a href="ch-ttest.html#cb510-2" aria-hidden="true" tabindex="-1"></a>T</span>
+<span id="cb510-3"><a href="ch-ttest.html#cb510-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.888698</span></span></code></pre></div>
 <p>Calcoliamo la probabilità di osservare un valore minore o uguale a -1.89 in una distribuzione <span class="math inline">\(t\)</span> di Student con 29 gradi di libertà.</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="ch-ttest.html#cb507-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(T, <span class="dv">29</span>)</span>
-<span id="cb507-2"><a href="ch-ttest.html#cb507-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03448568</span></span></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="ch-ttest.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(T, <span class="dv">29</span>)</span>
+<span id="cb511-2"><a href="ch-ttest.html#cb511-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03448568</span></span></code></pre></div>
 <p>In questo caso, con un test bidirezionale, il valore-<span class="math inline">\(p\)</span> è maggiore di <span class="math inline">\(\alpha/2\)</span>. Dunque, in base alla procedura decisionale scelta, il ricercatore frequentista non può rifiutare il punto di vista dell’avvocato del diavolo. Ovviamente, la discussione presente non <em>prova</em> che l’avvocato del diavolo abbia ragione, ma non ci sono evidenze sufficienti per rigettare l’ipotesi nulla. In tali circostanze, cautamente, il ricercatore sospende il giudizio.</p>
 <p>In <span class="math inline">\(\textsf{R}\)</span>, il test che abbiamo descritto sopra, detto test <span class="math inline">\(t\)</span> di Student, si svolte mediante la funzione <code>t.test()</code>.</p>
 </div>
@@ -959,8 +957,8 @@ P(\hat{a} \leq \mu \leq \hat{b}) = 1 - \alpha.\notag
 \end{equation}\]</span></p>
 <p>L’intervallo <span class="math inline">\([\hat{a}, \hat{b}]\)</span> è detto <em>intervallo di fiducia</em> per una stima della media della popolazione al livello fiduciario <span class="math inline">\(\gamma = 1 -\alpha\)</span>.</p>
 <p>Per l’esempio in discussione, assumendo <span class="math inline">\(\sigma = 13.9\)</span>, abbiamo</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="ch-ttest.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">13.9</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)</span>
-<span id="cb508-2"><a href="ch-ttest.html#cb508-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.02604028 -9.97395972</span></span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="ch-ttest.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">13.9</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)</span>
+<span id="cb512-2"><a href="ch-ttest.html#cb512-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.02604028 -9.97395972</span></span></code></pre></div>
 </div>
 <div id="popolazione-con-varianza-incognita" class="section level4 hasAnchor" number="35.3.2.2">
 <h4><span class="header-section-number">35.3.2.2</span> Popolazione con varianza incognita<a href="ch-ttest.html#popolazione-con-varianza-incognita" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -977,8 +975,8 @@ P\bigg(-t^{\ast} \leq \frac{\bar{X} - \mu}{s} \sqrt{n} \leq t^{\ast}\bigg) = 1 -
 \end{equation}\]</span></p>
 <p>Si noti che, nel caso di una popolazione con varianza incognita, i limiti fiduciari si ottengono dall’equazione ottenuta nel paragrafo precedente sostituendo <span class="math inline">\(\sigma\)</span>, ora incognito, con <span class="math inline">\(s\)</span> (per una ampiezza campionaria <span class="math inline">\(n\)</span> qualsiasi), e il coefficiente <span class="math inline">\(z\)</span> con <span class="math inline">\(t_{n-1,1-\alpha/2}\)</span>.</p>
 <p>Per l’esempio in discussione, assumendo <span class="math inline">\(s = 14.5\)</span>, abbiamo</p>
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="ch-ttest.html#cb509-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, <span class="dv">29</span>) <span class="sc">*</span> <span class="fl">14.5</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)</span>
-<span id="cb509-2"><a href="ch-ttest.html#cb509-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   0.414389 -10.414389</span></span></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="ch-ttest.html#cb513-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">5</span> <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, <span class="dv">29</span>) <span class="sc">*</span> <span class="fl">14.5</span> <span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)</span>
+<span id="cb513-2"><a href="ch-ttest.html#cb513-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   0.414389 -10.414389</span></span></code></pre></div>
 </div>
 <div id="livello-di-copertura" class="section level4 hasAnchor" number="35.3.2.3">
 <h4><span class="header-section-number">35.3.2.3</span> Livello di copertura<a href="ch-ttest.html#livello-di-copertura" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -991,50 +989,50 @@ Nel caso presente, l’evento in questione è la risposta alla domanda “l’in
 Utilizziamo come parametri quelli della distribuzione dell’altezza: è infatti risaputo che l’altezza degli individui segue la distribuzione normale.
 L’altezza media di un italiano adulto maschio è di <span class="math inline">\(175\)</span> cm, con una varianza di <span class="math inline">\(49\)</span> cm<span class="math inline">\(^2\)</span>.
 Definiamo dunque i parametri della simulazione, nella quale prevediamo 100 ripetizioni dell’esperimento casuale che corrisponde nell’estrazione di un campione di ampiezza <span class="math inline">\(n = 20\)</span> dalla popolazione <span class="math inline">\(\mathcal{N}(175, 7)\)</span>.</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="ch-ttest.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1235</span>)</span>
-<span id="cb510-2"><a href="ch-ttest.html#cb510-2" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb510-3"><a href="ch-ttest.html#cb510-3" aria-hidden="true" tabindex="-1"></a>sampling_distribution <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> nrep, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb510-4"><a href="ch-ttest.html#cb510-4" aria-hidden="true" tabindex="-1"></a>point_estimate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
-<span id="cb510-5"><a href="ch-ttest.html#cb510-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb510-6"><a href="ch-ttest.html#cb510-6" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb510-7"><a href="ch-ttest.html#cb510-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">7</span></span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="ch-ttest.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1235</span>)</span>
+<span id="cb514-2"><a href="ch-ttest.html#cb514-2" aria-hidden="true" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb514-3"><a href="ch-ttest.html#cb514-3" aria-hidden="true" tabindex="-1"></a>sampling_distribution <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> nrep, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb514-4"><a href="ch-ttest.html#cb514-4" aria-hidden="true" tabindex="-1"></a>point_estimate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nrep)</span>
+<span id="cb514-5"><a href="ch-ttest.html#cb514-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb514-6"><a href="ch-ttest.html#cb514-6" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb514-7"><a href="ch-ttest.html#cb514-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">7</span></span></code></pre></div>
 <p>Per ciascun campione casuale calcoliamo l’intervallo di fiducia del 95% tramite la funzione e salviamo il limite inferiore e il limite superiore di ciascun intervallo nella matrice .</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="ch-ttest.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb511-2"><a href="ch-ttest.html#cb511-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample_size, mu, sigma)</span>
-<span id="cb511-3"><a href="ch-ttest.html#cb511-3" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb511-4"><a href="ch-ttest.html#cb511-4" aria-hidden="true" tabindex="-1"></a>  sampling_distribution[i, ] <span class="ot">&lt;-</span> temp<span class="sc">$</span>conf.int</span>
-<span id="cb511-5"><a href="ch-ttest.html#cb511-5" aria-hidden="true" tabindex="-1"></a>  point_estimate[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>estimate</span>
-<span id="cb511-6"><a href="ch-ttest.html#cb511-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="ch-ttest.html#cb515-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb515-2"><a href="ch-ttest.html#cb515-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample_size, mu, sigma)</span>
+<span id="cb515-3"><a href="ch-ttest.html#cb515-3" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb515-4"><a href="ch-ttest.html#cb515-4" aria-hidden="true" tabindex="-1"></a>  sampling_distribution[i, ] <span class="ot">&lt;-</span> temp<span class="sc">$</span>conf.int</span>
+<span id="cb515-5"><a href="ch-ttest.html#cb515-5" aria-hidden="true" tabindex="-1"></a>  point_estimate[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>estimate</span>
+<span id="cb515-6"><a href="ch-ttest.html#cb515-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Creiamo poi un data.frame a cui aggiungiamo una colonna che riporta i valori delle medie campionarie.</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="ch-ttest.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sampling_distribution) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lcl&quot;</span>, <span class="st">&quot;ucl&quot;</span>)</span>
-<span id="cb512-2"><a href="ch-ttest.html#cb512-2" aria-hidden="true" tabindex="-1"></a>sampling_distribution <span class="ot">&lt;-</span> </span>
-<span id="cb512-3"><a href="ch-ttest.html#cb512-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(sampling_distribution)</span>
-<span id="cb512-4"><a href="ch-ttest.html#cb512-4" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>mean <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(point_estimate)</span>
-<span id="cb512-5"><a href="ch-ttest.html#cb512-5" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>replicate <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>nrep</span>
-<span id="cb512-6"><a href="ch-ttest.html#cb512-6" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>captured <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(</span>
-<span id="cb512-7"><a href="ch-ttest.html#cb512-7" aria-hidden="true" tabindex="-1"></a>  sampling_distribution<span class="sc">$</span>lcl <span class="sc">&lt;=</span> mu <span class="sc">&amp;</span> sampling_distribution<span class="sc">$</span>ucl <span class="sc">&gt;=</span> mu, <span class="dv">1</span>, <span class="dv">0</span></span>
-<span id="cb512-8"><a href="ch-ttest.html#cb512-8" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb512-9"><a href="ch-ttest.html#cb512-9" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(sampling_distribution<span class="sc">$</span>captured) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;No&#39;</span>, <span class="st">&#39;Si&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="ch-ttest.html#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sampling_distribution) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lcl&quot;</span>, <span class="st">&quot;ucl&quot;</span>)</span>
+<span id="cb516-2"><a href="ch-ttest.html#cb516-2" aria-hidden="true" tabindex="-1"></a>sampling_distribution <span class="ot">&lt;-</span> </span>
+<span id="cb516-3"><a href="ch-ttest.html#cb516-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(sampling_distribution)</span>
+<span id="cb516-4"><a href="ch-ttest.html#cb516-4" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>mean <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(point_estimate)</span>
+<span id="cb516-5"><a href="ch-ttest.html#cb516-5" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>replicate <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>nrep</span>
+<span id="cb516-6"><a href="ch-ttest.html#cb516-6" aria-hidden="true" tabindex="-1"></a>sampling_distribution<span class="sc">$</span>captured <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(</span>
+<span id="cb516-7"><a href="ch-ttest.html#cb516-7" aria-hidden="true" tabindex="-1"></a>  sampling_distribution<span class="sc">$</span>lcl <span class="sc">&lt;=</span> mu <span class="sc">&amp;</span> sampling_distribution<span class="sc">$</span>ucl <span class="sc">&gt;=</span> mu, <span class="dv">1</span>, <span class="dv">0</span></span>
+<span id="cb516-8"><a href="ch-ttest.html#cb516-8" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb516-9"><a href="ch-ttest.html#cb516-9" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(sampling_distribution<span class="sc">$</span>captured) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;No&#39;</span>, <span class="st">&#39;Si&#39;</span>)</span></code></pre></div>
 <p>Utilizzando <code>gplot(()</code> creiamo la seguente figura.</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="ch-ttest.html#cb513-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sampling_distribution) <span class="sc">+</span></span>
-<span id="cb513-2"><a href="ch-ttest.html#cb513-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb513-3"><a href="ch-ttest.html#cb513-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
-<span id="cb513-4"><a href="ch-ttest.html#cb513-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> point_estimate, <span class="at">y =</span> replicate, <span class="at">color =</span> captured)</span>
-<span id="cb513-5"><a href="ch-ttest.html#cb513-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb513-6"><a href="ch-ttest.html#cb513-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
-<span id="cb513-7"><a href="ch-ttest.html#cb513-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> replicate, <span class="at">yend =</span> replicate, <span class="at">x =</span> lcl, <span class="at">xend =</span> ucl,</span>
-<span id="cb513-8"><a href="ch-ttest.html#cb513-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> captured</span>
-<span id="cb513-9"><a href="ch-ttest.html#cb513-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
-<span id="cb513-10"><a href="ch-ttest.html#cb513-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb513-11"><a href="ch-ttest.html#cb513-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="dv">175</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span></span>
-<span id="cb513-12"><a href="ch-ttest.html#cb513-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb513-13"><a href="ch-ttest.html#cb513-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb513-14"><a href="ch-ttest.html#cb513-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Stima puntuale&quot;</span>,</span>
-<span id="cb513-15"><a href="ch-ttest.html#cb513-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Campioni simulati&quot;</span></span>
-<span id="cb513-16"><a href="ch-ttest.html#cb513-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb513-17"><a href="ch-ttest.html#cb513-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="fu">guide_legend</span>(<span class="st">&quot;Parametro contenuto nell&#39;intervallo&quot;</span>)) </span>
-<span id="cb513-18"><a href="ch-ttest.html#cb513-18" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-518-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="ch-ttest.html#cb517-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sampling_distribution) <span class="sc">+</span></span>
+<span id="cb517-2"><a href="ch-ttest.html#cb517-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb517-3"><a href="ch-ttest.html#cb517-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb517-4"><a href="ch-ttest.html#cb517-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> point_estimate, <span class="at">y =</span> replicate, <span class="at">color =</span> captured)</span>
+<span id="cb517-5"><a href="ch-ttest.html#cb517-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb517-6"><a href="ch-ttest.html#cb517-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(</span>
+<span id="cb517-7"><a href="ch-ttest.html#cb517-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> replicate, <span class="at">yend =</span> replicate, <span class="at">x =</span> lcl, <span class="at">xend =</span> ucl,</span>
+<span id="cb517-8"><a href="ch-ttest.html#cb517-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> captured</span>
+<span id="cb517-9"><a href="ch-ttest.html#cb517-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb517-10"><a href="ch-ttest.html#cb517-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb517-11"><a href="ch-ttest.html#cb517-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="dv">175</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span></span>
+<span id="cb517-12"><a href="ch-ttest.html#cb517-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb517-13"><a href="ch-ttest.html#cb517-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb517-14"><a href="ch-ttest.html#cb517-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Stima puntuale&quot;</span>,</span>
+<span id="cb517-15"><a href="ch-ttest.html#cb517-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Campioni simulati&quot;</span></span>
+<span id="cb517-16"><a href="ch-ttest.html#cb517-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb517-17"><a href="ch-ttest.html#cb517-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="fu">guide_legend</span>(<span class="st">&quot;Parametro contenuto nell&#39;intervallo&quot;</span>)) </span>
+<span id="cb517-18"><a href="ch-ttest.html#cb517-18" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-522-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La figura mostra che alcuni intervalli di fiducia del 95% contengono il valore del parametro, altri non lo contengono.
 Se ripetiamo la simulazione 10,000 volte troviamo un livello di copertura (ovvero, una proporzione di intervalli di fiducia del 95% che contengono il parametro) pari a 0.9468. Questo valore è molto prossimo al livello nominale <span class="math inline">\(1 - \alpha = 0.95\)</span>.</p>
 </div>

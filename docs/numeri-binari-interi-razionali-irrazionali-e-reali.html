@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -837,26 +835,26 @@ div.csl-indent {
 <p>I numeri più semplici sono quelli binari, cioè zero o uno. Useremo spesso
 numeri binari per indicare se qualcosa è vero o falso, presente o
 assente. I numeri binari sono molto utili per ottenere facilmente delle statistiche riassuntive in <span class="math inline">\(\mathsf{R}\)</span>.Supponiamo di chiedere a 10 studenti “Ti piacciono i mirtilli?” Poniamo che le risposte siano le seguenti:</p>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb525-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>,</span>
-<span id="cb525-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span></span>
-<span id="cb525-4"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb525-5"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-5" aria-hidden="true" tabindex="-1"></a>opinion</span>
-<span id="cb525-6"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb525-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb529-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>,</span>
+<span id="cb529-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;Yes&quot;</span></span>
+<span id="cb529-4"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb529-5"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-5" aria-hidden="true" tabindex="-1"></a>opinion</span>
+<span id="cb529-6"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb529-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;No&quot;  &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot;</span></span></code></pre></div>
 <p>Tali risposte possono essere ricodificate nei termini di valori di
 verità, ovvero, vero e falso, generalmente denotati rispettivamente come
 1 e 0. In <span class="math inline">\(\R\)</span> tale ricodifica può essere effettuata mediante l’operatore
 <code>==</code> che è un test per l’uguaglianza e restituisce il valore logico VERO
 se i due oggetti valutati sono uguali e FALSO se non lo sono:</p>
-<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb526-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> opinion <span class="sc">==</span> <span class="st">&quot;Yes&quot;</span></span>
-<span id="cb526-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb526-2" aria-hidden="true" tabindex="-1"></a>opinion</span>
-<span id="cb526-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb526-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb530-1" aria-hidden="true" tabindex="-1"></a>opinion <span class="ot">&lt;-</span> opinion <span class="sc">==</span> <span class="st">&quot;Yes&quot;</span></span>
+<span id="cb530-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb530-2" aria-hidden="true" tabindex="-1"></a>opinion</span>
+<span id="cb530-3"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb530-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></span></code></pre></div>
 <p>R considera i valori di verità e i numeri binari in modo equivalente, con
 TRUE uguale a 1 e FALSE uguale a zero. Di conseguenza, possiamo
 effettuare operazioni algebriche sui valori logici VERO e FALSO.
 Nell’esempio, possiamo sommare i valori di verità e dividere per 10</p>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb527-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(opinion) <span class="sc">/</span> <span class="fu">length</span>(opinion)</span>
-<span id="cb527-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb527-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb531-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(opinion) <span class="sc">/</span> <span class="fu">length</span>(opinion)</span>
+<span id="cb531-2"><a href="numeri-binari-interi-razionali-irrazionali-e-reali.html#cb531-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
 <p>in modo tale da calcolare una propozione, il che ci consente di concludere che 7 risposte su 10 sono positive.</p>
 </div>
 <div id="numeri-interi" class="section level2 hasAnchor" number="39.2">

@@ -15,7 +15,6 @@ model {
   beta ~ normal(0, 1);
   sigma ~ cauchy(18, 5);
   // likelihood
-  for (n in 1 : N) 
-    y[n] ~ normal(alpha + beta * x[n], sigma);
+  y ~ normal(alpha + beta * x, sigma);
 }
 

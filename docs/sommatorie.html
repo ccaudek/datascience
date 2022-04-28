@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-27" />
+<meta name="date" content="2022-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -545,16 +545,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#commenti-e-considerazioni-finali-20"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello lineare in Stan</a>
+<li class="chapter" data-level="26" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html"><i class="fa fa-check"></i><b>26</b> Modello di regressione in linguaggio Stan</a>
 <ul>
-<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#una-distribuzione-a-priori-debolmente-informativa"><i class="fa fa-check"></i><b>26.1</b> Una distribuzione a priori debolmente informativa</a></li>
-<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Linguaggio Stan</a>
+<li class="chapter" data-level="26.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#specificazione-del-modello"><i class="fa fa-check"></i><b>26.1</b> Specificazione del modello</a></li>
+<li class="chapter" data-level="26.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#stima-bayesiana-in-linguaggio-stan"><i class="fa fa-check"></i><b>26.2</b> Stima bayesiana in linguaggio Stan</a>
 <ul>
 <li class="chapter" data-level="26.2.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#standardizzare-i-dati"><i class="fa fa-check"></i><b>26.2.1</b> Standardizzare i dati</a></li>
-</ul></li>
-<li class="chapter" data-level="26.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.3</b> Interpretazione dei parametri</a>
-<ul>
-<li class="chapter" data-level="26.3.1" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.3.1</b> Centrare i predittori</a></li>
+<li class="chapter" data-level="26.2.2" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#interpretazione-dei-parametri"><i class="fa fa-check"></i><b>26.2.2</b> Interpretazione dei parametri</a></li>
+<li class="chapter" data-level="26.2.3" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#centrare-i-predittori"><i class="fa fa-check"></i><b>26.2.3</b> Centrare i predittori</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ch-reg-lin-stan.html"><a href="ch-reg-lin-stan.html#commenti-e-considerazioni-finali-21"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
@@ -950,29 +948,29 @@ x_3y_1 + x_3y_2 + x_3y_3 \notag\\
 \sum_{n=0}^4 3n
 \]</span></p>
 <p>non è altro che un ciclo <code>for</code>:</p>
-<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="sommatorie.html#cb528-1" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb528-2"><a href="sommatorie.html#cb528-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb528-3"><a href="sommatorie.html#cb528-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> n</span>
-<span id="cb528-4"><a href="sommatorie.html#cb528-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb528-5"><a href="sommatorie.html#cb528-5" aria-hidden="true" tabindex="-1"></a>sum</span>
-<span id="cb528-6"><a href="sommatorie.html#cb528-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="sommatorie.html#cb532-1" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb532-2"><a href="sommatorie.html#cb532-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb532-3"><a href="sommatorie.html#cb532-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> n</span>
+<span id="cb532-4"><a href="sommatorie.html#cb532-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb532-5"><a href="sommatorie.html#cb532-5" aria-hidden="true" tabindex="-1"></a>sum</span>
+<span id="cb532-6"><a href="sommatorie.html#cb532-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
 <p>In maniera equivalente, e più semplice, possiamo scrivere</p>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="sommatorie.html#cb529-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb529-2"><a href="sommatorie.html#cb529-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="sommatorie.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb533-2"><a href="sommatorie.html#cb533-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
 <p>Allo stesso modo, la notazione</p>
 <p><span class="math display">\[
 \prod_{n=1}^{4} 2n
 \]</span>
 è anch’essa equivalente al ciclo <code>for</code></p>
-<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="sommatorie.html#cb530-1" aria-hidden="true" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb530-2"><a href="sommatorie.html#cb530-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb530-3"><a href="sommatorie.html#cb530-3" aria-hidden="true" tabindex="-1"></a>  prod <span class="ot">&lt;-</span> prod <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> n</span>
-<span id="cb530-4"><a href="sommatorie.html#cb530-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb530-5"><a href="sommatorie.html#cb530-5" aria-hidden="true" tabindex="-1"></a>prod</span>
-<span id="cb530-6"><a href="sommatorie.html#cb530-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="sommatorie.html#cb534-1" aria-hidden="true" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb534-2"><a href="sommatorie.html#cb534-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb534-3"><a href="sommatorie.html#cb534-3" aria-hidden="true" tabindex="-1"></a>  prod <span class="ot">&lt;-</span> prod <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> n</span>
+<span id="cb534-4"><a href="sommatorie.html#cb534-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb534-5"><a href="sommatorie.html#cb534-5" aria-hidden="true" tabindex="-1"></a>prod</span>
+<span id="cb534-6"><a href="sommatorie.html#cb534-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
 <p>che si può scrivere, più semplicemente, come</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="sommatorie.html#cb531-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb531-2"><a href="sommatorie.html#cb531-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="sommatorie.html#cb535-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb535-2"><a href="sommatorie.html#cb535-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
 <p>In entrambi i casi precedenti, abbiamo sostituito le operazioni aritmetiche eseguite all’interno di un ciclo <code>for</code> con le stesse operazioni aritmetiche eseguite sui vettori elemento per elemento.</p>
 
 </div>

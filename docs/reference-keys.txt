@@ -459,8 +459,8 @@ lerrore-standard-della-regressione
 indice-di-determinazione
 inferenza-sul-modello-di-regressione
 ch-reg-lin-stan
-una-distribuzione-a-priori-debolmente-informativa
-linguaggio-stan
+specificazione-del-modello
+stima-bayesiana-in-linguaggio-stan
 standardizzare-i-dati
 interpretazione-dei-parametri
 centrare-i-predittori
