@@ -834,28 +834,28 @@ div.csl-indent {
 <h2><span class="header-section-number">31.1</span> Modello gerarchico<a href="ch-mod-hier-stan.html#modello-gerarchico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I modelli lineari misti, o modelli lineari gerarchici/multilivello, sono diventati uno strumento fondamentale della ricerca sperimentale in psicologia, linguistica e scienze cognitive, dove i progetti di ricerca a misure ripetute sono la norma. Il presente Capitolo fornisce un’introduzione a tali modelli considerando soltanto il caso più semplice, conosciuto anche col nome di <em>Random Intercept Model</em>.</p>
 <p>Per fare un esempio concreto useremo il set di dati a misure ripetute con due condizioni di <span class="citation">Gibson and Wu (<a href="#ref-gibson2013processing" role="doc-biblioref">2013</a>; si veda <a href="#ref-sorensen2015bayesian" role="doc-biblioref">Sorensen and Vasishth 2015</a>)</span>. La variabile dipendente <code>rt</code> dell’esperimento di <span class="citation">Gibson and Wu (<a href="#ref-gibson2013processing" role="doc-biblioref">2013</a>)</span> è il tempo di lettura in millisecondi del soggetto di una proposizione relativa in un testo. I tempi di reazione sono stati registrati in due condizioni (ovvero, in presenza di un sostantivo riferito al soggetto oppure riferito all’oggetto della proposizione). I dati di <span class="citation">Gibson and Wu (<a href="#ref-gibson2013processing" role="doc-biblioref">2013</a>)</span> provengono da un esperimento con 37 soggetti e 15 item. Gli item erano presentati in un disegno a quadrato latino, il che produce 37 <span class="math inline">\(\times\)</span> 15 = 555 dati. Risultano mancanti otto dati di un soggetto (id 27), il che ci porta ad un totale di 555 − 8 = 547 dati. Le prime righe del data.frame sono mostrate di seguito:</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="ch-mod-hier-stan.html#cb459-1" aria-hidden="true" tabindex="-1"></a>rdat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;gibsonwu2012data.txt&quot;</span>))</span>
-<span id="cb459-2"><a href="ch-mod-hier-stan.html#cb459-2" aria-hidden="true" tabindex="-1"></a>rdat<span class="sc">$</span>so <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(rdat<span class="sc">$</span>type <span class="sc">==</span> <span class="st">&quot;subj-ext&quot;</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb459-3"><a href="ch-mod-hier-stan.html#cb459-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rdat)</span>
-<span id="cb459-4"><a href="ch-mod-hier-stan.html#cb459-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    subj item     type pos word correct   rt region            type2   so</span></span>
-<span id="cb459-5"><a href="ch-mod-hier-stan.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7     1   13  obj-ext   6 抓住       - 1140    de1  object relative  0.5</span></span>
-<span id="cb459-6"><a href="ch-mod-hier-stan.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20    1    6 subj-ext   6 男孩       - 1197    de1 subject relative -0.5</span></span>
-<span id="cb459-7"><a href="ch-mod-hier-stan.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32    1    5  obj-ext   6   撞       -  756    de1  object relative  0.5</span></span>
-<span id="cb459-8"><a href="ch-mod-hier-stan.html#cb459-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44    1    9  obj-ext   6 監視       -  643    de1  object relative  0.5</span></span>
-<span id="cb459-9"><a href="ch-mod-hier-stan.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 60    1   14 subj-ext   6 機師       -  860    de1 subject relative -0.5</span></span>
-<span id="cb459-10"><a href="ch-mod-hier-stan.html#cb459-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 73    1    4 subj-ext   6 男孩       -  868    de1 subject relative -0.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="ch-mod-hier-stan.html#cb460-1" aria-hidden="true" tabindex="-1"></a>rdat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;gibsonwu2012data.txt&quot;</span>))</span>
+<span id="cb460-2"><a href="ch-mod-hier-stan.html#cb460-2" aria-hidden="true" tabindex="-1"></a>rdat<span class="sc">$</span>so <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(rdat<span class="sc">$</span>type <span class="sc">==</span> <span class="st">&quot;subj-ext&quot;</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb460-3"><a href="ch-mod-hier-stan.html#cb460-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rdat)</span>
+<span id="cb460-4"><a href="ch-mod-hier-stan.html#cb460-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    subj item     type pos word correct   rt region            type2   so</span></span>
+<span id="cb460-5"><a href="ch-mod-hier-stan.html#cb460-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7     1   13  obj-ext   6 抓住       - 1140    de1  object relative  0.5</span></span>
+<span id="cb460-6"><a href="ch-mod-hier-stan.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20    1    6 subj-ext   6 男孩       - 1197    de1 subject relative -0.5</span></span>
+<span id="cb460-7"><a href="ch-mod-hier-stan.html#cb460-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32    1    5  obj-ext   6   撞       -  756    de1  object relative  0.5</span></span>
+<span id="cb460-8"><a href="ch-mod-hier-stan.html#cb460-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44    1    9  obj-ext   6 監視       -  643    de1  object relative  0.5</span></span>
+<span id="cb460-9"><a href="ch-mod-hier-stan.html#cb460-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 60    1   14 subj-ext   6 機師       -  860    de1 subject relative -0.5</span></span>
+<span id="cb460-10"><a href="ch-mod-hier-stan.html#cb460-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 73    1    4 subj-ext   6 男孩       -  868    de1 subject relative -0.5</span></span></code></pre></div>
 <p>La variabile di interesse che corrisponde alla manipolazione sperimentale è chiamata <code>so</code> ed è stata codificata con -0.5 se il sostantivo era riferito al soggetto e con +0.5 se il sostantivo era riferito all’oggetto della frase.</p>
 <p>Calcoliamo la media dei tempi di reazione su scala logaritmica e per poi ritrasformare il risultato sulla scala originale:</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="ch-mod-hier-stan.html#cb460-1" aria-hidden="true" tabindex="-1"></a>rdat <span class="sc">%&gt;%</span> </span>
-<span id="cb460-2"><a href="ch-mod-hier-stan.html#cb460-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type2) <span class="sc">%&gt;%</span> </span>
-<span id="cb460-3"><a href="ch-mod-hier-stan.html#cb460-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb460-4"><a href="ch-mod-hier-stan.html#cb460-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg =</span> <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rt), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb460-5"><a href="ch-mod-hier-stan.html#cb460-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb460-6"><a href="ch-mod-hier-stan.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
-<span id="cb460-7"><a href="ch-mod-hier-stan.html#cb460-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   type2              avg</span></span>
-<span id="cb460-8"><a href="ch-mod-hier-stan.html#cb460-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;dbl&gt;</span></span>
-<span id="cb460-9"><a href="ch-mod-hier-stan.html#cb460-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 object relative   551.</span></span>
-<span id="cb460-10"><a href="ch-mod-hier-stan.html#cb460-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 subject relative  589.</span></span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="ch-mod-hier-stan.html#cb461-1" aria-hidden="true" tabindex="-1"></a>rdat <span class="sc">%&gt;%</span> </span>
+<span id="cb461-2"><a href="ch-mod-hier-stan.html#cb461-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type2) <span class="sc">%&gt;%</span> </span>
+<span id="cb461-3"><a href="ch-mod-hier-stan.html#cb461-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb461-4"><a href="ch-mod-hier-stan.html#cb461-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg =</span> <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rt), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb461-5"><a href="ch-mod-hier-stan.html#cb461-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb461-6"><a href="ch-mod-hier-stan.html#cb461-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb461-7"><a href="ch-mod-hier-stan.html#cb461-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   type2              avg</span></span>
+<span id="cb461-8"><a href="ch-mod-hier-stan.html#cb461-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;dbl&gt;</span></span>
+<span id="cb461-9"><a href="ch-mod-hier-stan.html#cb461-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 object relative   551.</span></span>
+<span id="cb461-10"><a href="ch-mod-hier-stan.html#cb461-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 subject relative  589.</span></span></code></pre></div>
 <p>Quando il sostantivo si riferisce al soggetto, i tempi di reazione sono più lenti di circa 30 ms. Questa descrizione dei dati, però non tiene conto né delle differenze tra i soggetti né delle differenze tra gli item. Per tenere in considerazioni queste diverse fonti della variabilità dei dati è necessario utilizzare un modello detto gerarchico.</p>
 </div>
 <div id="modello-ad-effetti-fissi" class="section level2 hasAnchor" number="31.2">
@@ -881,65 +881,65 @@ rt \sim LogNormal(\beta_0 + \beta_1 so,\sigma)
 <!-- https://bayesball.github.io/BOOK/bayesian-hierarchical-modeling.html#hierarchical-normal-modeling -->
 <!-- https://vasishth.github.io/bayescogsci/book/sec-trial.html -->
 <p>In Stan, il modello diventa</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="ch-mod-hier-stan.html#cb461-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb461-2"><a href="ch-mod-hier-stan.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb461-3"><a href="ch-mod-hier-stan.html#cb461-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; N; //number of data points</span></span>
-<span id="cb461-4"><a href="ch-mod-hier-stan.html#cb461-4" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real rt; //reading time</span></span>
-<span id="cb461-5"><a href="ch-mod-hier-stan.html#cb461-5" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real&lt;lower=-0.5, upper=0.5&gt; so; //predictor</span></span>
-<span id="cb461-6"><a href="ch-mod-hier-stan.html#cb461-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb461-7"><a href="ch-mod-hier-stan.html#cb461-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb461-8"><a href="ch-mod-hier-stan.html#cb461-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[2] beta; //fixed intercept and slope</span></span>
-<span id="cb461-9"><a href="ch-mod-hier-stan.html#cb461-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_e; //error sd</span></span>
-<span id="cb461-10"><a href="ch-mod-hier-stan.html#cb461-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb461-11"><a href="ch-mod-hier-stan.html#cb461-11" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb461-12"><a href="ch-mod-hier-stan.html#cb461-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
-<span id="cb461-13"><a href="ch-mod-hier-stan.html#cb461-13" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood</span></span>
-<span id="cb461-14"><a href="ch-mod-hier-stan.html#cb461-14" aria-hidden="true" tabindex="-1"></a><span class="st">  beta[1] ~ normal(6, 1.5);</span></span>
-<span id="cb461-15"><a href="ch-mod-hier-stan.html#cb461-15" aria-hidden="true" tabindex="-1"></a><span class="st">  beta[2] ~ normal(0, 1);</span></span>
-<span id="cb461-16"><a href="ch-mod-hier-stan.html#cb461-16" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_e ~ cauchy(0, 1);</span></span>
-<span id="cb461-17"><a href="ch-mod-hier-stan.html#cb461-17" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
-<span id="cb461-18"><a href="ch-mod-hier-stan.html#cb461-18" aria-hidden="true" tabindex="-1"></a><span class="st">    mu = beta[1] + beta[2] * so[i];</span></span>
-<span id="cb461-19"><a href="ch-mod-hier-stan.html#cb461-19" aria-hidden="true" tabindex="-1"></a><span class="st">    rt[i] ~ lognormal(mu, sigma_e);</span></span>
-<span id="cb461-20"><a href="ch-mod-hier-stan.html#cb461-20" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb461-21"><a href="ch-mod-hier-stan.html#cb461-21" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb461-22"><a href="ch-mod-hier-stan.html#cb461-22" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb461-23"><a href="ch-mod-hier-stan.html#cb461-23" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/fixeff_model.stan&quot;</span>)</span>
-<span id="cb461-24"><a href="ch-mod-hier-stan.html#cb461-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb461-25"><a href="ch-mod-hier-stan.html#cb461-25" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;fixeff_model.stan&quot;</span>)</span>
-<span id="cb461-26"><a href="ch-mod-hier-stan.html#cb461-26" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="ch-mod-hier-stan.html#cb462-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb462-2"><a href="ch-mod-hier-stan.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb462-3"><a href="ch-mod-hier-stan.html#cb462-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; N; //number of data points</span></span>
+<span id="cb462-4"><a href="ch-mod-hier-stan.html#cb462-4" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real rt; //reading time</span></span>
+<span id="cb462-5"><a href="ch-mod-hier-stan.html#cb462-5" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real&lt;lower=-0.5, upper=0.5&gt; so; //predictor</span></span>
+<span id="cb462-6"><a href="ch-mod-hier-stan.html#cb462-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-7"><a href="ch-mod-hier-stan.html#cb462-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb462-8"><a href="ch-mod-hier-stan.html#cb462-8" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[2] beta; //fixed intercept and slope</span></span>
+<span id="cb462-9"><a href="ch-mod-hier-stan.html#cb462-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_e; //error sd</span></span>
+<span id="cb462-10"><a href="ch-mod-hier-stan.html#cb462-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-11"><a href="ch-mod-hier-stan.html#cb462-11" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb462-12"><a href="ch-mod-hier-stan.html#cb462-12" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
+<span id="cb462-13"><a href="ch-mod-hier-stan.html#cb462-13" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood</span></span>
+<span id="cb462-14"><a href="ch-mod-hier-stan.html#cb462-14" aria-hidden="true" tabindex="-1"></a><span class="st">  beta[1] ~ normal(6, 1.5);</span></span>
+<span id="cb462-15"><a href="ch-mod-hier-stan.html#cb462-15" aria-hidden="true" tabindex="-1"></a><span class="st">  beta[2] ~ normal(0, 1);</span></span>
+<span id="cb462-16"><a href="ch-mod-hier-stan.html#cb462-16" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma_e ~ cauchy(0, 1);</span></span>
+<span id="cb462-17"><a href="ch-mod-hier-stan.html#cb462-17" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
+<span id="cb462-18"><a href="ch-mod-hier-stan.html#cb462-18" aria-hidden="true" tabindex="-1"></a><span class="st">    mu = beta[1] + beta[2] * so[i];</span></span>
+<span id="cb462-19"><a href="ch-mod-hier-stan.html#cb462-19" aria-hidden="true" tabindex="-1"></a><span class="st">    rt[i] ~ lognormal(mu, sigma_e);</span></span>
+<span id="cb462-20"><a href="ch-mod-hier-stan.html#cb462-20" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb462-21"><a href="ch-mod-hier-stan.html#cb462-21" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb462-22"><a href="ch-mod-hier-stan.html#cb462-22" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb462-23"><a href="ch-mod-hier-stan.html#cb462-23" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/fixeff_model.stan&quot;</span>)</span>
+<span id="cb462-24"><a href="ch-mod-hier-stan.html#cb462-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb462-25"><a href="ch-mod-hier-stan.html#cb462-25" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;fixeff_model.stan&quot;</span>)</span>
+<span id="cb462-26"><a href="ch-mod-hier-stan.html#cb462-26" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
 <p>I dati sono contenuti nella lista <code>stan_dat</code>:</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="ch-mod-hier-stan.html#cb462-1" aria-hidden="true" tabindex="-1"></a>stan_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb462-2"><a href="ch-mod-hier-stan.html#cb462-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">rt =</span> rdat<span class="sc">$</span>rt,</span>
-<span id="cb462-3"><a href="ch-mod-hier-stan.html#cb462-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">so =</span> rdat<span class="sc">$</span>so,</span>
-<span id="cb462-4"><a href="ch-mod-hier-stan.html#cb462-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(rdat)</span>
-<span id="cb462-5"><a href="ch-mod-hier-stan.html#cb462-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch-mod-hier-stan.html#cb463-1" aria-hidden="true" tabindex="-1"></a>stan_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb463-2"><a href="ch-mod-hier-stan.html#cb463-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">rt =</span> rdat<span class="sc">$</span>rt,</span>
+<span id="cb463-3"><a href="ch-mod-hier-stan.html#cb463-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">so =</span> rdat<span class="sc">$</span>so,</span>
+<span id="cb463-4"><a href="ch-mod-hier-stan.html#cb463-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(rdat)</span>
+<span id="cb463-5"><a href="ch-mod-hier-stan.html#cb463-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Eseguiamo il campionamento MCMC:</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch-mod-hier-stan.html#cb463-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb463-2"><a href="ch-mod-hier-stan.html#cb463-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stan_dat,</span>
-<span id="cb463-3"><a href="ch-mod-hier-stan.html#cb463-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb463-4"><a href="ch-mod-hier-stan.html#cb463-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb463-5"><a href="ch-mod-hier-stan.html#cb463-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb463-6"><a href="ch-mod-hier-stan.html#cb463-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb463-7"><a href="ch-mod-hier-stan.html#cb463-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb463-8"><a href="ch-mod-hier-stan.html#cb463-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="ch-mod-hier-stan.html#cb464-1" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb464-2"><a href="ch-mod-hier-stan.html#cb464-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stan_dat,</span>
+<span id="cb464-3"><a href="ch-mod-hier-stan.html#cb464-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb464-4"><a href="ch-mod-hier-stan.html#cb464-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb464-5"><a href="ch-mod-hier-stan.html#cb464-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb464-6"><a href="ch-mod-hier-stan.html#cb464-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb464-7"><a href="ch-mod-hier-stan.html#cb464-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb464-8"><a href="ch-mod-hier-stan.html#cb464-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Otteniamo un oggetto di classe <code>stanfit</code>:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="ch-mod-hier-stan.html#cb464-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit3<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="ch-mod-hier-stan.html#cb465-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit3<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Calcoliamo gli intervalli di credibilità al 95%:</p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="ch-mod-hier-stan.html#cb465-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
-<span id="cb465-2"><a href="ch-mod-hier-stan.html#cb465-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit),</span>
-<span id="cb465-3"><a href="ch-mod-hier-stan.html#cb465-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
-<span id="cb465-4"><a href="ch-mod-hier-stan.html#cb465-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb465-5"><a href="ch-mod-hier-stan.html#cb465-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci95, <span class="dv">3</span>)</span>
-<span id="cb465-6"><a href="ch-mod-hier-stan.html#cb465-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%     97.5%</span></span>
-<span id="cb465-7"><a href="ch-mod-hier-stan.html#cb465-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[1]     6.321     6.369</span></span>
-<span id="cb465-8"><a href="ch-mod-hier-stan.html#cb465-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[2]    -0.113    -0.017</span></span>
-<span id="cb465-9"><a href="ch-mod-hier-stan.html#cb465-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_e     0.613     0.646</span></span>
-<span id="cb465-10"><a href="ch-mod-hier-stan.html#cb465-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__    -2617.020 -2612.420</span></span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="ch-mod-hier-stan.html#cb466-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb466-2"><a href="ch-mod-hier-stan.html#cb466-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit),</span>
+<span id="cb466-3"><a href="ch-mod-hier-stan.html#cb466-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb466-4"><a href="ch-mod-hier-stan.html#cb466-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb466-5"><a href="ch-mod-hier-stan.html#cb466-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci95, <span class="dv">3</span>)</span>
+<span id="cb466-6"><a href="ch-mod-hier-stan.html#cb466-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%     97.5%</span></span>
+<span id="cb466-7"><a href="ch-mod-hier-stan.html#cb466-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[1]     6.321     6.369</span></span>
+<span id="cb466-8"><a href="ch-mod-hier-stan.html#cb466-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[2]    -0.113    -0.017</span></span>
+<span id="cb466-9"><a href="ch-mod-hier-stan.html#cb466-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_e     0.613     0.646</span></span>
+<span id="cb466-10"><a href="ch-mod-hier-stan.html#cb466-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__    -2617.020 -2612.420</span></span></code></pre></div>
 <p>L’effetto medio, sulla scala in millisecondi, si trova nel modo seguente:</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="ch-mod-hier-stan.html#cb466-1" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit, <span class="at">permuted =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb466-2"><a href="ch-mod-hier-stan.html#cb466-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(posterior<span class="sc">$</span>beta[, <span class="dv">1</span>] <span class="sc">+</span> posterior<span class="sc">$</span>beta[, <span class="dv">2</span>])) <span class="sc">-</span> </span>
-<span id="cb466-3"><a href="ch-mod-hier-stan.html#cb466-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="fu">mean</span>(posterior<span class="sc">$</span>beta[, <span class="dv">1</span>]))</span>
-<span id="cb466-4"><a href="ch-mod-hier-stan.html#cb466-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -35.99588</span></span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="ch-mod-hier-stan.html#cb467-1" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">extract</span>(stanfit, <span class="at">permuted =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb467-2"><a href="ch-mod-hier-stan.html#cb467-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(posterior<span class="sc">$</span>beta[, <span class="dv">1</span>] <span class="sc">+</span> posterior<span class="sc">$</span>beta[, <span class="dv">2</span>])) <span class="sc">-</span> </span>
+<span id="cb467-3"><a href="ch-mod-hier-stan.html#cb467-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="fu">mean</span>(posterior<span class="sc">$</span>beta[, <span class="dv">1</span>]))</span>
+<span id="cb467-4"><a href="ch-mod-hier-stan.html#cb467-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -35.99588</span></span></code></pre></div>
 </div>
 <div id="modello-gerarchico-1" class="section level2 hasAnchor" number="31.3">
 <h2><span class="header-section-number">31.3</span> Modello gerarchico<a href="ch-mod-hier-stan.html#modello-gerarchico-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -951,137 +951,137 @@ rt \sim LogNormal(\beta_0 + \beta_1 so,\sigma)
 \end{equation}\]</span></p>
 <p>Il coefficiente <span class="math inline">\(\beta_1\)</span> è quello di interesse primario. Come conseguenza della codifica usata, avrà il valore <span class="math inline">\(-\beta_1\)</span> nella condizione in cui il sostantivo è riferito al soggetto e <span class="math inline">\(+\beta_1\)</span> nella condizione in cui il sostantivo è riferito all’oggetto della frase.</p>
 <p>In Stan il modello diventa:</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="ch-mod-hier-stan.html#cb467-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
-<span id="cb467-2"><a href="ch-mod-hier-stan.html#cb467-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb467-3"><a href="ch-mod-hier-stan.html#cb467-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; N; //number of data points</span></span>
-<span id="cb467-4"><a href="ch-mod-hier-stan.html#cb467-4" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real rt; //reading time</span></span>
-<span id="cb467-5"><a href="ch-mod-hier-stan.html#cb467-5" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real&lt;lower=-0.5, upper=0.5&gt; so; //predictor</span></span>
-<span id="cb467-6"><a href="ch-mod-hier-stan.html#cb467-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; J; //number of subjects</span></span>
-<span id="cb467-7"><a href="ch-mod-hier-stan.html#cb467-7" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; K; //number of items</span></span>
-<span id="cb467-8"><a href="ch-mod-hier-stan.html#cb467-8" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] int&lt;lower=1, upper=J&gt; subj; //subject id</span></span>
-<span id="cb467-9"><a href="ch-mod-hier-stan.html#cb467-9" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] int&lt;lower=1, upper=K&gt; item; //item id</span></span>
-<span id="cb467-10"><a href="ch-mod-hier-stan.html#cb467-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb467-11"><a href="ch-mod-hier-stan.html#cb467-11" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb467-12"><a href="ch-mod-hier-stan.html#cb467-12" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[2] beta; //fixed intercept and slope</span></span>
-<span id="cb467-13"><a href="ch-mod-hier-stan.html#cb467-13" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[J] u; //subject intercepts</span></span>
-<span id="cb467-14"><a href="ch-mod-hier-stan.html#cb467-14" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[K] w; //item intercepts</span></span>
-<span id="cb467-15"><a href="ch-mod-hier-stan.html#cb467-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_e; //error sd</span></span>
-<span id="cb467-16"><a href="ch-mod-hier-stan.html#cb467-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_u; //subj sd</span></span>
-<span id="cb467-17"><a href="ch-mod-hier-stan.html#cb467-17" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_w; //item sd</span></span>
-<span id="cb467-18"><a href="ch-mod-hier-stan.html#cb467-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb467-19"><a href="ch-mod-hier-stan.html#cb467-19" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb467-20"><a href="ch-mod-hier-stan.html#cb467-20" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
-<span id="cb467-21"><a href="ch-mod-hier-stan.html#cb467-21" aria-hidden="true" tabindex="-1"></a><span class="st">  //priors</span></span>
-<span id="cb467-22"><a href="ch-mod-hier-stan.html#cb467-22" aria-hidden="true" tabindex="-1"></a><span class="st">  u ~ normal(0, sigma_u); //subj random effects</span></span>
-<span id="cb467-23"><a href="ch-mod-hier-stan.html#cb467-23" aria-hidden="true" tabindex="-1"></a><span class="st">  w ~ normal(0, sigma_w); //item random effects</span></span>
-<span id="cb467-24"><a href="ch-mod-hier-stan.html#cb467-24" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood</span></span>
-<span id="cb467-25"><a href="ch-mod-hier-stan.html#cb467-25" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
-<span id="cb467-26"><a href="ch-mod-hier-stan.html#cb467-26" aria-hidden="true" tabindex="-1"></a><span class="st">    mu = beta[1] + u[subj[i]] + w[item[i]] + beta[2] * so[i];</span></span>
-<span id="cb467-27"><a href="ch-mod-hier-stan.html#cb467-27" aria-hidden="true" tabindex="-1"></a><span class="st">    rt[i] ~ lognormal(mu, sigma_e);</span></span>
-<span id="cb467-28"><a href="ch-mod-hier-stan.html#cb467-28" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb467-29"><a href="ch-mod-hier-stan.html#cb467-29" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb467-30"><a href="ch-mod-hier-stan.html#cb467-30" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb467-31"><a href="ch-mod-hier-stan.html#cb467-31" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/random_intercepts_model.stan&quot;</span>)</span>
-<span id="cb467-32"><a href="ch-mod-hier-stan.html#cb467-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb467-33"><a href="ch-mod-hier-stan.html#cb467-33" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;random_intercepts_model.stan&quot;</span>)</span>
-<span id="cb467-34"><a href="ch-mod-hier-stan.html#cb467-34" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="ch-mod-hier-stan.html#cb468-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
+<span id="cb468-2"><a href="ch-mod-hier-stan.html#cb468-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb468-3"><a href="ch-mod-hier-stan.html#cb468-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; N; //number of data points</span></span>
+<span id="cb468-4"><a href="ch-mod-hier-stan.html#cb468-4" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real rt; //reading time</span></span>
+<span id="cb468-5"><a href="ch-mod-hier-stan.html#cb468-5" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] real&lt;lower=-0.5, upper=0.5&gt; so; //predictor</span></span>
+<span id="cb468-6"><a href="ch-mod-hier-stan.html#cb468-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; J; //number of subjects</span></span>
+<span id="cb468-7"><a href="ch-mod-hier-stan.html#cb468-7" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=1&gt; K; //number of items</span></span>
+<span id="cb468-8"><a href="ch-mod-hier-stan.html#cb468-8" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] int&lt;lower=1, upper=J&gt; subj; //subject id</span></span>
+<span id="cb468-9"><a href="ch-mod-hier-stan.html#cb468-9" aria-hidden="true" tabindex="-1"></a><span class="st">  array[N] int&lt;lower=1, upper=K&gt; item; //item id</span></span>
+<span id="cb468-10"><a href="ch-mod-hier-stan.html#cb468-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-11"><a href="ch-mod-hier-stan.html#cb468-11" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb468-12"><a href="ch-mod-hier-stan.html#cb468-12" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[2] beta; //fixed intercept and slope</span></span>
+<span id="cb468-13"><a href="ch-mod-hier-stan.html#cb468-13" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[J] u; //subject intercepts</span></span>
+<span id="cb468-14"><a href="ch-mod-hier-stan.html#cb468-14" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[K] w; //item intercepts</span></span>
+<span id="cb468-15"><a href="ch-mod-hier-stan.html#cb468-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_e; //error sd</span></span>
+<span id="cb468-16"><a href="ch-mod-hier-stan.html#cb468-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_u; //subj sd</span></span>
+<span id="cb468-17"><a href="ch-mod-hier-stan.html#cb468-17" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma_w; //item sd</span></span>
+<span id="cb468-18"><a href="ch-mod-hier-stan.html#cb468-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-19"><a href="ch-mod-hier-stan.html#cb468-19" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb468-20"><a href="ch-mod-hier-stan.html#cb468-20" aria-hidden="true" tabindex="-1"></a><span class="st">  real mu;</span></span>
+<span id="cb468-21"><a href="ch-mod-hier-stan.html#cb468-21" aria-hidden="true" tabindex="-1"></a><span class="st">  //priors</span></span>
+<span id="cb468-22"><a href="ch-mod-hier-stan.html#cb468-22" aria-hidden="true" tabindex="-1"></a><span class="st">  u ~ normal(0, sigma_u); //subj random effects</span></span>
+<span id="cb468-23"><a href="ch-mod-hier-stan.html#cb468-23" aria-hidden="true" tabindex="-1"></a><span class="st">  w ~ normal(0, sigma_w); //item random effects</span></span>
+<span id="cb468-24"><a href="ch-mod-hier-stan.html#cb468-24" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood</span></span>
+<span id="cb468-25"><a href="ch-mod-hier-stan.html#cb468-25" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
+<span id="cb468-26"><a href="ch-mod-hier-stan.html#cb468-26" aria-hidden="true" tabindex="-1"></a><span class="st">    mu = beta[1] + u[subj[i]] + w[item[i]] + beta[2] * so[i];</span></span>
+<span id="cb468-27"><a href="ch-mod-hier-stan.html#cb468-27" aria-hidden="true" tabindex="-1"></a><span class="st">    rt[i] ~ lognormal(mu, sigma_e);</span></span>
+<span id="cb468-28"><a href="ch-mod-hier-stan.html#cb468-28" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb468-29"><a href="ch-mod-hier-stan.html#cb468-29" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb468-30"><a href="ch-mod-hier-stan.html#cb468-30" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb468-31"><a href="ch-mod-hier-stan.html#cb468-31" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(modelString, <span class="at">con =</span> <span class="st">&quot;code/random_intercepts_model.stan&quot;</span>)</span>
+<span id="cb468-32"><a href="ch-mod-hier-stan.html#cb468-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb468-33"><a href="ch-mod-hier-stan.html#cb468-33" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;random_intercepts_model.stan&quot;</span>)</span>
+<span id="cb468-34"><a href="ch-mod-hier-stan.html#cb468-34" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
 <p>I dati sono</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="ch-mod-hier-stan.html#cb468-1" aria-hidden="true" tabindex="-1"></a>stan_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb468-2"><a href="ch-mod-hier-stan.html#cb468-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">subj =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(rdat<span class="sc">$</span>subj)),</span>
-<span id="cb468-3"><a href="ch-mod-hier-stan.html#cb468-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(rdat<span class="sc">$</span>item)),</span>
-<span id="cb468-4"><a href="ch-mod-hier-stan.html#cb468-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rt =</span> rdat<span class="sc">$</span>rt,</span>
-<span id="cb468-5"><a href="ch-mod-hier-stan.html#cb468-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">so =</span> rdat<span class="sc">$</span>so,</span>
-<span id="cb468-6"><a href="ch-mod-hier-stan.html#cb468-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(rdat),</span>
-<span id="cb468-7"><a href="ch-mod-hier-stan.html#cb468-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">length</span>(<span class="fu">unique</span>(rdat<span class="sc">$</span>subj)),</span>
-<span id="cb468-8"><a href="ch-mod-hier-stan.html#cb468-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">K =</span> <span class="fu">length</span>(<span class="fu">unique</span>(rdat<span class="sc">$</span>item))</span>
-<span id="cb468-9"><a href="ch-mod-hier-stan.html#cb468-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="ch-mod-hier-stan.html#cb469-1" aria-hidden="true" tabindex="-1"></a>stan_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb469-2"><a href="ch-mod-hier-stan.html#cb469-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">subj =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(rdat<span class="sc">$</span>subj)),</span>
+<span id="cb469-3"><a href="ch-mod-hier-stan.html#cb469-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(rdat<span class="sc">$</span>item)),</span>
+<span id="cb469-4"><a href="ch-mod-hier-stan.html#cb469-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rt =</span> rdat<span class="sc">$</span>rt,</span>
+<span id="cb469-5"><a href="ch-mod-hier-stan.html#cb469-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">so =</span> rdat<span class="sc">$</span>so,</span>
+<span id="cb469-6"><a href="ch-mod-hier-stan.html#cb469-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(rdat),</span>
+<span id="cb469-7"><a href="ch-mod-hier-stan.html#cb469-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">length</span>(<span class="fu">unique</span>(rdat<span class="sc">$</span>subj)),</span>
+<span id="cb469-8"><a href="ch-mod-hier-stan.html#cb469-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">K =</span> <span class="fu">length</span>(<span class="fu">unique</span>(rdat<span class="sc">$</span>item))</span>
+<span id="cb469-9"><a href="ch-mod-hier-stan.html#cb469-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Eseguiamo il campionamento MCMC:</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="ch-mod-hier-stan.html#cb469-1" aria-hidden="true" tabindex="-1"></a>fit4 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb469-2"><a href="ch-mod-hier-stan.html#cb469-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stan_dat,</span>
-<span id="cb469-3"><a href="ch-mod-hier-stan.html#cb469-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb469-4"><a href="ch-mod-hier-stan.html#cb469-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb469-5"><a href="ch-mod-hier-stan.html#cb469-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb469-6"><a href="ch-mod-hier-stan.html#cb469-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb469-7"><a href="ch-mod-hier-stan.html#cb469-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb469-8"><a href="ch-mod-hier-stan.html#cb469-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch-mod-hier-stan.html#cb470-1" aria-hidden="true" tabindex="-1"></a>fit4 <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb470-2"><a href="ch-mod-hier-stan.html#cb470-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stan_dat,</span>
+<span id="cb470-3"><a href="ch-mod-hier-stan.html#cb470-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb470-4"><a href="ch-mod-hier-stan.html#cb470-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb470-5"><a href="ch-mod-hier-stan.html#cb470-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb470-6"><a href="ch-mod-hier-stan.html#cb470-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb470-7"><a href="ch-mod-hier-stan.html#cb470-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb470-8"><a href="ch-mod-hier-stan.html#cb470-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Otteniamo un oggetto di classe <code>stanfit</code>:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch-mod-hier-stan.html#cb470-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit4<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="ch-mod-hier-stan.html#cb471-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit4<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Le medie a posteriori si ottengono con</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="ch-mod-hier-stan.html#cb471-1" aria-hidden="true" tabindex="-1"></a>fit4<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma_e&quot;</span>, <span class="st">&quot;sigma_w&quot;</span>, <span class="st">&quot;sigma_u&quot;</span>))</span>
-<span id="cb471-2"><a href="ch-mod-hier-stan.html#cb471-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 10</span></span>
-<span id="cb471-3"><a href="ch-mod-hier-stan.html#cb471-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable    mean  median      sd     mad      q5     q95  rhat ess_bulk</span></span>
-<span id="cb471-4"><a href="ch-mod-hier-stan.html#cb471-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb471-5"><a href="ch-mod-hier-stan.html#cb471-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 beta[1]   6.35    6.35   0.0512  0.0511   6.26    6.43    1.00    1413.</span></span>
-<span id="cb471-6"><a href="ch-mod-hier-stan.html#cb471-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta[2]  -0.0604 -0.0604 0.0220  0.0218  -0.0974 -0.0243  1.00   17390.</span></span>
-<span id="cb471-7"><a href="ch-mod-hier-stan.html#cb471-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_e   0.577   0.577  0.00792 0.00784  0.564   0.590   1.00   17746.</span></span>
-<span id="cb471-8"><a href="ch-mod-hier-stan.html#cb471-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma_w   0.120   0.115  0.0291  0.0263   0.0806  0.173   1.00    8584.</span></span>
-<span id="cb471-9"><a href="ch-mod-hier-stan.html#cb471-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 sigma_u   0.238   0.235  0.0319  0.0304   0.191   0.293   1.00   11445.</span></span>
-<span id="cb471-10"><a href="ch-mod-hier-stan.html#cb471-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch-mod-hier-stan.html#cb472-1" aria-hidden="true" tabindex="-1"></a>fit4<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma_e&quot;</span>, <span class="st">&quot;sigma_w&quot;</span>, <span class="st">&quot;sigma_u&quot;</span>))</span>
+<span id="cb472-2"><a href="ch-mod-hier-stan.html#cb472-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 10</span></span>
+<span id="cb472-3"><a href="ch-mod-hier-stan.html#cb472-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable    mean  median      sd     mad      q5     q95  rhat ess_bulk</span></span>
+<span id="cb472-4"><a href="ch-mod-hier-stan.html#cb472-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb472-5"><a href="ch-mod-hier-stan.html#cb472-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 beta[1]   6.35    6.35   0.0512  0.0511   6.26    6.43    1.00    1413.</span></span>
+<span id="cb472-6"><a href="ch-mod-hier-stan.html#cb472-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 beta[2]  -0.0604 -0.0604 0.0220  0.0218  -0.0974 -0.0243  1.00   17390.</span></span>
+<span id="cb472-7"><a href="ch-mod-hier-stan.html#cb472-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 sigma_e   0.577   0.577  0.00792 0.00784  0.564   0.590   1.00   17746.</span></span>
+<span id="cb472-8"><a href="ch-mod-hier-stan.html#cb472-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma_w   0.120   0.115  0.0291  0.0263   0.0806  0.173   1.00    8584.</span></span>
+<span id="cb472-9"><a href="ch-mod-hier-stan.html#cb472-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 sigma_u   0.238   0.235  0.0319  0.0304   0.191   0.293   1.00   11445.</span></span>
+<span id="cb472-10"><a href="ch-mod-hier-stan.html#cb472-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
 <p>Gli intervalli di credibilità sono:</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch-mod-hier-stan.html#cb472-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
-<span id="cb472-2"><a href="ch-mod-hier-stan.html#cb472-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit),</span>
-<span id="cb472-3"><a href="ch-mod-hier-stan.html#cb472-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
-<span id="cb472-4"><a href="ch-mod-hier-stan.html#cb472-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb472-5"><a href="ch-mod-hier-stan.html#cb472-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci95, <span class="dv">3</span>)</span>
-<span id="cb472-6"><a href="ch-mod-hier-stan.html#cb472-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%     97.5%</span></span>
-<span id="cb472-7"><a href="ch-mod-hier-stan.html#cb472-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[1]     6.247     6.447</span></span>
-<span id="cb472-8"><a href="ch-mod-hier-stan.html#cb472-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[2]    -0.104    -0.017</span></span>
-<span id="cb472-9"><a href="ch-mod-hier-stan.html#cb472-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[1]       -0.208     0.081</span></span>
-<span id="cb472-10"><a href="ch-mod-hier-stan.html#cb472-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[2]       -0.304    -0.012</span></span>
-<span id="cb472-11"><a href="ch-mod-hier-stan.html#cb472-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[3]       -0.127     0.163</span></span>
-<span id="cb472-12"><a href="ch-mod-hier-stan.html#cb472-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[4]       -0.212     0.079</span></span>
-<span id="cb472-13"><a href="ch-mod-hier-stan.html#cb472-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[5]       -0.079     0.216</span></span>
-<span id="cb472-14"><a href="ch-mod-hier-stan.html#cb472-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[6]       -0.049     0.239</span></span>
-<span id="cb472-15"><a href="ch-mod-hier-stan.html#cb472-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[7]       -0.162     0.131</span></span>
-<span id="cb472-16"><a href="ch-mod-hier-stan.html#cb472-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[8]       -0.124     0.168</span></span>
-<span id="cb472-17"><a href="ch-mod-hier-stan.html#cb472-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[9]       -0.097     0.196</span></span>
-<span id="cb472-18"><a href="ch-mod-hier-stan.html#cb472-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[10]      -0.009     0.283</span></span>
-<span id="cb472-19"><a href="ch-mod-hier-stan.html#cb472-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[11]       0.450     0.745</span></span>
-<span id="cb472-20"><a href="ch-mod-hier-stan.html#cb472-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[12]       0.149     0.443</span></span>
-<span id="cb472-21"><a href="ch-mod-hier-stan.html#cb472-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[13]      -0.169     0.123</span></span>
-<span id="cb472-22"><a href="ch-mod-hier-stan.html#cb472-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[14]      -0.151     0.140</span></span>
-<span id="cb472-23"><a href="ch-mod-hier-stan.html#cb472-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[15]       0.035     0.324</span></span>
-<span id="cb472-24"><a href="ch-mod-hier-stan.html#cb472-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[16]      -0.199     0.089</span></span>
-<span id="cb472-25"><a href="ch-mod-hier-stan.html#cb472-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[17]      -0.716    -0.418</span></span>
-<span id="cb472-26"><a href="ch-mod-hier-stan.html#cb472-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[18]      -0.417    -0.127</span></span>
-<span id="cb472-27"><a href="ch-mod-hier-stan.html#cb472-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[19]      -0.295     0.003</span></span>
-<span id="cb472-28"><a href="ch-mod-hier-stan.html#cb472-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[20]       0.162     0.452</span></span>
-<span id="cb472-29"><a href="ch-mod-hier-stan.html#cb472-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[21]       0.050     0.341</span></span>
-<span id="cb472-30"><a href="ch-mod-hier-stan.html#cb472-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[22]       0.123     0.418</span></span>
-<span id="cb472-31"><a href="ch-mod-hier-stan.html#cb472-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[23]      -0.197     0.096</span></span>
-<span id="cb472-32"><a href="ch-mod-hier-stan.html#cb472-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[24]      -0.084     0.293</span></span>
-<span id="cb472-33"><a href="ch-mod-hier-stan.html#cb472-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[25]       0.000     0.292</span></span>
-<span id="cb472-34"><a href="ch-mod-hier-stan.html#cb472-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[26]      -0.494    -0.203</span></span>
-<span id="cb472-35"><a href="ch-mod-hier-stan.html#cb472-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[27]      -0.233     0.059</span></span>
-<span id="cb472-36"><a href="ch-mod-hier-stan.html#cb472-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[28]      -0.332    -0.038</span></span>
-<span id="cb472-37"><a href="ch-mod-hier-stan.html#cb472-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[29]      -0.423    -0.127</span></span>
-<span id="cb472-38"><a href="ch-mod-hier-stan.html#cb472-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[30]      -0.406    -0.113</span></span>
-<span id="cb472-39"><a href="ch-mod-hier-stan.html#cb472-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[31]      -0.100     0.188</span></span>
-<span id="cb472-40"><a href="ch-mod-hier-stan.html#cb472-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[32]      -0.178     0.113</span></span>
-<span id="cb472-41"><a href="ch-mod-hier-stan.html#cb472-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[33]      -0.239     0.056</span></span>
-<span id="cb472-42"><a href="ch-mod-hier-stan.html#cb472-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[34]       0.257     0.554</span></span>
-<span id="cb472-43"><a href="ch-mod-hier-stan.html#cb472-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[35]      -0.396    -0.104</span></span>
-<span id="cb472-44"><a href="ch-mod-hier-stan.html#cb472-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[36]      -0.144     0.145</span></span>
-<span id="cb472-45"><a href="ch-mod-hier-stan.html#cb472-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[37]      -0.171     0.118</span></span>
-<span id="cb472-46"><a href="ch-mod-hier-stan.html#cb472-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[1]       -0.133     0.061</span></span>
-<span id="cb472-47"><a href="ch-mod-hier-stan.html#cb472-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[2]       -0.118     0.075</span></span>
-<span id="cb472-48"><a href="ch-mod-hier-stan.html#cb472-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[3]       -0.101     0.093</span></span>
-<span id="cb472-49"><a href="ch-mod-hier-stan.html#cb472-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[4]       -0.213    -0.015</span></span>
-<span id="cb472-50"><a href="ch-mod-hier-stan.html#cb472-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[5]       -0.006     0.190</span></span>
-<span id="cb472-51"><a href="ch-mod-hier-stan.html#cb472-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[6]       -0.141     0.056</span></span>
-<span id="cb472-52"><a href="ch-mod-hier-stan.html#cb472-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[7]       -0.281    -0.082</span></span>
-<span id="cb472-53"><a href="ch-mod-hier-stan.html#cb472-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[8]        0.115     0.315</span></span>
-<span id="cb472-54"><a href="ch-mod-hier-stan.html#cb472-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[9]       -0.185     0.009</span></span>
-<span id="cb472-55"><a href="ch-mod-hier-stan.html#cb472-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[10]      -0.041     0.153</span></span>
-<span id="cb472-56"><a href="ch-mod-hier-stan.html#cb472-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[11]      -0.136     0.058</span></span>
-<span id="cb472-57"><a href="ch-mod-hier-stan.html#cb472-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[12]      -0.030     0.165</span></span>
-<span id="cb472-58"><a href="ch-mod-hier-stan.html#cb472-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[13]      -0.176     0.018</span></span>
-<span id="cb472-59"><a href="ch-mod-hier-stan.html#cb472-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[14]       0.036     0.235</span></span>
-<span id="cb472-60"><a href="ch-mod-hier-stan.html#cb472-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[15]      -0.041     0.155</span></span>
-<span id="cb472-61"><a href="ch-mod-hier-stan.html#cb472-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_e     0.562     0.593</span></span>
-<span id="cb472-62"><a href="ch-mod-hier-stan.html#cb472-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_u     0.183     0.309</span></span>
-<span id="cb472-63"><a href="ch-mod-hier-stan.html#cb472-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_w     0.076     0.188</span></span>
-<span id="cb472-64"><a href="ch-mod-hier-stan.html#cb472-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__    -2332.580 -2311.210</span></span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch-mod-hier-stan.html#cb473-1" aria-hidden="true" tabindex="-1"></a>ci95 <span class="ot">&lt;-</span> rstanarm<span class="sc">::</span><span class="fu">posterior_interval</span>(</span>
+<span id="cb473-2"><a href="ch-mod-hier-stan.html#cb473-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(stanfit),</span>
+<span id="cb473-3"><a href="ch-mod-hier-stan.html#cb473-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.95</span></span>
+<span id="cb473-4"><a href="ch-mod-hier-stan.html#cb473-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb473-5"><a href="ch-mod-hier-stan.html#cb473-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci95, <span class="dv">3</span>)</span>
+<span id="cb473-6"><a href="ch-mod-hier-stan.html#cb473-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%     97.5%</span></span>
+<span id="cb473-7"><a href="ch-mod-hier-stan.html#cb473-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[1]     6.247     6.447</span></span>
+<span id="cb473-8"><a href="ch-mod-hier-stan.html#cb473-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; beta[2]    -0.104    -0.017</span></span>
+<span id="cb473-9"><a href="ch-mod-hier-stan.html#cb473-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[1]       -0.208     0.081</span></span>
+<span id="cb473-10"><a href="ch-mod-hier-stan.html#cb473-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[2]       -0.304    -0.012</span></span>
+<span id="cb473-11"><a href="ch-mod-hier-stan.html#cb473-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[3]       -0.127     0.163</span></span>
+<span id="cb473-12"><a href="ch-mod-hier-stan.html#cb473-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[4]       -0.212     0.079</span></span>
+<span id="cb473-13"><a href="ch-mod-hier-stan.html#cb473-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[5]       -0.079     0.216</span></span>
+<span id="cb473-14"><a href="ch-mod-hier-stan.html#cb473-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[6]       -0.049     0.239</span></span>
+<span id="cb473-15"><a href="ch-mod-hier-stan.html#cb473-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[7]       -0.162     0.131</span></span>
+<span id="cb473-16"><a href="ch-mod-hier-stan.html#cb473-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[8]       -0.124     0.168</span></span>
+<span id="cb473-17"><a href="ch-mod-hier-stan.html#cb473-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[9]       -0.097     0.196</span></span>
+<span id="cb473-18"><a href="ch-mod-hier-stan.html#cb473-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[10]      -0.009     0.283</span></span>
+<span id="cb473-19"><a href="ch-mod-hier-stan.html#cb473-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[11]       0.450     0.745</span></span>
+<span id="cb473-20"><a href="ch-mod-hier-stan.html#cb473-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[12]       0.149     0.443</span></span>
+<span id="cb473-21"><a href="ch-mod-hier-stan.html#cb473-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[13]      -0.169     0.123</span></span>
+<span id="cb473-22"><a href="ch-mod-hier-stan.html#cb473-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[14]      -0.151     0.140</span></span>
+<span id="cb473-23"><a href="ch-mod-hier-stan.html#cb473-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[15]       0.035     0.324</span></span>
+<span id="cb473-24"><a href="ch-mod-hier-stan.html#cb473-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[16]      -0.199     0.089</span></span>
+<span id="cb473-25"><a href="ch-mod-hier-stan.html#cb473-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[17]      -0.716    -0.418</span></span>
+<span id="cb473-26"><a href="ch-mod-hier-stan.html#cb473-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[18]      -0.417    -0.127</span></span>
+<span id="cb473-27"><a href="ch-mod-hier-stan.html#cb473-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[19]      -0.295     0.003</span></span>
+<span id="cb473-28"><a href="ch-mod-hier-stan.html#cb473-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[20]       0.162     0.452</span></span>
+<span id="cb473-29"><a href="ch-mod-hier-stan.html#cb473-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[21]       0.050     0.341</span></span>
+<span id="cb473-30"><a href="ch-mod-hier-stan.html#cb473-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[22]       0.123     0.418</span></span>
+<span id="cb473-31"><a href="ch-mod-hier-stan.html#cb473-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[23]      -0.197     0.096</span></span>
+<span id="cb473-32"><a href="ch-mod-hier-stan.html#cb473-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[24]      -0.084     0.293</span></span>
+<span id="cb473-33"><a href="ch-mod-hier-stan.html#cb473-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[25]       0.000     0.292</span></span>
+<span id="cb473-34"><a href="ch-mod-hier-stan.html#cb473-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[26]      -0.494    -0.203</span></span>
+<span id="cb473-35"><a href="ch-mod-hier-stan.html#cb473-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[27]      -0.233     0.059</span></span>
+<span id="cb473-36"><a href="ch-mod-hier-stan.html#cb473-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[28]      -0.332    -0.038</span></span>
+<span id="cb473-37"><a href="ch-mod-hier-stan.html#cb473-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[29]      -0.423    -0.127</span></span>
+<span id="cb473-38"><a href="ch-mod-hier-stan.html#cb473-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[30]      -0.406    -0.113</span></span>
+<span id="cb473-39"><a href="ch-mod-hier-stan.html#cb473-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[31]      -0.100     0.188</span></span>
+<span id="cb473-40"><a href="ch-mod-hier-stan.html#cb473-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[32]      -0.178     0.113</span></span>
+<span id="cb473-41"><a href="ch-mod-hier-stan.html#cb473-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[33]      -0.239     0.056</span></span>
+<span id="cb473-42"><a href="ch-mod-hier-stan.html#cb473-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[34]       0.257     0.554</span></span>
+<span id="cb473-43"><a href="ch-mod-hier-stan.html#cb473-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[35]      -0.396    -0.104</span></span>
+<span id="cb473-44"><a href="ch-mod-hier-stan.html#cb473-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[36]      -0.144     0.145</span></span>
+<span id="cb473-45"><a href="ch-mod-hier-stan.html#cb473-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; u[37]      -0.171     0.118</span></span>
+<span id="cb473-46"><a href="ch-mod-hier-stan.html#cb473-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[1]       -0.133     0.061</span></span>
+<span id="cb473-47"><a href="ch-mod-hier-stan.html#cb473-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[2]       -0.118     0.075</span></span>
+<span id="cb473-48"><a href="ch-mod-hier-stan.html#cb473-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[3]       -0.101     0.093</span></span>
+<span id="cb473-49"><a href="ch-mod-hier-stan.html#cb473-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[4]       -0.213    -0.015</span></span>
+<span id="cb473-50"><a href="ch-mod-hier-stan.html#cb473-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[5]       -0.006     0.190</span></span>
+<span id="cb473-51"><a href="ch-mod-hier-stan.html#cb473-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[6]       -0.141     0.056</span></span>
+<span id="cb473-52"><a href="ch-mod-hier-stan.html#cb473-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[7]       -0.281    -0.082</span></span>
+<span id="cb473-53"><a href="ch-mod-hier-stan.html#cb473-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[8]        0.115     0.315</span></span>
+<span id="cb473-54"><a href="ch-mod-hier-stan.html#cb473-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[9]       -0.185     0.009</span></span>
+<span id="cb473-55"><a href="ch-mod-hier-stan.html#cb473-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[10]      -0.041     0.153</span></span>
+<span id="cb473-56"><a href="ch-mod-hier-stan.html#cb473-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[11]      -0.136     0.058</span></span>
+<span id="cb473-57"><a href="ch-mod-hier-stan.html#cb473-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[12]      -0.030     0.165</span></span>
+<span id="cb473-58"><a href="ch-mod-hier-stan.html#cb473-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[13]      -0.176     0.018</span></span>
+<span id="cb473-59"><a href="ch-mod-hier-stan.html#cb473-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[14]       0.036     0.235</span></span>
+<span id="cb473-60"><a href="ch-mod-hier-stan.html#cb473-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; w[15]      -0.041     0.155</span></span>
+<span id="cb473-61"><a href="ch-mod-hier-stan.html#cb473-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_e     0.562     0.593</span></span>
+<span id="cb473-62"><a href="ch-mod-hier-stan.html#cb473-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_u     0.183     0.309</span></span>
+<span id="cb473-63"><a href="ch-mod-hier-stan.html#cb473-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma_w     0.076     0.188</span></span>
+<span id="cb473-64"><a href="ch-mod-hier-stan.html#cb473-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lp__    -2332.580 -2311.210</span></span></code></pre></div>
 <!-- Questi risultati replicano i risultati che si ottengono con la funzione `brms::brm`: -->
 <!-- ```{r, warning=FALSE, message=FALSE, error=FALSE, results='hide'} -->
 <!-- M1 <- brm( -->

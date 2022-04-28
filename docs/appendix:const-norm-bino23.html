@@ -857,17 +857,17 @@ p(y) &amp;= \int p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta \notag\\
 <div class="exercise">
 <p><span id="exr:unlabeled-div-100" class="exercise"><strong>Esercizio G.1  </strong></span>Si verifichi la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> mediante di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Per replicare mediante la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> il risultato trovato per via numerica nella Sezione <a href="ch-bayes-workflow.html#sec:const-normaliz-bino23">14.4</a> assumiamo una distribuzione a priori uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. I valori del problema dunque diventano i seguenti:</p>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="appendix:const-norm-bino23.html#cb551-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb551-2"><a href="appendix:const-norm-bino23.html#cb551-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb551-3"><a href="appendix:const-norm-bino23.html#cb551-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb551-4"><a href="appendix:const-norm-bino23.html#cb551-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="appendix:const-norm-bino23.html#cb552-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb552-2"><a href="appendix:const-norm-bino23.html#cb552-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb552-3"><a href="appendix:const-norm-bino23.html#cb552-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb552-4"><a href="appendix:const-norm-bino23.html#cb552-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
 <p>Definiamo</p>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="appendix:const-norm-bino23.html#cb552-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb552-2"><a href="appendix:const-norm-bino23.html#cb552-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
-<span id="cb552-3"><a href="appendix:const-norm-bino23.html#cb552-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="appendix:const-norm-bino23.html#cb553-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb553-2"><a href="appendix:const-norm-bino23.html#cb553-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
+<span id="cb553-3"><a href="appendix:const-norm-bino23.html#cb553-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Il risultato cercato è</p>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="appendix:const-norm-bino23.html#cb553-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
-<span id="cb553-2"><a href="appendix:const-norm-bino23.html#cb553-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="appendix:const-norm-bino23.html#cb554-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
+<span id="cb554-2"><a href="appendix:const-norm-bino23.html#cb554-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
 </div>
 
 </div>
