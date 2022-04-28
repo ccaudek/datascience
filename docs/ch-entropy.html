@@ -579,8 +579,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
 <ul>
-<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
-<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1"><i class="fa fa-check"></i><b>29.1</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2"><i class="fa fa-check"></i><b>29.2</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
@@ -894,26 +894,26 @@ h(x) = -\log p(x).
 <p>Il segno negativo garantisce che il risultato sia sempre positivo o zero. L’informazione è zero quando la probabilità dell’evento è 1.0, ovvero quando l’evento è certo (assenza di sorpresa).</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-87" class="example"><strong>Esempio 32.1  </strong></span>Consideriamo il lancio di una moneta equilibrata. La probabilità di testa (e croce) è 0.5. La quantità di informazione di ottenere “testa” è dunque</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="ch-entropy.html#cb459-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.5</span>)</span>
-<span id="cb459-2"><a href="ch-entropy.html#cb459-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch-entropy.html#cb473-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.5</span>)</span>
+<span id="cb473-2"><a href="ch-entropy.html#cb473-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>Per rappresentare questo evento abbiamo bisogno di 1 bit di informazione. Se la stessa moneta venisse lanciata <span class="math inline">\(n\)</span> volte, la quantità di informazione necessaria per rappresentare questo evento (ovvero, questa sequenza di lanci) sarebbe pari a <span class="math inline">\(n\)</span> bit. Se la moneta non è equilibrata e la probabilità di testa è 0.1, allora l’evento “testa” è più raro e richiede più di 3 bit di informazione:</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="ch-entropy.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.1</span>)</span>
-<span id="cb460-2"><a href="ch-entropy.html#cb460-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.321928</span></span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="ch-entropy.html#cb474-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="fl">0.1</span>)</span>
+<span id="cb474-2"><a href="ch-entropy.html#cb474-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.321928</span></span></code></pre></div>
 <p>Consideriamo ora il lancio di un dado. Quanta informazione viene fornita, ad esempio, dall’evento “esce il numero 6”? Dato che la probabilità di ottenere un 6 nel lancio di un dado è più piccola della probabilità di ottenere “testa” nel lancio di una moneta, il risultato del lancio di un dado deve produrre una sorpresa maggiore del risultato del lancio di una moneta. Per cui, la quantità di informazione associata all’evento “è uscito 6”, dovrà essere maggiore di quella associata all’evento “testa”. Infatti, la quantità di informazione dell’evento “è uscito un 6” è più che doppia rispetto alla quantità di informazione dell’evento “testa”:</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="ch-entropy.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
-<span id="cb461-2"><a href="ch-entropy.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.584963</span></span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="ch-entropy.html#cb475-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb475-2"><a href="ch-entropy.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.584963</span></span></code></pre></div>
 </div>
 <div class="example">
 <p><span id="exm:unlabeled-div-88" class="example"><strong>Esempio 32.2  </strong></span>Nella figura successiva viene esaminata la relazione tra probabilità e informazione, per valori di probabilità nell’intervallo tra 0 e 1.</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="ch-entropy.html#cb462-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb462-2"><a href="ch-entropy.html#cb462-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(p)</span>
-<span id="cb462-3"><a href="ch-entropy.html#cb462-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(p, h), <span class="fu">aes</span>(p, h)) <span class="sc">+</span></span>
-<span id="cb462-4"><a href="ch-entropy.html#cb462-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb462-5"><a href="ch-entropy.html#cb462-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb462-6"><a href="ch-entropy.html#cb462-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità&quot;</span>,</span>
-<span id="cb462-7"><a href="ch-entropy.html#cb462-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Informazione&quot;</span></span>
-<span id="cb462-8"><a href="ch-entropy.html#cb462-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-464-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="ch-entropy.html#cb476-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb476-2"><a href="ch-entropy.html#cb476-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(p)</span>
+<span id="cb476-3"><a href="ch-entropy.html#cb476-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(p, h), <span class="fu">aes</span>(p, h)) <span class="sc">+</span></span>
+<span id="cb476-4"><a href="ch-entropy.html#cb476-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb476-5"><a href="ch-entropy.html#cb476-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb476-6"><a href="ch-entropy.html#cb476-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Probabilità&quot;</span>,</span>
+<span id="cb476-7"><a href="ch-entropy.html#cb476-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Informazione&quot;</span></span>
+<span id="cb476-8"><a href="ch-entropy.html#cb476-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-479-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>La figura mostra che questa relazione non è lineare, è infatti leggermente sublineare. Questo ha senso dato che abbiamo usato una funzione logaritmica.</p>
 </div>
 </div>
@@ -945,11 +945,11 @@ H(p) = − [p(y_1) \log_2 p(y_1) + p(y_2) \log_2 p(y_2)] \approx 0.61.
 </div>
 <div class="example">
 <p><span id="exm:unlabeled-div-91" class="example"><strong>Esempio 32.4  </strong></span>Nell’esempio precedente abbiamo visto che, se gli esiti possibili sono pioggia o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.3\)</span>, allora l’entropia è</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch-entropy.html#cb463-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.3</span>))</span>
-<span id="cb463-2"><a href="ch-entropy.html#cb463-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6108643</span></span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="ch-entropy.html#cb477-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.3</span>))</span>
+<span id="cb477-2"><a href="ch-entropy.html#cb477-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6108643</span></span></code></pre></div>
 <p>Ma se gli esiti possibili sono pioggia, neve o sole con <span class="math inline">\(p(y_1) = 0.7\)</span>, <span class="math inline">\(p(y_2) = 0.15\)</span> e <span class="math inline">\(p(y_3) = 0.15\)</span>, rispettivamente, allora l’entropia cresce:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="ch-entropy.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>))</span>
-<span id="cb464-2"><a href="ch-entropy.html#cb464-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8188085</span></span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="ch-entropy.html#cb478-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.7</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>) <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.15</span>))</span>
+<span id="cb478-2"><a href="ch-entropy.html#cb478-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8188085</span></span></code></pre></div>
 </div>
 </div>
 </div>

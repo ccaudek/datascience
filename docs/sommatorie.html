@@ -579,8 +579,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
 <ul>
-<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
-<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1"><i class="fa fa-check"></i><b>29.1</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2"><i class="fa fa-check"></i><b>29.2</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
@@ -948,29 +948,29 @@ x_3y_1 + x_3y_2 + x_3y_3 \notag\\
 \sum_{n=0}^4 3n
 \]</span></p>
 <p>non è altro che un ciclo <code>for</code>:</p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="sommatorie.html#cb532-1" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb532-2"><a href="sommatorie.html#cb532-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb532-3"><a href="sommatorie.html#cb532-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> n</span>
-<span id="cb532-4"><a href="sommatorie.html#cb532-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb532-5"><a href="sommatorie.html#cb532-5" aria-hidden="true" tabindex="-1"></a>sum</span>
-<span id="cb532-6"><a href="sommatorie.html#cb532-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="sommatorie.html#cb546-1" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb546-2"><a href="sommatorie.html#cb546-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb546-3"><a href="sommatorie.html#cb546-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> n</span>
+<span id="cb546-4"><a href="sommatorie.html#cb546-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb546-5"><a href="sommatorie.html#cb546-5" aria-hidden="true" tabindex="-1"></a>sum</span>
+<span id="cb546-6"><a href="sommatorie.html#cb546-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
 <p>In maniera equivalente, e più semplice, possiamo scrivere</p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="sommatorie.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb533-2"><a href="sommatorie.html#cb533-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="sommatorie.html#cb547-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb547-2"><a href="sommatorie.html#cb547-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span></code></pre></div>
 <p>Allo stesso modo, la notazione</p>
 <p><span class="math display">\[
 \prod_{n=1}^{4} 2n
 \]</span>
 è anch’essa equivalente al ciclo <code>for</code></p>
-<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="sommatorie.html#cb534-1" aria-hidden="true" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb534-2"><a href="sommatorie.html#cb534-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb534-3"><a href="sommatorie.html#cb534-3" aria-hidden="true" tabindex="-1"></a>  prod <span class="ot">&lt;-</span> prod <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> n</span>
-<span id="cb534-4"><a href="sommatorie.html#cb534-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb534-5"><a href="sommatorie.html#cb534-5" aria-hidden="true" tabindex="-1"></a>prod</span>
-<span id="cb534-6"><a href="sommatorie.html#cb534-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="sommatorie.html#cb548-1" aria-hidden="true" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb548-2"><a href="sommatorie.html#cb548-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb548-3"><a href="sommatorie.html#cb548-3" aria-hidden="true" tabindex="-1"></a>  prod <span class="ot">&lt;-</span> prod <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> n</span>
+<span id="cb548-4"><a href="sommatorie.html#cb548-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb548-5"><a href="sommatorie.html#cb548-5" aria-hidden="true" tabindex="-1"></a>prod</span>
+<span id="cb548-6"><a href="sommatorie.html#cb548-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
 <p>che si può scrivere, più semplicemente, come</p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="sommatorie.html#cb535-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb535-2"><a href="sommatorie.html#cb535-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="sommatorie.html#cb549-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb549-2"><a href="sommatorie.html#cb549-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 384</span></span></code></pre></div>
 <p>In entrambi i casi precedenti, abbiamo sostituito le operazioni aritmetiche eseguite all’interno di un ciclo <code>for</code> con le stesse operazioni aritmetiche eseguite sui vettori elemento per elemento.</p>
 
 </div>

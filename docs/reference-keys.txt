@@ -476,8 +476,8 @@ confronti-non-effetti
 un-esempio-concreto-1
 la-dimensione-delleffetto
 ch-pred-checks
-campionamento-dalla-distribuzione-predittiva-a-posteriori
-campionamento-dalla-distribuzione-predittiva-a-priori
+distribuzione-predittiva-a-posteriori-1
+distribuzione-predittiva-a-priori-2
 ch-anova
 le-abilità-sociali-di-un-robot
 anova-stan

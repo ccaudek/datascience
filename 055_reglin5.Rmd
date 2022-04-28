@@ -1,6 +1,6 @@
 # Confronto tra due gruppi indipendenti {#ch-comp-two-means-stan}
 
-```{r c055, echo=FALSE}
+```{r, echo=FALSE}
 source("_common.R")
 source("_stan_options.R")
 library("scales")

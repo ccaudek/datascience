@@ -579,8 +579,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
 <ul>
-<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
-<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1"><i class="fa fa-check"></i><b>29.1</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2"><i class="fa fa-check"></i><b>29.2</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
@@ -939,7 +939,7 @@ mentre, quando <span class="math inline">\(x=1\)</span>, il modello diventa</p>
 <span id="cb400-11"><a href="ch-comp-two-means-stan.html#cb400-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Diploma di istruzione secondaria di secondo grado della madre</span><span class="sc">\n</span><span class="st">(0 = no; 1 = sì)&quot;</span></span>
 <span id="cb400-12"><a href="ch-comp-two-means-stan.html#cb400-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
 <span id="cb400-13"><a href="ch-comp-two-means-stan.html#cb400-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-400-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-401-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Le stime a posteriori dei parametri si ottengono con:</p>
 <div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="ch-comp-two-means-stan.html#cb401-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;cohen_d&quot;</span>))</span>
 <span id="cb401-2"><a href="ch-comp-two-means-stan.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 10</span></span>

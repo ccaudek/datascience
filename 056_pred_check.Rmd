@@ -6,25 +6,15 @@ source("_stan_options.R")
 library("rstan")
 ```
 
-In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un'unica variabile con una data distribuzione di probabilità. In questo capitolo estenderemo questa discussione al modello lineare. Esamineremo un esempio di _posterior predictive check_ in cui simuleremo da  $p(y^{rep} \mid \theta, y)$, usando le stime a posteriori dei parametri $\theta$ del modello, e un esempio di _prior predictive check_ in cui simuleremo da $p(y^{rep} \mid \mathcal{M})$, ovvero usando il meccanismo generatore dei dati del modello $\mathcal{M}$ in esame, senza però includere i dati. 
+In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un'unica variabile con una data distribuzione di probabilità. In particolare, abbiamo considerato il caso beta-binomiale. In questo Capitolo estenderemo la discussione al caso del modello di regressione lineare. Esamineremo un esempio di _posterior predictive check_ in cui simuleremo $p(y^{rep} \mid \theta, y)$ e un esempio di _prior predictive check_ in cui simuleremo $p(y^{rep} \mid \mathcal{M})$, ovvero condizionando il modello al meccanismo generatore dei dati $\mathcal{M}$, ma senza però includere i dati del campione. 
 
-## Campionamento dalla distribuzione predittiva a posteriori
+## Distribuzione predittiva a posteriori
 
-La distribuzione predittiva a priori equivale alla distribuzione predittiva a posteriori, senza però i dati osservati. Quindi la distribuzione predittiva a priori non è altro che il caso limite della distribuzione predittiva a posteriori, calcolata però senza utilizzare i dati del campione. Il manuale Stan afferma che, se il codice per il il controllo predittivo a posteriori è già stato scritto, ed è possibile impostare il codice in modo che non sia necessario specificare i dati, allora non è necessario fare nient'altro.
-
-Consideriamo qui un esempio nel quale vengono usati i dati `kidiq` [@gelman2020regression].
+Consideriamo qui un esempio nel quale vengono usati i dati `kidiq` [@gelman2020regression]. Leggiamo i dati in $\mathsf{R}$.
 
 ```{r}
 library("rio")
 df <- rio::import(here("data", "kidiq.dta"))
-```
-
-Iniziamo a generare un istogramma dei valori $y$ stanardizzati:
-
-```{r}
-df %>% 
-  ggplot(aes(scale(kid_score)[, 1])) +
-  geom_histogram()
 ```
 
 Per svolgere l'analisi bayesiana sistemiamo i dati (standardizzati) nel formato appropriato per Stan:
@@ -67,12 +57,45 @@ generated quantities {
 writeLines(stancode, con = "code/post_pred_check_1.stan")
 ```
 
+Si noti il blocco `generated quantities`. In tale blocco del codice abbiamo definito la variabile `y_rep`. In precedenza, tali valori sono stati chiamati $\tilde{y}$. Dunque, `y_rep` corrisponde a possibili futuri campioni di dati. La variabile `y_rep` è un campione di `N` = 434 possibili osservazioni future. Le abbiamo calcolate usando `x`, i valori della variabile indipendente del campione presente. Quindi immaginiamo che in tutti i possibili campioni futuri di 434 osservazioni i valori $x$ siano gli stessi del campione osservato. Questa è un'assunzione del modello di regressione lineare: i valori $x$ sono considerati "fissi" nell'universo dei campioni.
+
+Nel caso presente, i primi 10 valori $x$ (QI della madre) standardizzati sono i seguenti:
+
+```{r}
+scale(df$mom_iq)[, 1][1:10]
+```
+
+Consideriamo il valore del QI della prima madre del campione, ovvero 1.4078352. Come si trova il valore `y` associato a 1.4078352 in un possibile campione futuro? Il codice Stan dice che
+
+```{r, eval=FALSE}
+y_rep[i] = normal_rng(alpha + beta * x[i], sigma);
+```
+
+Ciò significa che vogliamo prendere un valore a caso dalla distribuzione Normale di parametri
+
+$$
+\alpha + \beta x
+$$
+e deviazione standard $\sigma$.
+
+Nel caso presente non abbiamo un singolo valore per i parametri $\alpha$, $\beta$ e $\sigma$. Invece abbiamo una distribuzione a posteriori per ciascun parametro, ovvero $p(\alpha \mid y)$, $p(\beta \mid y)$ e $p(\sigma \mid y)$. Quindi come facciamo a calcolare il QI del figlio per la prima madre (avente QI standardizzato pari a 1.4078352) in un possibile campione futuro di osservazioni? Prendiamo un valore a caso dalla seguente distribuzione Normale:
+
+$$
+\mathcal{N}(\mu = \alpha + \beta \cdot 1.4078352, \sigma).
+$$
+
+Restano da specificare i valori $\alpha$, $\beta$ e $\sigma$. In tutti e tre i casi, prendiamo un valore a caso dalla corrispondente distribuzione a posteriori. Per $\alpha$ scegliamo un valore a caso dalla distribuzione a posteriori $p(\alpha \mid y)$, per $\beta$ scegliamo un valore a caso dalla distribuzione a posteriori $p(\beta \mid y)$ e per $\sigma$ scegliamo un valore a caso dalla distribuzione a posteriori $p(\beta \mid y)$. Così facendo otteniamo un valore corrispondente al QI del figlio in un possibile campione futuro di osservazioni.
+
+Ripetendo questa procedura `N` volte (cambiando $x_i$, $\forall i \; in \; 1, \dots, 434$), otteniamo un possibile campione futuro di 434 osservazioni. Questa procedura viene ripetuta 16,000 volte, ovvero per il numero complessivo di iterazioni, così da ottenere 16,000 possibili campioni futuri di 434 osservazioni ciascuno.
+
+Compiliamo il file con il modello Stan.
 
 ```{r}
 file <- file.path("code", "post_pred_check_1.stan")
 mod <- cmdstan_model(file)
 ```
 
+Eseguiamo il campionamento MCMC.
 
 ```{r, message = FALSE, warning=FALSE, results='hide'}
 fit <- mod$sample(
@@ -85,18 +108,141 @@ fit <- mod$sample(
 )
 ```
 
+Per verificare le affermazioni precedenti, trasformo l'oggetto `fit` in formato `stanfit`. 
 
 ```{r}
-stanfit1 <- rstan::read_stan_csv(fit$output_files())
+output_stanfit <- rstan::read_stan_csv(fit$output_files())
 ```
 
-Un istogramme dei valori $y^{rep}$ può essere generato nel modo seguente:
+Dall'oggetto `output_stanfit` estraggo i campioni a posteriori dei parametri `alpha`, `beta`,  `sigma` e `y_rep` con la funzione `extract()`.
 
 ```{r}
-hist(as.matrix(stanfit1, pars = "y_rep"), breaks = 100)
+post <- rstan::extract(output_stanfit)
 ```
 
-## Campionamento dalla distribuzione predittiva a priori
+Esamino il contenuto di `post`.
+
+```{r}
+glimpse(post)
+```
+
+L'oggetto `y_rep` è ciò che mi aspettavo, ovvero, una matrice di 16,000 righe e 434 colonne. In tale matrice ogni riga è un campione possibile futuro di 434 osservazioni trovato con la procedura descritta sopra.
+
+Un istogramma dei valori $y^{rep}$ può essere generato nel modo seguente.
+
+```{r}
+hist(as.matrix(output_stanfit, pars = "y_rep"), breaks = 100)
+```
+
+L'istogramma precedente illustra le proprietà **medie** di un campione futuro di 434 osservazioni, alla luce dei dati campionari osservati e delle ipotesi a priori sui parametri del modello di regressione.
+
+Possiamo fare un confronto tra la "distribuzione predittiva a posteriori e i dati del campione che è stato osservato. Iniziamo a costruire un istogramma con i dati $y$ (standardizzati) del campione.
+
+```{r}
+df %>% 
+  ggplot(aes(scale(kid_score)[, 1])) +
+  geom_histogram()
+```
+
+I dati possibili futuri, previsti dal modello di regressione lineare sono contenuti nella matrice `y_rep`.
+
+```{r}
+y_rep <- as.matrix(output_stanfit, pars = "y_rep")
+dim(y_rep)
+```
+
+Il seguente diagramma sovrappone all'istogramma lisciato dei dati $y$, gli istogrammi lisciati di 50 campioni possibili futuri predetti dal modello di regressione lineare. Vediamo che la corrispondenza è solo parziale, nel senso che il modello non riesce a predire la leggera asimmetria positiva presente nel campione.
+
+```{r}
+ppc_dens_overlay(data_list$y, y_rep[1:200, ])
+```
+
+Questa discrepanza non emerge se usiamo l'approccio frequentista, il quale non consente di eseguire questo controllo. 
+
+Un qualche miglioramento nel PPC si ottiene modificando il modello così da assumere un meccanismo generatore dei dati corrispondente ad una gaussiana asimmetrica (dotata di un ulteriore parametro di asimmetria).
+
+```{r}
+stancode <- '
+data {
+  int<lower=0> N;
+  vector[N] x;
+  vector[N] y;
+}
+parameters {
+  real alpha;
+  real beta;
+  real<lower=0> sigma;
+  real tau;
+}
+model {
+  alpha ~ normal(0, 2);
+  beta ~ normal(0, 2);
+  sigma ~ normal(0, 2);
+  tau ~ normal(0, 10);
+  y ~ skew_normal(alpha + beta * x, sigma, tau);
+}
+generated quantities {
+  vector[N] y_rep;
+  for (i in 1 : N) {
+    y_rep[i] = skew_normal_rng(alpha + beta * x[i], sigma, tau);
+  }
+}
+'
+writeLines(stancode, con = "code/post_pred_check_2.stan")
+```
+
+Compiliamo.
+
+```{r}
+file2 <- file.path("code", "post_pred_check_2.stan")
+mod2 <- cmdstan_model(file2)
+```
+
+Eseguiamo il campionamento MCMC.
+
+```{r, message = FALSE, warning=FALSE, results='hide'}
+fit2 <- mod2$sample(
+  data = data_list,
+  iter_sampling = 4000L,
+  iter_warmup = 2000L,
+  seed = SEED,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Trasformiamo l'output.
+
+```{r}
+output2_stanfit <- rstan::read_stan_csv(fit2$output_files())
+```
+
+```{r}
+y_rep2 <- as.matrix(output2_stanfit, pars = "y_rep")
+dim(y_rep2)
+```
+
+Eseguiamo il PPC.
+
+```{r}
+ppc_dens_overlay(data_list$y, y_rep2[1:200, ])
+```
+
+Si nota un qualche miglioramento, anche se però si può dire che il modello è ancora migliorabile.  Esaminiamo le stime a posteriori dei parametri.
+
+```{r}
+fit2$summary()
+```
+
+```{r, eval=FALSE}
+bayestestR::hdi(output2_stanfit, ci = 0.95)
+```
+
+Con un modello più adeguato, la stima a posteriori del parametro $\beta$ è diminuita: $\hat{\beta}$ = 0.408, 95% CI [0.32,  0.49]. È possibile esplorare la possibilità di qualche meccanismo generatore dei dati maggiormente adeguato ai dati a disposizione. Lo scopo della discussione presente è solo di fare vedere come la stima del parametro di interesse, qui $\beta$, dipende dalle assunzioni che facciamo sul modello generatore dei dati. La distribuzione predittiva a posteriori è uno degli strumenti che possono essere usati allo scopo di selezionare, tra quelli sensati, il meccanismo generatore dei dati maggiormente appropriato per i dati che sono stati osservati.
+
+## Distribuzione predittiva a priori
+
+La distribuzione predittiva a priori equivale alla distribuzione predittiva a posteriori, senza però i dati osservati. Quindi la distribuzione predittiva a priori non è altro che il caso limite della distribuzione predittiva a posteriori, calcolata però senza utilizzare i dati del campione. Il manuale Stan afferma che, se il codice per il il controllo predittivo a posteriori è già stato scritto, ed è possibile impostare il codice in modo che non sia necessario specificare i dati, allora non è necessario fare nient'altro.
 
 Per comprendere le assunzioni che abbiamo introdotto nel modello, possiamo generare dati mediante il modello; tali dati, che sono generati interamente dalle distribuzioni a priori, sono chiamati distribuzione predittiva a priori. La generazione della distribuzione predittiva a priori ci aiuta a verificare se le distribuzioni a priori per i parametri del modello hanno senso. Quello che vogliamo sapere qui è: le distribuzioni a priori che abbiamo scelto generano dati che hanno caratteristiche realistiche?
 

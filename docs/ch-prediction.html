@@ -579,8 +579,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
 <ul>
-<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
-<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1"><i class="fa fa-check"></i><b>29.1</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2"><i class="fa fa-check"></i><b>29.2</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
@@ -1182,12 +1182,12 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb277-12"><a href="ch-prediction.html#cb277-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.3 seconds.</span></span>
 <span id="cb277-14"><a href="ch-prediction.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.3 seconds.</span></span>
-<span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.3 seconds.</span></span>
+<span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.2 seconds.</span></span>
 <span id="cb277-16"><a href="ch-prediction.html#cb277-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.3 seconds.</span></span>
 <span id="cb277-17"><a href="ch-prediction.html#cb277-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-18"><a href="ch-prediction.html#cb277-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>
 <span id="cb277-19"><a href="ch-prediction.html#cb277-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mean chain execution time: 0.3 seconds.</span></span>
-<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.5 seconds.</span></span></code></pre></div>
+<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.4 seconds.</span></span></code></pre></div>
 <p>Per questo secondo modello il confronto tra la funzione di densità empirica della <span class="math inline">\(y\)</span> e quella di diversi campioni <span class="math inline">\(y^{rep}\)</span> risulta adeguato:</p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch-prediction.html#cb278-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
 <span id="cb278-2"><a href="ch-prediction.html#cb278-2" aria-hidden="true" tabindex="-1"></a>y_rep <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>)</span>

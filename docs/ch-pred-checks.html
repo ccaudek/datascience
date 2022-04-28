@@ -579,8 +579,8 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="29" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html"><i class="fa fa-check"></i><b>29</b> Predictive checks</a>
 <ul>
-<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori"><i class="fa fa-check"></i><b>29.1</b> Campionamento dalla distribuzione predittiva a posteriori</a></li>
-<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori"><i class="fa fa-check"></i><b>29.2</b> Campionamento dalla distribuzione predittiva a priori</a></li>
+<li class="chapter" data-level="29.1" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1"><i class="fa fa-check"></i><b>29.1</b> Distribuzione predittiva a posteriori</a></li>
+<li class="chapter" data-level="29.2" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2"><i class="fa fa-check"></i><b>29.2</b> Distribuzione predittiva a priori</a></li>
 <li class="chapter" data-level="" data-path="ch-pred-checks.html"><a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
@@ -830,110 +830,226 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="ch-pred-checks" class="section level1 hasAnchor" number="29">
 <h1><span class="header-section-number">Capitolo 29</span> Predictive checks<a href="ch-pred-checks.html#ch-pred-checks" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un’unica variabile con una data distribuzione di probabilità. In questo capitolo estenderemo questa discussione al modello lineare. Esamineremo un esempio di <em>posterior predictive check</em> in cui simuleremo da <span class="math inline">\(p(y^{rep} \mid \theta, y)\)</span>, usando le stime a posteriori dei parametri <span class="math inline">\(\theta\)</span> del modello, e un esempio di <em>prior predictive check</em> in cui simuleremo da <span class="math inline">\(p(y^{rep} \mid \mathcal{M})\)</span>, ovvero usando il meccanismo generatore dei dati del modello <span class="math inline">\(\mathcal{M}\)</span> in esame, senza però includere i dati.</p>
-<div id="campionamento-dalla-distribuzione-predittiva-a-posteriori" class="section level2 hasAnchor" number="29.1">
-<h2><span class="header-section-number">29.1</span> Campionamento dalla distribuzione predittiva a posteriori<a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-posteriori" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>La distribuzione predittiva a priori equivale alla distribuzione predittiva a posteriori, senza però i dati osservati. Quindi la distribuzione predittiva a priori non è altro che il caso limite della distribuzione predittiva a posteriori, calcolata però senza utilizzare i dati del campione. Il manuale Stan afferma che, se il codice per il il controllo predittivo a posteriori è già stato scritto, ed è possibile impostare il codice in modo che non sia necessario specificare i dati, allora non è necessario fare nient’altro.</p>
-<p>Consideriamo qui un esempio nel quale vengono usati i dati <code>kidiq</code> <span class="citation">(<a href="#ref-gelman2020regression" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span>.</p>
+<p>In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un’unica variabile con una data distribuzione di probabilità. In particolare, abbiamo considerato il caso beta-binomiale. In questo Capitolo estenderemo la discussione al caso del modello di regressione lineare. Esamineremo un esempio di <em>posterior predictive check</em> in cui simuleremo <span class="math inline">\(p(y^{rep} \mid \theta, y)\)</span> e un esempio di <em>prior predictive check</em> in cui simuleremo <span class="math inline">\(p(y^{rep} \mid \mathcal{M})\)</span>, ovvero condizionando il modello al meccanismo generatore dei dati <span class="math inline">\(\mathcal{M}\)</span>, ma senza però includere i dati del campione.</p>
+<div id="distribuzione-predittiva-a-posteriori-1" class="section level2 hasAnchor" number="29.1">
+<h2><span class="header-section-number">29.1</span> Distribuzione predittiva a posteriori<a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consideriamo qui un esempio nel quale vengono usati i dati <code>kidiq</code> <span class="citation">(<a href="#ref-gelman2020regression" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span>. Leggiamo i dati in <span class="math inline">\(\mathsf{R}\)</span>.</p>
 <div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="ch-pred-checks.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
 <span id="cb405-2"><a href="ch-pred-checks.html#cb405-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span></code></pre></div>
-<p>Iniziamo a generare un istogramma dei valori <span class="math inline">\(y\)</span> stanardizzati:</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="ch-pred-checks.html#cb406-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb406-2"><a href="ch-pred-checks.html#cb406-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">scale</span>(kid_score)[, <span class="dv">1</span>])) <span class="sc">+</span></span>
-<span id="cb406-3"><a href="ch-pred-checks.html#cb406-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-406-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Per svolgere l’analisi bayesiana sistemiamo i dati (standardizzati) nel formato appropriato per Stan:</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="ch-pred-checks.html#cb407-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb407-2"><a href="ch-pred-checks.html#cb407-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb407-3"><a href="ch-pred-checks.html#cb407-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>],</span>
-<span id="cb407-4"><a href="ch-pred-checks.html#cb407-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">scale</span>(df<span class="sc">$</span>kid_score)[, <span class="dv">1</span>]</span>
-<span id="cb407-5"><a href="ch-pred-checks.html#cb407-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="ch-pred-checks.html#cb406-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb406-2"><a href="ch-pred-checks.html#cb406-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb406-3"><a href="ch-pred-checks.html#cb406-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>],</span>
+<span id="cb406-4"><a href="ch-pred-checks.html#cb406-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">scale</span>(df<span class="sc">$</span>kid_score)[, <span class="dv">1</span>]</span>
+<span id="cb406-5"><a href="ch-pred-checks.html#cb406-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Il seguente listato specifica il codice Stan necessario per simulare dati dalla distribuzione predittiva a posteriori.</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="ch-pred-checks.html#cb408-1" aria-hidden="true" tabindex="-1"></a>stancode <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb408-2"><a href="ch-pred-checks.html#cb408-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb408-3"><a href="ch-pred-checks.html#cb408-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb408-4"><a href="ch-pred-checks.html#cb408-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
-<span id="cb408-5"><a href="ch-pred-checks.html#cb408-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
-<span id="cb408-6"><a href="ch-pred-checks.html#cb408-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb408-7"><a href="ch-pred-checks.html#cb408-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb408-8"><a href="ch-pred-checks.html#cb408-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb408-9"><a href="ch-pred-checks.html#cb408-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
-<span id="cb408-10"><a href="ch-pred-checks.html#cb408-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb408-11"><a href="ch-pred-checks.html#cb408-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb408-12"><a href="ch-pred-checks.html#cb408-12" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb408-13"><a href="ch-pred-checks.html#cb408-13" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
-<span id="cb408-14"><a href="ch-pred-checks.html#cb408-14" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 1);</span></span>
-<span id="cb408-15"><a href="ch-pred-checks.html#cb408-15" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 1);</span></span>
-<span id="cb408-16"><a href="ch-pred-checks.html#cb408-16" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(alpha + beta * x, sigma);</span></span>
-<span id="cb408-17"><a href="ch-pred-checks.html#cb408-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb408-18"><a href="ch-pred-checks.html#cb408-18" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb408-19"><a href="ch-pred-checks.html#cb408-19" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
-<span id="cb408-20"><a href="ch-pred-checks.html#cb408-20" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
-<span id="cb408-21"><a href="ch-pred-checks.html#cb408-21" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[i] = normal_rng(alpha + beta * x[i], sigma);</span></span>
-<span id="cb408-22"><a href="ch-pred-checks.html#cb408-22" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb408-23"><a href="ch-pred-checks.html#cb408-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb408-24"><a href="ch-pred-checks.html#cb408-24" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb408-25"><a href="ch-pred-checks.html#cb408-25" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stancode, <span class="at">con =</span> <span class="st">&quot;code/post_pred_check_1.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="ch-pred-checks.html#cb409-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;post_pred_check_1.stan&quot;</span>)</span>
-<span id="cb409-2"><a href="ch-pred-checks.html#cb409-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="ch-pred-checks.html#cb410-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb410-2"><a href="ch-pred-checks.html#cb410-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
-<span id="cb410-3"><a href="ch-pred-checks.html#cb410-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb410-4"><a href="ch-pred-checks.html#cb410-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb410-5"><a href="ch-pred-checks.html#cb410-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb410-6"><a href="ch-pred-checks.html#cb410-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb410-7"><a href="ch-pred-checks.html#cb410-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb410-8"><a href="ch-pred-checks.html#cb410-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="ch-pred-checks.html#cb411-1" aria-hidden="true" tabindex="-1"></a>stanfit1 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
-<p>Un istogramme dei valori <span class="math inline">\(y^{rep}\)</span> può essere generato nel modo seguente:</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="ch-pred-checks.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">as.matrix</span>(stanfit1, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>), <span class="at">breaks =</span> <span class="dv">100</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-412-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="ch-pred-checks.html#cb407-1" aria-hidden="true" tabindex="-1"></a>stancode <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb407-2"><a href="ch-pred-checks.html#cb407-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb407-3"><a href="ch-pred-checks.html#cb407-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb407-4"><a href="ch-pred-checks.html#cb407-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb407-5"><a href="ch-pred-checks.html#cb407-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb407-6"><a href="ch-pred-checks.html#cb407-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb407-7"><a href="ch-pred-checks.html#cb407-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb407-8"><a href="ch-pred-checks.html#cb407-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb407-9"><a href="ch-pred-checks.html#cb407-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb407-10"><a href="ch-pred-checks.html#cb407-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb407-11"><a href="ch-pred-checks.html#cb407-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb407-12"><a href="ch-pred-checks.html#cb407-12" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb407-13"><a href="ch-pred-checks.html#cb407-13" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb407-14"><a href="ch-pred-checks.html#cb407-14" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 1);</span></span>
+<span id="cb407-15"><a href="ch-pred-checks.html#cb407-15" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 1);</span></span>
+<span id="cb407-16"><a href="ch-pred-checks.html#cb407-16" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ normal(alpha + beta * x, sigma);</span></span>
+<span id="cb407-17"><a href="ch-pred-checks.html#cb407-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb407-18"><a href="ch-pred-checks.html#cb407-18" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb407-19"><a href="ch-pred-checks.html#cb407-19" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb407-20"><a href="ch-pred-checks.html#cb407-20" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
+<span id="cb407-21"><a href="ch-pred-checks.html#cb407-21" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[i] = normal_rng(alpha + beta * x[i], sigma);</span></span>
+<span id="cb407-22"><a href="ch-pred-checks.html#cb407-22" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb407-23"><a href="ch-pred-checks.html#cb407-23" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb407-24"><a href="ch-pred-checks.html#cb407-24" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb407-25"><a href="ch-pred-checks.html#cb407-25" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stancode, <span class="at">con =</span> <span class="st">&quot;code/post_pred_check_1.stan&quot;</span>)</span></code></pre></div>
+<p>Si noti il blocco <code>generated quantities</code>. In tale blocco del codice abbiamo definito la variabile <code>y_rep</code>. In precedenza, tali valori sono stati chiamati <span class="math inline">\(\tilde{y}\)</span>. Dunque, <code>y_rep</code> corrisponde a possibili futuri campioni di dati. La variabile <code>y_rep</code> è un campione di <code>N</code> = 434 possibili osservazioni future. Le abbiamo calcolate usando <code>x</code>, i valori della variabile indipendente del campione presente. Quindi immaginiamo che in tutti i possibili campioni futuri di 434 osservazioni i valori <span class="math inline">\(x\)</span> siano gli stessi del campione osservato. Questa è un’assunzione del modello di regressione lineare: i valori <span class="math inline">\(x\)</span> sono considerati “fissi” nell’universo dei campioni.</p>
+<p>Nel caso presente, i primi 10 valori <span class="math inline">\(x\)</span> (QI della madre) standardizzati sono i seguenti:</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="ch-pred-checks.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb408-2"><a href="ch-pred-checks.html#cb408-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  1.4078352 -0.7092079  1.0295443 -0.0366907 -0.4836193  0.5267892</span></span>
+<span id="cb408-3"><a href="ch-pred-checks.html#cb408-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  2.5928737  1.6763413 -1.2253649 -0.3284621</span></span></code></pre></div>
+<p>Consideriamo il valore del QI della prima madre del campione, ovvero 1.4078352. Come si trova il valore <code>y</code> associato a 1.4078352 in un possibile campione futuro? Il codice Stan dice che</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="ch-pred-checks.html#cb409-1" aria-hidden="true" tabindex="-1"></a>y_rep[i] <span class="ot">=</span> <span class="fu">normal_rng</span>(alpha <span class="sc">+</span> beta <span class="sc">*</span> x[i], sigma);</span></code></pre></div>
+<p>Ciò significa che vogliamo prendere un valore a caso dalla distribuzione Normale di parametri</p>
+<p><span class="math display">\[
+\alpha + \beta x
+\]</span>
+e deviazione standard <span class="math inline">\(\sigma\)</span>.</p>
+<p>Nel caso presente non abbiamo un singolo valore per i parametri <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> e <span class="math inline">\(\sigma\)</span>. Invece abbiamo una distribuzione a posteriori per ciascun parametro, ovvero <span class="math inline">\(p(\alpha \mid y)\)</span>, <span class="math inline">\(p(\beta \mid y)\)</span> e <span class="math inline">\(p(\sigma \mid y)\)</span>. Quindi come facciamo a calcolare il QI del figlio per la prima madre (avente QI standardizzato pari a 1.4078352) in un possibile campione futuro di osservazioni? Prendiamo un valore a caso dalla seguente distribuzione Normale:</p>
+<p><span class="math display">\[
+\mathcal{N}(\mu = \alpha + \beta \cdot 1.4078352, \sigma).
+\]</span></p>
+<p>Restano da specificare i valori <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> e <span class="math inline">\(\sigma\)</span>. In tutti e tre i casi, prendiamo un valore a caso dalla corrispondente distribuzione a posteriori. Per <span class="math inline">\(\alpha\)</span> scegliamo un valore a caso dalla distribuzione a posteriori <span class="math inline">\(p(\alpha \mid y)\)</span>, per <span class="math inline">\(\beta\)</span> scegliamo un valore a caso dalla distribuzione a posteriori <span class="math inline">\(p(\beta \mid y)\)</span> e per <span class="math inline">\(\sigma\)</span> scegliamo un valore a caso dalla distribuzione a posteriori <span class="math inline">\(p(\beta \mid y)\)</span>. Così facendo otteniamo un valore corrispondente al QI del figlio in un possibile campione futuro di osservazioni.</p>
+<p>Ripetendo questa procedura <code>N</code> volte (cambiando <span class="math inline">\(x_i\)</span>, <span class="math inline">\(\forall i \; in \; 1, \dots, 434\)</span>), otteniamo un possibile campione futuro di 434 osservazioni. Questa procedura viene ripetuta 16,000 volte, ovvero per il numero complessivo di iterazioni, così da ottenere 16,000 possibili campioni futuri di 434 osservazioni ciascuno.</p>
+<p>Compiliamo il file con il modello Stan.</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="ch-pred-checks.html#cb410-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;post_pred_check_1.stan&quot;</span>)</span>
+<span id="cb410-2"><a href="ch-pred-checks.html#cb410-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<p>Eseguiamo il campionamento MCMC.</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="ch-pred-checks.html#cb411-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb411-2"><a href="ch-pred-checks.html#cb411-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb411-3"><a href="ch-pred-checks.html#cb411-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb411-4"><a href="ch-pred-checks.html#cb411-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb411-5"><a href="ch-pred-checks.html#cb411-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb411-6"><a href="ch-pred-checks.html#cb411-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb411-7"><a href="ch-pred-checks.html#cb411-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb411-8"><a href="ch-pred-checks.html#cb411-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Per verificare le affermazioni precedenti, trasformo l’oggetto <code>fit</code> in formato <code>stanfit</code>.</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="ch-pred-checks.html#cb412-1" aria-hidden="true" tabindex="-1"></a>output_stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<p>Dall’oggetto <code>output_stanfit</code> estraggo i campioni a posteriori dei parametri <code>alpha</code>, <code>beta</code>, <code>sigma</code> e <code>y_rep</code> con la funzione <code>extract()</code>.</p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="ch-pred-checks.html#cb413-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(output_stanfit)</span></code></pre></div>
+<p>Esamino il contenuto di <code>post</code>.</p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="ch-pred-checks.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(post)</span>
+<span id="cb414-2"><a href="ch-pred-checks.html#cb414-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb414-3"><a href="ch-pred-checks.html#cb414-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ alpha: num [1:16000(1d)] 0.07146 0.08923 0.00417 0.05471 0.0118 ...</span></span>
+<span id="cb414-4"><a href="ch-pred-checks.html#cb414-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 1</span></span>
+<span id="cb414-5"><a href="ch-pred-checks.html#cb414-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ iterations: NULL</span></span>
+<span id="cb414-6"><a href="ch-pred-checks.html#cb414-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ beta : num [1:16000(1d)] 0.5 0.425 0.461 0.467 0.449 ...</span></span>
+<span id="cb414-7"><a href="ch-pred-checks.html#cb414-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 1</span></span>
+<span id="cb414-8"><a href="ch-pred-checks.html#cb414-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ iterations: NULL</span></span>
+<span id="cb414-9"><a href="ch-pred-checks.html#cb414-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ sigma: num [1:16000(1d)] 0.924 0.878 0.914 0.928 0.913 ...</span></span>
+<span id="cb414-10"><a href="ch-pred-checks.html#cb414-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 1</span></span>
+<span id="cb414-11"><a href="ch-pred-checks.html#cb414-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ iterations: NULL</span></span>
+<span id="cb414-12"><a href="ch-pred-checks.html#cb414-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ y_rep: num [1:16000, 1:434] 2.097 -0.322 0.188 -0.451 1.68 ...</span></span>
+<span id="cb414-13"><a href="ch-pred-checks.html#cb414-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2</span></span>
+<span id="cb414-14"><a href="ch-pred-checks.html#cb414-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ iterations: NULL</span></span>
+<span id="cb414-15"><a href="ch-pred-checks.html#cb414-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$           : NULL</span></span>
+<span id="cb414-16"><a href="ch-pred-checks.html#cb414-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lp__ : num [1:16000(1d)] -171 -171 -169 -170 -169 ...</span></span>
+<span id="cb414-17"><a href="ch-pred-checks.html#cb414-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 1</span></span>
+<span id="cb414-18"><a href="ch-pred-checks.html#cb414-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ iterations: NULL</span></span></code></pre></div>
+<p>L’oggetto <code>y_rep</code> è ciò che mi aspettavo, ovvero, una matrice di 16,000 righe e 434 colonne. In tale matrice ogni riga è un campione possibile futuro di 434 osservazioni trovato con la procedura descritta sopra.</p>
+<p>Un istogramma dei valori <span class="math inline">\(y^{rep}\)</span> può essere generato nel modo seguente.</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="ch-pred-checks.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">as.matrix</span>(output_stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>), <span class="at">breaks =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-416-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>L’istogramma precedente illustra le proprietà <strong>medie</strong> di un campione futuro di 434 osservazioni, alla luce dei dati campionari osservati e delle ipotesi a priori sui parametri del modello di regressione.</p>
+<p>Possiamo fare un confronto tra la “distribuzione predittiva a posteriori e i dati del campione che è stato osservato. Iniziamo a costruire un istogramma con i dati <span class="math inline">\(y\)</span> (standardizzati) del campione.</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="ch-pred-checks.html#cb416-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb416-2"><a href="ch-pred-checks.html#cb416-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">scale</span>(kid_score)[, <span class="dv">1</span>])) <span class="sc">+</span></span>
+<span id="cb416-3"><a href="ch-pred-checks.html#cb416-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-417-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>I dati possibili futuri, previsti dal modello di regressione lineare sono contenuti nella matrice <code>y_rep</code>.</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="ch-pred-checks.html#cb417-1" aria-hidden="true" tabindex="-1"></a>y_rep <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(output_stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>)</span>
+<span id="cb417-2"><a href="ch-pred-checks.html#cb417-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(y_rep)</span>
+<span id="cb417-3"><a href="ch-pred-checks.html#cb417-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16000   434</span></span></code></pre></div>
+<p>Il seguente diagramma sovrappone all’istogramma lisciato dei dati <span class="math inline">\(y\)</span>, gli istogrammi lisciati di 50 campioni possibili futuri predetti dal modello di regressione lineare. Vediamo che la corrispondenza è solo parziale, nel senso che il modello non riesce a predire la leggera asimmetria positiva presente nel campione.</p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="ch-pred-checks.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(data_list<span class="sc">$</span>y, y_rep[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ])</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-419-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Questa discrepanza non emerge se usiamo l’approccio frequentista, il quale non consente di eseguire questo controllo.</p>
+<p>Un qualche miglioramento nel PPC si ottiene modificando il modello così da assumere un meccanismo generatore dei dati corrispondente ad una gaussiana asimmetrica (dotata di un ulteriore parametro di asimmetria).</p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="ch-pred-checks.html#cb419-1" aria-hidden="true" tabindex="-1"></a>stancode <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb419-2"><a href="ch-pred-checks.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb419-3"><a href="ch-pred-checks.html#cb419-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb419-4"><a href="ch-pred-checks.html#cb419-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb419-5"><a href="ch-pred-checks.html#cb419-5" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y;</span></span>
+<span id="cb419-6"><a href="ch-pred-checks.html#cb419-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb419-7"><a href="ch-pred-checks.html#cb419-7" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb419-8"><a href="ch-pred-checks.html#cb419-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb419-9"><a href="ch-pred-checks.html#cb419-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb419-10"><a href="ch-pred-checks.html#cb419-10" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb419-11"><a href="ch-pred-checks.html#cb419-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real tau;</span></span>
+<span id="cb419-12"><a href="ch-pred-checks.html#cb419-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb419-13"><a href="ch-pred-checks.html#cb419-13" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb419-14"><a href="ch-pred-checks.html#cb419-14" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 2);</span></span>
+<span id="cb419-15"><a href="ch-pred-checks.html#cb419-15" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 2);</span></span>
+<span id="cb419-16"><a href="ch-pred-checks.html#cb419-16" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 2);</span></span>
+<span id="cb419-17"><a href="ch-pred-checks.html#cb419-17" aria-hidden="true" tabindex="-1"></a><span class="st">  tau ~ normal(0, 10);</span></span>
+<span id="cb419-18"><a href="ch-pred-checks.html#cb419-18" aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ skew_normal(alpha + beta * x, sigma, tau);</span></span>
+<span id="cb419-19"><a href="ch-pred-checks.html#cb419-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb419-20"><a href="ch-pred-checks.html#cb419-20" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb419-21"><a href="ch-pred-checks.html#cb419-21" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb419-22"><a href="ch-pred-checks.html#cb419-22" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
+<span id="cb419-23"><a href="ch-pred-checks.html#cb419-23" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[i] = skew_normal_rng(alpha + beta * x[i], sigma, tau);</span></span>
+<span id="cb419-24"><a href="ch-pred-checks.html#cb419-24" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb419-25"><a href="ch-pred-checks.html#cb419-25" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb419-26"><a href="ch-pred-checks.html#cb419-26" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb419-27"><a href="ch-pred-checks.html#cb419-27" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stancode, <span class="at">con =</span> <span class="st">&quot;code/post_pred_check_2.stan&quot;</span>)</span></code></pre></div>
+<p>Compiliamo.</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="ch-pred-checks.html#cb420-1" aria-hidden="true" tabindex="-1"></a>file2 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;post_pred_check_2.stan&quot;</span>)</span>
+<span id="cb420-2"><a href="ch-pred-checks.html#cb420-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file2)</span></code></pre></div>
+<p>Eseguiamo il campionamento MCMC.</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="ch-pred-checks.html#cb421-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb421-2"><a href="ch-pred-checks.html#cb421-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb421-3"><a href="ch-pred-checks.html#cb421-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb421-4"><a href="ch-pred-checks.html#cb421-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb421-5"><a href="ch-pred-checks.html#cb421-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb421-6"><a href="ch-pred-checks.html#cb421-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb421-7"><a href="ch-pred-checks.html#cb421-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb421-8"><a href="ch-pred-checks.html#cb421-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Trasformiamo l’output.</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="ch-pred-checks.html#cb422-1" aria-hidden="true" tabindex="-1"></a>output2_stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit2<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="ch-pred-checks.html#cb423-1" aria-hidden="true" tabindex="-1"></a>y_rep2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(output2_stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>)</span>
+<span id="cb423-2"><a href="ch-pred-checks.html#cb423-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(y_rep2)</span>
+<span id="cb423-3"><a href="ch-pred-checks.html#cb423-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16000   434</span></span></code></pre></div>
+<p>Eseguiamo il PPC.</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="ch-pred-checks.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(data_list<span class="sc">$</span>y, y_rep2[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ])</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-425-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Si nota un qualche miglioramento, anche se però si può dire che il modello è ancora migliorabile. Esaminiamo le stime a posteriori dei parametri.</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="ch-pred-checks.html#cb425-1" aria-hidden="true" tabindex="-1"></a>fit2<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb425-2"><a href="ch-pred-checks.html#cb425-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 439 × 10</span></span>
+<span id="cb425-3"><a href="ch-pred-checks.html#cb425-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   variable     mean   median     sd    mad       q5      q95  rhat ess_bulk</span></span>
+<span id="cb425-4"><a href="ch-pred-checks.html#cb425-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb425-5"><a href="ch-pred-checks.html#cb425-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 lp__     -165.    -164.    1.44   1.25   -167.    -163.     1.00    5293.</span></span>
+<span id="cb425-6"><a href="ch-pred-checks.html#cb425-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 alpha       0.881    0.895 0.122  0.0967    0.692    1.04   1.00    3876.</span></span>
+<span id="cb425-7"><a href="ch-pred-checks.html#cb425-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 beta        0.408    0.408 0.0442 0.0450    0.335    0.480  1.00    7384.</span></span>
+<span id="cb425-8"><a href="ch-pred-checks.html#cb425-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 sigma       1.26     1.27  0.0875 0.0809    1.12     1.40   1.00    4142.</span></span>
+<span id="cb425-9"><a href="ch-pred-checks.html#cb425-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 tau        -1.90    -1.91  0.416  0.386    -2.56    -1.24   1.00    3852.</span></span>
+<span id="cb425-10"><a href="ch-pred-checks.html#cb425-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 y_rep[1]    0.582    0.649 0.897  0.880    -1.00     1.93   1.00   15664.</span></span>
+<span id="cb425-11"><a href="ch-pred-checks.html#cb425-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 y_rep[2]   -0.294   -0.218 0.907  0.881    -1.90     1.07   1.00   15206.</span></span>
+<span id="cb425-12"><a href="ch-pred-checks.html#cb425-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 y_rep[3]    0.415    0.480 0.900  0.886    -1.18     1.77   1.00   14265.</span></span>
+<span id="cb425-13"><a href="ch-pred-checks.html#cb425-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 431 more rows, and 1 more variable: ess_tail &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="ch-pred-checks.html#cb426-1" aria-hidden="true" tabindex="-1"></a>bayestestR<span class="sc">::</span><span class="fu">hdi</span>(output2_stanfit, <span class="at">ci =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<p>Con un modello più adeguato, la stima a posteriori del parametro <span class="math inline">\(\beta\)</span> è diminuita: <span class="math inline">\(\hat{\beta}\)</span> = 0.408, 95% CI [0.32, 0.49]. È possibile esplorare la possibilità di qualche meccanismo generatore dei dati maggiormente adeguato ai dati a disposizione. Lo scopo della discussione presente è solo di fare vedere come la stima del parametro di interesse, qui <span class="math inline">\(\beta\)</span>, dipende dalle assunzioni che facciamo sul modello generatore dei dati. La distribuzione predittiva a posteriori è uno degli strumenti che possono essere usati allo scopo di selezionare, tra quelli sensati, il meccanismo generatore dei dati maggiormente appropriato per i dati che sono stati osservati.</p>
 </div>
-<div id="campionamento-dalla-distribuzione-predittiva-a-priori" class="section level2 hasAnchor" number="29.2">
-<h2><span class="header-section-number">29.2</span> Campionamento dalla distribuzione predittiva a priori<a href="ch-pred-checks.html#campionamento-dalla-distribuzione-predittiva-a-priori" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="distribuzione-predittiva-a-priori-2" class="section level2 hasAnchor" number="29.2">
+<h2><span class="header-section-number">29.2</span> Distribuzione predittiva a priori<a href="ch-pred-checks.html#distribuzione-predittiva-a-priori-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La distribuzione predittiva a priori equivale alla distribuzione predittiva a posteriori, senza però i dati osservati. Quindi la distribuzione predittiva a priori non è altro che il caso limite della distribuzione predittiva a posteriori, calcolata però senza utilizzare i dati del campione. Il manuale Stan afferma che, se il codice per il il controllo predittivo a posteriori è già stato scritto, ed è possibile impostare il codice in modo che non sia necessario specificare i dati, allora non è necessario fare nient’altro.</p>
 <p>Per comprendere le assunzioni che abbiamo introdotto nel modello, possiamo generare dati mediante il modello; tali dati, che sono generati interamente dalle distribuzioni a priori, sono chiamati distribuzione predittiva a priori. La generazione della distribuzione predittiva a priori ci aiuta a verificare se le distribuzioni a priori per i parametri del modello hanno senso. Quello che vogliamo sapere qui è: le distribuzioni a priori che abbiamo scelto generano dati che hanno caratteristiche realistiche?</p>
 <p>Dal punto di vista della programmazione, l’unico cambiamento necessario rispetto al codice utilizzato per la distribuzione predittiva a posteriori è quello di eliminare la porzione di codice che fa riferimento ai dati <span class="math inline">\(y\)</span> – nel caso di un modello lineare, i valori <span class="math inline">\(x\)</span> devono invece essere mantenuti per potere generare <span class="math inline">\(y^{sim}\)</span> (nel codice questa variabile è ancora chiamata <code>y_rep</code>).</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="ch-pred-checks.html#cb413-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb413-2"><a href="ch-pred-checks.html#cb413-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
-<span id="cb413-3"><a href="ch-pred-checks.html#cb413-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>]</span>
-<span id="cb413-4"><a href="ch-pred-checks.html#cb413-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="ch-pred-checks.html#cb414-1" aria-hidden="true" tabindex="-1"></a>stancode <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb414-2"><a href="ch-pred-checks.html#cb414-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb414-3"><a href="ch-pred-checks.html#cb414-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
-<span id="cb414-4"><a href="ch-pred-checks.html#cb414-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
-<span id="cb414-5"><a href="ch-pred-checks.html#cb414-5" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb414-6"><a href="ch-pred-checks.html#cb414-6" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb414-7"><a href="ch-pred-checks.html#cb414-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
-<span id="cb414-8"><a href="ch-pred-checks.html#cb414-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
-<span id="cb414-9"><a href="ch-pred-checks.html#cb414-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb414-10"><a href="ch-pred-checks.html#cb414-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb414-11"><a href="ch-pred-checks.html#cb414-11" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb414-12"><a href="ch-pred-checks.html#cb414-12" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
-<span id="cb414-13"><a href="ch-pred-checks.html#cb414-13" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 1);</span></span>
-<span id="cb414-14"><a href="ch-pred-checks.html#cb414-14" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 1);</span></span>
-<span id="cb414-15"><a href="ch-pred-checks.html#cb414-15" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb414-16"><a href="ch-pred-checks.html#cb414-16" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb414-17"><a href="ch-pred-checks.html#cb414-17" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
-<span id="cb414-18"><a href="ch-pred-checks.html#cb414-18" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
-<span id="cb414-19"><a href="ch-pred-checks.html#cb414-19" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[i] = normal_rng(alpha + beta * x[i], sigma);</span></span>
-<span id="cb414-20"><a href="ch-pred-checks.html#cb414-20" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb414-21"><a href="ch-pred-checks.html#cb414-21" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb414-22"><a href="ch-pred-checks.html#cb414-22" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb414-23"><a href="ch-pred-checks.html#cb414-23" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stancode, <span class="at">con =</span> <span class="st">&quot;code/prior_pred_check_1.stan&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="ch-pred-checks.html#cb415-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;prior_pred_check_1.stan&quot;</span>)</span>
-<span id="cb415-2"><a href="ch-pred-checks.html#cb415-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="ch-pred-checks.html#cb416-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb416-2"><a href="ch-pred-checks.html#cb416-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
-<span id="cb416-3"><a href="ch-pred-checks.html#cb416-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
-<span id="cb416-4"><a href="ch-pred-checks.html#cb416-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
-<span id="cb416-5"><a href="ch-pred-checks.html#cb416-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
-<span id="cb416-6"><a href="ch-pred-checks.html#cb416-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
-<span id="cb416-7"><a href="ch-pred-checks.html#cb416-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb416-8"><a href="ch-pred-checks.html#cb416-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="ch-pred-checks.html#cb417-1" aria-hidden="true" tabindex="-1"></a>stanfit2 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="ch-pred-checks.html#cb427-1" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb427-2"><a href="ch-pred-checks.html#cb427-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">length</span>(df<span class="sc">$</span>kid_score),</span>
+<span id="cb427-3"><a href="ch-pred-checks.html#cb427-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">scale</span>(df<span class="sc">$</span>mom_iq)[, <span class="dv">1</span>]</span>
+<span id="cb427-4"><a href="ch-pred-checks.html#cb427-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="ch-pred-checks.html#cb428-1" aria-hidden="true" tabindex="-1"></a>stancode <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb428-2"><a href="ch-pred-checks.html#cb428-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb428-3"><a href="ch-pred-checks.html#cb428-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; N;</span></span>
+<span id="cb428-4"><a href="ch-pred-checks.html#cb428-4" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] x;</span></span>
+<span id="cb428-5"><a href="ch-pred-checks.html#cb428-5" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb428-6"><a href="ch-pred-checks.html#cb428-6" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb428-7"><a href="ch-pred-checks.html#cb428-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real alpha;</span></span>
+<span id="cb428-8"><a href="ch-pred-checks.html#cb428-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real beta;</span></span>
+<span id="cb428-9"><a href="ch-pred-checks.html#cb428-9" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb428-10"><a href="ch-pred-checks.html#cb428-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb428-11"><a href="ch-pred-checks.html#cb428-11" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb428-12"><a href="ch-pred-checks.html#cb428-12" aria-hidden="true" tabindex="-1"></a><span class="st">  alpha ~ normal(0, 1);</span></span>
+<span id="cb428-13"><a href="ch-pred-checks.html#cb428-13" aria-hidden="true" tabindex="-1"></a><span class="st">  beta ~ normal(0, 1);</span></span>
+<span id="cb428-14"><a href="ch-pred-checks.html#cb428-14" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma ~ normal(0, 1);</span></span>
+<span id="cb428-15"><a href="ch-pred-checks.html#cb428-15" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb428-16"><a href="ch-pred-checks.html#cb428-16" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb428-17"><a href="ch-pred-checks.html#cb428-17" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[N] y_rep;</span></span>
+<span id="cb428-18"><a href="ch-pred-checks.html#cb428-18" aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1 : N) {</span></span>
+<span id="cb428-19"><a href="ch-pred-checks.html#cb428-19" aria-hidden="true" tabindex="-1"></a><span class="st">    y_rep[i] = normal_rng(alpha + beta * x[i], sigma);</span></span>
+<span id="cb428-20"><a href="ch-pred-checks.html#cb428-20" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb428-21"><a href="ch-pred-checks.html#cb428-21" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb428-22"><a href="ch-pred-checks.html#cb428-22" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb428-23"><a href="ch-pred-checks.html#cb428-23" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stancode, <span class="at">con =</span> <span class="st">&quot;code/prior_pred_check_1.stan&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="ch-pred-checks.html#cb429-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;prior_pred_check_1.stan&quot;</span>)</span>
+<span id="cb429-2"><a href="ch-pred-checks.html#cb429-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="ch-pred-checks.html#cb430-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb430-2"><a href="ch-pred-checks.html#cb430-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_list,</span>
+<span id="cb430-3"><a href="ch-pred-checks.html#cb430-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_sampling =</span> 4000L,</span>
+<span id="cb430-4"><a href="ch-pred-checks.html#cb430-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> 2000L,</span>
+<span id="cb430-5"><a href="ch-pred-checks.html#cb430-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED,</span>
+<span id="cb430-6"><a href="ch-pred-checks.html#cb430-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> 4L,</span>
+<span id="cb430-7"><a href="ch-pred-checks.html#cb430-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb430-8"><a href="ch-pred-checks.html#cb430-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="ch-pred-checks.html#cb431-1" aria-hidden="true" tabindex="-1"></a>stanfit2 <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Questo è un istogramma della distribuzione preditiva a priori. Tale distribuzione viene usata per valutare se le distribuzioni a priori dei parametri sono sensate. Concludiamo che sono sensate se la distribuzione preditiva a priori include tutti i valori possibili della distribuzione della <span class="math inline">\(y\)</span>, senza scostarsti troppo da essa.</p>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="ch-pred-checks.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">as.matrix</span>(stanfit2, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>), <span class="at">breaks =</span> <span class="dv">100</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-418-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="ch-pred-checks.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">as.matrix</span>(stanfit2, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>), <span class="at">breaks =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-433-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="commenti-e-considerazioni-finali-24" class="section level2 unnumbered hasAnchor">
 <h2>Commenti e considerazioni finali<a href="ch-pred-checks.html#commenti-e-considerazioni-finali-24" class="anchor-section" aria-label="Anchor link to header"></a></h2>
