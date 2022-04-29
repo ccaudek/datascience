@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-28" />
+<meta name="date" content="2022-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,12 +586,16 @@ div.csl-indent {
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
 <ul>
 <li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
-<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-una-via"><i class="fa fa-check"></i><b>30.2</b> ANOVA ad una via</a>
 <ul>
-<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
-<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#interpretazione-2"><i class="fa fa-check"></i><b>30.2.1</b> Interpretazione</a></li>
 </ul></li>
-<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-due-vie"><i class="fa fa-check"></i><b>30.3</b> ANOVA ad due vie</a>
+<ul>
+<li class="chapter" data-level="30.3.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.3.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.3.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.3.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.4" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.4</b> Codice Stan (versione 2)</a></li>
 </ul></li>
 <li class="chapter" data-level="31" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
 <ul>
@@ -859,64 +863,64 @@ h(p, q) = h(p) + \mathbb{KL} (p \mid\mid q),
 <div class="example">
 <p><span id="exm:unlabeled-div-92" class="example"><strong>Esempio 33.1  </strong></span><span class="citation">(da <a href="#ref-McElreath_rethinking" role="doc-biblioref">McElreath 2020</a>)</span> Sia la distribuzione target <span class="math inline">\(p = \{0.3, 0.7\}\)</span>. Supponiamo che la distribuzione approssimata <span class="math inline">\(q\)</span> possa assumere valori da <span class="math inline">\(q = \{0.01, 0.99\}\)</span> a <span class="math inline">\(q = \{0.99, 0.01\}\)</span>. Calcoliamo la divergenza KL.</p>
 <p>Le istruzioni <span class="math inline">\(\mathsf{R}\)</span> sono le seguenti:</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="ch-kl.html#cb480-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span></span>
-<span id="cb480-2"><a href="ch-kl.html#cb480-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb480-3"><a href="ch-kl.html#cb480-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_1 =</span> .<span class="dv">3</span>,</span>
-<span id="cb480-4"><a href="ch-kl.html#cb480-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_2 =</span> .<span class="dv">7</span>,</span>
-<span id="cb480-5"><a href="ch-kl.html#cb480-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">q_1 =</span> <span class="fu">seq</span>(<span class="at">from =</span> .<span class="dv">01</span>, <span class="at">to =</span> .<span class="dv">99</span>, <span class="at">by =</span> .<span class="dv">01</span>)</span>
-<span id="cb480-6"><a href="ch-kl.html#cb480-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb480-7"><a href="ch-kl.html#cb480-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb480-8"><a href="ch-kl.html#cb480-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">q_2 =</span> <span class="dv">1</span> <span class="sc">-</span> q_1</span>
-<span id="cb480-9"><a href="ch-kl.html#cb480-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb480-10"><a href="ch-kl.html#cb480-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb480-11"><a href="ch-kl.html#cb480-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_kl =</span> (p_1 <span class="sc">*</span> <span class="fu">log</span>(p_1 <span class="sc">/</span> q_1)) <span class="sc">+</span> (p_2 <span class="sc">*</span> <span class="fu">log</span>(p_2 <span class="sc">/</span> q_2))</span>
-<span id="cb480-12"><a href="ch-kl.html#cb480-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb480-13"><a href="ch-kl.html#cb480-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb480-14"><a href="ch-kl.html#cb480-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(t)</span>
-<span id="cb480-15"><a href="ch-kl.html#cb480-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
-<span id="cb480-16"><a href="ch-kl.html#cb480-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     p_1   p_2   q_1   q_2  d_kl</span></span>
-<span id="cb480-17"><a href="ch-kl.html#cb480-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb480-18"><a href="ch-kl.html#cb480-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   0.3   0.7  0.01  0.99 0.778</span></span>
-<span id="cb480-19"><a href="ch-kl.html#cb480-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   0.3   0.7  0.02  0.98 0.577</span></span>
-<span id="cb480-20"><a href="ch-kl.html#cb480-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   0.3   0.7  0.03  0.97 0.462</span></span>
-<span id="cb480-21"><a href="ch-kl.html#cb480-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   0.3   0.7  0.04  0.96 0.383</span></span>
-<span id="cb480-22"><a href="ch-kl.html#cb480-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   0.3   0.7  0.05  0.95 0.324</span></span>
-<span id="cb480-23"><a href="ch-kl.html#cb480-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   0.3   0.7  0.06  0.94 0.276</span></span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch-kl.html#cb489-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span></span>
+<span id="cb489-2"><a href="ch-kl.html#cb489-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb489-3"><a href="ch-kl.html#cb489-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_1 =</span> .<span class="dv">3</span>,</span>
+<span id="cb489-4"><a href="ch-kl.html#cb489-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_2 =</span> .<span class="dv">7</span>,</span>
+<span id="cb489-5"><a href="ch-kl.html#cb489-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">q_1 =</span> <span class="fu">seq</span>(<span class="at">from =</span> .<span class="dv">01</span>, <span class="at">to =</span> .<span class="dv">99</span>, <span class="at">by =</span> .<span class="dv">01</span>)</span>
+<span id="cb489-6"><a href="ch-kl.html#cb489-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb489-7"><a href="ch-kl.html#cb489-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb489-8"><a href="ch-kl.html#cb489-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">q_2 =</span> <span class="dv">1</span> <span class="sc">-</span> q_1</span>
+<span id="cb489-9"><a href="ch-kl.html#cb489-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb489-10"><a href="ch-kl.html#cb489-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb489-11"><a href="ch-kl.html#cb489-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_kl =</span> (p_1 <span class="sc">*</span> <span class="fu">log</span>(p_1 <span class="sc">/</span> q_1)) <span class="sc">+</span> (p_2 <span class="sc">*</span> <span class="fu">log</span>(p_2 <span class="sc">/</span> q_2))</span>
+<span id="cb489-12"><a href="ch-kl.html#cb489-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb489-13"><a href="ch-kl.html#cb489-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb489-14"><a href="ch-kl.html#cb489-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(t)</span>
+<span id="cb489-15"><a href="ch-kl.html#cb489-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb489-16"><a href="ch-kl.html#cb489-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     p_1   p_2   q_1   q_2  d_kl</span></span>
+<span id="cb489-17"><a href="ch-kl.html#cb489-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb489-18"><a href="ch-kl.html#cb489-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   0.3   0.7  0.01  0.99 0.778</span></span>
+<span id="cb489-19"><a href="ch-kl.html#cb489-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   0.3   0.7  0.02  0.98 0.577</span></span>
+<span id="cb489-20"><a href="ch-kl.html#cb489-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   0.3   0.7  0.03  0.97 0.462</span></span>
+<span id="cb489-21"><a href="ch-kl.html#cb489-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   0.3   0.7  0.04  0.96 0.383</span></span>
+<span id="cb489-22"><a href="ch-kl.html#cb489-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   0.3   0.7  0.05  0.95 0.324</span></span>
+<span id="cb489-23"><a href="ch-kl.html#cb489-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   0.3   0.7  0.06  0.94 0.276</span></span></code></pre></div>
 <p>
 Nella figura seguente sull’asse delle ascisse sono rappresentati i valori <span class="math inline">\(q\)</span> e sull’asse delle ordinante sono riportati i corrispondenti valori <span class="math inline">\(\mathbb{KL}\)</span>.</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="ch-kl.html#cb481-1" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span></span>
-<span id="cb481-2"><a href="ch-kl.html#cb481-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> q_1, <span class="at">y =</span> d_kl)) <span class="sc">+</span></span>
-<span id="cb481-3"><a href="ch-kl.html#cb481-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> .<span class="dv">3</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb481-4"><a href="ch-kl.html#cb481-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb481-5"><a href="ch-kl.html#cb481-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="at">x =</span> .<span class="dv">4</span>, <span class="at">y =</span> <span class="fl">1.5</span>, <span class="at">label =</span> <span class="st">&quot;q = p&quot;</span>,</span>
-<span id="cb481-6"><a href="ch-kl.html#cb481-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb481-7"><a href="ch-kl.html#cb481-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;q[1]&quot;</span>,</span>
-<span id="cb481-8"><a href="ch-kl.html#cb481-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Divergenza di q da p&quot;</span>)</span></code></pre></div>
-<p><img src="ds4psy_files/figure-html/unnamed-chunk-485-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="ch-kl.html#cb490-1" aria-hidden="true" tabindex="-1"></a>t <span class="sc">%&gt;%</span></span>
+<span id="cb490-2"><a href="ch-kl.html#cb490-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> q_1, <span class="at">y =</span> d_kl)) <span class="sc">+</span></span>
+<span id="cb490-3"><a href="ch-kl.html#cb490-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> .<span class="dv">3</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb490-4"><a href="ch-kl.html#cb490-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb490-5"><a href="ch-kl.html#cb490-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="at">x =</span> .<span class="dv">4</span>, <span class="at">y =</span> <span class="fl">1.5</span>, <span class="at">label =</span> <span class="st">&quot;q = p&quot;</span>,</span>
+<span id="cb490-6"><a href="ch-kl.html#cb490-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb490-7"><a href="ch-kl.html#cb490-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;q[1]&quot;</span>,</span>
+<span id="cb490-8"><a href="ch-kl.html#cb490-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Divergenza di q da p&quot;</span>)</span></code></pre></div>
+<p><img src="ds4psy_files/figure-html/unnamed-chunk-494-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Tanto meglio la distribuzione <span class="math inline">\(q\)</span> approssima la distribuzione target tanto più piccolo è il valore di divergenza <span class="math inline">\(\mathbb{KL}\)</span>.</p>
 </div>
 <div class="example">
 <p><span id="exm:unlabeled-div-93" class="example"><strong>Esempio 33.2  </strong></span>Sia <span class="math inline">\(p\)</span> una distribuzione binomiale di parametri <span class="math inline">\(\theta = 0.2\)</span> e <span class="math inline">\(n = 5\)</span></p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch-kl.html#cb482-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb482-2"><a href="ch-kl.html#cb482-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
-<span id="cb482-3"><a href="ch-kl.html#cb482-3" aria-hidden="true" tabindex="-1"></a>true_py <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, <span class="fl">0.2</span>)</span>
-<span id="cb482-4"><a href="ch-kl.html#cb482-4" aria-hidden="true" tabindex="-1"></a>true_py</span>
-<span id="cb482-5"><a href="ch-kl.html#cb482-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4096 0.4096 0.1536 0.0256 0.0016</span></span></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="ch-kl.html#cb491-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb491-2"><a href="ch-kl.html#cb491-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb491-3"><a href="ch-kl.html#cb491-3" aria-hidden="true" tabindex="-1"></a>true_py <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, <span class="fl">0.2</span>)</span>
+<span id="cb491-4"><a href="ch-kl.html#cb491-4" aria-hidden="true" tabindex="-1"></a>true_py</span>
+<span id="cb491-5"><a href="ch-kl.html#cb491-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4096 0.4096 0.1536 0.0256 0.0016</span></span></code></pre></div>
 <p>
 Sia <span class="math inline">\(q_1\)</span> una approssimazione a <span class="math inline">\(p\)</span>:</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="ch-kl.html#cb483-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.46</span>, <span class="fl">0.42</span>, <span class="fl">0.10</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>)</span>
-<span id="cb483-2"><a href="ch-kl.html#cb483-2" aria-hidden="true" tabindex="-1"></a>q1</span>
-<span id="cb483-3"><a href="ch-kl.html#cb483-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.46 0.42 0.10 0.01 0.01</span></span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="ch-kl.html#cb492-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.46</span>, <span class="fl">0.42</span>, <span class="fl">0.10</span>, <span class="fl">0.01</span>, <span class="fl">0.01</span>)</span>
+<span id="cb492-2"><a href="ch-kl.html#cb492-2" aria-hidden="true" tabindex="-1"></a>q1</span>
+<span id="cb492-3"><a href="ch-kl.html#cb492-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.46 0.42 0.10 0.01 0.01</span></span></code></pre></div>
 <p>Sia <span class="math inline">\(q_2\)</span> una distribuzione uniforme:</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="ch-kl.html#cb484-1" aria-hidden="true" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.2</span>, <span class="dv">5</span>)</span>
-<span id="cb484-2"><a href="ch-kl.html#cb484-2" aria-hidden="true" tabindex="-1"></a>q2</span>
-<span id="cb484-3"><a href="ch-kl.html#cb484-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2 0.2 0.2 0.2 0.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="ch-kl.html#cb493-1" aria-hidden="true" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.2</span>, <span class="dv">5</span>)</span>
+<span id="cb493-2"><a href="ch-kl.html#cb493-2" aria-hidden="true" tabindex="-1"></a>q2</span>
+<span id="cb493-3"><a href="ch-kl.html#cb493-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2 0.2 0.2 0.2 0.2</span></span></code></pre></div>
 <p>La divergenza <span class="math inline">\(\mathbb{KL}\)</span> di <span class="math inline">\(q_1\)</span> da <span class="math inline">\(p\)</span> è</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="ch-kl.html#cb485-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(true_py <span class="sc">*</span> <span class="fu">log</span>(true_py <span class="sc">/</span> q1))</span>
-<span id="cb485-2"><a href="ch-kl.html#cb485-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.02925199</span></span></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="ch-kl.html#cb494-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(true_py <span class="sc">*</span> <span class="fu">log</span>(true_py <span class="sc">/</span> q1))</span>
+<span id="cb494-2"><a href="ch-kl.html#cb494-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.02925199</span></span></code></pre></div>
 <p>La divergenza <span class="math inline">\(\mathbb{KL}\)</span> di <span class="math inline">\(q_2\)</span> da <span class="math inline">\(p\)</span> è:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="ch-kl.html#cb486-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(true_py <span class="sc">*</span> <span class="fu">log</span>(true_py <span class="sc">/</span> q2))</span>
-<span id="cb486-2"><a href="ch-kl.html#cb486-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4863578</span></span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="ch-kl.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(true_py <span class="sc">*</span> <span class="fu">log</span>(true_py <span class="sc">/</span> q2))</span>
+<span id="cb495-2"><a href="ch-kl.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4863578</span></span></code></pre></div>
 <p>È chiaro che perdiamo una quantità maggiore di informazioni se, per descrivere la distribuzione binomiale <span class="math inline">\(p\)</span>, usiamo la distribuzione uniforme <span class="math inline">\(q_2\)</span> anziché <span class="math inline">\(q_1\)</span>.</p>
 </div>
 </div>
@@ -925,17 +929,17 @@ Sia <span class="math inline">\(q_1\)</span> una approssimazione a <span class="
 <p>La divergenza <span class="math inline">\(\mathbb{KL}\)</span> non è una vera e propria metrica: per esempio, non è simmetrica. In generale, <span class="math inline">\(\mathbb{KL}(p \mid\mid q) \neq \mathbb{KL}(q \mid\mid p)\)</span>, ovvero la <span class="math inline">\(\mathbb{KL}\)</span> da <span class="math inline">\(p\)</span> a <span class="math inline">\(q\)</span> è diversa dalla <span class="math inline">\(\mathbb{KL}\)</span> da <span class="math inline">\(q\)</span> a <span class="math inline">\(p\)</span>.</p>
 <div class="example">
 <p><span id="exm:unlabeled-div-94" class="example"><strong>Esempio 33.3  </strong></span>Usando le seguenti istruzioni <span class="math inline">\(\mathsf{R}\)</span> otteniamo:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="ch-kl.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">direction =</span> <span class="fu">c</span>(<span class="st">&quot;Da q a p&quot;</span>, <span class="st">&quot;Da p a q&quot;</span>),</span>
-<span id="cb487-2"><a href="ch-kl.html#cb487-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">p_1 =</span> <span class="fu">c</span>(.<span class="dv">01</span>, .<span class="dv">7</span>),</span>
-<span id="cb487-3"><a href="ch-kl.html#cb487-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">q_1 =</span> <span class="fu">c</span>(.<span class="dv">7</span>, .<span class="dv">01</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb487-4"><a href="ch-kl.html#cb487-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_2 =</span> <span class="dv">1</span> <span class="sc">-</span> p_1,</span>
-<span id="cb487-5"><a href="ch-kl.html#cb487-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">q_2 =</span> <span class="dv">1</span> <span class="sc">-</span> q_1) <span class="sc">%&gt;%</span></span>
-<span id="cb487-6"><a href="ch-kl.html#cb487-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">d_kl =</span> (p_1 <span class="sc">*</span> <span class="fu">log</span>(p_1 <span class="sc">/</span> q_1)) <span class="sc">+</span> (p_2 <span class="sc">*</span> <span class="fu">log</span>(p_2 <span class="sc">/</span> q_2)))</span>
-<span id="cb487-7"><a href="ch-kl.html#cb487-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
-<span id="cb487-8"><a href="ch-kl.html#cb487-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   direction   p_1   q_1   p_2   q_2  d_kl</span></span>
-<span id="cb487-9"><a href="ch-kl.html#cb487-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb487-10"><a href="ch-kl.html#cb487-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Da q a p   0.01  0.7   0.99  0.3   1.14</span></span>
-<span id="cb487-11"><a href="ch-kl.html#cb487-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Da p a q   0.7   0.01  0.3   0.99  2.62</span></span></code></pre></div>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="ch-kl.html#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">direction =</span> <span class="fu">c</span>(<span class="st">&quot;Da q a p&quot;</span>, <span class="st">&quot;Da p a q&quot;</span>),</span>
+<span id="cb496-2"><a href="ch-kl.html#cb496-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">p_1 =</span> <span class="fu">c</span>(.<span class="dv">01</span>, .<span class="dv">7</span>),</span>
+<span id="cb496-3"><a href="ch-kl.html#cb496-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">q_1 =</span> <span class="fu">c</span>(.<span class="dv">7</span>, .<span class="dv">01</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb496-4"><a href="ch-kl.html#cb496-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_2 =</span> <span class="dv">1</span> <span class="sc">-</span> p_1,</span>
+<span id="cb496-5"><a href="ch-kl.html#cb496-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">q_2 =</span> <span class="dv">1</span> <span class="sc">-</span> q_1) <span class="sc">%&gt;%</span></span>
+<span id="cb496-6"><a href="ch-kl.html#cb496-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">d_kl =</span> (p_1 <span class="sc">*</span> <span class="fu">log</span>(p_1 <span class="sc">/</span> q_1)) <span class="sc">+</span> (p_2 <span class="sc">*</span> <span class="fu">log</span>(p_2 <span class="sc">/</span> q_2)))</span>
+<span id="cb496-7"><a href="ch-kl.html#cb496-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb496-8"><a href="ch-kl.html#cb496-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   direction   p_1   q_1   p_2   q_2  d_kl</span></span>
+<span id="cb496-9"><a href="ch-kl.html#cb496-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb496-10"><a href="ch-kl.html#cb496-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Da q a p   0.01  0.7   0.99  0.3   1.14</span></span>
+<span id="cb496-11"><a href="ch-kl.html#cb496-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Da p a q   0.7   0.01  0.3   0.99  2.62</span></span></code></pre></div>
 </div>
 </div>
 <div id="confronto-tra-modelli" class="section level2 hasAnchor" number="33.3">
@@ -968,7 +972,7 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 \tag{33.4}
 \end{equation}\]</span></p>
 <p>La <a href="ch-kl.html#eq:elpd">(33.4)</a> è chiamata <em>expected log predictive density</em> (<span class="math inline">\(\mbox{elpd}\)</span>) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla <a href="ch-kl.html#eq:elpd">(33.4)</a> dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri (<span class="math inline">\(\tilde{y}\)</span>) con la vera distribuzione <span class="math inline">\(p_t\)</span>. Di conseguenza, valori <span class="math inline">\(\mbox{elpd}\)</span> più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.</p>
-<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch-kl.html#eq:elpd">(33.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a> Di conseguenza, la quantità <span class="math inline">\(\mbox{elpd}\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch-kl.html#eq:elpd">(33.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
+<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch-kl.html#eq:elpd">(33.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> Di conseguenza, la quantità <span class="math inline">\(\mbox{elpd}\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch-kl.html#eq:elpd">(33.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
 <div id="log-pointwise-predictive-density" class="section level3 hasAnchor" number="33.4.1">
 <h3><span class="header-section-number">33.4.1</span> Log pointwise predictive density<a href="ch-kl.html#log-pointwise-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Ingenuamente, potremmo pensare di stimare la <a href="ch-kl.html#eq:elpd">(33.4)</a> ipotizzando che la distribuzione del campione coincida con <span class="math inline">\(p_t\)</span>. Usare la distribuzione del campione come proxy del vero modello generatore dei dati (ovvero, ipotizzare che la distribuzione del campione rappresenti fedelmente <span class="math inline">\(p_t\)</span>) comporta due conseguenze:</p>
@@ -976,7 +980,7 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 <li>non è necessario ponderare per <span class="math inline">\(p_t\)</span>, in quanto assumiamo che la distribuzione empirica del campione corrisponda a <span class="math inline">\(p_t\)</span> (ciò significa assumere che i valori più comunemente osservati nel campione siano anche quelli più verosimili nella vera distribuzione <span class="math inline">\(p_t\)</span>);</li>
 <li>dato che il campione è finito, anziché eseguire un’operazione di integrazione possiamo semplicemente sommare la densità predittiva a posteriori delle osservazioni.</li>
 </ul>
-<p>Questo conduce alla seguente equazione:<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p>
+<p>Questo conduce alla seguente equazione:<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a></p>
 <p><span class="math display" id="eq:1n-lppd">\[\begin{equation}
 \frac{1}{n} \sum_{i=1}^n \log p(y_i^{rep} \mid y).
 \tag{33.5}
@@ -994,11 +998,11 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 p_t(y) = \mbox{Beta}(1, 3).
 \]</span>
 I dati sono</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="ch-kl.html#cb488-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75</span>)</span>
-<span id="cb488-2"><a href="ch-kl.html#cb488-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb488-3"><a href="ch-kl.html#cb488-3" aria-hidden="true" tabindex="-1"></a>y_data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb488-4"><a href="ch-kl.html#cb488-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y_data)</span>
-<span id="cb488-5"><a href="ch-kl.html#cb488-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.55062422 0.13346270 0.80250987 0.21430898 0.01913430 0.08676517</span></span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="ch-kl.html#cb497-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75</span>)</span>
+<span id="cb497-2"><a href="ch-kl.html#cb497-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb497-3"><a href="ch-kl.html#cb497-3" aria-hidden="true" tabindex="-1"></a>y_data <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(n, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb497-4"><a href="ch-kl.html#cb497-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y_data)</span>
+<span id="cb497-5"><a href="ch-kl.html#cb497-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.55062422 0.13346270 0.80250987 0.21430898 0.01913430 0.08676517</span></span></code></pre></div>
 <p>Supponiamo inoltre di avere adattato ai dati un modello bayesiano <span class="math inline">\(\mathcal{M}\)</span> e di avere ottenuto la distribuzione a posteriori per i parametri del modello. Inoltre, supponiamo di avere derivato la forma analitica della distribuzione predittiva a posteriori per il modello:</p>
 <p><span class="math display">\[
 p(y^{rep} \mid y) \sim \mbox{Beta}(2, 2).
@@ -1009,21 +1013,21 @@ p(y^{rep} \mid y) \sim \mbox{Beta}(2, 2).
 \mbox{elpd} = \int_{y^{rep}}p_{t}(y^{rep})\log p(y^{rep} \mid y) \,\operatorname {d}\!y^{rep}.
 \]</span></p>
 <p>Svolgiamo i calcoli in <span class="math inline">\(\mathsf{R}\)</span> otteniamo:</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch-kl.html#cb489-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True distribution</span></span>
-<span id="cb489-2"><a href="ch-kl.html#cb489-2" aria-hidden="true" tabindex="-1"></a>p_t <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">dbeta</span>(y, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb489-3"><a href="ch-kl.html#cb489-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictive distribution</span></span>
-<span id="cb489-4"><a href="ch-kl.html#cb489-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">dbeta</span>(y, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb489-5"><a href="ch-kl.html#cb489-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Integration</span></span>
-<span id="cb489-6"><a href="ch-kl.html#cb489-6" aria-hidden="true" tabindex="-1"></a>integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">p_t</span>(y) <span class="sc">*</span> <span class="fu">log</span>(<span class="fu">p</span>(y))</span>
-<span id="cb489-7"><a href="ch-kl.html#cb489-7" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(<span class="at">f =</span> integrand, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
-<span id="cb489-8"><a href="ch-kl.html#cb489-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.3749072 with absolute error &lt; 6.8e-07</span></span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="ch-kl.html#cb498-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True distribution</span></span>
+<span id="cb498-2"><a href="ch-kl.html#cb498-2" aria-hidden="true" tabindex="-1"></a>p_t <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">dbeta</span>(y, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb498-3"><a href="ch-kl.html#cb498-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictive distribution</span></span>
+<span id="cb498-4"><a href="ch-kl.html#cb498-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">dbeta</span>(y, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb498-5"><a href="ch-kl.html#cb498-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Integration</span></span>
+<span id="cb498-6"><a href="ch-kl.html#cb498-6" aria-hidden="true" tabindex="-1"></a>integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">p_t</span>(y) <span class="sc">*</span> <span class="fu">log</span>(<span class="fu">p</span>(y))</span>
+<span id="cb498-7"><a href="ch-kl.html#cb498-7" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(<span class="at">f =</span> integrand, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
+<span id="cb498-8"><a href="ch-kl.html#cb498-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.3749072 with absolute error &lt; 6.8e-07</span></span></code></pre></div>
 <p>Tuttavia, in pratica non conosciamo mai <span class="math inline">\(p_t(y)\)</span>. Quindi approssimiamo <span class="math inline">\(\mbox{elpd}\)</span> usando la <a href="ch-kl.html#eq:elpd">(33.4)</a>:</p>
 <p><span class="math display">\[
 \frac{1}{n} \sum_{i=1}^n \log p(y_i \mid y).
 \]</span></p>
 <p>Così facendo, e svolgendo i calcoli in <span class="math inline">\(\mathsf{R}\)</span>, otteniamo un valore diverso da quello trovato in precedenza:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="ch-kl.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>n <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">p</span>(y_data)))</span>
-<span id="cb490-2"><a href="ch-kl.html#cb490-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.3639141</span></span></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="ch-kl.html#cb499-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>n <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">p</span>(y_data)))</span>
+<span id="cb499-2"><a href="ch-kl.html#cb499-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.3639141</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -1044,9 +1048,9 @@ McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayes
 </div>
 <div class="footnotes">
 <hr />
-<ol start="34">
-<li id="fn34"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch-kl.html#fnref34" class="footnote-back">↩︎</a></p></li>
-<li id="fn35"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref35" class="footnote-back">↩︎</a></p></li>
+<ol start="33">
+<li id="fn33"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch-kl.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref34" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

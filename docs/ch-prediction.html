@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-28" />
+<meta name="date" content="2022-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,12 +586,16 @@ div.csl-indent {
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
 <ul>
 <li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
-<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-una-via"><i class="fa fa-check"></i><b>30.2</b> ANOVA ad una via</a>
 <ul>
-<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
-<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#interpretazione-2"><i class="fa fa-check"></i><b>30.2.1</b> Interpretazione</a></li>
 </ul></li>
-<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-due-vie"><i class="fa fa-check"></i><b>30.3</b> ANOVA ad due vie</a>
+<ul>
+<li class="chapter" data-level="30.3.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.3.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.3.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.3.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.4" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.4</b> Codice Stan (versione 2)</a></li>
 </ul></li>
 <li class="chapter" data-level="31" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
 <ul>
@@ -1181,13 +1185,13 @@ Dall’oggetto <code>list_of_draws</code> recuperiamo <code>y_rep</code>:</p>
 <span id="cb277-11"><a href="ch-prediction.html#cb277-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running MCMC with 4 sequential chains...</span></span>
 <span id="cb277-12"><a href="ch-prediction.html#cb277-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-13"><a href="ch-prediction.html#cb277-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 1 finished in 0.2 seconds.</span></span>
-<span id="cb277-14"><a href="ch-prediction.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.3 seconds.</span></span>
+<span id="cb277-14"><a href="ch-prediction.html#cb277-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 2 finished in 0.2 seconds.</span></span>
 <span id="cb277-15"><a href="ch-prediction.html#cb277-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 3 finished in 0.2 seconds.</span></span>
-<span id="cb277-16"><a href="ch-prediction.html#cb277-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.2 seconds.</span></span>
+<span id="cb277-16"><a href="ch-prediction.html#cb277-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chain 4 finished in 0.3 seconds.</span></span>
 <span id="cb277-17"><a href="ch-prediction.html#cb277-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb277-18"><a href="ch-prediction.html#cb277-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; All 4 chains finished successfully.</span></span>
 <span id="cb277-19"><a href="ch-prediction.html#cb277-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mean chain execution time: 0.3 seconds.</span></span>
-<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.4 seconds.</span></span></code></pre></div>
+<span id="cb277-20"><a href="ch-prediction.html#cb277-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total execution time: 1.5 seconds.</span></span></code></pre></div>
 <p>Per questo secondo modello il confronto tra la funzione di densità empirica della <span class="math inline">\(y\)</span> e quella di diversi campioni <span class="math inline">\(y^{rep}\)</span> risulta adeguato:</p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch-prediction.html#cb278-1" aria-hidden="true" tabindex="-1"></a>stanfit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(fit<span class="sc">$</span><span class="fu">output_files</span>())</span>
 <span id="cb278-2"><a href="ch-prediction.html#cb278-2" aria-hidden="true" tabindex="-1"></a>y_rep <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(stanfit, <span class="at">pars =</span> <span class="st">&quot;y_rep&quot;</span>)</span>

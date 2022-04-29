@@ -480,7 +480,9 @@ distribuzione-predittiva-a-posteriori-1
 distribuzione-predittiva-a-priori-2
 ch-anova
 le-abilità-sociali-di-un-robot
-anova-stan
+anova-ad-una-via
+interpretazione-2
+anova-ad-due-vie
 test-sullinterazione
 test-sugli-effetti-principali
 codice-stan-versione-2

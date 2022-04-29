@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-28" />
+<meta name="date" content="2022-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,12 +586,16 @@ div.csl-indent {
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
 <ul>
 <li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
-<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-una-via"><i class="fa fa-check"></i><b>30.2</b> ANOVA ad una via</a>
 <ul>
-<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
-<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#interpretazione-2"><i class="fa fa-check"></i><b>30.2.1</b> Interpretazione</a></li>
 </ul></li>
-<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-due-vie"><i class="fa fa-check"></i><b>30.3</b> ANOVA ad due vie</a>
+<ul>
+<li class="chapter" data-level="30.3.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.3.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.3.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.3.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.4" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.4</b> Codice Stan (versione 2)</a></li>
 </ul></li>
 <li class="chapter" data-level="31" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
 <ul>
@@ -857,17 +861,17 @@ p(y) &amp;= \int p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta \notag\\
 <div class="exercise">
 <p><span id="exr:unlabeled-div-100" class="exercise"><strong>Esercizio G.1  </strong></span>Si verifichi la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> mediante di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Per replicare mediante la <a href="appendix:const-norm-bino23.html#eq:constant-norm-beta-binom">(G.1)</a> il risultato trovato per via numerica nella Sezione <a href="ch-bayes-workflow.html#sec:const-normaliz-bino23">14.4</a> assumiamo una distribuzione a priori uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. I valori del problema dunque diventano i seguenti:</p>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="appendix:const-norm-bino23.html#cb552-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb552-2"><a href="appendix:const-norm-bino23.html#cb552-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb552-3"><a href="appendix:const-norm-bino23.html#cb552-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb552-4"><a href="appendix:const-norm-bino23.html#cb552-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="appendix:const-norm-bino23.html#cb561-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb561-2"><a href="appendix:const-norm-bino23.html#cb561-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb561-3"><a href="appendix:const-norm-bino23.html#cb561-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb561-4"><a href="appendix:const-norm-bino23.html#cb561-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
 <p>Definiamo</p>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="appendix:const-norm-bino23.html#cb553-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb553-2"><a href="appendix:const-norm-bino23.html#cb553-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
-<span id="cb553-3"><a href="appendix:const-norm-bino23.html#cb553-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="appendix:const-norm-bino23.html#cb562-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb562-2"><a href="appendix:const-norm-bino23.html#cb562-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">gamma</span>(a) <span class="sc">*</span> <span class="fu">gamma</span>(b)) <span class="sc">/</span> <span class="fu">gamma</span>(a <span class="sc">+</span> b)</span>
+<span id="cb562-3"><a href="appendix:const-norm-bino23.html#cb562-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Il risultato cercato è</p>
-<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="appendix:const-norm-bino23.html#cb554-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
-<span id="cb554-2"><a href="appendix:const-norm-bino23.html#cb554-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="appendix:const-norm-bino23.html#cb563-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">30</span>, <span class="dv">23</span>) <span class="sc">*</span> <span class="fu">B</span>(y <span class="sc">+</span> a, n <span class="sc">-</span> y <span class="sc">+</span> b) <span class="sc">/</span> <span class="fu">B</span>(a, b)</span>
+<span id="cb563-2"><a href="appendix:const-norm-bino23.html#cb563-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.03225806</span></span></code></pre></div>
 </div>
 
 </div>

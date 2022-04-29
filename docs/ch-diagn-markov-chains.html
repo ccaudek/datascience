@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-04-28" />
+<meta name="date" content="2022-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,12 +586,16 @@ div.csl-indent {
 <li class="chapter" data-level="30" data-path="ch-anova.html"><a href="ch-anova.html"><i class="fa fa-check"></i><b>30</b> Confronto di <span class="math inline">\(k\)</span> gruppi</a>
 <ul>
 <li class="chapter" data-level="30.1" data-path="ch-anova.html"><a href="ch-anova.html#le-abilità-sociali-di-un-robot"><i class="fa fa-check"></i><b>30.1</b> Le abilità sociali di un robot</a></li>
-<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-stan"><i class="fa fa-check"></i><b>30.2</b> I test statistici dell’Analisi della Varianza</a>
+<li class="chapter" data-level="30.2" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-una-via"><i class="fa fa-check"></i><b>30.2</b> ANOVA ad una via</a>
 <ul>
-<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.2.1</b> Test sull’interazione</a></li>
-<li class="chapter" data-level="30.2.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.2.2</b> Test sugli effetti principali</a></li>
+<li class="chapter" data-level="30.2.1" data-path="ch-anova.html"><a href="ch-anova.html#interpretazione-2"><i class="fa fa-check"></i><b>30.2.1</b> Interpretazione</a></li>
 </ul></li>
-<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.3</b> Codice Stan (versione 2)</a></li>
+<li class="chapter" data-level="30.3" data-path="ch-anova.html"><a href="ch-anova.html#anova-ad-due-vie"><i class="fa fa-check"></i><b>30.3</b> ANOVA ad due vie</a>
+<ul>
+<li class="chapter" data-level="30.3.1" data-path="ch-anova.html"><a href="ch-anova.html#test-sullinterazione"><i class="fa fa-check"></i><b>30.3.1</b> Test sull’interazione</a></li>
+<li class="chapter" data-level="30.3.2" data-path="ch-anova.html"><a href="ch-anova.html#test-sugli-effetti-principali"><i class="fa fa-check"></i><b>30.3.2</b> Test sugli effetti principali</a></li>
+</ul></li>
+<li class="chapter" data-level="30.4" data-path="ch-anova.html"><a href="ch-anova.html#codice-stan-versione-2"><i class="fa fa-check"></i><b>30.4</b> Codice Stan (versione 2)</a></li>
 </ul></li>
 <li class="chapter" data-level="31" data-path="ch-mod-hier-stan.html"><a href="ch-mod-hier-stan.html"><i class="fa fa-check"></i><b>31</b> Modello gerarchico</a>
 <ul>
@@ -890,7 +894,7 @@ FIGURA 20.2: Trace plots (a sinistra) e corrispondenti grafici di densità (a de
 <span id="cb211-16"><a href="ch-diagn-markov-chains.html#cb211-16" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> </span>
 <span id="cb211-17"><a href="ch-diagn-markov-chains.html#cb211-17" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> All <span class="dv">4</span> chains finished successfully.</span>
 <span id="cb211-18"><a href="ch-diagn-markov-chains.html#cb211-18" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Mean chain execution time<span class="sc">:</span> <span class="fl">0.0</span> seconds.</span>
-<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.2</span> seconds.</span>
+<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.3</span> seconds.</span>
 <span id="cb211-20"><a href="ch-diagn-markov-chains.html#cb211-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb211-21"><a href="ch-diagn-markov-chains.html#cb211-21" aria-hidden="true" tabindex="-1"></a>stanfit_bb_short <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(bb_short<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Di seguito sono riportati i <em>trace-plot</em> e i corrispondenti istogrammi lisciati.</p>

@@ -3,13 +3,14 @@
 ```{r c060, echo=FALSE}
 source("_common.R")
 source("_stan_options.R")
+library("broom.mixed")
 ```
 
 L'Analisi della Varianza (ANOVA) consente ai ricercatori di valutare gli effetti di predittori categoriali su una variabile di esito continua. L'ANOVA è un'analisi di regressione nella quale tutte le variabili indipendenti sono qualitative. 
 
 ## Le abilità sociali di un robot
 
-Per illustrare i concetti chiave dell'ANOVA bayesiana considereremo qui una ricerca di @horstmann2018robot. I ricercatori si sono chiesti se le persone impiegano più tempo a spegnere un robot quando questo mostra abilità sociali. Nell'esperimento di @horstmann2018robot, 85 partecipanti hanno interagito con un robot per un certo tempo. Ai partecipanti è stato detto che lo scopo della loro interazione con il robot era quella di testare un nuovo algoritmo. Dopo il completamento di due compiti fittizi, ai partecipanti veniva detto che, se volevano, potevano spegnere il robot. La variabile di interesse dell'esperimento era il tempo impiegato dai partecipanti per spegnere il robot. Seguendo @van2020tutorial, analizzeremo i tempi di spegnimento trasformati su scala logaritmica perché tale variabile mostra una chiara asimmetria positiva. 
+Per illustrare i concetti chiave dell'ANOVA bayesiana considereremo qui, quale esempio, una ricerca di @horstmann2018robot. I ricercatori si sono chiesti se le persone impiegano più tempo a spegnere un robot quando questo mostra abilità sociali. Nell'esperimento di @horstmann2018robot, 85 partecipanti hanno interagito con un robot per un certo tempo. Ai partecipanti è stato detto che lo scopo della loro interazione con il robot era quella di testare un nuovo algoritmo. Dopo il completamento di due compiti fittizi, ai partecipanti veniva detto che, se volevano, potevano spegnere il robot. La variabile di interesse dell'esperimento era il tempo impiegato dai partecipanti per spegnere il robot. Seguendo @van2020tutorial, analizzeremo i tempi di spegnimento trasformati su scala logaritmica perché i dati mostrano una chiara asimmetria positiva. 
 
 @horstmann2018robot hanno manipolato due variabili in un disegno tra i soggetti.
 
@@ -18,15 +19,20 @@ Per illustrare i concetti chiave dell'ANOVA bayesiana considereremo qui una rice
 
 Pertanto, il disegno di questo studio è un'ANOVA tra i soggetti 2 (_Interaction type_) $\times$ 2 (_Robot's objection_). 
 
-Iniziamo a leggere i dati
+Leggeiamo i dati in $\mathsf{R}$.
 
 ```{r}
 d <- rio::import(
   here("data", "pone.0201581.s001.sav")
 )
+glimpse(d)
 ```
 
-Per comodità creiamo la variabile `cond` con quattro modalità (`SO`, `FO`, `SN`, `FN`), dove `S` significa _social interaction_, `F` sta per _funcitonal interaction_, `O` sta per _objection_ e `N` sta per _no objection_.
+## ANOVA ad una via
+
+Ci sono diversi tipi di ANOVA: ad una via o a più vie. Inizieremo qui con il con il caso più semplice, ovvero quello nel quale vi è un solo criterio di classificazione, ciò definisce l'ANOVA ad una via. Nel caso presente, supponiamo che l'unico criterio di classificazione delle osservazioni sia il gruppo di appartenenza, con quattro modalità.
+
+Creiamo dunque la variabile `cond` con quattro modalità (`SO`, `FO`, `SN`, `FN`), dove `S` significa _social interaction_, `F` sta per _functional interaction_, `O` sta per _objection_ e `N` sta per _no objection_.
 
 ```{r}
 d$cond <- factor(d$Condition)
@@ -37,12 +43,13 @@ d$cond <- factor(
 )
 ```
 
-Ci sono alcuni dati mancanti, quindi verranno omesse le righe con `NA`. Selezionando le colonne di interesse dal data.frame originario otteniamo:
+Ci sono alcuni dati mancanti. Omettiamo le righe nelle quali vi è `NA` nella colonna con la variabile di esito, ovvero `SwitchOff_Time`. Selezionando le colonne di interesse dal DataFrame originario otteniamo un nuovo DataFrame che useremo per le successive analisi bayesiane.
 
 ```{r}
 dd <- d %>% 
   dplyr::select(cond, SwitchOff_Time) %>% 
   na.omit()
+head(dd)
 ```
 
 Nelle quattro condizioni si osservano le seguenti medie [si veda la Tabella 3 di @horstmann2018robot]:
@@ -56,7 +63,7 @@ dd %>%
   )
 ```
 
-Visualizziamo i dati:
+Visualizziamo i dati con le mediane per ciascun gruppo.
 
 ```{r}
 dd_summary <- dd %>%
@@ -91,7 +98,7 @@ dd %>%
   theme(legend.position = "none")
 ```
 
-Su scala logaritmica, l'asimmetria positiva della variabile `dd$SwitchOff_Time` viene ridotta.
+Il grafico mostra la presenza di una grande asimmetria positiva per la variabile `dd$SwitchOff_Time`, in ciascun gruppo. Trasformiamo dunque questa variabile. Su scala logaritmica, l'asimmetria positiva della variabile `dd$SwitchOff_Time` viene ridotta. Nelle successive analisi, dunque, useremo quale variabile risposta il logaritmo di `dd$SwitchOff_Time`.
 
 ```{r, echo=FALSE}
 dd_summary <- dd %>%
@@ -130,16 +137,30 @@ dd %>%
   theme(legend.position = "none")
 ```
 
-Per i dati trasformati, la mediana in ciascuna condizione è:
+Per i dati trasformati, ciascuna condizione le medie e le mediane sono le seguenti.
 
 ```{r}
 dd$y <- log(dd$SwitchOff_Time + 0.01)
 dd %>% 
   group_by(cond) %>% 
   summarise(
-    avg_y = median(y)
+    me_y = median(y),
+    avg_y = mean(y)
   )
 ```
+
+Un diagramma quantile-quantile per i presenti dati si ottiene nel modo seguente.
+
+```{r}
+dd %>% 
+  ggplot(aes(sample = y)) +
+  stat_qq() + 
+  stat_qq_line()
+```
+
+Il qq-plot mostra, sull'asse delle ordinate, i valori $y$ del campione e sull'asse delle ascisse i quantili nomotetici (cioè dello stesso ordine) della distribuzione di riferimento Normale. Se i dati del qq-plot si dispongono su una retta vuol dire che i dati del campione sono distribuiti secondo la legge Normale (dato che qui abbiamo usato la Normale quale distribuzione di riferimento).
+
+Si nota chiaramente che vi sono almeno due valori molto discrepanti rispetto ai loro valori teorici attesi, se le osservazioni provenissero da una distribuzione Normale. @horstmann2018robot affronta questo problema utilizzando, quale meccanismo generativo dei dati, non una distribuzione Normale, ma bensì una $t$ di Student che è molto più "robusta" nei confronti delle osservazioni anomale e influenti.
 
 Creiamo ora la variabile `x` che indicizza le quattro condizioni (la variabile `x` verrà usata nel modello Stan):
 
@@ -148,7 +169,17 @@ dd$x <- as.numeric(dd$cond)
 head(dd)
 ```
 
-Il modello bayesiano che usiamo qui per il confronto tra le medie dei quattro gruppi è una semplice estensione del modello per la media di un solo gruppo. Il codice usato è ispirato da quello fornito nella seguente [pagina web](http://avehtari.github.io/BDA_R_demos/demos_rstan/rstan_demo.html#8_Comparison_of_(k)_groups_with_hierarchical_models). Per adattare un modello "robusto", ipotizzeremo che la `y` segua una distribuzione $t$ di Student con un numero di gradi di libertà stimato dal modello.
+La variabile `x` assume i seguenti valori.
+
+```{r}
+table(dd$x, dd$cond)
+```
+
+In altre parole, ha valore 1 per il gruppo `SO`, valore 2 per il gruppo `FO`, eccetera.
+
+Il modello bayesiano che usiamo qui per il confronto tra le medie dei quattro gruppi è una semplice estensione del modello per la media di un solo gruppo. Il codice usato è ispirato da quello fornito nella seguente [pagina web](http://avehtari.github.io/BDA_R_demos/demos_rstan/rstan_demo.html#8_Comparison_of_(k)_groups_with_hierarchical_models). 
+
+Per adattare un modello "robusto", seguendo le indicazioni di @horstmann2018robot, ipotizzeremo che la `y` segua una distribuzione $t$ di Student con un numero $\nu$ di gradi di libertà stimato dal modello.
 
 Il modello classico dell'ANOVA è basato sulle seguenti assunzioni:
 
@@ -156,33 +187,53 @@ Il modello classico dell'ANOVA è basato sulle seguenti assunzioni:
 - i residui devono avere la stessa deviazione standard nelle $k$ popolazioni da cui abbiamo estratto i dati (omoschedasticità);
 - il disegno sperimentale utilizzato per raccogliere i dati deve garantire l'indipendenza dei residui.
 
-Nella presenta formulazione dell'ANOVA bayesiana, l'assunto di normalità non è richiesto, mentre devono essere soddisfatte le condizioni di omoschedasticità e indipendenza. L'ANOVA bayesiana può comunque essere estesa a condizioni che violano sia l'assunto di omoschedasticità sia quello di indipendenza. Ma qui ci limitiamo a discutere il caso più semplice.
+Nella presenta formulazione bayesiana dell'ANOVA, l'assunto di normalità non è richiesto, mentre devono essere soddisfatte le condizioni di omoschedasticità e indipendenza. L'ANOVA bayesiana può essere estesa a condizioni che violano sia l'assunto di omoschedasticità sia quello di indipendenza. Ma qui ci limitiamo a discutere il caso più semplice, in maniera parallela a ciò che ha fatto @horstmann2018robot.
+
+I dati sono su scala logaritmica e sono compresi in una gamma di valori pari a 
 
 ```{r}
-modelString = "
-// Comparison of k groups with common variance (ANOVA)
-data {
-  int<lower=0> N; // number of observations
-  int<lower=0> K; // number of groups
-  array[N] int<lower=1, upper=K> x; // discrete group indicators
-  vector[N] y; // real valued observations
-}
-parameters {
-  vector[K] mu; // group means
-  real<lower=0> sigma; // common standard deviation 
-  real<lower=1> nu;
-}
-model {
-  mu ~ normal(0, 2); // weakly informative prior
-  sigma ~ normal(0, 1); // weakly informative prior
-  nu ~ gamma(2, 0.1); // Juárez and Steel(2010)
-  y ~ student_t(nu, mu[x], sigma); // observation model / likelihood
-}
-"
-writeLines(modelString, con = "code/grp_aov.stan")
+summary(dd$y)
 ```
 
-Creiamo un oggetto che contiene i dati nel formato appropriato per Stan:
+Ciò corrisponde, all'incirca, alla gamma di valori possibili per una variabile casuale Normale standardizzata.
+
+Tuttavia abbiamo visto che il campione include alcune osservazioni anomale, per cui non possiamo assumere un meccanismo generatore dei dati Normale. Per affrontare il problema delle osservazioni anomale e influenti, useremo invece un meccanismo generatore dei dati corrispondente ad una $t$ di Student.  Una tale distribuzione dipende da tre parametri: il numero di gradi di libertà $\nu$, la media $\mu$ e la deviazione standard $\sigma$.
+
+Per il caso presente ipotizziamo che le $t$ di Student che costituiscono il meccanismo generativo dei dati dei quattro gruppi siano abbiano parametri $\nu$ e $\sigma$ costanti tra i gruppi, ma medie $\mu_i$ diverse, con $i = 1, \dots, 4$.
+
+Dobbiamo dunque imporre una distribuzione a priori ai parametri $\mu_i$, $\nu$ e $\sigma$.
+
+- Decidiamo di utilizzare la stessa distribuzione a priori debolmente informativa per ciascun parametro $\mu_i$, ovvero una $\mathcal{N}(\mu_p = 0, \sigma_p = 2)$.
+- Seguendo Juárez e Steel(2010), assegnamo a $\nu$ una distribuzione a priori $\mbox{Gamma}(2, 0.1)$.
+- Imponiamo su $\sigma$ una distribuzione a priori debolmente informativa corrispondente ad una Normale troncata di media 0 e deviazione starndard 1.
+
+Scriviamo dunque il modello in linguaggio Stan nel modo seguente.
+
+```{r}
+model_string = "
+  // Comparison of k groups with common variance (ANOVA)
+  data {
+    int<lower=0> N; // number of observations
+    int<lower=0> K; // number of groups
+    array[N] int<lower=1, upper=K> x; // discrete group indicators
+    vector[N] y; // real valued observations
+  }
+  parameters {
+    vector[K] mu; // group means
+    real<lower=0> sigma; // common standard deviation 
+    real<lower=1> nu;
+  }
+  model {
+    mu ~ normal(0, 2); // weakly informative prior
+    sigma ~ normal(0, 1); // weakly informative prior
+    nu ~ gamma(2, 0.1); // Juárez and Steel(2010)
+    y ~ student_t(nu, mu[x], sigma); // likelihood
+  }
+"
+writeLines(model_string, con = "code/grp_aov.stan")
+```
+
+Creiamo un oggetto che contiene i dati nel formato appropriato per Stan.
 
 ```{r}
 data_grp <- list(
@@ -193,42 +244,42 @@ data_grp <- list(
 )
 ```
 
-Compiliamo il modello:
+Compiliamo il modello.
 
 ```{r}
 file <- file.path("code", "grp_aov.stan")
 mod <- cmdstan_model(file)
 ```
 
-Eseguiamo il campionamento MCMC:
+Eseguiamo il campionamento MCMC.
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 fit <- mod$sample(
   data = data_grp,
-  iter_sampling = 4000L,
-  iter_warmup = 2000L,
+  iter_sampling = 100000L,
+  iter_warmup = 50000L,
   seed = SEED,
   chains = 4L,
   refresh = 0
 )
 ```
 
-Esaminando i risultati
+Esaminando i risultati ci rendiamo conto che c'è una buona corrispondenza tra le medie a posteriori e le medie campionarie. 
 
 ```{r}
 fit$summary()
 ```
 
-ci rendiamo conto che cìè una buona corrispondenza tra le medie a posteriori e le medie campionarie. Trasformiamo l'oggetto `fit` in un oggetto di classe `stanfit`:
+Trasformiamo l'oggetto `fit` in un oggetto di classe `stanfit`:
 
 ```{r}
-stanfit <- rstan::read_stan_csv(fit$output_files())
+output_stanfit <- rstan::read_stan_csv(fit$output_files())
 ```
 
 La funzione `rstan::extract()` estrae i campioni a posteriori da un oggetto di classe `stanfit`:
 
 ```{r}
-posterior <- extract(stanfit, permuted = TRUE)
+posterior <- extract(output_stanfit, permuted = TRUE)
 ```
 
 Una rappresentazione grafica della distribuzione a posteriori delle quattro medie si ottiene con le seguenti istruzioni:
@@ -240,22 +291,53 @@ temps <- data.frame(posterior$mu) %>%
 
 ```{r}
 mcmc_areas(temps, prob = 0.95) + 
-  xlab('Gruppi')
+  xlab('Log SwitchOff Time')
 ```
 
-I quattro intervalli di credibilità al 95% sono:
+I quattro intervalli di credibilità a densità massima al 95% sono i seguenti.
 
 ```{r}
-ci95 <- rstanarm::posterior_interval(
-  as.matrix(stanfit), 
-  prob = 0.95
-)
-round(ci95, 2)
+bayestestR::hdi(output_stanfit, ci = 0.95)
 ```
 
-## I test statistici dell'Analisi della Varianza {#anova-stan}
+Possiamo anche ottenerli nel modo seguente:
 
-L'ANOVA include test statistici di due tipi: i test sull'interazione tra i fattori e i test sugli effetti principali. Per chiarire il significato di "interazione" e di "effetto principale" è necessario prima definire il significato di "effetto statistico".
+```{r}
+broom.mixed::tidyMCMC(
+  output_stanfit, 
+  conf.level = 0.95,
+  conf.int = TRUE, 
+  conf.method = "HPDinterval", 
+  pars = c("mu", "sigma", "nu")
+)
+```
+
+Tali intervalli sono molto simili a quelli basati sui quantili.
+
+```{r}
+broom.mixed::tidyMCMC(
+  output_stanfit, 
+  conf.level = 0.95,
+  conf.int = TRUE, 
+  conf.method = "quantile", 
+  pars = c("mu", "sigma", "nu")
+)
+```
+
+
+### Interpretazione
+
+Il modo più semplice per interpretare i risultati dell'ANOVA è quello di considerare i confronti tra gli intervalli di credibilità dei vari gruppi. Nel caso presente, ad esempio, l'intervallo di credibilità al 95% per il gruppo FO, ovvero [1.67, 2.44] non si sovrappone all'intervallo di credibilità al 95% per il gruppo FN, ovvero [1.04, 1.53]. Concludiamo dunque, con un grado di certezza soggettiva del 95%, che il tempo impiegato dai partecipanti per spegnere il robot è maggiore nella condizione FO (*functional interaction*, _objection_) che nella condizione FN (*functional interaction*, _no objection_). 
+
+
+## ANOVA ad due vie
+
+Nel caso dell'esperimento di @horstmann2018robot, è più utile considerare due criteri di classificazione (detti *fattori*) delle osservazioni: 
+
+- *Interaction type*, con due modalità: `social` o `functional`;
+- *Robot's objection*, con due modalità: `objection` o `no objection`.
+
+Nel caso di due criteri di classificazione delle osservazioni, l'ANOVA consente la specificazione di test statistici di due tipi: i test sull'interazione tra i fattori e i test sugli effetti principali. Per chiarire il significato di "interazione" e di "effetto principale" è necessario prima definire il significato di "effetto statistico".
 
 ::: {.definition}
 L'effetto di un fattore rappresenta la variazione media della variabile dipendente al variare dei livelli del fattore stesso.
@@ -306,11 +388,66 @@ sum(
   length(posterior$mu[, 1])
 ```
 
-La stima di questa probabilità in un test direzionale è molto simile alla probabilità frequentista riportata da @horstmann2018robot, ovvero $p = 0.016$. @horstmann2018robot riportano la presenza di un'interazione tra _Interaction type_ e _Robot's objection_ (com'è stato anche trovato con la presente ANOVA bayesiana). Per interpretare l'interazione è necessario esaminare le mediane dei quattro gruppi.^[In presenza di outlier la mediana fornisce una misura di tenenza centrale più robusta della media.] L'esame delle mediane indica che l'effetto del fattore _Robot's objection_ è più grande quando il fattore _Interaction type_ assume la modalità _Functional_ piuttosto che _Social_. Ma possiamo anche leggere l'interazione nella direzione opposta: l'effetto del fattore _Interaction type_ è più grande quando il fattore _Robot's objection_ assume la modalità _Objection_ anziché _No objection_. 
+La stima di questa probabilità è molto simile alla probabilità frequentista riportata da @horstmann2018robot, ovvero $p = 0.016$.
+
+Dato che la probabilità calcolata è molto piccola -- minore della soglia critica di 0.05 -- si conclude *rigettando l'ipotesi nulla* di assenza di interazione tra _Interaction type_ (social, functional) e _Robot's objection_ (objection, no objection). Si dice che _Interaction type_ interagisce con _Robot's objection_ nel determinare il tempo di spegnimento del robot. 
+
+Per potere interpretare l'interazione è necessario esaminare le medie dei quattro gruppi. Iniziamo a creare un sommario dei dati.
+
+```{r}
+df_plot <- dd %>% 
+  group_by(cond) %>% 
+  summarise(
+    n = n(),
+    ym = mean(y),
+    se = sd(y) / sqrt(n)
+  )
+df_plot
+```
+
+Aggiungo le modalità dei due "fattori".
+
+```{r}
+df_plot$Interaction <- c("Social", "Functional", "Social", "Functional")
+df_plot$Objection <- c("Yes", "Yes", "No", "No")
+df_plot
+```
+
+Creo un grafico con le quattro medie e l'indicazione dell'errore atteso. Tale errore si chiama "errore standard" e si calcola come la deviazione standard delle osservazioni del gruppo divisa per la radice quadrata della numerosità delle osservazioni.
+
+```{r}
+df_plot %>% 
+  ggplot(aes(x=Objection, y=ym, group=Interaction, color=Interaction)) + 
+  geom_line(position=position_dodge(0.1)) +
+  geom_point(size = 5, position=position_dodge(0.1))+
+  geom_errorbar(aes(ymin=ym-se, ymax=ym+se), width=.2,
+                 position=position_dodge(0.1)) +
+  labs(title="Social ability of a robot", x="Objection", y = "Log switch-off time")
+```
+
+La figura precedente indica che l'effetto del fattore `Interaction` è maggiore quando il fattore `Objection` assume la modalità `Yes` anziché `No`. 
+
+Ma possiamo anche leggere l'interazione al contrario.
+
+```{r}
+df_plot %>% 
+  ggplot(aes(x=Interaction, y=ym, group=Objection, color=Objection)) + 
+  geom_line(position=position_dodge(0.1)) +
+  geom_point(size = 5, position=position_dodge(0.1))+
+  geom_errorbar(aes(ymin=ym-se, ymax=ym+se), width=.2,
+                 position=position_dodge(0.1)) +
+  labs(title="Social ability of a robot", x="Interaction", y = "Log switch-off time")
+```
+
+L'effetto di `Objection` è maggiore quando l'interazione è "funzionale" piuttosto che "sociale".
+
+Se c'è un'interazione non ha senso interpretare gli effetti principali: l'interazione significa, infatti, che l'effetto di un fattore sulla variabile risposta *varia* a seconda del livello assunto dal secondo fattore.
+
+Svolgiamo comunque l'analisi statistica sugli effetti principali per mostrare come si fa, anche se nel caso presente non ha senso.
 
 ### Test sugli effetti principali
 
-L'effetto principale descrive l'effetto marginale di un fattore. Nel caso presente, in cui ciascun fattore ha solo due modalità, l'effetto principale corrisponde alla differenze tra le medie delle modalità di ciascun fattore.
+L'effetto principale descrive l'effetto marginale di un fattore. Nel caso presente, in cui ciascun fattore ha solo due modalità, l'effetto principale corrisponde alla differenze tra le medie delle modalità di ciascun fattore (ignorando l'altro fattore).
 
 L'effetto principale del fattore _Interaction type_ è la differenza tra le medie di _Social_ e di _Functional_, ignorando _Robot's objection_. @horstmann2018robot riportano che gli individui che avevano avuto un'interazione funzionale con il robot impiegavano più tempo a spegnere il robot di coloro che avevano avuto un'interazione sociale con il robot ($p$ = 0.045). Il presente modello bayesiano offre scarse evidenze di ciò:
 
@@ -404,8 +541,8 @@ Eseguiamo il campionamento MCMC usando gli stessi dati discussi in precedenza:
 ```{r, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 fit2 <- mod$sample(
   data = data_grp,
-  iter_sampling = 4000L,
-  iter_warmup = 2000L,
+  iter_sampling = 100000L,
+  iter_warmup = 50000L,
   seed = SEED,
   chains = 4L,
   refresh = 0
