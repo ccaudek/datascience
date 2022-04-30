@@ -487,7 +487,13 @@ test-sullinterazione
 test-sugli-effetti-principali
 codice-stan-versione-2
 ch-mod-hier-stan
+il-problema-delle-8-scuole
+modello-di-complete-pooling
+modello-no-pooling
+modello-di-partial-pooling
 modello-gerarchico
+interpretazione-3
+modelli-lineari-ad-intercetta-casuale
 modello-ad-effetti-fissi
 modello-gerarchico-1
 ch-entropy

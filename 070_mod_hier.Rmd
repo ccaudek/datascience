@@ -5,11 +5,317 @@ source("_common.R")
 source("_stan_options.R")
 ```
 
-## Modello gerarchico
+Alle volte le osservazioni del campione non sono indipendenti. Invece, sono in qualche modo raggruppate così da formare dei cluster. Ad esempio, se abbiamo osservazioni ripetute degli stessi soggetti, allora le osservazioni di un cluster che corrisponde ad un soggetto saranno tra loro più simili delle osservazioni che appartengono a cluster (soggetti) diversi.
 
-I modelli lineari misti, o modelli lineari gerarchici/multilivello, sono diventati uno strumento fondamentale della ricerca sperimentale in psicologia, linguistica e scienze cognitive, dove i progetti di ricerca a misure ripetute sono la norma. Il presente Capitolo fornisce un'introduzione a tali modelli considerando soltanto il caso più semplice, conosciuto anche col nome di _Random Intercept Model_.
+Ignorare questo tipo di struttura di raggruppamento sottostante viola il presupposto di  indipendenza che alla base dei modelli che abbiamo discusso fino a questo punto e, a sua volta, può produrre conclusioni fuorvianti. In questo capitolo esploreremo alcune tecniche che ci consentono di rendere conto della struttura gerarchica presente nei dati. 
+I modelli statistici che consentono di ottenere questo risultato si chiamano lineari misti, o modelli lineari gerarchici/multilivello, e sono diventati uno strumento fondamentale della ricerca sperimentale in psicologia, in linguistica e nelle scienze cognitive, dove i progetti di ricerca a misure ripetute sono la norma. 
 
-Per fare un esempio concreto useremo il set di dati a misure ripetute con due condizioni di @gibson2013processing [si veda @sorensen2015bayesian]. La variabile dipendente `rt` dell'esperimento di @gibson2013processing è il tempo di lettura in millisecondi del soggetto di una proposizione relativa in un testo. I tempi di reazione sono stati registrati in due condizioni (ovvero, in presenza di un sostantivo riferito al soggetto oppure riferito all'oggetto della proposizione). I dati di @gibson2013processing provengono da un esperimento con 37 soggetti e 15 item. Gli item erano presentati in un disegno a quadrato latino, il che produce 37 $\times$ 15 = 555 dati. Risultano mancanti otto dati di un soggetto (id 27), il che ci porta ad un totale di 555 − 8 = 547 dati. Le prime righe del data.frame sono mostrate di seguito:
+Il presente Capitolo fornisce un'introduzione a tali modelli considerando due esempi: il famoso problema delle otto scuole e il modello conosciuto con il nome di _Random Intercept Model_.
+
+## Il problema delle 8 scuole
+
+Presento qui il classico problema delle otto scuole tratto da Rubin(1981) -- questo esempio è anche discusso nel Capitolo 5 di Gelman et al., 2014. Il problema considera l'efficacia dei programmi di coaching SAT condotti in parallelo in otto scuole.
+
+> Per conto del Servizio Prove Educative è stato condotto uno studio per analizzare gli effetti di speciali programmi di coaching per SAT-V (Scholastic Attitude Test-Verbal) in ciascuna delle otto scuole superiori. La variabile di esito in ogni studio era il punteggio su un'amministrazione speciale del SAT-V, un test a scelta multipla standardizzato somministrato dall'Educational Testing Service e utilizzato per aiutare i college a prendere decisioni di ammissione; i punteggi possono variare tra 200 e 800, con media circa 500 e deviazione standard circa 100. Gli esami SAT sono progettati per resistere a sforzi a breve termine diretti specificamente al miglioramento delle prestazioni del test; invece sono progettati per riflettere le conoscenze acquisite e le abilità sviluppate in molti anni di istruzione. Tuttavia, ciascuna delle otto scuole in questo studio ha considerato il suo programma di coaching a breve termine molto efficace nell'aumentare i punteggi SAT. Inoltre, non vi era alcuna ragione preliminare per ritenere che uno degli otto programmi fosse più efficace di un altro o che alcuni fossero più simili negli effetti l'uno all'altro che a qualsiasi altro.
+
+Per ciascuno degli otto scuole ($J$ = 8), abbiamo un effetto del trattamento stimato 
+e un errore standard di stima dell'effetto $\sigma_j$. I dati sono i seguenti.
+
+```{r}
+schools <- tibble(
+  row.names = c("A","B","C","D","E","F","G","H"),
+  effect = c(28.39,7.94,-2.75,6.82,-.64,.63,18.01,12.16),
+  sigma = c(14.9, 10.2, 16.3, 11.0, 9.4, 11.4, 10.4, 17.6)
+)
+schools
+```
+
+Iniziamo calcolando una misura dell'effetto medio ponderato, in cui il punteggio di ogni scuola viene ponderato in base alla precisione della misura (uno sul quadrato dell'errore standard).
+
+```{r}
+schools$w <- 1 / schools$sigma^2
+schools_mean <- sum(schools$w * schools$effect) / sum(schools$w)
+schools_mean
+```
+
+Un grafico con i dati è fornito qui di seguito. 
+
+```{r}
+ord <- order(schools$effect)
+plot(schools$effect[ord[c(1,8)]]+c(-2,2)*schools$sigma[ord[c(1,8)]],
+     c(nrow(schools),1),main = "8 Schools data.",type="n",yaxt="n",
+     xlab="Effect Size",ylab="School")
+points(schools$effect[ord],nrow(schools):1,pch=rownames(schools)[ord])
+
+segments(schools$effect[ord]-2*schools$sigma[ord],nrow(schools):1,
+         schools$effect[ord]+2*schools$sigma[ord],nrow(schools):1)
+abline(v=schools_mean,col="blue")
+```
+
+Prima di adattare il modello gerarchico bayesiano, consideriamo due metodi non gerarchici più semplici, i quali stimando gli effetti degli otto esperimenti in modo indipendente oppure eseguendo un pooling completo dei dati. Vedremo perché nessuno di questi approcci è adeguato per i dati di questo esempio.
+
+### Modello di *complete pooling*
+
+Un esame superficiale dei dati potrebbe suggerire che alcuni programmi di coaching hanno effetti moderati (nell'intervallo 18–28 punti), la maggior parte ha piccoli effetti (0–12 punti) e due hanno piccoli effetti negativi; tuttavia, quando prendiamo atto degli errori standard di questi effetti stimati, vediamo che è difficile  distinguere statisticamente tra i risultati di questi esperimenti. Ad esempio, considerando ogni esperimento come a sé stante e applicando la semplice analisi normale a ciascuno di essi si ottengono intervalli posteriori del 95% che si sovrappongono tutti in maniera sostanziale. Potremmo dunque concludere che i risultati degli otto esperimenti devono essere considerati come stime indipendenti *dello stesso processo generativo*. Di conseguenza possiamo combinare le otto osservazioni in un unico campione e procedere stimando la media comune di tali osservazioni.
+
+```{r}
+model_string <- "
+  data {
+     int<lower=0> J;          // # schools
+     real y[J];               // estimated treatment
+     real<lower=0> sigma[J];  // std err of effect
+  }
+  parameters {
+    real theta; // pooled school effect
+  } 
+  model {
+    y ~ normal(theta, sigma);
+  }
+"
+```
+
+I dati sono i seguenti.
+
+```{r}
+school8_dat <- list(
+  J = nrow(schools),
+  y = schools$effect,
+  sigma = schools$sigma
+)
+```
+
+Compiliamo il modello e eseguiamo il campionamento MCMC per calcolare la distribuzione a posteriori sui parametri del modello.
+
+```{r}
+writeLines(model_string, con = "code/hmod_2.stan")
+file <- file.path("code", "hmod_2.stan")
+
+mod <- cmdstan_model(file)
+
+fit2 <- mod$sample(
+  data = school8_dat,
+  iter_sampling = 20000L,
+  iter_warmup = 10000L,
+  seed = 84735,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Con queste assunzioni, la nostra incertezza sulla misura dell'effetto comune è di circa 20 punti, ad un livello di certezza soggettiva del 95%.
+
+```{r}
+output2_stanfit <- rstan::read_stan_csv(fit2$output_files()) 
+plot(output2_stanfit) + xlim(-50, 60)
+```
+
+In base all'ipotesi di complete pooling possiamo dunque concludere che i nostri dati sono realizzazioni indipendenti di una v.c. $\sim \mathcal{N}(\mu = 7.87, \sigma = 4.20)$.
+
+```{r}
+fit2$summary()
+```
+
+Ma dobbiamo chiederci se una tale conclusione sia ragionevole. Il valore più estremo del nostro campione è 28.4. Se il processo generativo è quello descritto sopra, ovvero $\mathcal{N}(\mu = 7.87, \sigma = 4.20)$, possiamo chiederci quale sia la probabilità di osservare il valore di 28.4, o un valore ancora più estremo.
+
+```{r}
+1 - pnorm(28.4, 7.87, 4.20)
+```
+
+Tale probabilità è estremamente bassa. Per cui dobbiamo ammettere che il modello di complete pooling non è neppure in grado di rendere conto dei dati del campione osservato. Un tale modello, dunque, non dovrebbe essere seriamente preso in considerazione.
+
+<!-- L'intervallo così trovato corrisponde all'intervallo frequentista al 95%. Infatti, dato che, in questo modello, le osservazioni sono ritenute essere v.c. indipendenti, la varianza di una somma è una somma di varianze.  In questo caso $\sigma$ è il reciproco della varianza, per cui la stima della varianza comune è data da: -->
+
+<!-- ```{r} -->
+<!-- var <- 1 / (sum(1 / schools$sigma^2)) -->
+<!-- var -->
+<!-- ``` -->
+
+<!-- L'intervallo frequentista del 95% sarà dunque -->
+
+<!-- ```{r} -->
+<!-- n <- 1 -->
+<!-- schools_mean + c(-1, 1) * qnorm(0.975) * sqrt(var / n) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- output2_stanfit -->
+<!-- ``` -->
+
+### Modello *no pooling*
+
+Avendo rifiutato il modello di compelte pooling, possiamo considerare il modello che si trova all'estremo opposto, ovvero il modello di no pooling, nel quale ogni scuola è trattata in maniera del tutto indipendente dalle altre.
+
+```{r}
+model_string <- "
+  data {
+     int<lower=0> J;          // # schools
+     real y[J];               // estimated treatment
+     real<lower=0> sigma[J];  // std err of effect
+  }
+  parameters {
+    real theta[J]; // school effect
+  } 
+  model {
+    y ~ normal(theta, sigma);
+  }
+"
+```
+
+```{r}
+writeLines(model_string, con = "code/hmod_1.stan")
+file <- file.path("code", "hmod_1.stan")
+
+mod <- cmdstan_model(file)
+
+fit1 <- mod$sample(
+  data = school8_dat,
+  iter_sampling = 20000L,
+  iter_warmup = 10000L,
+  seed = 84735,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Otteniamo i seguenti risultati.
+
+```{r}
+fit1$summary()
+```
+
+Possiamo visualizzare l'incertezza delle stime a posteriori nel modo seguente.
+
+```{r}
+output_stanfit <- rstan::read_stan_csv(fit1$output_files()) 
+```
+
+Con la seguente istruzione otteniamo
+
+- ci_level: 0.8 (80% intervals)
+- outer_level: 0.95 (95% intervals)
+
+Si vede che le stime degli effetti degli otto esperimenti producono intervalli di credibilità al 95% che sono quasi completamente sovrapposti. L'ampiezza degli intervalli, ad un grado di certezza soggettiva del 95%, è di circa 50 punti. 
+
+```{r}
+plot(output_stanfit) + xlim(-50, 60)
+```
+
+Dal momento che ciascuna stima dipende *unicamente* dai dati di una singola osservazione, l'inferenza sui parametri sconosciuti del modello è estremamente rumorosa: ben poco si può dire a proposito di quello che succede in campioni diversi dai dati che abbiamo a disposizione.
+
+### Modello di *partial pooling*
+
+In generale, i modelli gerarchici sono basati sulla seguente idea: sebbene ogni gruppo sia unico, essendo stato campionato dalla stessa popolazione, tutti i gruppi sono collegati e quindi potrebbero contenere informazioni preziose l'uno sull'altro. Questa informazione *gerarchica* è fornita dagli *iper-parametri* del modello. La struttura ipotizzata è la seguente. Il risultato di ciascuna scuola è la realizzazione di una v.c. avente una media $\theta_i$. L'oggetto dell'inferenza sono i valori $\theta_i$, con $i = 1, \dots, 8$. Tuttavia, i parametri $\theta_i$ sono tra loro legati in qualche modo. Il modello assume che siano *realizzazioni casuali* di un'unico processo generativo sottostante $\mathcal{N}(\mu, \tau)$. I parametri $\mu$ e $\tau$ sono detti *iper-parametri* e servono a imporre un vincolo sui possibili valori che i parametri $\theta_i$ possono assumere. Nella versione più semplice di questo modello gerarchico, l'iper-parametro $\mu$ è ignoto ma  $\tau$ viene assunto come conosciuto. Ciò conduce alla formulazione del modello di partial pooling. Nel caso presente assumiamo che $\tau = 25$.
+
+```{r}
+school8_dat2 <- list(
+  J = nrow(schools),
+  y = schools$effect,
+  sigma = schools$sigma,
+  tau = 25
+)
+```
+
+```{r}
+model_string <- "
+  data {
+     int<lower=0> J;          // # schools
+     real y[J];               // estimated treatment
+     real<lower=0> sigma[J];  // std err of effect
+     real<lower=0> tau;       // variance between schools
+  }
+  parameters {
+    real theta[J]; // school effect
+    real mu;       // mean for schools
+  } 
+  model {
+    mu ~ normal(0, 15);
+    theta ~ normal(mu, tau);
+    y ~ normal(theta, sigma);
+  }
+"
+```
+
+```{r}
+writeLines(model_string, con = "code/hmod_3.stan")
+file <- file.path("code", "hmod_3.stan")
+
+mod <- cmdstan_model(file)
+
+fit3 <- mod$sample(
+  data = school8_dat2,
+  iter_sampling = 20000L,
+  iter_warmup = 10000L,
+  seed = 84735,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+```{r}
+output3_stanfit <- rstan::read_stan_csv(fit3$output_files()) 
+plot(output3_stanfit) + xlim(-50, 60)
+```
+
+Per tale modello di partial pooling, le stime a posteriori al livello del 95% dei parametri $\theta$ sono comprese in un intervallo pari a circa 40 punti.
+
+### Modello gerarchico
+
+Il modello precedente impone dei vincoli troppo forti sui valori $\theta_i$, in quanto si assume che la loro dispersione sia conosciuta. Ma ciò non è vero. Il modello gerarchico dunque stimerà entrambi gli iper-parametri $\mu$ e $\tau$, dove $\mu$ rappresenta l'effetto medio del trattamento e $\tau$ descrive la varianza tra le scuole. 
+
+```{r}
+model_string <- "
+  data {
+     int<lower=0> J;          // # schools
+     real y[J];               // estimated treatment
+     real<lower=0> sigma[J];  // std err of effect
+  }
+  parameters {
+    real theta[J]; // school effect
+    real mu;       // mean for schools
+    real<lower=0> tau; //  variance between schools
+  } 
+  model {
+    mu ~ normal(0, 15);
+    tau ~ cauchy(0, 30);
+    theta ~ normal(mu, tau);
+    y ~ normal(theta, sigma);
+  }
+"
+```
+
+```{r}
+writeLines(model_string, con = "code/hmod_4.stan")
+file <- file.path("code", "hmod_4.stan")
+
+mod <- cmdstan_model(file)
+
+fit4 <- mod$sample(
+  data = school8_dat,
+  iter_sampling = 20000L,
+  iter_warmup = 10000L,
+  seed = 84735,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Visualizziamo la distribuzione a posteriori delle stime dei parametri e degli iper-parametri.
+
+```{r}
+output4_stanfit <- rstan::read_stan_csv(fit4$output_files()) 
+plot(output4_stanfit) + xlim(-50, 60)
+```
+
+In questo modo otteniamo delle stima degli effetti $\theta$ a cui può essere associata l'incertezza minore di tutti i casi esaminati in precedenza: con un grado di certezza soggettiva del 95%, le stime a posteriori al livello del 95% dei parametri $\theta$ sono comprese in un intervallo pari a circa 30 punti.
+
+### Interpretazione
+
+In conclusione, il modello gerarchico consente di formulare le stime degli effetti $\theta$ degli otto esperimenti più precise di quanto lo faccia un modello no-pooling. Si noti che, con $\tau \rightarrow \infty$, le stime di un modello gerarchico diventano sempre più simile a quelle di un modello no-pooling, vale a dire, ciascuna delle stime dell'effetto del trattamento della scuola diventa via via più indipendente dalle altre stime. Con $\tau \rightarrow 0$, le stime di un modello gerarchico diventano sempre più simile alle stime di un modello di pooling completo, vale a dire, tutti gli effetti del trattamento della scuola tendono a diventare via via più simili all'effetto medio del gruppo. 
+
+
+## Modelli lineari ad intercetta casuale
+
+Per fare un esempio concreto di tale modello useremo il set di dati a misure ripetute con due condizioni di @gibson2013processing [si veda @sorensen2015bayesian]. La variabile dipendente `rt` dell'esperimento di @gibson2013processing è il tempo di lettura in millisecondi del soggetto di una proposizione relativa in un testo. I tempi di reazione sono stati registrati in due condizioni (ovvero, in presenza di un sostantivo riferito al soggetto oppure riferito all'oggetto della proposizione). I dati di @gibson2013processing provengono da un esperimento con 37 soggetti e 15 item. Gli item erano presentati in un disegno a quadrato latino, il che produce 37 $\times$ 15 = 555 dati. Risultano mancanti otto dati di un soggetto (id 27), il che ci porta ad un totale di 555 − 8 = 547 dati. Le prime righe del data.frame sono mostrate di seguito:
 
 ```{r}
 rdat <- read.table(here::here("data", "gibsonwu2012data.txt"))
@@ -31,7 +337,7 @@ rdat %>%
 
 Quando il sostantivo si riferisce al soggetto, i tempi di reazione sono più lenti di circa 30 ms. Questa descrizione dei dati, però non tiene conto né delle differenze tra i soggetti né delle differenze tra gli item. Per tenere in considerazioni queste diverse fonti della variabilità dei dati è necessario utilizzare un modello detto gerarchico. 
 
-## Modello ad effetti fissi
+### Modello ad effetti fissi
 
 Iniziamo con il modello "ad effetti fissi" che non tiene conto della struttura gerarchica dei dati, ovvero del fatto che c'è una covariazione all'interno dei cluster di dati definiti dalle variabili "soggetto" e "item".
 
@@ -141,7 +447,7 @@ exp(mean(posterior$beta[, 1] + posterior$beta[, 2])) -
   exp(mean(posterior$beta[, 1]))
 ```
 
-## Modello gerarchico
+### Modello gerarchico
 
 Il modello a effetti fissi è inappropriato per i dati di @gibson2013processing perché non tiene conto del fatto che abbiamo più misure per ogni soggetto e per ogni item. In altre parole, il modello ad effetti fissi viola l'assunzione di indipendenza degli errori. Inoltre, i coefficienti di effetti fissi $\beta_0$ e $\beta_1$ rappresentano le medie calcolate su tutti i soggetti e tutti gli item, ignorando il fatto che alcuni soggetti sono più veloci e altri più lenti della media, e il fatto che alcuni item sono stati letti più velocemente della media e altri più lentamente.
 
@@ -262,5 +568,16 @@ round(ci95, 3)
 <!-- summary(M1) -->
 <!-- ``` -->
 
+## Commenti e considerazioni finali {-}
 
+Il fenomeno per cui, nel modello gerarchico le stime dei parametri si avvicinano di più alla media generale (definita del modello di pooling completo) di quanto lo facciano le stime del modello no pooling, è detto *effetto shrinkage*. 
+
+- L'effetto shrinkage aumenta quando il numero di osservazioni in ciascun gruppo $j$-esimo diminuisce. Cioè, ci affidiamo sempre di più alle tendenze globali per stimare le proprietà di un gruppo per il quale abbiamo pochi dati.
+- L'effetto shrinkage aumenta quando la variabilità all'interno dei gruppi, $\sigma_y$ è è grande rispetto alla variabilità tra i gruppi, $\sigma_\mu$. Cioè, ci affidiamo sempre di più alle tendenze globali per per stimare le proprietà di un gruppo quando è difficile distinguere le proprietà di un gruppo da quelle di un altro gruppo.
+
+Trovando un equilibrio tra pooling completo e nessun pooling, i modelli gerarchici ci consentono di:
+
+- generalizzare le osservazioni sui nostri gruppi campionati alla popolazione più ampia; - prendere in prestito informazioni da tutti i gruppi campionati quando si voglino conoscere le proprietà di un singolo gruppo campionato.
+
+Le stime prodotte dai modelli con pooling completo tendono ad avere una distorsione (bias) alta e una varianza piccola. Le stime prodotte dai modelli senza pooling tendono ad avere una distorsione bassa e una varianza grande. I modelli gerarchici offrono un'alternativa equilibrata tra questi due estremi. A differenza dei modelli a pooling completo, i modelli gerarchici tengono conto delle tendenze specifiche dei gruppi e quindi offrono una minore distorsione del fenomeno da descrivere. E a differenza dei modelli no pooling, i modelli gerarchici tengono conto delle tendenze globali e quindi offrono delle stime meno variabili da campione a campione. 
 
