@@ -260,7 +260,6 @@ $$
 \frac{x_{0.75} - x_{0.25}}{x_{0.25}}, \qquad \frac{x_{0.75} - x_{0.25}}{x_{0.75}}, \qquad \frac{x_{0.75} - x_{0.25}}{x_{0.50}}.
 $$
 
-
 ## Commenti e considerazioni finali {-}
 
 Le statistiche descrittive ci forniscono degli indici sintetici che riassumono i dati, ovvero le nostre misurazioni dell'intera popolazione o di un campione estratto da una popolazione. Le statistiche descrittive comprendono gli indici di tendenza centrale e gli indici di dispersione. Gli indici di tendenza centrale includono la media, la mediana e la moda, mentre gli indici di dispersione includono lo scarto tipo, la varianza, la curtosi e l'asimmetria.

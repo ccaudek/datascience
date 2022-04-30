@@ -5,17 +5,32 @@ source("_common.R")
 suppressPackageStartupMessages(library("effsize"))
 ```
 
-Cito da Wikipedia
+Inizio questo Capitolo con una citazione da Wikipedia.
 
 > La crisi della replicazione (chiamata anche crisi della replicabilità e crisi della riproducibilità) è una crisi metodologica per cui è stato riscontrato che molti studi scientifici sono difficili o impossibili da replicare o riprodurre. La crisi della replicazione colpisce più gravemente le scienze sociali e la medicina, mentre i dati delle rilevazioni indicano fortemente che anche tutte le scienze naturali sono probabilmente implicate. La frase è stata coniata nei primi anni 2010 come parte di una crescente consapevolezza del problema. La crisi della replicazione rappresenta un importante corpo di ricerca nel campo delle metascienze.
 
 > Poiché la riproducibilità dei risultati sperimentali è una parte essenziale del metodo scientifico, l'incapacità di replicare gli studi di altri ha conseguenze potenzialmente gravi per molti campi della scienza in cui teorie significative sono fondate su un lavoro sperimentale irriproducibile. La crisi della replicazione è stata ampiamente discussa nei campi della medicina, dove sono stati fatti numerosi sforzi per riesaminare i risultati classici, per determinare sia l'attendibilità dei risultati sia, se ritenuto inattendibile, le ragioni del fallimento di replica.
 
-Questa "crisi metodologica" riguarda molto da vicino la psicologia. Questa crisi ha molteplici cause.  Tra tali cause, particolare importanza (in senso negativo) è stata assegnata ad un uso "spensierato" dell'approccio frequentista da parte dei ricercatori.  L'obiettivo di questo capitolo è mostrare come l'uso delle procedure di test dell'ipotesi nulla necessariamente conduce, nella pratica corrente, ad una sistematica distorsione dei risultati della ricerca. Ovvero, aumenta a dismisura i "falsi positivi" e troppo spesso impedisce la replicazione dei risultati degli studi empirici.
+Questa "crisi metodologica" riguarda molto da vicino la psicologia. Questa crisi ha molteplici cause.  Tra tali cause, particolare importanza (in senso negativo) è stata assegnata ad un uso "liberale" dell'approccio frequentista da parte dei ricercatori.  L'obiettivo di questo capitolo è mostrare come l'uso delle procedure di test dell'ipotesi nulla necessariamente conduce, nella pratica corrente, ad una sistematica distorsione dei risultati della ricerca. Ovvero, aumenta a dismisura i "falsi positivi" e troppo spesso impedisce la replicazione dei risultati degli studi empirici.
 
 ## Che cos'è un valore-$p$?
 
-Il valore-$p$ viene spesso riportato da coloro che svolgono l'inferenza statistica mediante l'approccio frequentista.  Tuttavia, nonostante questa nozione statistica sia spesso usata, il  significato di valore-$p$ è spesso frainteso. Un errore che viene spesso commesso nell'interpretare il valore-$p$ è quello di assegnare ad esso l'interpretazione secondo la quale un valore-$p$, diciamo, pari a 0.01, significa che c'è solo una probabilità dell'1\% che il risultato osservato sia un falso positivo. È importante evitare i falsi positivi, per esempio quando si valuta l'efficacia di un intervento psicologico, perché affermare che un trattamento è efficace quando in realtà ciò non è vero (falso positivo) conduce alla successiva applicazione di quel trattamento, con il rischio di danni negli utenti e di discredito della professione. L'interpretazione  precedente, però, è sbagliata. Il valore-$p$ non può dirci questo: non può mai essere usato per descrivere il mondo reale. @greenland2016statistical esprimono questo punto nel modo seguente:
+Informalmente, si può dire che un valore-$p$ è la probabilità per cui un riepilogo statistico dei dati (ad esempio, la differenza tra le medie campionarie di due gruppi confrontati), se viene assunto come vero il modello statistico specificato, sia uguale o più estrema del suo valore osservato.
+
+> That definition is about as clear as mud (Christie Aschwanden).
+
+Possiamo mettere in evidenza sei caratteristiche del  valore-$p$.
+
+- Il valore-$p$ può indicare l'incompatibilità dei dati con un modello statistico specifico.
+- Il valore-$p$ non misura la probabilità che l'ipotesi in esame sia vera o la probabilità che i dati siano stati prodotti solo per caso.
+- Le conclusioni scientifiche e le decisioni cliniche o politiche non dovrebbero mai basarsi solo sul fatto che un valore-$p$ superi una soglia specifica.
+- Una corretta pratica dell'inferenza richiede un resoconto completo e la completa trasparenza delle pratiche adottate.
+- Un valore-$p$ non misura la dimensione di un effetto o l'importanza di un risultato.
+- Di per sé, un valore-$p$ non fornisce una buona misura di evidenza di un modello o un'ipotesi scientifica.
+
+Negli ultimi decenni, sono stati pubblicati decine di articoli che mettono in guardia i ricercatori nei confronti dei limiti che derivano dall'uso del valore-$p$ quale strumento di decisione statistica. Nonostante questa enorme attenzione che la comunità scientifica ha dedicato a questo strumento metodologico, mettendone in evidenza i limiti, il valore-$p$ viene spesso calcolato e riportato da coloro che svolgono l'inferenza statistica mediante l'approccio frequentista. Ciò che caratterizza l'uso diffuso del valore-$p$ nel mondo della ricerca è che il significato di tale nozione venga molto spesso frainteso. L'errore più comune è quello di pensare che un valore-$p$, diciamo, pari a 0.01, significa che c'è solo una probabilità dell'1\% che il risultato osservato sia un falso positivo. L'attenzione ai falsi positivi (dire che un intervento sia efficace quando non è vero) è cruciale ed è certamente necessario trovare dei metodi che proteggano i ricercatori da un tale tipo di errori. Ma l'interpretazione precedente è sbagliata e il valore-$p$ non ci fornisce lo strumento per ottenere un tale scopo. 
+
+Il valore-$p$ non può mai essere usato per descrivere il mondo reale. @greenland2016statistical esprimono questo punto nel modo seguente:
 
 > Thus to claim that the null P value is the probability that chance alone produced the observed association is completely backwards: The P value is a probability computed assuming chance was operating alone. The absurdity of the common backwards interpretation might be appreciated by pondering how the P value, which is a probability deduced from a set of assumptions (the statistical model), can possibly refer to the probability of those assumptions.
 
@@ -27,7 +42,6 @@ Nel 2016 l'American Statistical Association ha pubblicato un articolo nel quale 
 
 > $P$-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. Researchers often wish to turn a $p$-value into a statement about the truth of a null hypothesis, or about the probability that random chance produced the observed data. The $p$-value is neither. It is a statement about data in relation to a specified hypothetical explanation, and is not a statement about the explanation itself.
 
-
 ## L'uso del valore-$p$ nel mondo della ricerca
 
 Tra i tanti articoli che sono stati dedicati a questo tema, possiamo citare qui un articolo di @nuzzo2014statistical che descrive i limiti dell'uso del valore-$p$ all'interno della pratica scientifica. @nuzzo2014statistical ci ricorda che Ronald Fisher ha introdotto il valore-$p$ negli anni '20, ma non ha mai pensato ad esso come ad un test formale. Per Fisher, il valore-$p$ era uno strumento per giudicare informalmente se l'evidenza empirica fosse "significativa", laddove il termine "significativo" veniva inteso nel senso colloquiale del termine, ovvero come qualcosa che merita di essere considerata con attenzione. Secondo Fisher, lo sperimentatore propone un'"ipotesi nulla" che spera di dimostrare falsa (per esempio, l'assenza di differenza tra due gruppi). Poi gioca a fare l'avvocato del diavolo e assumere che l'ipotesi nulla sia vera. Questo gli consente di calcolare la probabilità di osservare un risultato altrettanto estremo o più estremo di quello  trovato, se il risultato trovato è interamente dovuto alla sola variabilità campionaria. Questa probabilità è appunto il valore-$p$. Lo scopo di questo modo di procedere è quello di valutare l'ipotesi nulla: secondo Fisher, la probabilità che l'ipotesi nulla sia falsa è tanto più grande quanto più piccolo è il valore-$p$. Anche se il valore-$p$ è un numero calcolato con una procedura matematica, per Fisher esso è solo uno strumento da usare all'interno di un processo (inferenziale) non numerico capace di combinare le evidenze empiriche correnti con le conoscenze precedenti del ricercatore. 
@@ -35,7 +49,6 @@ Tra i tanti articoli che sono stati dedicati a questo tema, possiamo citare qui 
 Il processo di decisione che il ricercatore mette in atto quando valuta i risultati di un esperimento venne formalizzato, alla fine degli anni '20, da due rivali di Fisher, il matematico Jerzy Neyman e lo statistico Egon Pearson. Neyman e Pearson si posero problema di rendere il processo di decisione "rigoroso e obiettivo". Allo scopo di fare questo, Neyman e Pearson introdussero, tra l'altro, i concetti di potere statistico e di falso positivo (i concetti che abbiamo visto nei paragrafi precedenti). Non usarono invece, all'interno della procedura proposta, la nozione di valore-$p$. 
 
 Questi due approcci contrapposti portarono ad un dibattito molto acceso tra di due gruppi: Neyman descrisse il lavoro di Fisher come matematicamente "worse than useless"; Fisher chiamò l'approccio di Neyman "childish" e "horrifying [for] intellectual freedom in the west". Mentre questo dibattito si sviluppava, altri autori iniziarono a scrivere dei manuali di statistica allo scopo di fornire uno strumento di lavoro ai ricercatori. Dato che molti di questi autori non erano statistici, non avevano una comprensione profonda di cosa distinguesse l'approccio di Fisher, da una parte, e l'approccio di Neyman e Pearson, dall'altra, e finirono per creare un sistema ibrido che utilizzava il valore-$p$ proposto da Fisher (che era un numero facile da calcolare) all'interno del "sistema rigoroso" proposto da Neyman e Pearson. È in questo contesto  che la soglia di un valore-$p$ pari a 0.05 venne definita "statisticamente significativa". Dal punto di vista storico, dunque, si può dire che il valore-$p$ proposto da Fisher non fu  mai pensato come qualcosa che può essere usato nel modo in cui il valore-$p$ viene usato al giorno d'oggi nel mondo della ricerca.  
-
 
 In uno dei sei "principi" che vengono enunciati, l'ASA continua dicendo quanto segue:
 
@@ -46,12 +59,9 @@ In uno dei sei "principi" che vengono enunciati, l'ASA continua dicendo quanto s
 La fallacia maggiore associata all'uso del valore-$p$ è chiamata "$P$-hacking" (o anche "data-dredging", "snooping", "fishing", "significance-chasing", "double-dipping"). Secondo Uri Simonsohn della Università della Pennsylvania, "$P$-hacking is trying multiple things until you get the desired result."  Esempi di $P$-hacking sono: "That finding seems to have been obtained through $p$-hacking, the authors dropped one of the conditions so that the overall $p$-value would be less than .05", oppure "She is a $p$-hacker, she always monitors data while it is being collected." La pratica del $P$-hacking ha l'effetto di trasformare uno studio esplorativo (che dovrebbe  essere sempre considerato con cautela) in uno studio (apparentemente) confermativo, con la conseguenza di proporre risultati che hanno una probabilità pressoché nulla di essere replicati in studi successivi. Le simulazioni di Simonsohn hanno mostrato come il cambiamento di poche decisioni all'interno del processo di analisi dei dati possa aumentare fino al 60\% il tasso di falsi positivi in un singolo studio. 
 
 La pratica del $P$-hacking emerge soprattutto negli studi che si pongono il problema di dimostrare piccoli effetti usando dati molto rumorosi. In un'analisi della letteratura psicologica, Simonsohn ha trovato che i valori-$p$ riportati dagli psicologi tendono a concentrarsi su valori appena superiori alla soglia "minima" dello 0.05 (figura \@ref(fig:around05)). Questo risultato può essere interpretato come conseguenza della pratica del $P$-hacking: infatti, i ricercatori sembrano seguire la prarica che li porta ad eseguire molteplici test di significatività statistica, fino a trovare un risultato "statisticamente significativo", per poi pubblicare quello. Come mostra la figura  \@ref(fig:around05), questa pratica non riguarda solo la psicologia ma è diffusa in tutti i campi della ricerca scientifica. 
-
-
 ```{r around05, echo=FALSE, fig.cap='Distribuzione dei valori-$p$ nelle pubblicazioni scientifiche di economia, psicologia e biologia.', out.width = '95%'}
 knitr::include_graphics("images/around_05.png")
 ```
-
 
 ## Critiche al valore-$p$
 
@@ -68,7 +78,6 @@ Se, come sembra, tutto è collegato con tutto, allora è ragionevole supporre ch
 Se questi sono gli obiettivi, allora la logica della verifica dell'ipotesi nulla si dimostra problematica. Infatti, come abbiamo visto sopra, nel caso di piccoli campioni e di piccoli effetti (caso, questo, che descrive la quasi la totalità delle ricerche in psicologia), le procedure frequentiste conducono ad una notevole sovrastima della dimensione dell'effetto. Inoltre, tendono a favorire un un pensiero binario basato sulla dicotomia vero/falso, mentre quello che è importante non è rifiutare un'ipotesi (nulla) che è sicuramente falsa, ma riuscire ad ottenere una stima non distorta della vera dimensione dell'effetto.
 
 La simulazione descritta sopra non mostra soltanto che, nelle condizioni considerate, la stima della grandezza dell'effetto risulti fortemente esagerata, ma anche che la *direzione* dell'effetto possa anche essere stimata incorrettamente. Nella simulazione descritta, questo si verifica *solo* in un campione su 40 tra quelli che producono un valore-$p >$ 0.05, ma l'esame di dati reali tratti dalla letteratura psicologica mostra che la probabilità di questo errore di segno possa essere molto maggiore. @gelman2014beyond chiamano i due tipi di errori che abbiamo discusso qui *errori di Tipo S* (Sign) e *errori di Tipo M* (Magnitude). @gelman2014beyond sono molto critici rispetto all'uso corrente che porta a descrivere i dati degli esperimenti per mezzo di concetti quali la "significatività statistica", il "potere statistico", l'"errore di tipo I" e l'"errore di tipo II" e affermano che sia più utile mettere in evidenza la probabilità di un errore di Tipo S e di Tipo M (uno script $\mathsf{R}$ che consente di calcolare la probabilità di errore di Tipo S e di Tipo M è fornito nel loro articolo). @gelman2014beyond concludono il loro articolo con la raccomandazione secondo la quale, per minimizzare i falsi positivi in psicologia, è necessario aumentare notevolmente la dimensione del campione rispetto agli standard correnti. Un punto analogo è anche fornito nell'articolo di @loken2017measurement.
-
 
 ## Simulazione
 
@@ -95,7 +104,6 @@ La statistica $d$ di Cohen si interpreta nel modo seguente:
 - d = 0.2  effetto piccolo
 - d = 0.5  effetto medio
 - d = 0.8  effetto grande
-
 
 ### Una piccola dimensione dell'effetto nella popolazione
 
@@ -250,4 +258,16 @@ abline(v = 0.2, lty = 2, col = "blue")
 Come mostrato dai risultati della simulazione, l'uso di una soglia più "conservativa" non ha altro effetto che quello di esacerbare il problema: la sovrastima della dimensione dell'effetto aumenta.
 
 In conclusione, si può dire che l'uso dell'approccio frequentista garantisce, senza possibilità di dubbio, il fatto di giungere alla conclusione inferenziale sbagliata.
+
+## Commenti e considerazioni finali {-}
+
+Nonostante il discredito di cui gode, il valore-$p$ continua ad essere usato e insegnato:
+
+> we teach it because it's what we do; we do it because it's what we teach.
+
+Vari tentativi vengono comunque svolti al fine di cercare di spezzare questo circolo vizioso e di affrontare il problema dell'inferenza, anche in un contesto didattico, mediante modalità più compatibili con la comprensione contemporanea di questo tema (questo insegnamento è ovviamente uno di questi tentativi). Al giorno d'oggi, le "buone pratiche" metodologiche non si limitano al suggerimento di *smettere di usare l'espressione "il risultato è statisticamente significativo"* [@amrhein2019scientists], ma invece propongono l'adozione di un punto di vista riassumibile nell'acronimo ATOM:
+
+> **A**ccept uncertainty. Be **t**houghtful, **o**pen, and **m**odest.
+
+Il superamento delle pratiche di decisione statistica basate sulla "significatività statistica" richiede l'adozione di un approccio olistico nel quale il ricercatore esamina e riporta tutti gli aspetti dei dati, senza limitarsi alla considerazione di quell'unico aspetto dei dati che è compatibile con l'ipotesi proposta. Soprattutto è necessario sostituire alla "significatività statistica" la *significatività scientifica*, ovvero è necessario chiarire quali sono *gli effetti pratici* che derivano dall'adozione del risultato proposto dal ricercatore. Un esempio di questo approccio è stato la discussione, fornita in precedenza in questa dispensa, dell'analisi costi/benefici nel mondo empirico che derivano da una determinata decisione statistica. 
 
