@@ -5,20 +5,49 @@ source("_common.R")
 source("_stan_options.R")
 ```
 
-Alle volte le osservazioni del campione non sono indipendenti. Invece, sono in qualche modo raggruppate così da formare dei cluster. Ad esempio, se abbiamo osservazioni ripetute degli stessi soggetti, allora le osservazioni di un cluster che corrisponde ad un soggetto saranno tra loro più simili delle osservazioni che appartengono a cluster (soggetti) diversi.
+## La struttura dei dati
 
-Ignorare questo tipo di struttura di raggruppamento sottostante viola il presupposto di  indipendenza che alla base dei modelli che abbiamo discusso fino a questo punto e, a sua volta, può produrre conclusioni fuorvianti. In questo capitolo esploreremo alcune tecniche che ci consentono di rendere conto della struttura gerarchica presente nei dati. 
-I modelli statistici che consentono di ottenere questo risultato si chiamano lineari misti, o modelli lineari gerarchici/multilivello, e sono diventati uno strumento fondamentale della ricerca sperimentale in psicologia, in linguistica e nelle scienze cognitive, dove i progetti di ricerca a misure ripetute sono la norma. 
+Ricordiamo che una delle finalità più comuni di un modello è la specificazione delle relazioni di tipo causa-effetto, allo scopo di interpretare e prevedere i fenomeni reali. Per fare questo, è importante mettere in evidenza, da una molteplicità di informazioni ottenute su numerose unità statistiche, gli aspetti essenziali presenti nei dati. La scelta modello statistico da usare per l'analisi dipende dalle caratteristiche e dalla struttura dei dati. 
 
-Il presente Capitolo fornisce un'introduzione a tali modelli considerando due esempi: il famoso problema delle otto scuole e il modello conosciuto con il nome di _Random Intercept Model_.
+La struttura dei dati può essere semplice o complessa, e ciò condiziona la scelta del modello statistico da usare per l'analisi. 
+
+- I dati a struttura semplice sono quelli per i quali non si rilevano particolari tipi di dipendenze o l'esistenza di particolari raggruppamenti delle osservazioni. 
+- I dati a struttura complessa sono quelli per i quali le unità statistiche si trovano suddivise in sottoinsiemi all'interno dei quali possono essere specificate ipotesi diverse sulle componenti di errore del modello statistico. Tali raggruppamenti si possono presentare a uno o più livelli. 
+
+Le strutture complesse dei dati possono essere suddivise tra le cosiddette strutture nested e quelle non-nested.
+
+## Struttura Nested
+
+Una struttura nested è quella in cui la gerarchia comporta l'esistenza di sottoinsiemi nidificati di osservazioni. In termini matematici una struttura nested è una partizione in gruppi di un insieme di unità. Ad esempio, gli studenti della scuola elementare (livello-1) di una città, sono nested nelle classi (livello-2) in cui studiano, a loro volta nested nelle scuole di appartenenza (livello-3), nested nel distretto di riferimento (livello-4). Nel caso di dati che hanno una struttura nested, le osservazioni individuali non risultano generalmente indipendenti: gli studenti di una stessa classe tendono ad avere un livello di formazione simile, a causa dei processi di selezione o a causa della comune storia che condividono. Una caratteristica fondamentale dei dati con struttura nested è dunque che gli individui che fanno parte del medesimo gruppo sono più somiglianti fra loro rispetto a quelli appartenenti a gruppi diversi.
+
+Un caso particolare di struttura nested è quello delle cosiddette *misure ripetute*. 
+Le misure ripetute sono un esempio di struttura gerarchica che corrisponde alla situazione nella quale la stessa variabile è misurata in più di una occasione per ogni soggetto. Nell'analisi di dati a misure ripetute gli individui possono essere pensati come unità di secondo livello e le osservazioni ripetute come unità di primo livello.
+
+## Struttura Non-Nested
+
+I dati hanno struttura non-nested quando non è definibile una partizione. Un esempio potrebbe derivare dai dati sullo studio di una qualche forma di disagio psicologico di un insieme di persone caratterizzate dal tipo di occupazione, il luogo di residenza e il luogo di lavoro. Questo è un caso non-nested in quanto la classificazione delle unità statistiche in base alle diverse variabili sopra considerate non produce la stessa suddivisione. Nell'esempio precedente di struttura non-nested i deti vengono detti *cross-classified*. I dati hanno struttura cosiddetta cross-classified quando ogni unità è classificata in base a due o più criteri tra loro non ordinati gerarchicamente. 
+
+## Ragioni di utilizzo della struttura gerarchica
+
+È importante includere nella formulazione del modello i vincoli che derivano dalla struttura dei dati perché ignorare la struttura di raggruppamento sottostante porta ad una violazione del presupposto di indipendenza che alla base dei modelli che abbiamo discusso fino a questo punto: le osservazioni all'interno di un gruppo sono infatti fra loro più simili rispetto a quelle di altri gruppi. I dati che hanno una struttura gerarchica, se vengono analizzati con modelli statistici che ignorano la dipendenza tra le osservazioni può produrre conclusioni fuorvianti. La metodologia multilivello fornisce un insieme di strumenti adatti ad analizzare simultaneamente variabili classificate a livelli differenti di gerarchia, con riferimento a modelli statistici che specificano le varie possibili forme di dipendenza. I modelli multilivello sono in grado di rendere conto dei vari livelli di osservazione: quello relativo all'individuo e quello cosiddetto contestuale che deriva da aggregazioni di individui.
+
+Storicamente, le analisi di dati gerarchicamente organizzati sono state inizialmente realizzate mediante le tecniche standard (come l'analisi della varianza o l'analisi di  regressione) spostando tutte le variabili su un solo livello di interesse. Ciò avveniva mediante due distinte procedure: aggregazione e disaggregazione. L'aggregazione è lo spostamento di variabili originariamente osservate su un livello basso della gerarchia verso un livello superiore. Al contrario, la disaggregazione è lo spostamento di variabili verso un livello più basso della gerarchia.
+
+Mediante l'aggregazione dei dati (detta pooling) si ignora la struttura gerarchica dei dati. Si ipotizza che le differenze tra i gruppi siano spiegate solo dalle variabili esplicative $X$ (covariate), ignorando i possibili effetti della struttura gerarchica nei dati. Analizzare variabili che appartengono a differenti livelli della gerarchia su un singolo e comune livello può risultare inadeguato e presentare degli inconvenienti, che diventano tanto più gravi quanto più la gerarchia è rilevante nella spiegazione del fenomeno analizzato. In particolare, l'aggregazione comporta una sostanziale perdita di informazioni e, di conseguenza, l'analisi statistica perde precisione. 
+
+Dall'altro, quando i dati vengono disaggregati (no pooling), i test statistici ordinari considerano che i valori disaggregati siano, in genere, informazioni indipendenti provenienti dall'insieme della unità di basso livello: i dati appartenenti a cluster diversi vengono analizzati separatamente. Invece, nelle situazioni in cui i dati sono gerarchicamente organizzati, i diversi cluster di dati non sono in genere indipendenti.
+<!-- Il comportamento degli individui è influenzato dal contesto nel quale sono inseriti e le caratteristiche di un gruppo sono influenzate dagli individui che formano il gruppo stesso: gli individui e il contesto possono essere visti come un sistema gerarchico di individui e gruppi, nel quale gli individui e i gruppi stanno a livelli diversi.  -->
+I test statistici tradizionali sono basati sull'assunto di indipendenza tra tutte le osservazioni, e se questa ipotesi risulta violata, le stime degli errori standard, calcolate attraverso le procedure statistiche convenzionali, risultano distorte.
+
+I modelli statistici che consentono di ottenere questo risultato si chiamano lineari misti, o modelli lineari gerarchici/multilivello, e sono diventati uno strumento fondamentale della ricerca sperimentale in psicologia, in linguistica e nelle scienze cognitive, dove i progetti di ricerca a misure ripetute sono la norma. In questo Capitolo esploreremo alcune tecniche che consentono di rendere conto della struttura gerarchica presente nei dati e discuteremo due esempi: il famoso problema delle otto scuole e il modello _Random Intercept Model_.
 
 ## Il problema delle 8 scuole
 
-Presento qui il classico problema delle otto scuole tratto da Rubin(1981) -- questo esempio è anche discusso nel Capitolo 5 di Gelman et al., 2014. Il problema considera l'efficacia dei programmi di coaching SAT condotti in parallelo in otto scuole.
+Il classico problema delle otto scuole [@rubin1981estimation; questo esempio è anche discusso nel Capitolo 5 di @gelman1995bayesian] fornisce uno degli esempi più semplici di dati organizzati in maniera gerarchica e viene spesso usato per illustrare l'utilità di modellazione gerarchica. Il problema considera l'efficacia dei programmi di coaching SAT condotti in parallelo in otto scuole.
 
 > Per conto del Servizio Prove Educative è stato condotto uno studio per analizzare gli effetti di speciali programmi di coaching per SAT-V (Scholastic Attitude Test-Verbal) in ciascuna delle otto scuole superiori. La variabile di esito in ogni studio era il punteggio su un'amministrazione speciale del SAT-V, un test a scelta multipla standardizzato somministrato dall'Educational Testing Service e utilizzato per aiutare i college a prendere decisioni di ammissione; i punteggi possono variare tra 200 e 800, con media circa 500 e deviazione standard circa 100. Gli esami SAT sono progettati per resistere a sforzi a breve termine diretti specificamente al miglioramento delle prestazioni del test; invece sono progettati per riflettere le conoscenze acquisite e le abilità sviluppate in molti anni di istruzione. Tuttavia, ciascuna delle otto scuole in questo studio ha considerato il suo programma di coaching a breve termine molto efficace nell'aumentare i punteggi SAT. Inoltre, non vi era alcuna ragione preliminare per ritenere che uno degli otto programmi fosse più efficace di un altro o che alcuni fossero più simili negli effetti l'uno all'altro che a qualsiasi altro.
 
-Per ciascuno degli otto scuole ($J$ = 8), abbiamo un effetto del trattamento stimato 
+Per ciascuna delle otto scuole ($J$ = 8) abbiamo un effetto del trattamento stimato 
 e un errore standard di stima dell'effetto $\sigma_j$. I dati sono i seguenti.
 
 ```{r}
@@ -30,7 +59,7 @@ schools <- tibble(
 schools
 ```
 
-Iniziamo calcolando una misura dell'effetto medio ponderato, in cui il punteggio di ogni scuola viene ponderato in base alla precisione della misura (uno sul quadrato dell'errore standard).
+Iniziamo calcolando una misura dell'effetto medio ponderato in cui il punteggio di ogni scuola viene ponderato in base alla precisione della misura (uno sul quadrato dell'errore standard).
 
 ```{r}
 schools$w <- 1 / schools$sigma^2
@@ -38,43 +67,43 @@ schools_mean <- sum(schools$w * schools$effect) / sum(schools$w)
 schools_mean
 ```
 
-Un grafico con i dati è fornito qui di seguito. 
+Un grafico con i dati (media $\pm$ 1 SE) è fornito di seguito. 
 
-```{r}
+```{r, echo=FALSE}
 ord <- order(schools$effect)
-plot(schools$effect[ord[c(1,8)]]+c(-2,2)*schools$sigma[ord[c(1,8)]],
+plot(schools$effect[ord[c(1,8)]]+c(-1,1)*schools$sigma[ord[c(1,8)]],
      c(nrow(schools),1),main = "8 Schools data.",type="n",yaxt="n",
      xlab="Effect Size",ylab="School")
 points(schools$effect[ord],nrow(schools):1,pch=rownames(schools)[ord])
 
-segments(schools$effect[ord]-2*schools$sigma[ord],nrow(schools):1,
-         schools$effect[ord]+2*schools$sigma[ord],nrow(schools):1)
+segments(schools$effect[ord]-1*schools$sigma[ord],nrow(schools):1,
+         schools$effect[ord]+1*schools$sigma[ord],nrow(schools):1)
 abline(v=schools_mean,col="blue")
 ```
 
-Prima di adattare il modello gerarchico bayesiano, consideriamo due metodi non gerarchici più semplici, i quali stimando gli effetti degli otto esperimenti in modo indipendente oppure eseguendo un pooling completo dei dati. Vedremo perché nessuno di questi approcci è adeguato per i dati di questo esempio.
+Prima di adattare il modello gerarchico bayesiano, consideriamo due metodi non gerarchici più semplici, i quali stimando gli effetti degli otto esperimenti eseguendo un pooling completo dei dati oppure considerando le scuole come indipendenti (no pooling). Vedremo perché nessuno di questi approcci è adeguato per i dati di questo esempio.
 
 ### Modello di *complete pooling*
 
-Un esame superficiale dei dati potrebbe suggerire che alcuni programmi di coaching hanno effetti moderati (nell'intervallo 18–28 punti), la maggior parte ha piccoli effetti (0–12 punti) e due hanno piccoli effetti negativi; tuttavia, quando prendiamo atto degli errori standard di questi effetti stimati, vediamo che è difficile  distinguere statisticamente tra i risultati di questi esperimenti. Ad esempio, considerando ogni esperimento come a sé stante e applicando la semplice analisi normale a ciascuno di essi si ottengono intervalli posteriori del 95% che si sovrappongono tutti in maniera sostanziale. Potremmo dunque concludere che i risultati degli otto esperimenti devono essere considerati come stime indipendenti *dello stesso processo generativo*. Di conseguenza possiamo combinare le otto osservazioni in un unico campione e procedere stimando la media comune di tali osservazioni.
+Un esame superficiale dei dati potrebbe suggerire che alcuni programmi di coaching hanno effetti moderati (nell'intervallo 18–28 punti), la maggior parte ha piccoli effetti (0–12 punti) e due hanno piccoli effetti negativi; tuttavia, quando prendiamo atto degli errori standard di questi effetti stimati, vediamo che è difficile  distinguere statisticamente tra i risultati di questi esperimenti. Potremmo dunque considerare i risultati degli otto esperimenti come esiti (condizionalmente) indipendenti dello stesso processo generativo. Di conseguenza potremmo decidere di procedere con un'*analisi aggregata* nella quale le otto scuole sono considerate come un unico campione.
 
 ```{r}
 model_string <- "
   data {
-     int<lower=0> J;          // # schools
-     real y[J];               // estimated treatment
-     real<lower=0> sigma[J];  // std err of effect
+    int<lower=0> J; // # schools
+    array[J] real y; // estimated treatment
+    array[J] real<lower=0> sigma; // std err of effect
   }
   parameters {
     real theta; // pooled school effect
-  } 
+  }
   model {
     y ~ normal(theta, sigma);
   }
 "
 ```
 
-I dati sono i seguenti.
+I dati in un formato appropriato per Stan sono i seguenti.
 
 ```{r}
 school8_dat <- list(
@@ -84,7 +113,7 @@ school8_dat <- list(
 )
 ```
 
-Compiliamo il modello e eseguiamo il campionamento MCMC per calcolare la distribuzione a posteriori sui parametri del modello.
+Compiliamo il modello descritto in precedenza e eseguiamo il campionamento MCMC.
 
 ```{r}
 writeLines(model_string, con = "code/hmod_2.stan")
@@ -102,26 +131,31 @@ fit2 <- mod$sample(
 )
 ```
 
-Con queste assunzioni, la nostra incertezza sulla misura dell'effetto comune è di circa 20 punti, ad un livello di certezza soggettiva del 95%.
+Nel caso di un'analisi per dati aggregati, la nostra incertezza sulla misura dell'effetto comune è di circa 20 punti, se utilizziamo un livello di certezza soggettiva del 95%.  Visualizziamo la stima a posteriori con l'istruzione seguente, dove 
+
+- ci_level: 0.8 (80% intervals)
+- outer_level: 0.95 (95% intervals)
 
 ```{r}
 output2_stanfit <- rstan::read_stan_csv(fit2$output_files()) 
 plot(output2_stanfit) + xlim(-50, 60)
 ```
 
-In base all'ipotesi di complete pooling possiamo dunque concludere che i nostri dati sono realizzazioni indipendenti di una v.c. $\sim \mathcal{N}(\mu = 7.87, \sigma = 4.20)$.
+In base ad un'analisi aggregata (complete pooling) concludiamo che i dati sono realizzazioni indipendenti di una v.c. $\sim \mathcal{N}(\mu = 7.87, \sigma = 4.20)$.
 
 ```{r}
 fit2$summary()
 ```
 
-Ma dobbiamo chiederci se una tale conclusione sia ragionevole. Il valore più estremo del nostro campione è 28.4. Se il processo generativo è quello descritto sopra, ovvero $\mathcal{N}(\mu = 7.87, \sigma = 4.20)$, possiamo chiederci quale sia la probabilità di osservare il valore di 28.4, o un valore ancora più estremo.
+Ma è ragionevole concludere quanto detto sopra? Un primo problema dell'analisi aggregata è che è impossibile fare inferenza sui gruppi, ovvero, nel caso presente, sugli effetti dei diversi metodi di coaching (e questa era la motivazione stessa dell'analisi). 
+
+Un secondo problema è più strettamente statistico. Se assumiamo che il processo generativo sia $\mathcal{N}(\mu = 7.87, \sigma = 4.20)$, allora possiamo chiederci quale sia la probabilità di osservare i dati del campione (o valori ancora più estremi). Il valore più estremo del nostro campione è 28.4. Se il modello generativo fosse $\mathcal{N}(\mu = 7.87, \sigma = 4.20)$, la probabilità di osservare i dati della scuola 1 sarebbe estremamente piccola.
 
 ```{r}
 1 - pnorm(28.4, 7.87, 4.20)
 ```
 
-Tale probabilità è estremamente bassa. Per cui dobbiamo ammettere che il modello di complete pooling non è neppure in grado di rendere conto dei dati del campione osservato. Un tale modello, dunque, non dovrebbe essere seriamente preso in considerazione.
+Un'analisi aggregata (modello di complete pooling), dunque, non è neppure in grado di rendere conto dei dati del campione osservato (ci dice che un certo dato non dovrebbe verificarsi; ma l'abbiamo osservato). Il modello di complete pooling, dunque, non sembra adeguato per i dati considerati.
 
 <!-- L'intervallo così trovato corrisponde all'intervallo frequentista al 95%. Infatti, dato che, in questo modello, le osservazioni sono ritenute essere v.c. indipendenti, la varianza di una somma è una somma di varianze.  In questo caso $\sigma$ è il reciproco della varianza, per cui la stima della varianza comune è data da: -->
 
@@ -143,23 +177,25 @@ Tale probabilità è estremamente bassa. Per cui dobbiamo ammettere che il model
 
 ### Modello *no pooling*
 
-Avendo rifiutato il modello di compelte pooling, possiamo considerare il modello che si trova all'estremo opposto, ovvero il modello di no pooling, nel quale ogni scuola è trattata in maniera del tutto indipendente dalle altre.
+Avendo rifiutato il modello compelte pooling, consideriamo ora il modello che si trova all'estremo opposto (modello no pooling). Eseguiamo dunque un'*analisi disaggregata*  nella quale ogni scuola è trattata in maniera indipendente dalle altre. In linguaggio Stan, il modello no pooling può essere formulato nel modo seguente.
 
 ```{r}
 model_string <- "
   data {
-     int<lower=0> J;          // # schools
-     real y[J];               // estimated treatment
-     real<lower=0> sigma[J];  // std err of effect
+    int<lower=0> J; // # schools
+    array[J] real y; // estimated treatment
+    array[J] real<lower=0> sigma; // std err of effect
   }
   parameters {
-    real theta[J]; // school effect
-  } 
+    array[J] real theta; // school effect
+  }
   model {
     y ~ normal(theta, sigma);
   }
 "
 ```
+
+Eseguiamo l'analisi.
 
 ```{r}
 writeLines(model_string, con = "code/hmod_1.stan")
@@ -177,22 +213,17 @@ fit1 <- mod$sample(
 )
 ```
 
-Otteniamo i seguenti risultati.
+I risultati sono i seguenti.
 
 ```{r}
 fit1$summary()
 ```
 
-Possiamo visualizzare l'incertezza delle stime a posteriori nel modo seguente.
+Visualizziamo l'incertezza delle stime a posteriori.
 
 ```{r}
 output_stanfit <- rstan::read_stan_csv(fit1$output_files()) 
 ```
-
-Con la seguente istruzione otteniamo
-
-- ci_level: 0.8 (80% intervals)
-- outer_level: 0.95 (95% intervals)
 
 Si vede che le stime degli effetti degli otto esperimenti producono intervalli di credibilità al 95% che sono quasi completamente sovrapposti. L'ampiezza degli intervalli, ad un grado di certezza soggettiva del 95%, è di circa 50 punti. 
 
@@ -200,11 +231,15 @@ Si vede che le stime degli effetti degli otto esperimenti producono intervalli d
 plot(output_stanfit) + xlim(-50, 60)
 ```
 
-Dal momento che ciascuna stima dipende *unicamente* dai dati di una singola osservazione, l'inferenza sui parametri sconosciuti del modello è estremamente rumorosa: ben poco si può dire a proposito di quello che succede in campioni diversi dai dati che abbiamo a disposizione.
+Dal momento che ciascuna stima dipende *unicamente* dai dati di una singola osservazione, l'inferenza sui parametri sconosciuti del modello no pooling è estremamente rumorosa.
 
-### Modello di *partial pooling*
+### Modello *partial pooling*
 
-In generale, i modelli gerarchici sono basati sulla seguente idea: sebbene ogni gruppo sia unico, essendo stato campionato dalla stessa popolazione, tutti i gruppi sono collegati e quindi potrebbero contenere informazioni preziose l'uno sull'altro. Questa informazione *gerarchica* è fornita dagli *iper-parametri* del modello. La struttura ipotizzata è la seguente. Il risultato di ciascuna scuola è la realizzazione di una v.c. avente una media $\theta_i$. L'oggetto dell'inferenza sono i valori $\theta_i$, con $i = 1, \dots, 8$. Tuttavia, i parametri $\theta_i$ sono tra loro legati in qualche modo. Il modello assume che siano *realizzazioni casuali* di un'unico processo generativo sottostante $\mathcal{N}(\mu, \tau)$. I parametri $\mu$ e $\tau$ sono detti *iper-parametri* e servono a imporre un vincolo sui possibili valori che i parametri $\theta_i$ possono assumere. Nella versione più semplice di questo modello gerarchico, l'iper-parametro $\mu$ è ignoto ma  $\tau$ viene assunto come conosciuto. Ciò conduce alla formulazione del modello di partial pooling. Nel caso presente assumiamo che $\tau = 25$.
+Avendo concluso che i modelli complete pooling e non-pooling sono inadeguati, consideriamo ora un modello gerarchico. In generale, i modelli gerarchici sono basati sulla seguente idea: sebbene ogni gruppo sia unico, essendo stato campionato dalla stessa popolazione, tutti i gruppi sono collegati e quindi potrebbero contenere informazioni preziose l'uno sull'altro. Questa informazione gerarchica è fornita dagli *iper-parametri* del modello. 
+
+La struttura ipotizzata da un modello gerarchico per i dati considerati è la seguente. Il modello gerarchico ipotizza che il risultato di ciascuna scuola sia la realizzazione di una v.c. avente media $\theta_j$. L'oggetto dell'inferenza sono i valori $\theta_j$, con $i = 1, \dots, 8$. Il modello gerarchico ipotizza che i parametri $\theta_j$ siano tra loro legati in qualche modo. In maniera più precisa, il modello assume che $\theta_j$ siano realizzazioni casuali dei un unico processo generativo sottostante. Il modello assume che tale processo generativo abbia la seguente forma: $\mathcal{N}(\mu, \tau)$. I parametri $\mu$ e $\tau$ sono detti *iper-parametri* e condizionano i valori possibili che i parametri $\theta_j$ possono assumere. Nella versione più semplice di questo modello gerarchico, l'iper-parametro $\mu$ viene considerato ignoto ma $\tau$ viene assunto come conosciuto. Ciò conduce alla formulazione del modello partial pooling. Nel caso presente assumiamo $\tau = 25$.
+
+Inseriamo in input a Stan l'informazione relativa a $\tau$.
 
 ```{r}
 school8_dat2 <- list(
@@ -215,18 +250,20 @@ school8_dat2 <- list(
 )
 ```
 
+Formuliamo il modello di partial pooling nel modo seguente.
+
 ```{r}
 model_string <- "
   data {
-     int<lower=0> J;          // # schools
-     real y[J];               // estimated treatment
-     real<lower=0> sigma[J];  // std err of effect
-     real<lower=0> tau;       // variance between schools
+    int<lower=0> J; // # schools
+    array[J] real y; // estimated treatment
+    array[J] real<lower=0> sigma; // std err of effect
+    real<lower=0> tau; // variance between schools
   }
   parameters {
-    real theta[J]; // school effect
-    real mu;       // mean for schools
-  } 
+    array[J] real theta; // school effect
+    real mu; // mean for schools
+  }
   model {
     mu ~ normal(0, 15);
     theta ~ normal(mu, tau);
@@ -234,6 +271,8 @@ model_string <- "
   }
 "
 ```
+
+Eseguiamo l'analisi.
 
 ```{r}
 writeLines(model_string, con = "code/hmod_3.stan")
@@ -251,29 +290,42 @@ fit3 <- mod$sample(
 )
 ```
 
+Esaminiamo la distribuzione a posteriori delle stime dei parametri.
+
 ```{r}
 output3_stanfit <- rstan::read_stan_csv(fit3$output_files()) 
 plot(output3_stanfit) + xlim(-50, 60)
 ```
 
-Per tale modello di partial pooling, le stime a posteriori al livello del 95% dei parametri $\theta$ sono comprese in un intervallo pari a circa 40 punti.
+Per il modello di partial pooling, ad un livello di certezza soggettiva del 95%, le stime a posteriori dei parametri $\theta_j$ sono comprese in un intervallo pari a circa 40 punti. Si noti che, in relazione al modello no pooling, è diminuita la nostra incertezza rispetto alle stime dei parametri $\theta_j$.
 
 ### Modello gerarchico
 
-Il modello precedente impone dei vincoli troppo forti sui valori $\theta_i$, in quanto si assume che la loro dispersione sia conosciuta. Ma ciò non è vero. Il modello gerarchico dunque stimerà entrambi gli iper-parametri $\mu$ e $\tau$, dove $\mu$ rappresenta l'effetto medio del trattamento e $\tau$ descrive la varianza tra le scuole. 
+Il modello di partial pooling assume che la dispersione dei parametri $\theta_j$ sia conosciuta. Ma ovviamente ciò non è vero. Arriviamo così alla formulazione del modello gerarchico nel quale vengono stimati entrambi gli iper-parametri $\mu$ e $\tau$, dove $\mu$ rappresenta l'effetto medio del trattamento e $\tau$ descrive la varianza tra le scuole. Il modello gerarchico è dunque il seguente.
+
+$$
+\begin{align}
+y_j &\sim \mathcal{N}(\theta_j, \sigma_j), \quad j = 1, \dots, 8\notag\\
+\theta_j &\sim \mathcal{N}(\mu, \tau), \quad j = 1, \dots, 8
+\end{align}
+$$
+
+dove ciascun $\sigma_j$ è considerato noto.
+
+Lo scriviamo in linguaggio Stan nel modo seguente.
 
 ```{r}
 model_string <- "
   data {
-     int<lower=0> J;          // # schools
-     real y[J];               // estimated treatment
-     real<lower=0> sigma[J];  // std err of effect
+    int<lower=0> J; // # schools
+    array[J] real y; // estimated treatment
+    array[J] real<lower=0> sigma; // std err of effect
   }
   parameters {
-    real theta[J]; // school effect
-    real mu;       // mean for schools
-    real<lower=0> tau; //  variance between schools
-  } 
+    array[J] real theta; // school effect
+    real mu; // mean for schools
+    real<lower=0> tau; // variance between schools
+  }
   model {
     mu ~ normal(0, 15);
     tau ~ cauchy(0, 30);
@@ -282,6 +334,8 @@ model_string <- "
   }
 "
 ```
+
+Eseguiamo l'analisi.
 
 ```{r}
 writeLines(model_string, con = "code/hmod_4.stan")
@@ -299,31 +353,42 @@ fit4 <- mod$sample(
 )
 ```
 
-Visualizziamo la distribuzione a posteriori delle stime dei parametri e degli iper-parametri.
+Le stime dei parametri sono le seguenti.
 
 ```{r}
 output4_stanfit <- rstan::read_stan_csv(fit4$output_files()) 
+print(output4_stanfit, pars = c("theta", "mu", "tau"), probs = c(.025, .5, .975))
+```
+
+Visualizziamo la distribuzione a posteriori delle stime dei parametri e degli iper-parametri.
+
+```{r}
 plot(output4_stanfit) + xlim(-50, 60)
 ```
 
-In questo modo otteniamo delle stima degli effetti $\theta$ a cui può essere associata l'incertezza minore di tutti i casi esaminati in precedenza: con un grado di certezza soggettiva del 95%, le stime a posteriori al livello del 95% dei parametri $\theta$ sono comprese in un intervallo pari a circa 30 punti.
+Con un grado di certezza soggettiva del 95%, le stime a posteriori dei parametri $\theta_j$ risultano comprese in un intervallo pari a circa 30 punti. Il modello gerarchico, dunque, produce stime degli effetti $\theta_j$ a cui è associata l'incertezza più piccola rispetto a tutti gli altri casi esaminati in precedenza.
 
 ### Interpretazione
 
-In conclusione, il modello gerarchico consente di formulare le stime degli effetti $\theta$ degli otto esperimenti più precise di quanto lo faccia un modello no-pooling. Si noti che, con $\tau \rightarrow \infty$, le stime di un modello gerarchico diventano sempre più simile a quelle di un modello no-pooling, vale a dire, ciascuna delle stime dell'effetto del trattamento della scuola diventa via via più indipendente dalle altre stime. Con $\tau \rightarrow 0$, le stime di un modello gerarchico diventano sempre più simile alle stime di un modello di pooling completo, vale a dire, tutti gli effetti del trattamento della scuola tendono a diventare via via più simili all'effetto medio del gruppo. 
-
+In conclusione, il modello gerarchico consente di ottenere stime degli effetti $\theta_j$ degli otto esperimenti più precise di quelle ottenute dal modelo non gerarchico no-pooling e dal modello gerarchico di partial pooling. Si noti inoltre che, con $\tau \rightarrow \infty$, le stime di un modello gerarchico diventano sempre più simili a quelle di un modello no-pooling, vale a dire, ciascuna delle stime dell'effetto del trattamento della scuola diventa via via più indipendente dalle altre stime. Con $\tau \rightarrow 0$, le stime di un modello gerarchico diventano sempre più simili alle stime di un modello di pooling completo, vale a dire, tutti gli effetti del trattamento della scuola tendono a diventare via via più simili all'effetto medio del gruppo. 
 
 ## Modelli lineari ad intercetta casuale
 
-Per fare un esempio concreto di tale modello useremo il set di dati a misure ripetute con due condizioni di @gibson2013processing [si veda @sorensen2015bayesian]. La variabile dipendente `rt` dell'esperimento di @gibson2013processing è il tempo di lettura in millisecondi del soggetto di una proposizione relativa in un testo. I tempi di reazione sono stati registrati in due condizioni (ovvero, in presenza di un sostantivo riferito al soggetto oppure riferito all'oggetto della proposizione). I dati di @gibson2013processing provengono da un esperimento con 37 soggetti e 15 item. Gli item erano presentati in un disegno a quadrato latino, il che produce 37 $\times$ 15 = 555 dati. Risultano mancanti otto dati di un soggetto (id 27), il che ci porta ad un totale di 555 − 8 = 547 dati. Le prime righe del data.frame sono mostrate di seguito:
+Esaminiamo ora un modello gerarchico più complesso per l'analisi di un set di dati a misure ripetute con due condizioni. I dati sono stati raccolti da @gibson2013processing [si veda @sorensen2015bayesian]. La variabile dipendente `rt` dell'esperimento di @gibson2013processing è il tempo di lettura in millisecondi del soggetto di una proposizione relativa in un testo. I tempi di reazione sono stati registrati in due condizioni: in presenza di un sostantivo riferito al soggetto della proposizione, oppure in presenza di un sostantivo riferito all'oggetto della proposizione. 
+
+I dati di @gibson2013processing provengono da un esperimento con 37 soggetti e 15 item. Gli item erano presentati in un disegno a quadrato latino (ovvero, un disegno nel quale vengono considerate tutte le combinazioni possibili), il che produce 37 $\times$ 15 = 555 dati. Risultano mancanti otto dati di un soggetto (id 27), il che porta ad un totale di 555 − 8 = 547 dati. Le prime righe del data.frame sono mostrate di seguito:
 
 ```{r}
 rdat <- read.table(here::here("data", "gibsonwu2012data.txt"))
-rdat$so <- ifelse(rdat$type == "subj-ext", -0.5, 0.5)
 head(rdat)
 ```
 
-La variabile di interesse che corrisponde alla manipolazione sperimentale è chiamata `so` ed è stata codificata con -0.5 se il sostantivo era riferito al soggetto e con +0.5 se il sostantivo era riferito all'oggetto della frase.
+La manipolazione sperimentale viene descritta dalla variabile `type` (oppure, in maniera equivalente, dalla variabile `type2`). Nell'analisi, `type` viene ricodificata nella colonna `so` la quale assume valore -0.5 se il sostantivo era riferito al soggetto e +0.5 se il sostantivo era riferito all'oggetto della frase.
+
+```{r}
+rdat$so <- ifelse(rdat$type == "subj-ext", -0.5, 0.5)
+unique(rdat$so)
+```
 
 Calcoliamo la media dei tempi di reazione su scala logaritmica e per poi ritrasformare il risultato sulla scala originale:
 
@@ -335,27 +400,37 @@ rdat %>%
   )
 ```
 
-Quando il sostantivo si riferisce al soggetto, i tempi di reazione sono più lenti di circa 30 ms. Questa descrizione dei dati, però non tiene conto né delle differenze tra i soggetti né delle differenze tra gli item. Per tenere in considerazioni queste diverse fonti della variabilità dei dati è necessario utilizzare un modello detto gerarchico. 
+Quando il sostantivo si riferisce al soggetto, i tempi di reazione sono più lenti di circa 30 ms. 
+
+Questa descrizione dei dati, però non tiene conto né delle differenze tra i soggetti né delle differenze tra gli item. Per tenere in considerazioni queste diverse fonti della variabilità dei dati è necessario utilizzare un modello gerarchico. 
 
 ### Modello ad effetti fissi
 
-Iniziamo con il modello "ad effetti fissi" che non tiene conto della struttura gerarchica dei dati, ovvero del fatto che c'è una covariazione all'interno dei cluster di dati definiti dalle variabili "soggetto" e "item".
+Iniziamo con un modello "ad effetti fissi" che non tiene conto della struttura gerarchica dei dati, ovvero del fatto che c'è una covariazione all'interno dei cluster definiti dalle variabili "soggetto" e "item".
 
-Assumiamo che la variabile dipendente `rt` (del tempo di lettura) sia approssimativamente distribuita in modo logaritmico [@rouder2005unshifted]. Ciò presuppone che il logaritmo di `rt` sia distribuito approssimativamente in maniera normale. Il modello per il logaritmo dei tempi di lettura, $\log$ `rt`, diventa
-
-\begin{equation}
-\log rt_i = \beta_0 + \beta_1 so_i + \varepsilon_i,
-\end{equation}
-
-ovvero
+Ipotizziamo dunque di descrivere i dati mediante il seguente modello di regressione lineare:
 
 \begin{equation}
-rt \sim LogNormal(\beta_0 + \beta_1 so,\sigma)
+\log rt_i = \beta_0 + \beta_1 so_i + \varepsilon_i.
 \end{equation}
 
-dove $\beta_0$ è la media generale di $\log$ `rt` e $\beta_1 so$ codifica la differenza $\E(\log rt_{o}) - \E(\log rt_{s})$ quando si passa dalla condizione nella quale il sostantivo è riferito all'oggetto alla condizione nella quale il sostantivo è riferito all'soggetto -- valori negativi significano che i tempi di reazioni sono maggiori nella condizione `s` che nella condizione `o`.
+Questo è il caso nel quale usiamo il modello lineare per fare inferenza sulla differenza tra le medie di due gruppi. In precedenza abbiamo codificato i due gruppi con 0 e 1. In tali circostanze $\alpha$ fornisce una stima del valore atteso della media del gruppo codificato con $x = 0$ e il parametro $\beta$ fornisce una stima del valore atteso della differenza tra le medie dei due gruppi.
 
-Nel modello useremo le seguenti distribuzioni a priori:
+La codifica -0.5 e +0.5 per le due modalità della variabile `so` ha un effetto simile. Il parametro $\alpha$ del modello di regressione lineare fornisce una stima del valore atteso della media di tutti i valori $y$ (trascurando la classificazione in gruppi) mentre, come in precedenza, il parametro $\beta$ fornisce una stima del valore atteso della differenza tra le medie dei due gruppi.
+
+I tempi di reazione (variabile dipendente `rt`, ovvero tempo di lettura) hanno una distribuzione caratterizzata da una forte asimmetria positiva. Se trasformiamo i dati in maniera logaritmica, i dati trasformati si distribuiscono in maniera approssimativamente Normale. In maniera equivalente, si può dire che i dati grezzi seguono la distribuzione lognormale. 
+
+Il modello di regressione lineare assume dunque la forma seguente:
+
+\begin{equation}
+rt \sim \mbox{LogNormal}(\beta_0 + \beta_1 so,\sigma).
+\end{equation}
+
+In tale modello $\beta_0$ corrisponde al valore atteso della media generale di $\log$ `rt` e $\beta_1 so$ codifica la differenza $\E(\log rt_{o}) - \E(\log rt_{s})$ quando si passa dalla condizione nella quale il sostantivo è riferito all'oggetto alla condizione nella quale il sostantivo è riferito al soggetto -- valori negativi significano che i tempi di reazioni sono maggiori nella condizione `s` che nella condizione `o`.
+
+Ricordiamo che questo non è un modello gerarchico, ma un semplice modello di regressione lineare nel quale assumiamo che la componente erratica del modello segua una distribuzione lognormale.
+
+In un tale modello useremo le seguenti distribuzioni a priori:
 
 \begin{equation}
 \begin{aligned}
@@ -369,38 +444,42 @@ Nel modello useremo le seguenti distribuzioni a priori:
 
 <!-- https://vasishth.github.io/bayescogsci/book/sec-trial.html -->
 
-In Stan, il modello diventa
+In Stan, il modello precedente è specificato nel modo seguente. 
 
 ```{r}
 modelString = "
-data {
-  int<lower=1> N; //number of data points
-  array[N] real rt; //reading time
-  array[N] real<lower=-0.5, upper=0.5> so; //predictor
-}
-parameters {
-  vector[2] beta; //fixed intercept and slope
-  real<lower=0> sigma_e; //error sd
-}
-model {
-  real mu;
-  // likelihood
-  beta[1] ~ normal(6, 1.5);
-  beta[2] ~ normal(0, 1);
-  sigma_e ~ cauchy(0, 1);
-  for (i in 1 : N) {
-    mu = beta[1] + beta[2] * so[i];
-    rt[i] ~ lognormal(mu, sigma_e);
+  data {
+    int<lower=1> N; //number of data points
+    array[N] real rt; //reading time
+    array[N] real<lower=-0.5, upper=0.5> so; //predictor
   }
-}
+  parameters {
+    vector[2] beta; //fixed intercept and slope
+    real<lower=0> sigma_e; //error sd
+  }
+  model {
+    real mu;
+    // likelihood
+    beta[1] ~ normal(6, 1.5);
+    beta[2] ~ normal(0, 1);
+    sigma_e ~ cauchy(0, 1);
+    for (i in 1 : N) {
+      mu = beta[1] + beta[2] * so[i];
+      rt[i] ~ lognormal(mu, sigma_e);
+    }
+  }
 "
 writeLines(modelString, con = "code/fixeff_model.stan")
+```
 
+Compiliamo il modello.
+
+```{r}
 file <- file.path("code", "fixeff_model.stan")
 mod <- cmdstan_model(file)
 ```
 
-I dati sono contenuti nella lista `stan_dat`:
+I dati sono contenuti nella lista `stan_dat`.
 
 ```{r}
 stan_dat <- list(
@@ -410,7 +489,7 @@ stan_dat <- list(
 )
 ```
 
-Eseguiamo il campionamento MCMC:
+Eseguiamo il campionamento MCMC.
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 fit3 <- mod$sample(
@@ -423,13 +502,19 @@ fit3 <- mod$sample(
 )
 ```
 
-Otteniamo un oggetto di classe `stanfit`:
+Otteniamo dunque le seguenti medie a posteriori.
+
+```{r}
+fit3$summary()
+```
+
+Trasformiamo `fit3` in un oggetto di classe `stanfit`.
 
 ```{r}
 stanfit <- rstan::read_stan_csv(fit3$output_files())
 ```
 
-Calcoliamo gli intervalli di credibilità al 95%:
+Calcoliamo gli intervalli di credibilità al 95%.
 
 ```{r}
 ci95 <- rstanarm::posterior_interval(
@@ -439,68 +524,93 @@ ci95 <- rstanarm::posterior_interval(
 round(ci95, 3)
 ```
 
-L'effetto medio, sulla scala in millisecondi, si trova nel modo seguente:
+Se esponenziamo i dati su scala lognormale ritorniamo alla scala dei dati grezzi. L'effetto medio, sulla scala in millisecondi, si trova dunque nel modo seguente.
 
 ```{r}
-posterior <- extract(stanfit, permuted = TRUE)
-exp(mean(posterior$beta[, 1] + posterior$beta[, 2])) - 
-  exp(mean(posterior$beta[, 1]))
+post <- extract(stanfit, permuted = TRUE)
+exp(mean(post$beta[, 1] + post$beta[, 2])) - exp(mean(post$beta[, 1]))
 ```
+
+Se ignoriamo la struttura gerarchica dei dati, concludiamo che l'effetto della manipolazione sperimentale corrisponde ad una differenza medie nel tempo di lettura nelle due condizioni di 36 ms, con tempi di lettura maggiore quando il sostantivo era riferito al soggetto della proposizione.
 
 ### Modello gerarchico
 
-Il modello a effetti fissi è inappropriato per i dati di @gibson2013processing perché non tiene conto del fatto che abbiamo più misure per ogni soggetto e per ogni item. In altre parole, il modello ad effetti fissi viola l'assunzione di indipendenza degli errori. Inoltre, i coefficienti di effetti fissi $\beta_0$ e $\beta_1$ rappresentano le medie calcolate su tutti i soggetti e tutti gli item, ignorando il fatto che alcuni soggetti sono più veloci e altri più lenti della media, e il fatto che alcuni item sono stati letti più velocemente della media e altri più lentamente.
+Un modello non gerarchico (detto ad effetti fissi) è inappropriato per il campione di @gibson2013processing perché non tiene conto del fatto che i dati sono a misure ripetute, ovvero, con più ripetizioni per ogni soggetto e per ogni item. Il modello ad effetti usato sopra viola l'assunzione di indipendenza degli errori. Inoltre, i coefficienti di effetti fissi $\beta_0$ e $\beta_1$ rappresentano le medie calcolate aggregando i dati sulla dimensione dei soggetti e degli item. Così facendo, non si tiene in considerazione il fatto che alcuni soggetti sono più veloci e altri più lenti della media, e il fatto che alcuni item sono stati letti più velocemente e altri in maniera più lenta della media. Ovvero, il modello non considera informazioni che sono presenti nei dati.
 
-Nei modelli lineari misti, teniamo in considerazione la variabilità dovuta alle differenze tra soggetti e tra item aggiungendo al modello i termini $u_{0j}$ e $w_{0k}$ che aggiustano $\beta_0$ stimando una componente specifica al soggetto $j$ e all'item $k$. Questa formulazione del modello scompone parzialmente $\varepsilon_i$ in una somma di termini $u_{0j}$ e $w_{0k}$ che, geometricamente, corrispondono a degli aggiustamenti dell'intercetta $\beta_0$ specifici per il soggetto $j$ e per l'item $k$. Se il soggetto $j$ è più lento della media di tutti i soggetti, $u_j$ sarà un numero positivo; se l'item $k$ viene letto più velocemente del tempo di lettura medio di tutti gli item, allora $w_k$ sarà un numero negativo. Viene stimato un aggiustamento $u_{0j}$ per ogni soggetto $j$ e un aggiustamento $w_{0k}$ per ogni item. Gli aggiustamenti $u_{0j}$ e $w_{0k}$ sono chiamati _random intercepts_ o _varying intercepts_ [@gelman2020regression]. La modifica di $\beta_0$ mediante  $u_{0j}$ e $w_{0k}$ consente dunque di tenere in considerazione la variabilità dovuta ai soggetti e agli item.
+Un modello gerarchico, invece, rende conto delle diverse fonti di variabilità che derivano da questo disegno sperimentale, ovvero la variabilità dovuta alle differenze tra i soggetti e la variabilità dovuta alle differenze tra gli item. Per rendere conto di queste fonti di variabilità nei dati, vengono aggiunti al modello di regressione lineare due nuovi termini: $u_{0j}$ e $w_{0k}$. Tali termini "aggiustano" $\beta_0$ in modo tale da stimare una componente specifica della variabile risposta dovuta al soggetto $j$-esimo e all'item $k$-esimo. 
 
-Il random intercept model assume che gli aggiustamenti $u_{0j}$ e $w_{0k}$ siano  distribuiti normalmente attorno allo zero con una deviazione standard sconosciuta: $u_0 ∼ \mathcal{N}(0, \sigma_u)$ e $w_0 ∼ \mathcal{N}(0, \sigma_w)$. Il modello include dunque tre fonti di varianza: la deviazione standard degli errori $\sigma_e$, la deviazione standard delle _random intercepts_ per i soggetti, $\sigma_u$, e la deviazione standard delle _random intercepts_ per gli item, $\sigma_w$. Queste tre fonti di variabilità sono dette _componenti della varianza_. Possiamo dunque scrivere:
+Questa formulazione del modello scompone parzialmente la componente d'errore $\varepsilon_i$ nella somma dei termini $u_{0j}$ e $w_{0k}$. Geometricamente, i termini $u_{0j}$ e $w_{0k}$ corrispondono ad aggiustamenti dell'intercetta $\beta_0$ che sono specifici per il soggetto $j$-esimo e per l'item $k$-esimo. 
+
+Se il soggetto $j$-esimo è più lento della media di tutti i soggetti, allora il parametro $u_j$ sarà un numero positivo. Se l'item $k$-esimo viene letto più velocemente del tempo di lettura medio di tutti gli item, allora il parametro $w_k$ sarà un numero negativo. Viene stimato un aggiustamento $u_{0j}$ per ogni soggetto $j$-esimo e un aggiustamento $w_{0k}$ per ogni item $k$-esimo. I parametri $u_{0j}$ e $w_{0k}$ sono chiamati _random intercepts_ o _varying intercepts_ [@gelman2020regression]. L'aggiustamento di $\beta_0$ mediante $u_{0j}$ e $w_{0k}$ consente dunque di tenere in considerazione la struttura gerarchica dei dati, ovvero consente di stimare la quota di variabilità dovuta ai soggetti e agli item.
+
+Il random intercept model assume che gli aggiustamenti $u_{0j}$ e $w_{0k}$ siano  distribuiti normalmente attorno allo zero con una deviazione standard sconosciuta: 
+
+$$
+u_0 ∼ \mathcal{N}(0, \sigma_u),
+$$ 
+
+$$
+w_0 ∼ \mathcal{N}(0, \sigma_w).
+$$
+
+Il modello include dunque tre fonti di varianza: 
+
+- la deviazione standard degli errori $\sigma_e$, 
+- la deviazione standard delle _random intercepts_ per i soggetti, $\sigma_u$, 
+- la deviazione standard delle _random intercepts_ per gli item, $\sigma_w$. 
+
+Queste tre fonti di variabilità sono dette *componenti della varianza*. Possiamo dunque scrivere il modello nel modo seguente:
 
 \begin{equation}
 \log rt_{ijk} = \beta_0 + \beta_1 so_i + u_{0j} + w_{0k} + \varepsilon_{ijk}.
 \end{equation}
 
-Il coefficiente $\beta_1$ è quello di interesse primario. Come conseguenza della codifica usata, avrà il valore $-\beta_1$ nella condizione in cui il sostantivo è riferito al soggetto e $+\beta_1$ nella condizione in cui il sostantivo è riferito all'oggetto della frase.
+Il coefficiente $\beta_1$ è il parametro di interesse primario. Come conseguenza della codifica usata, avrà il valore $-\beta_1$ nella condizione in cui il sostantivo è riferito al soggetto e $+\beta_1$ nella condizione in cui il sostantivo è riferito all'oggetto della frase.
 
-In Stan il modello diventa:
+In Stan il modello viene formulato nel modo seguente.
 
 ```{r}
 modelString = "
-data {
-  int<lower=1> N; //number of data points
-  array[N] real rt; //reading time
-  array[N] real<lower=-0.5, upper=0.5> so; //predictor
-  int<lower=1> J; //number of subjects
-  int<lower=1> K; //number of items
-  array[N] int<lower=1, upper=J> subj; //subject id
-  array[N] int<lower=1, upper=K> item; //item id
-}
-parameters {
-  vector[2] beta; //fixed intercept and slope
-  vector[J] u; //subject intercepts
-  vector[K] w; //item intercepts
-  real<lower=0> sigma_e; //error sd
-  real<lower=0> sigma_u; //subj sd
-  real<lower=0> sigma_w; //item sd
-}
-model {
-  real mu;
-  //priors
-  u ~ normal(0, sigma_u); //subj random effects
-  w ~ normal(0, sigma_w); //item random effects
-  // likelihood
-  for (i in 1 : N) {
-    mu = beta[1] + u[subj[i]] + w[item[i]] + beta[2] * so[i];
-    rt[i] ~ lognormal(mu, sigma_e);
+  data {
+    int<lower=1> N; //number of data points
+    array[N] real rt; //reading time
+    array[N] real<lower=-0.5, upper=0.5> so; //predictor
+    int<lower=1> J; //number of subjects
+    int<lower=1> K; //number of items
+    array[N] int<lower=1, upper=J> subj; //subject id
+    array[N] int<lower=1, upper=K> item; //item id
   }
-}
+  parameters {
+    vector[2] beta; //fixed intercept and slope
+    vector[J] u; //subject intercepts
+    vector[K] w; //item intercepts
+    real<lower=0> sigma_e; //error sd
+    real<lower=0> sigma_u; //subj sd
+    real<lower=0> sigma_w; //item sd
+  }
+  model {
+    real mu;
+    //priors
+    u ~ normal(0, sigma_u); //subj random effects
+    w ~ normal(0, sigma_w); //item random effects
+    // likelihood
+    for (i in 1 : N) {
+      mu = beta[1] + u[subj[i]] + w[item[i]] + beta[2] * so[i];
+      rt[i] ~ lognormal(mu, sigma_e);
+    }
+  }
 "
 writeLines(modelString, con = "code/random_intercepts_model.stan")
+```
 
+Compiliamo il modello.
+
+```{r}
 file <- file.path("code", "random_intercepts_model.stan")
 mod <- cmdstan_model(file)
 ```
 
-I dati sono
+I dati nel formato appropriato per Stan sono i seguenti.
 
 ```{r}
 stan_dat <- list(
@@ -514,7 +624,7 @@ stan_dat <- list(
 )
 ```
 
-Eseguiamo il campionamento MCMC:
+Eseguiamo il campionamento MCMC.
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 fit4 <- mod$sample(
@@ -527,27 +637,52 @@ fit4 <- mod$sample(
 )
 ```
 
-Otteniamo un oggetto di classe `stanfit`:
+Trasformiamo l'oggetto `fit4` in un oggetto di classe `stanfit`.
 
 ```{r}
-stanfit <- rstan::read_stan_csv(fit4$output_files())
+output4_stanfit <- rstan::read_stan_csv(fit4$output_files())
 ```
 
-Le medie a posteriori si ottengono con
+Le medie a posteriori dei parametri si ottengono nel modo seguente.
 
 ```{r}
 fit4$summary(c("beta", "sigma_e", "sigma_w", "sigma_u"))
 ```
 
-Gli intervalli di credibilità sono:
+Gli intervalli di credibilità al 95% sono i seguenti.
 
 ```{r}
 ci95 <- rstanarm::posterior_interval(
-  as.matrix(stanfit),
+  as.matrix(output4_stanfit),
   prob = 0.95
 )
 round(ci95, 3)
 ```
+
+Si noti il grande numero di parametri che vengono stimati dal modello gerarchico, anche nel caso del modello a intercette casuali, ovvero, nel caso del modello gerarchico più semplice. Questo esempio fa capire la necessità di utilizzare gli algoritmi MCMC: con un numero di parametri da stimare così grande è fuori considerazione l'idea di stimare i parametri mediante un metodo numerico basato su griglia. Inoltre, nel caso di un modello così complesso, una soluzione analitica della distribuzione a posteriori dei parametri non è disponibile. 
+
+Nel caso presente, la stima dell'effetto della manipolazione sperimentale ottenuta mediante un modello gerarchico ad intercette random è molto simile alla stima ottenuta con il modello che analizza i dati aggregati.
+
+```{r}
+post <- extract(output4_stanfit, permuted = TRUE)
+exp(mean(post$beta[, 1] + post$beta[, 2])) - exp(mean(post$beta[, 1]))
+```
+
+L'intervallo di credibilità a posteriori per il modello gerarchico ad intercette random, in questo campione, è leggermente più piccolo di quello ottenuto mediante l'analisi dei dati aggregati.
+
+Si noti che la varianza trovata con il modello per dati aggregati
+
+```{r}
+0.6291826^2
+```
+
+viene ora decomposta nella somma di tre componenti
+
+```{r}
+0.57721890^2 + 0.11961706^2 + 0.23762983^2
+```
+
+Quindi, il modello gerarchico ci fornisce più informazioni di un'analisi basata sui dati aggregati. Per esempio, l'analisi presente ci consente di dire che la variabilità dei tempi di reazione dovuta alle differenze tra i soggetti è di entità circa doppia rispetto alla variabilità attribuibile alle differenze tra gli item.
 
 <!-- Questi risultati replicano i risultati che si ottengono con la funzione `brms::brm`: -->
 
@@ -570,14 +705,19 @@ round(ci95, 3)
 
 ## Commenti e considerazioni finali {-}
 
-Il fenomeno per cui, nel modello gerarchico le stime dei parametri si avvicinano di più alla media generale (definita del modello di pooling completo) di quanto lo facciano le stime del modello no pooling, è detto *effetto shrinkage*. 
+La descrizione dettagliata della soluzione del problema delle otto scuole ha messo in evidenza un aspetto importante che deriva dall'uso dei modelli gerarchici: in un modello gerarchico, le stime degli effetti (qui chiamate $\theta_j$, ovvero l'effetto del diverso tipo di coaching per ciascuna scuola) assumono valori più simili alla media generale di quanto non lo facciano quando gli effetti $\theta_j$ vengono stimati da un modello no pooling. Questo fenomeno è detto *effetto shrinkage*. 
 
-- L'effetto shrinkage aumenta quando il numero di osservazioni in ciascun gruppo $j$-esimo diminuisce. Cioè, ci affidiamo sempre di più alle tendenze globali per stimare le proprietà di un gruppo per il quale abbiamo pochi dati.
-- L'effetto shrinkage aumenta quando la variabilità all'interno dei gruppi, $\sigma_y$ è è grande rispetto alla variabilità tra i gruppi, $\sigma_\mu$. Cioè, ci affidiamo sempre di più alle tendenze globali per per stimare le proprietà di un gruppo quando è difficile distinguere le proprietà di un gruppo da quelle di un altro gruppo.
+È importante considerare due caratteristiche dell'effetto shrinkage.
 
-Trovando un equilibrio tra pooling completo e nessun pooling, i modelli gerarchici ci consentono di:
+- L'effetto shrinkage aumenta quando diminuisce il numero di osservazioni in ciascun gruppo $j$-esimo. Cioè, ci affidiamo sempre di più alle tendenze globali per stimare le proprietà di un gruppo per il quale abbiamo pochi dati.
+- L'effetto shrinkage aumenta quando è è grande la variabilità all'interno dei gruppi, $\sigma_y$, rispetto alla variabilità tra i gruppi, $\sigma_\mu$. Cioè, ci affidiamo sempre di più alle tendenze globali per per stimare le proprietà di un gruppo quando è difficile distinguere le proprietà di un gruppo da quelle di un altro gruppo.
 
-- generalizzare le osservazioni sui nostri gruppi campionati alla popolazione più ampia; - prendere in prestito informazioni da tutti i gruppi campionati quando si voglino conoscere le proprietà di un singolo gruppo campionato.
+Questo ci fa capire che, trovando un equilibrio tra pooling completo e no pooling, i modelli gerarchici consentono di:
 
-Le stime prodotte dai modelli con pooling completo tendono ad avere una distorsione (bias) alta e una varianza piccola. Le stime prodotte dai modelli senza pooling tendono ad avere una distorsione bassa e una varianza grande. I modelli gerarchici offrono un'alternativa equilibrata tra questi due estremi. A differenza dei modelli a pooling completo, i modelli gerarchici tengono conto delle tendenze specifiche dei gruppi e quindi offrono una minore distorsione del fenomeno da descrivere. E a differenza dei modelli no pooling, i modelli gerarchici tengono conto delle tendenze globali e quindi offrono delle stime meno variabili da campione a campione. 
+- generalizzare le osservazioni sui nostri gruppi campionati alla popolazione più ampia; - prendere in prestito informazioni da tutti i gruppi campionati quando si vogliono conoscere le proprietà di un singolo gruppo campionato.
+
+Le stime prodotte dai modelli con pooling completo tendono ad avere una distorsione (bias) alta e una varianza piccola; le stime prodotte dai modelli senza pooling tendono ad avere una distorsione bassa e una varianza grande. I modelli gerarchici offrono un equilibrio tra questi due estremi: 
+
+- a differenza dei modelli a pooling completo, i modelli gerarchici tengono conto delle tendenze specifiche dei gruppi e quindi offrono una minore distorsione del fenomeno da descrivere; 
+- a differenza dei modelli no pooling, i modelli gerarchici tengono conto delle tendenze globali e quindi offrono delle stime meno variabili da campione a campione. 
 
