@@ -1,0 +1,396 @@
+# Modello gerarchico: simulazioni {#ch-hier-sim}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+source("_common.R")
+source("_stan_options.R")
+library("tidybayes")
+library("rstan")
+```
+
+In questo Capitolo esamineremo nuovamente il modello gerarchico. Per chiarirne meglio il funzionamento useremo delle simulazioni. La discussione che segue è stata adattata dal seguente [blog](https://www.occasionaldivergences.com/post/stan-hierarchical/).
+
+## Modello generativo dei dati
+
+I modelli bayesiani sono "generativi", ovvero rappresentano il processo generativo dei dati e, dunque, essi stessi possono essere usati per generare campioni di dati. Per introdurre questo aspetto, consideriamo il modello più semplice, ovvero il modello Normale descritto in precedenza. Le osservazioni per tale modello corrispondono alle osservazioni di `N` individui contenuti nel vettore `y`. Il modello assume che `y` segua la legge Normale di media `mu` e deviazione standard `sigma`.
+
+```{r}
+model_string <- "
+  data {
+    int<lower=1> N;
+    vector[N] y;
+  }
+  parameters {
+    real mu;
+    real<lower=0> tau;
+  }
+  model {
+    mu ~ normal(0, 5);
+    tau ~ normal(0, 5);
+    y ~ normal(mu, tau);
+  }
+"
+```
+
+Compiliamo il modello.
+
+```{r}
+writeLines(model_string, con = "code/flat_regression.stan")
+file1 <- file.path("code", "flat_regression.stan")
+mod1 <- cmdstan_model(file1)
+```
+
+Fissati i parametri, il modello precedente può essere usato per generare campioni di dati. A questo fine dobbiamo specificare solo i blocchi `data` e `generated quantities`, come indicato qui sotto. La funzione `normal_rng(mu, tau)` è il corrispondente in linguaggio Stan della funzione `rnorm()` in $\mathsf{R}$.
+
+```{r}
+model2_string <- "
+  data {
+    int<lower=1> N;
+    real mu; 
+    real<lower=0> tau; 
+  }
+  generated quantities {
+    vector[N] y;
+    
+    for (n in 1 : N) {
+      y[n] = normal_rng(mu, tau);
+    }
+  }
+"
+```
+
+Compiliamo il modello. 
+
+```{r}
+writeLines(model2_string, con = "code/generate_flat_data.stan")
+file2 <- file.path("code", "generate_flat_data.stan")
+mod2 <- cmdstan_model(file2)
+```
+
+Specifichiamo ora i valori dei parametri indicati qui sotto.
+
+```{r}
+# Specify data and parameter values.
+sim_values <- list(
+  N = 100, # Number of observations.
+  mu = 5,  # Mean of the regression.
+  tau = 1  # Variance of the regression.
+)
+```
+
+Utilizziamo `cmdstan` per generare 1,000 campioni di 100 osservazioni ciascuno.
+
+```{r}
+sim_data <- mod2$sample(
+  data = sim_values,
+  chains = 1,
+  seed = 42,
+  fixed_param = TRUE
+)
+```
+
+Recuperiamo i 1,000 campioni di 100 osservazioni generati dal modello.
+
+```{r}
+sim_data_stanfit <- rstan::read_stan_csv(sim_data$output_files()) 
+fake_data_matrix  <- sim_data_stanfit %>% 
+  as.data.frame %>% 
+  dplyr::select(contains("y"))
+
+dim(fake_data_matrix)
+```
+
+Recuperiamo i dati di un singolo campione.
+
+```{r}
+sim_y <- fake_data_matrix[1, ]
+as.numeric(sim_y)
+```
+
+Possiamo ora usare il modello `flat_regression.stan` per stimare i parametri che abbiamo utilizzato per generare i dati. Sistemiamo i 100 valori simulati in una lista.
+
+```{r}
+# Specify data.
+data <- list(
+  N = length(sim_y),   # Number of observations.
+  y = as.numeric(sim_y) # Vector of observations.
+)
+```
+
+Otteniamo i campioni dalla distribuzione a posteriori dei parametri del modello.
+
+```{r}
+fit <- mod1$sample(
+  data = data,
+  iter_sampling = 4000L,
+  iter_warmup = 2000L,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Esaminiamo le medie a posteriori dei parametri $\mu$ e $\tau$.
+
+```{r}
+fit$summary()
+```
+
+Le medie a posteriori sono molto simili al vero valore dei parametri.
+
+Esaminiamo la convergenza delle catene di Markov.
+
+```{r}
+fit_stanfit <- rstan::read_stan_csv(fit$output_files()) 
+
+fit_stanfit %>%
+  mcmc_trace(
+    pars = c("mu", "tau"),
+    n_warmup = 2000,
+    facet_args = list(nrow = 2, labeller = label_parsed)
+  )
+```
+
+Esaminiamo graficamente la distribuzioni a posteriori dei parametri.
+
+```{r}
+par_values <- tibble(
+  .variable = c("mu", "tau"),
+  values = c(sim_values$mu, sim_values$tau),
+)
+par_values
+```
+
+```{r}
+fit_stanfit %>%
+  gather_draws(mu, tau) %>%
+  ggplot(aes(x = .value, y = .variable)) +
+  geom_halfeyeh(.width = .95) +
+  geom_vline(aes(xintercept = values), par_values, color = "red") +
+  facet_wrap(
+    ~ .variable,
+    nrow = 2,
+    scales = "free"
+  )
+```
+
+Possiamo concludere che gli intervalli di credibilità a posteriori del 95% contengono i veri valori dei parametri (in rosso) che sono stati utilizzati per simulare i dati. In questo modello non gerarchico, dunque, il processo di inferenza bayesiana ottiene il risultato desiderato.
+
+## Modello gerarchico
+
+Supponiamo ora che i dati abbiano una struttura complessa, ovvero siano organizzati in cluster (ad esempio, bambini in scuole diverse). In linguaggio Stan il modello gerarchico può essere scritto nel modo seguente.
+
+```{r}
+model3_string <- "
+  // Index values and observations.
+  data {
+    int<lower=1> N; // Number of observations.
+    int<lower=1> K; // Number of groups.
+    vector[N] y; // Vector of observations.
+    array[N] int<lower=1, upper=K> g; // Vector of group assignments.
+  }
+  // Parameters and hyperparameters.
+  parameters {
+    real mu; // Mean of the population model.
+    real<lower=0> tau; // Variance of the population model.
+    vector[K] beta; // Vector of group intercepts.
+    real<lower=0> sigma; // Variance of the likelihood.
+  }
+  // Hierarchical regression.
+  model {
+    // Hyperpriors.
+    mu ~ normal(0, 5);
+    tau ~ normal(0, 5);
+    
+    // Prior.
+    sigma ~ normal(0, 5);
+    
+    // Population model and likelihood.
+    beta ~ normal(mu, tau);
+    for (n in 1 : N) {
+      y[n] ~ normal(beta[g[n]], sigma);
+    }
+  }
+"
+```
+
+Nel blocco `data` ora abbiamo un vettore `g` che indica a quale dei `K` gruppi appartiene ciascuno degli `N` individui nel campione. Nel blocco `parameters`, abbiamo un vettore `K`-dimensionale di parametri `beta` che specifica una media separata per ciascuno dei `K` gruppi di osservazioni. Nel blocco `model` possiamo vedere che la verosimiglianza delle osservazioni (ora all'interno di un ciclo for) è ancora assunta essere normale, ma ora il punteggio di ogni individuo ha una media diversa e pari a `beta` che è specifica per il gruppo a cui l'individuo appartiene. Lo statement `beta ~ normal(mu, tau)` ci dice che i coefficienti beta specifici al gruppo sono tratti da una popolazione che si presume normale con una media `mu` e deviazione standard `tau`.
+
+Il modello specifica dunque una struttura gerarchica: ci sono due livelli nel nostro modello, il modello a livello inferiore specifica la verosimiglianza delle osservazioni, mentre il modello al livello superiore specifica le proprietà della popolazione. Infine, il modello include le distribuzioni a priori sui parametri della popolazione (formalmente indicati come hyper-priors, poiché sono le distribuzioni a priori delle distribuzioni a priori). Per gli iper-parametri `mu` e `tau` vengono ipotizzate distribuzioni a priori Normali. Infine, alla deviazione standard della verosimiglianza, ora chiamata `sigma`, viene imposta una distribuzione a priori Normale.
+
+Come in precedenza, dallo script precedente possiamo derivare un nuovo script che contiene il modello generativo dei dati.
+
+```{r}
+model4_string <- "
+  // Index and hyperparameter values.
+  data {
+    int<lower=1> N; // Number of observations.
+    int<lower=1> K; // Number of groups.
+    array[N] int<lower=1, upper=K> g; // Vector of group assignments.
+    real mu; // Mean of the population model.
+    real<lower=0> tau; // Variance of the population model.
+    real<lower=0> sigma; // Variance of the likelihood.
+  }
+  // Generate data according to the hierarchical regression.
+  generated quantities {
+    vector[N] y; // Vector of observations.
+    vector[K] beta; // Vector of group intercepts.
+    
+    // Draw parameter values and generate data.
+    for (k in 1 : K) {
+      beta[k] = normal_rng(mu, tau);
+    }
+    for (n in 1 : N) {
+      y[n] = normal_rng(beta[g[n]], sigma);
+    }
+  }
+"
+```
+
+Specifichiamo i valori degli iper-parametri.
+
+```{r}
+sim4_values <- list(
+  N = 100,                            # Number of observations.
+  K = 5,                              # Number of groups.
+  g = sample(5, 100, replace = TRUE), # Vector of group assignments.
+  mu = 5,                             # Mean of the population model.
+  tau = 1,                            # Variance of the population model.
+  sigma = 1                           # Variance of the likelihood.
+)
+```
+
+Compiliamo il modello. 
+
+```{r}
+writeLines(model4_string, con = "code/generate_hierarchical_data_01.stan")
+file4 <- file.path("code", "generate_hierarchical_data_01.stan")
+mod4 <- cmdstan_model(file4)
+```
+
+Utilizziamo `cmdstan` per generare 1,000 campioni di 100 osservazioni ciascuno.
+
+```{r}
+sim4_data <- mod4$sample(
+  data = sim4_values,
+  chains = 1,
+  fixed_param = TRUE
+)
+```
+
+Recuperiamo i 1,000 campioni di 100 osservazioni generati dal modello.
+
+```{r}
+sim4_data_stanfit <- rstan::read_stan_csv(sim4_data$output_files()) 
+fake_data4_matrix  <- sim4_data_stanfit %>% 
+  as.data.frame %>% 
+  dplyr::select(contains("y"))
+
+dim(fake_data4_matrix)
+```
+
+Selezioniamo i dati di un singolo campione.
+
+```{r}
+sim4_y <- fake_data4_matrix[1, ]
+dim(sim4_y)
+```
+
+Seleziono i valori beta.
+
+```{r}
+fake_beta_matrix  <- sim4_data_stanfit %>% 
+  as.data.frame %>% 
+  dplyr::select(contains("beta"))
+```
+
+Isolo i valori beta del primo campione di dati simulati.
+
+```{r}
+sim4_beta <- fake_beta_matrix[1, ]
+```
+
+Possiamo ora testare il nostro modello gerarchico utilizzando i dati simulati.
+
+```{r}
+data3 <- list(
+  N = length(sim4_y),     # Number of observations.
+  K = sim4_values$K,      # Number of groups.
+  y = as.numeric(sim4_y), # Vector of observations.
+  g = sim4_values$g       # Vector of group assignments.
+)
+```
+
+Otteniamo i campioni dalla distribuzione a posteriori dei parametri del modello.
+
+```{r}
+writeLines(model3_string, con = "code/hierarchical_regression_01.stan")
+file3 <- file.path("code", "hierarchical_regression_01.stan")
+mod3 <- cmdstan_model(file3)
+
+fit3 <- mod3$sample(
+  data = data3,
+  iter_sampling = 4000L,
+  iter_warmup = 2000L,
+  chains = 4L,
+  refresh = 0
+)
+```
+
+Esaminiamo la convergenza delle catene di Markov.
+
+```{r}
+fit3_stanfit <- rstan::read_stan_csv(fit3$output_files()) 
+
+fit3_stanfit %>%
+  mcmc_trace(
+    pars = c("mu", "tau", str_c("beta[", 1:data3$K, "]"), "sigma"),
+    n_warmup = 2000,
+    facet_args = list(nrow = 5, labeller = label_parsed)
+  )
+```
+
+Esaminiamo graficamente la distribuzioni a posteriori dei parametri.
+
+```{r}
+# Recover parameter values.
+hyper_par_values <- tibble(
+  .variable = c("mu", "tau", "sigma"),
+  values = c(sim4_values$mu, sim4_values$tau, sim4_values$sigma)
+)
+
+fit3_stanfit %>%
+  gather_draws(mu, tau, sigma) %>%
+  ggplot(aes(x = .value, y = .variable)) +
+  geom_halfeyeh(.width = .95) +
+  geom_vline(aes(xintercept = values), hyper_par_values, color = "red") +
+  facet_wrap(
+    ~ .variable,
+    nrow = 2,
+    scales = "free"
+  )
+```
+
+Consideriamo anche gli intervalli di credibilità al 95% per i parametri `beta`.
+
+```{r}
+broom.mixed::tidyMCMC(
+  fit3_stanfit, 
+  conf.level = 0.95,
+  conf.int = TRUE, 
+  conf.method = "HPDinterval", 
+  pars = c("beta")
+)
+```
+
+I valori usati nella simulazione sono i seguenti.
+
+```{r}
+sim4_beta
+```
+
+In conclusione, anche il modello gerarchico è in grado di recuperare accuratamente il valore dei parametri usati nella simulazione per creare i dati.
+
+## Commenti e considerazioni finali {-}
+
+I modelli gerarchici forniscono una soluzione che è una via di mezzo tra l'assenza di aggregazione delle informazioni (ovvero, modelli non gerarchici separati per ciascun gruppo) e la completa aggregazione delle informazioni (ovvero, modelli che uniscono tutte le osservazioni in un unico campione e non distinguono tra i gruppi). I modelli gerarchici consentono di modellare in modo appropriato le differenze tra gruppi di osservazioni. Data la prevalenza di situazioni di questo tipo in psicologia, i modelli gerarchici dovrebbero rappresentare il punto di partenza nella maggior parte delle analisi dei dati psicologici. Stan consente di svolgere in maniera semplice i calcoli necessari per fare inferenza in situazioni di questo tipo.
+
+

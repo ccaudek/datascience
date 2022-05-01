@@ -56,12 +56,13 @@ rmd_files:
     - "056_pred_check.Rmd"
     - "060_anova.Rmd"
     - "070_mod_hier.Rmd"
+    - "071_mod_hier_sim.Rmd"
     ## PART V
     - "090_entropy.Rmd"
     - "091_kl.Rmd"
     - "092_info_criterion.Rmd"
     # - "093_projpred.Rmd"
-    ## PART VI
+    # PART VI
     - "205_ttest.Rmd"
     - "210_pvalue.Rmd"
     ## APPENDIX

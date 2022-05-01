@@ -500,6 +500,9 @@ interpretazione-3
 modelli-lineari-ad-intercetta-casuale
 modello-ad-effetti-fissi
 modello-gerarchico-1
+ch-hier-sim
+modello-generativo-dei-dati
+modello-gerarchico-2
 ch-entropy
 la-generalizzabilità-dei-modelli
 capacità-predittiva

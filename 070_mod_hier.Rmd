@@ -684,25 +684,6 @@ viene ora decomposta nella somma di tre componenti
 
 Quindi, il modello gerarchico ci fornisce più informazioni di un'analisi basata sui dati aggregati. Per esempio, l'analisi presente ci consente di dire che la variabilità dei tempi di reazione dovuta alle differenze tra i soggetti è di entità circa doppia rispetto alla variabilità attribuibile alle differenze tra gli item.
 
-<!-- Questi risultati replicano i risultati che si ottengono con la funzione `brms::brm`: -->
-
-<!-- ```{r, warning=FALSE, message=FALSE, error=FALSE, results='hide'} -->
-<!-- M1 <- brm( -->
-<!--   rt ~ so + (1 | subj) + (1 | item), -->
-<!--   family = lognormal(), -->
-<!--   prior = c( -->
-<!--     prior(normal(6, 1.5), class = Intercept), -->
-<!--     prior(normal(0, 1), class = sigma), -->
-<!--     prior(normal(0, 1), class = b) -->
-<!--     ), -->
-<!--   data = rdat -->
-<!-- ) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- summary(M1) -->
-<!-- ``` -->
-
 ## Commenti e considerazioni finali {-}
 
 La descrizione dettagliata della soluzione del problema delle otto scuole ha messo in evidenza un aspetto importante che deriva dall'uso dei modelli gerarchici: in un modello gerarchico, le stime degli effetti (qui chiamate $\theta_j$, ovvero l'effetto del diverso tipo di coaching per ciascuna scuola) assumono valori più simili alla media generale di quanto non lo facciano quando gli effetti $\theta_j$ vengono stimati da un modello no pooling. Questo fenomeno è detto *effetto shrinkage*. 
@@ -720,4 +701,8 @@ Le stime prodotte dai modelli con pooling completo tendono ad avere una distorsi
 
 - a differenza dei modelli a pooling completo, i modelli gerarchici tengono conto delle tendenze specifiche dei gruppi e quindi offrono una minore distorsione del fenomeno da descrivere; 
 - a differenza dei modelli no pooling, i modelli gerarchici tengono conto delle tendenze globali e quindi offrono delle stime meno variabili da campione a campione. 
+
+
+
+
 
