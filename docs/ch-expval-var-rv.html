@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 11 Valore atteso e varianza | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -1085,7 +1085,7 @@ Dunque</p>
 \tag{11.7}
 \end{equation}\]</span></p>
 </div>
-<p>A parole: la varianza è la deviazione media quadratica della variabile dalla sua media.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> Se denotiamo <span class="math inline">\(\E(Y) = \mu\)</span>, la varianza <span class="math inline">\(\mathbb{V}(Y)\)</span> diventa il valore atteso di <span class="math inline">\((Y - \mu)^2\)</span>.</p>
+<p>A parole: la varianza è la deviazione media quadratica della variabile dalla sua media.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> Se denotiamo <span class="math inline">\(\E(Y) = \mu\)</span>, la varianza <span class="math inline">\(\mathbb{V}(Y)\)</span> diventa il valore atteso di <span class="math inline">\((Y - \mu)^2\)</span>.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-48" class="exercise"><strong>Esercizio 11.5  </strong></span>Posta <span class="math inline">\(S\)</span> uguale alla somma dei punti ottenuti nel lancio di due dadi equilibrati, poniamoci il problema di calcolare la varianza di <span class="math inline">\(S\)</span>.</p>
 <p>La variabile casuale <span class="math inline">\(S\)</span> ha la seguente distribuzione di probabilità:</p>
@@ -1437,8 +1437,8 @@ f_{XY} (x,y) = f_X(x) f_Y(y)
 
 <div class="footnotes">
 <hr />
-<ol start="10">
-<li id="fn10"><p>Data una variabile casuale <span class="math inline">\(Y\)</span> con valore atteso <span class="math inline">\(\E(Y)\)</span>, le “distanze” tra i valori di <span class="math inline">\(Y\)</span> e il valore atteso <span class="math inline">\(\E(Y)\)</span> definiscono la variabile casuale <span class="math inline">\(Y - \E(Y)\)</span> chiamata <em>scarto</em>, oppure <em>deviazione</em> oppure <em>variabile casuale centrata</em>. La variabile <span class="math inline">\(Y - \E(Y)\)</span> equivale ad una traslazione di sistema di riferimento che porta il valore atteso nell’origine degli assi. Si può dimostrare facilmente che il valore atteso della variabile scarto <span class="math inline">\(Y - \E(Y)\)</span> vale zero, dunque la media di tale variabile non può essere usata per quantificare la “dispersione” dei valori di <span class="math inline">\(Y\)</span> relativamente al suo valore medio. Occorre rendere sempre positivi i valori di <span class="math inline">\(Y - \E(Y)\)</span> e tale risultato viene ottenuto considerando la variabile casuale <span class="math inline">\(\left(Y - \E(Y)\right)^2\)</span>.<a href="ch-expval-var-rv.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<ol start="9">
+<li id="fn9"><p>Data una variabile casuale <span class="math inline">\(Y\)</span> con valore atteso <span class="math inline">\(\E(Y)\)</span>, le “distanze” tra i valori di <span class="math inline">\(Y\)</span> e il valore atteso <span class="math inline">\(\E(Y)\)</span> definiscono la variabile casuale <span class="math inline">\(Y - \E(Y)\)</span> chiamata <em>scarto</em>, oppure <em>deviazione</em> oppure <em>variabile casuale centrata</em>. La variabile <span class="math inline">\(Y - \E(Y)\)</span> equivale ad una traslazione di sistema di riferimento che porta il valore atteso nell’origine degli assi. Si può dimostrare facilmente che il valore atteso della variabile scarto <span class="math inline">\(Y - \E(Y)\)</span> vale zero, dunque la media di tale variabile non può essere usata per quantificare la “dispersione” dei valori di <span class="math inline">\(Y\)</span> relativamente al suo valore medio. Occorre rendere sempre positivi i valori di <span class="math inline">\(Y - \E(Y)\)</span> e tale risultato viene ottenuto considerando la variabile casuale <span class="math inline">\(\left(Y - \E(Y)\right)^2\)</span>.<a href="ch-expval-var-rv.html#fnref9" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 10 La densità di probabilità | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -858,7 +858,7 @@ div.csl-indent {
 <div id="ch-intro-density-function" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Capitolo 10</span> La densità di probabilità<a href="ch-intro-density-function.html#ch-intro-density-function" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Finora abbiamo considerato solo variabili casuali discrete, cioè variabili che assumono solo valori interi. Ma cosa succede se vogliamo usare variabili casuali per rappresentare lunghezze, o volumi, o distanze, o una qualsiasi delle altre proprietà continue nel mondo fisico (o psicologico)? È necessario generalizzare l’approccio usato finora.</p>
-<p>Le variabili casuali continue assumono valori reali. L’insieme dei numeri reali è <em>non numerabile</em> perché è più grande dell’insieme degli interi.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> Le leggi della probabilità sono le stessa per le variabili casuali discrete e quelle continue. La nozione di funzione di massa di probabilità, invece, deve essere sostituita dal suo equivalente continuo, ovvero dalla <em>funzione di densità di probabilità</em>. Lo scopo di questo Capitolo è quello di chiarire il significato di questa nozione, usando un approccio basato sulle simulazioni.</p>
+<p>Le variabili casuali continue assumono valori reali. L’insieme dei numeri reali è <em>non numerabile</em> perché è più grande dell’insieme degli interi.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> Le leggi della probabilità sono le stessa per le variabili casuali discrete e quelle continue. La nozione di funzione di massa di probabilità, invece, deve essere sostituita dal suo equivalente continuo, ovvero dalla <em>funzione di densità di probabilità</em>. Lo scopo di questo Capitolo è quello di chiarire il significato di questa nozione, usando un approccio basato sulle simulazioni.</p>
 <div id="spinner-e-variabili-casuali-continue-uniformi" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Spinner e variabili casuali continue uniformi<a href="ch-intro-density-function.html#spinner-e-variabili-casuali-continue-uniformi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consideriamo il seguente esperimento casuale. Facciamo ruotare ad alta velocità uno spinner simmetrico imperniato su un goniometro e osserviamo la posizione in cui si ferma (individuata dall’angolo acuto con segno tra il suo asse e l’asse orizzontale del goniometro). Chiamiamo <span class="math inline">\(\Theta\)</span> la variabile casuale “pendenza dello spinner”. Nella trattazione seguente useremo i gradi e, di conseguenza, <span class="math inline">\(\Theta \in [0, 360]\)</span>.</p>
@@ -1013,7 +1013,7 @@ p_{\Theta}(\theta) = \mathcal{U}(\theta \mid a, b),
 <p><span class="math display">\[
 \mathcal{U}(\theta \mid a, b) = \frac{1}{b - a}.
 \]</span></p>
-<p>In conclusione, la densità di una variabile casuale uniforme continua non dipende da <span class="math inline">\(\theta\)</span> — è costante e identica per ogni possibile valore <span class="math inline">\(\theta\)</span>.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Vedremo nel prossimo Paragrafo che, eseguendo una trasformazione su questa variabile casuale uniforme, possiamo creare altre variabili casuali di interesse.</p>
+<p>In conclusione, la densità di una variabile casuale uniforme continua non dipende da <span class="math inline">\(\theta\)</span> — è costante e identica per ogni possibile valore <span class="math inline">\(\theta\)</span>.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> Vedremo nel prossimo Paragrafo che, eseguendo una trasformazione su questa variabile casuale uniforme, possiamo creare altre variabili casuali di interesse.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-41" class="exercise"><strong>Esercizio 10.1  </strong></span>Si consideri una variabile casuale uniforme <span class="math inline">\(X\)</span> definita sull’intervallo [0, 100]. Si trovi la probabilità <span class="math inline">\(P(20 &lt; X &lt; 60)\)</span>.</p>
 <p>Per trovare la soluzione è sufficiente calcolare l’area di un rettangolo di base <span class="math inline">\(60 - 20 = 40\)</span> e di altezza 1/100. La probabilità cercata è dunque <span class="math inline">\(P(20 &lt; X &lt; 60) = 40 \cdot 0.01 = 0.4\)</span>.</p>
@@ -1123,7 +1123,7 @@ FIGURA 10.6: Istogramma di <span class="math inline">\(M = 1\,000\,000\)</span> 
 <p>Per descrivere le probabilità che possono essere associate ad una variabile casuale continua <span class="math inline">\(X\)</span> è necessario definire una funzione <span class="math inline">\(p(X)\)</span> che deve soddisfare le seguenti due proprietà:</p>
 <ul>
 <li><p><span class="math inline">\(p(x) \geq 0, \forall x\)</span>, ovvero, l’ordinata della funzione di densità è 0 o positiva;</p></li>
-<li><p><span class="math inline">\(\int_{-\infty}^{\infty} p(x) \,\operatorname {d}\!x = 1\)</span>, ovvero, l’area sottesa dalla <span class="math inline">\(p(x)\)</span> è unitaria<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>;</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty} p(x) \,\operatorname {d}\!x = 1\)</span>, ovvero, l’area sottesa dalla <span class="math inline">\(p(x)\)</span> è unitaria<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>;</p></li>
 <li><p><span class="math inline">\(p(a &lt; x &lt; b) = \int_a^b p(x) \,\operatorname {d}\!x\)</span>, se <span class="math inline">\(a \leq b\)</span>, ovvero, l’area sottesa dalla <span class="math inline">\(p(y)\)</span> tra due punti <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> corrisponde alla probabilità che la v.c. <span class="math inline">\(x\)</span> assuma un valore compresto tra questi due estremi.</p></li>
 </ul>
 <p><em>Interpretazione.</em> È possibile che <span class="math inline">\(p(x) &gt; 1\)</span>, quindi una densità di probabilità non può essere interpretata come una probabilità. Piuttosto, la densità <span class="math inline">\(p(x)\)</span> può essere utilizzata per confrontare la fiducia relativa che può essere assegnata a diversi valori <span class="math inline">\(x\)</span>. Considerata una variabile casuale <span class="math inline">\(X\)</span> di cui è disponibile un insieme di realizzazioni, possiamo dire che, se consideriamo due valori <span class="math inline">\(x_k\)</span> e <span class="math inline">\(x_l\)</span> con <span class="math inline">\(p(x_k) &gt; p(x_l)\)</span>, allora possiamo concludere che è più probabile, in termini relativi, osservare realizzazioni <span class="math inline">\(X\)</span> nell’intorno di <span class="math inline">\(x_k\)</span> piuttosto che nell’intorno di <span class="math inline">\(x_l\)</span>.</p>
@@ -1169,10 +1169,10 @@ F(x_m) = \frac{1}{2}.
 </div>
 <div class="footnotes">
 <hr />
-<ol start="7">
-<li id="fn7"><p>Georg Cantor dimostrò che era impossibile mappare uno a uno i reali negli interi, dimostrando così che l’insieme dei reali è non numerabile.<a href="ch-intro-density-function.html#fnref7" class="footnote-back">↩︎</a></p></li>
-<li id="fn8"><p>Per comodità, possiamo assumere che i valori impossibili di <span class="math inline">\(\theta\)</span> abbiano una densità uguale a zero.<a href="ch-intro-density-function.html#fnref8" class="footnote-back">↩︎</a></p></li>
-<li id="fn9"><p>Per quel che riguarda la notazione dell’integrale, ovvero <span class="math inline">\(\int_x \,\operatorname {d}\!x\)</span>, rimando alla discussione di S.P. Thompson: <a href="https://calculusmadeeasy.org/1.html" class="uri">https://calculusmadeeasy.org/1.html</a><a href="ch-intro-density-function.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<ol start="6">
+<li id="fn6"><p>Georg Cantor dimostrò che era impossibile mappare uno a uno i reali negli interi, dimostrando così che l’insieme dei reali è non numerabile.<a href="ch-intro-density-function.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Per comodità, possiamo assumere che i valori impossibili di <span class="math inline">\(\theta\)</span> abbiano una densità uguale a zero.<a href="ch-intro-density-function.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>Per quel che riguarda la notazione dell’integrale, ovvero <span class="math inline">\(\int_x \,\operatorname {d}\!x\)</span>, rimando alla discussione di S.P. Thompson: <a href="https://calculusmadeeasy.org/1.html" class="uri">https://calculusmadeeasy.org/1.html</a><a href="ch-intro-density-function.html#fnref8" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

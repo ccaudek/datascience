@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 35 Criterio di informazione e convalida incrociata | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -1019,7 +1019,7 @@ f(Y \mid \mu, \sigma) = \prod_{i=1}^n f(y \mid \mu, \sigma)
 </div>
 <div id="confronto-tra-modelli-mediante-loo-cv" class="section level2 hasAnchor" number="35.4">
 <h2><span class="header-section-number">35.4</span> Confronto tra modelli mediante LOO-CV<a href="ch-info-crit.html#confronto-tra-modelli-mediante-loo-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Come menzionato in precedenza, l’obiettivo centrale della misurazione dell’accuratezza predittiva è il confronto di modelli. Una volta capito come calcolare LOO-CV con un condice scritto in linguaggio Stan, svolgeremo ora un confronto di modelli.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p>
+<p>Come menzionato in precedenza, l’obiettivo centrale della misurazione dell’accuratezza predittiva è il confronto di modelli. Una volta capito come calcolare LOO-CV con un condice scritto in linguaggio Stan, svolgeremo ora un confronto di modelli.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a></p>
 <p>Considereremo qui un confronto di modelli di regressione. Il modello di regressione discusso nel Paragrafo precedente prevede il QI dei bambini dal QI delle madri. Aggiungiamo a tale modello un secondo predittore che corrisponde all’età della madre. L’aggiunta di tale predittore migliori l’accuratezza predittiva del modello?</p>
 <div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="ch-info-crit.html#cb564-1" aria-hidden="true" tabindex="-1"></a>modelString <span class="ot">=</span> <span class="st">&quot;</span></span>
 <span id="cb564-2"><a href="ch-info-crit.html#cb564-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
@@ -1193,7 +1193,7 @@ Questo accade se un predittore è associato in modo trascurabile con la variabil
 </div>
 <div id="outlier" class="section level2 hasAnchor" number="35.5">
 <h2><span class="header-section-number">35.5</span> Outlier<a href="ch-info-crit.html#outlier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Si è soliti pensare che la maggior parte delle osservazioni del campione sia prodotta da un unico meccanismo generatore dei dati, mentre le rimanenti osservazioni sono la realizzazione di un diverso processo stocastico. Le osservazioni che appartengono a questo secondo gruppo si chiamano <em>outlier</em>. È dunque necessario identificare gli outlier e limitare la loro influenza sull’inferenza.<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a></p>
+<p>Si è soliti pensare che la maggior parte delle osservazioni del campione sia prodotta da un unico meccanismo generatore dei dati, mentre le rimanenti osservazioni sono la realizzazione di un diverso processo stocastico. Le osservazioni che appartengono a questo secondo gruppo si chiamano <em>outlier</em>. È dunque necessario identificare gli outlier e limitare la loro influenza sull’inferenza.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p>
 <p>Poniamoci ora il problema di identificare gli outlier con la tecnica PSIS-LOO-CV. Quando PSIS-LOO-CV viene calcolato con il pacchetto <code>loo</code>, l’output riporta il parametro di forma della distribuzione di Pareto (valore <code>k</code>). Tale valore può essere utilizzato per identificare gli outlier. Infatti, il valore <code>k</code> valuta, per ciascun punto del campione, l’approssimazione usata da PSIS-LOO-CV. Se <span class="math inline">\(k &lt; 0.5\)</span>, i pesi di importanza vengono stimati in modo accurato; se il valore <span class="math inline">\(k\)</span> di Pareto di un punto è <span class="math inline">\(&gt; 0.7\)</span>, i pesi di importanza possono essere inaccurati. Le osservazioni con <span class="math inline">\(k &gt; 0.7\)</span> sono dunque osservazioni outlier.</p>
 <p>Per fare un esempio concreto, introduciamo nel campione dell’esempio precedente una singola osservazione outlier.</p>
 <div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="ch-info-crit.html#cb582-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df</span>
@@ -1281,9 +1281,9 @@ Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical Bayesian 
 </div>
 <div class="footnotes">
 <hr />
-<ol start="35">
-<li id="fn35"><p>A questo proposito, è necessario aggiungere una nota di cautela. Come fa notare <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span>, fare previsioni e inferire i rapporti causali sono due cose molto diverse. Statistiche quali AIC, WAIC e LOO-CV consentono di individuare modelli con buone capacità predittive. Tali modelli, tuttavia, non riflettono necessariamente la struttura causale del fenomeno considerato: la selezione di modelli basata unicamente sull’accuratezza predittiva non garantisce che venga selezionato il modello che riflette la struttura causale del fenomeno <span class="citation">(si veda anche <a href="#ref-navarro2019between" role="doc-biblioref">Navarro 2019</a>)</span>.<a href="ch-info-crit.html#fnref35" class="footnote-back">↩︎</a></p></li>
-<li id="fn36"><p><span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> nota che, spesso, i ricercatori eliminano i valori anomali prima di adattare un modello ai dati, basandosi solo sulla distanza dal valore medio della variabile dipendente misurata in termini di unità di deviazione standard. Secondo <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> questo non dovrebbe mai essere fatto: un’osservazione può essere considerata come un valore anomalo o un valore influente solo alla luce delle predizioni di un modello (mai prima di avere adattato il modello ai dati). Se ci sono solo pochi valori anomali una strategia possibile è quella di riportare i risultati delle analisi statistiche svolte su tutto il campione dei dati oppure dopo avere eliminato le osservazioni anomale e influenti.<a href="ch-info-crit.html#fnref36" class="footnote-back">↩︎</a></p></li>
+<ol start="34">
+<li id="fn34"><p>A questo proposito, è necessario aggiungere una nota di cautela. Come fa notare <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span>, fare previsioni e inferire i rapporti causali sono due cose molto diverse. Statistiche quali AIC, WAIC e LOO-CV consentono di individuare modelli con buone capacità predittive. Tali modelli, tuttavia, non riflettono necessariamente la struttura causale del fenomeno considerato: la selezione di modelli basata unicamente sull’accuratezza predittiva non garantisce che venga selezionato il modello che riflette la struttura causale del fenomeno <span class="citation">(si veda anche <a href="#ref-navarro2019between" role="doc-biblioref">Navarro 2019</a>)</span>.<a href="ch-info-crit.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<li id="fn35"><p><span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> nota che, spesso, i ricercatori eliminano i valori anomali prima di adattare un modello ai dati, basandosi solo sulla distanza dal valore medio della variabile dipendente misurata in termini di unità di deviazione standard. Secondo <span class="citation">McElreath (<a href="#ref-McElreath_rethinking" role="doc-biblioref">2020</a>)</span> questo non dovrebbe mai essere fatto: un’osservazione può essere considerata come un valore anomalo o un valore influente solo alla luce delle predizioni di un modello (mai prima di avere adattato il modello ai dati). Se ci sono solo pochi valori anomali una strategia possibile è quella di riportare i risultati delle analisi statistiche svolte su tutto il campione dei dati oppure dopo avere eliminato le osservazioni anomale e influenti.<a href="ch-info-crit.html#fnref35" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

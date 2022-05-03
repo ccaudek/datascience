@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Appendice H Le catene di Markov | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -857,7 +857,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="markov-chains" class="section level1 hasAnchor" number="46">
 <h1><span class="header-section-number">Appendice H</span> Le catene di Markov<a href="markov-chains.html#markov-chains" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Per introdurre il concetto di catena di Markov, supponiamo che una persona esegua una passeggiata casuale sulla retta dei numeri naturali considerando solo i valori 1, 2, 3, 4, 5, 6.<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a> Se la persona è collocata su un valore interno dei valori possibili (ovvero, 2, 3, 4 o 5), nel passo successivo è altrettanto probabile che rimanga su quel numero o si sposti su un numero adiacente. Se si muove, è ugualmente probabile che si muova a sinistra o a destra. Se la persona si trova su uno dei valori estremi (ovvero, 1 o 6), nel passo successivo è altrettanto probabile che rimanga rimanga su quel numero o si sposti nella posizione adiacente.</p>
+<p>Per introdurre il concetto di catena di Markov, supponiamo che una persona esegua una passeggiata casuale sulla retta dei numeri naturali considerando solo i valori 1, 2, 3, 4, 5, 6.<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a> Se la persona è collocata su un valore interno dei valori possibili (ovvero, 2, 3, 4 o 5), nel passo successivo è altrettanto probabile che rimanga su quel numero o si sposti su un numero adiacente. Se si muove, è ugualmente probabile che si muova a sinistra o a destra. Se la persona si trova su uno dei valori estremi (ovvero, 1 o 6), nel passo successivo è altrettanto probabile che rimanga rimanga su quel numero o si sposti nella posizione adiacente.</p>
 <p>Questo è un esempio di una catena di Markov discreta. Una catena di Markov descrive il movimento probabilistico tra un numero di stati. Nell’esempio ci sono sei possibili stati, da 1 a 6, i quali corrispondono alle possibili posizioni della passeggiata casuale. Data la sua posizione corrente, la persona si sposterà nelle altre posizioni possibili con delle specifiche probabilità. La probabilità che si sposti in un’altra posizione dipende solo dalla sua posizione attuale e non dalle posizioni visitate in precedenza.</p>
 <p>È possibile descrivere il movimento tra gli stati nei termini delle cosiddette <em>probabilità di transizione</em>, ovvero le probabilità di movimento tra tutti i possibili stati in un unico passaggio di una catena di Markov. Le probabilità di transizione sono riassunte in una <em>matrice di transizione</em> <span class="math inline">\(P\)</span>:</p>
 <div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="markov-chains.html#cb620-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
@@ -1065,8 +1065,8 @@ FIGURA H.1: Frequenze relative degli stati da 1 a 6 in funzione del numero di it
 </div>
 <div class="footnotes">
 <hr />
-<ol start="37">
-<li id="fn37"><p>Seguiamo qui la presentazione fornita da <a href="https://github.com/bob-carpenter/prob-stats">Bob Carpenter</a>.<a href="markov-chains.html#fnref37" class="footnote-back">↩︎</a></p></li>
+<ol start="36">
+<li id="fn36"><p>Seguiamo qui la presentazione fornita da <a href="https://github.com/bob-carpenter/prob-stats">Bob Carpenter</a>.<a href="markov-chains.html#fnref36" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

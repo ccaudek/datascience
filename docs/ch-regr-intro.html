@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 24 Introduzione | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -928,7 +928,7 @@ Y_i \mid \mu_i, \sigma \stackrel{ind}{\sim} \mathcal{N}(\mu_i, \sigma), \quad i 
 \mu_i = \beta_0 + \beta_ 1 x_i, \quad i = 1, \dots, n.
 \tag{24.3}
 \end{equation}\]</span></p>
-<p>Nella <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a>, ciascuna <span class="math inline">\(x_i\)</span> è una costante nota (ecco perché viene usata una lettera minuscola per la <span class="math inline">\(x\)</span>) e <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_ 1\)</span> sono parametri incogniti. Questi parametri rappresentano l’intercetta e la pendenza della retta di regressione e sono delle variabili casuali.<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> L’inferenza bayesiana procede assegnando una distribuzione a priori a <span class="math inline">\(\beta_0\)</span> e a <span class="math inline">\(\beta_ 1\)</span> e si esegue l’inferenza riassumendo la distribuzione a posteriori di questi parametri.</p>
+<p>Nella <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a>, ciascuna <span class="math inline">\(x_i\)</span> è una costante nota (ecco perché viene usata una lettera minuscola per la <span class="math inline">\(x\)</span>) e <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_ 1\)</span> sono parametri incogniti. Questi parametri rappresentano l’intercetta e la pendenza della retta di regressione e sono delle variabili casuali.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> L’inferenza bayesiana procede assegnando una distribuzione a priori a <span class="math inline">\(\beta_0\)</span> e a <span class="math inline">\(\beta_ 1\)</span> e si esegue l’inferenza riassumendo la distribuzione a posteriori di questi parametri.</p>
 <p>Nel modello <a href="ch-regr-intro.html#eq:regmodel">(24.3)</a>, la funzione lineare <span class="math inline">\(\beta_0 + \beta_ 1 x_i\)</span> è interpretata come il valore atteso della <span class="math inline">\(Y_i\)</span> per ciascun valore <span class="math inline">\(x_i\)</span>, mentre l’intercetta <span class="math inline">\(\beta_0\)</span> rappresenta il valore atteso della <span class="math inline">\(Y_i\)</span> quando <span class="math inline">\(x_i = 0\)</span>. Il parametro <span class="math inline">\(\beta_ 1\)</span> (pendenza) rappresenta invece l’aumento medio della <span class="math inline">\(Y_i\)</span> quando <span class="math inline">\(x_i\)</span> aumenta di un’unità. È importante notare che la relazione lineare <a href="ch-regr-intro.html#eq:normalsamplinglinearmodel">(24.2)</a> di parametri <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_ 1\)</span> descrive l’associazione tra <em>la media</em> <span class="math inline">\(\mu_i\)</span> e il predittore <span class="math inline">\(x_i\)</span>. In altri termini, tale relazione lineare ci fornisce una predizione sul valore medio <span class="math inline">\(\mu_i\)</span>, non sul valore <em>effettivo</em> <span class="math inline">\(Y_i\)</span>.</p>
 </div>
 <div id="il-modello-lineare" class="section level2 hasAnchor" number="24.4">
@@ -991,8 +991,8 @@ Gelman, Andrew, Jennifer Hill, and Aki Vehtari. 2020. <em>Regression and Other S
 </div>
 <div class="footnotes">
 <hr />
-<ol start="28">
-<li id="fn28"><p>Una notazione alternativa per tali parametri è <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, anziché <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_ 1\)</span>.<a href="ch-regr-intro.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<ol start="27">
+<li id="fn27"><p>Una notazione alternativa per tali parametri è <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, anziché <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_ 1\)</span>.<a href="ch-regr-intro.html#fnref27" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

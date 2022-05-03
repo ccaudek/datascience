@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 34 La divergenza di Kullback-Leibler | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -995,7 +995,7 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 \tag{34.4}
 \end{equation}\]</span></p>
 <p>La <a href="ch-kl.html#eq:elpd">(34.4)</a> è chiamata <em>expected log predictive density</em> (<span class="math inline">\(\mbox{elpd}\)</span>) e fornisce la risposta al problema che ci eravamo posti: nel confronto tra modelli, come è possibile scegliere il modello più simile al vero meccanismo generatore dei dati? Possiamo pensare alla <a href="ch-kl.html#eq:elpd">(34.4)</a> dicendo che descrive la distribuzione predittiva a posteriori del modello ponderando la verosimiglianza dei possibili (sconosciuti) dati futuri (<span class="math inline">\(\tilde{y}\)</span>) con la vera distribuzione <span class="math inline">\(p_t\)</span>. Di conseguenza, valori <span class="math inline">\(\mbox{elpd}\)</span> più grandi identificano il modello che risulta più simile al vero meccanismo generatore dei dati.</p>
-<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch-kl.html#eq:elpd">(34.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> Di conseguenza, la quantità <span class="math inline">\(\mbox{elpd}\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch-kl.html#eq:elpd">(34.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
+<p>Non dobbiamo preoccuparci di trovare una formulazione analitica della distribuzione predittiva a posteriori <span class="math inline">\(p(\tilde{y} \mid y)\)</span> perché è possibile approssimare tale distribuzione mediante simulazione. Notiamo però che la <a href="ch-kl.html#eq:elpd">(34.4)</a> include un termine, <span class="math inline">\(p_t(\tilde{y})\)</span>, il quale descrive la distribuzione dei dati futuri <span class="math inline">\(\tilde{y}\)</span> secondo il vero modello generatore dei dati. Il termine <span class="math inline">\(p_t\)</span>, ovviamente, è ignoto.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> Di conseguenza, la quantità <span class="math inline">\(\mbox{elpd}\)</span> non può mai essere calcolata in maniera esatta, ma può solo essere stimata. Il secondo problema di questo Capitolo è capire come la <a href="ch-kl.html#eq:elpd">(34.4)</a> possa essere stimata utilizzando un campione di osservazioni.</p>
 <div id="log-pointwise-predictive-density" class="section level3 hasAnchor" number="34.4.1">
 <h3><span class="header-section-number">34.4.1</span> Log pointwise predictive density<a href="ch-kl.html#log-pointwise-predictive-density" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Ingenuamente, potremmo pensare di stimare la <a href="ch-kl.html#eq:elpd">(34.4)</a> ipotizzando che la distribuzione del campione coincida con <span class="math inline">\(p_t\)</span>. Usare la distribuzione del campione come proxy del vero modello generatore dei dati (ovvero, ipotizzare che la distribuzione del campione rappresenti fedelmente <span class="math inline">\(p_t\)</span>) comporta due conseguenze:</p>
@@ -1003,7 +1003,7 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 <li>non è necessario ponderare per <span class="math inline">\(p_t\)</span>, in quanto assumiamo che la distribuzione empirica del campione corrisponda a <span class="math inline">\(p_t\)</span> (ciò significa assumere che i valori più comunemente osservati nel campione siano anche quelli più verosimili nella vera distribuzione <span class="math inline">\(p_t\)</span>);</li>
 <li>dato che il campione è finito, anziché eseguire un’operazione di integrazione possiamo semplicemente sommare la densità predittiva a posteriori delle osservazioni.</li>
 </ul>
-<p>Questo conduce alla seguente equazione:<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a></p>
+<p>Questo conduce alla seguente equazione:<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a></p>
 <p><span class="math display" id="eq:1n-lppd">\[\begin{equation}
 \frac{1}{n} \sum_{i=1}^n \log p(y_i^{rep} \mid y).
 \tag{34.5}
@@ -1071,9 +1071,9 @@ McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayes
 </div>
 <div class="footnotes">
 <hr />
-<ol start="33">
-<li id="fn33"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch-kl.html#fnref33" class="footnote-back">↩︎</a></p></li>
-<li id="fn34"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<ol start="32">
+<li id="fn32"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch-kl.html#fnref32" class="footnote-back">↩︎</a></p></li>
+<li id="fn33"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref33" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

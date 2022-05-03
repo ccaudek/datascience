@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 26 Modello di regressione in linguaggio Stan | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -993,7 +993,7 @@ y_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
 <h3><span class="header-section-number">26.2.1</span> Standardizzare i dati<a href="ch-reg-lin-stan.html#standardizzare-i-dati" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Il codice Stan viene eseguito più velocemente se l’input è standardizzato così da avere una media pari a zero e una varianza unitaria. Inoltre, si noti un punto importante. Il fatto di standardizzare i dati fa in modo che le distribuzioni a priori sui parametri vengano espresse sulla scala di una v.c. normale standardizzata. Se centriamo sullo 0 le distribuzioni a priori, con una deviazione standard dell’ordine di grandezza dell’unità, perdono di significato i discorsi sull’arbitrarietà delle distribuzioni a priori: nel caso di dati standardizzati le distribuzioni a priori formulate come indicato sopra sono distribuzioni debolmente informative il cui unico scopo è la regolarizzazione dei dati, ovvero di mantenere le inferenze in una gamma ragionevole di valori. Inoltre, l’uso di distribuzioni a priori debolmente informative ha l’effetto desiderabile di limitare l’influenza eccessiva delle osservazioni estreme (valori anomali). Il punto importante è che una tale scelta delle distribuzioni a priori non introduce alcuna distorsione sistematica nella stima a posteriori.</p>
 <p>Sono possibili due strade per la standardizzazione dei dati. Se non ci sono ragioni particolari per mantenere l’unità di misura dei dati grezzi (ad esempio, se è sufficiente valutare l’intervallo di credibilità per <span class="math inline">\(\beta\)</span> per determinare se include o meno lo 0), allora possiamo standardizzare i dati <em>prima</em> di passarli a Stan (questa è la procedura usuale).</p>
-<p>In alternativa, se vogliamo mantenere la soluzione sulla scala delle variabili originarie, è possibile seguire la procedura indicata di seguito. Si passano a Stan i dati grezzi; i dati vengono standardizzati con una trasformazione di variabili all’interno del codice Stan. Viene poi eseguito il campionamento sui dati standardizzati; infine, le stime dei parametri vengono nuovamente trasformate sulla scala delle variabili originarie<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.</p>
+<p>In alternativa, se vogliamo mantenere la soluzione sulla scala delle variabili originarie, è possibile seguire la procedura indicata di seguito. Si passano a Stan i dati grezzi; i dati vengono standardizzati con una trasformazione di variabili all’interno del codice Stan. Viene poi eseguito il campionamento sui dati standardizzati; infine, le stime dei parametri vengono nuovamente trasformate sulla scala delle variabili originarie<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>.</p>
 <p>Per ottenere il risultato descritto sopra, si procede come segue. Ponendo <span class="math inline">\(y = (y_1, \dots, y_n)\)</span> e <span class="math inline">\(x = (x_1, \dots, x_n)\)</span>, il modello lineare può essere scritto come</p>
 <p><span class="math display">\[
 y_i = \alpha + \beta x_i + \varepsilon_i,
@@ -1164,8 +1164,8 @@ y_n &amp;= \textrm{z}_y^{-1}(\textrm{z}_y(y_n)) \notag\\
 </div>
 <div class="footnotes">
 <hr />
-<ol start="29">
-<li id="fn29"><p>Nella discussione che segue ripeto pari pari ciò che è riportato nel manuale del linguaggio <a href="https://mc-stan.org/docs/2_27/stan-users-guide/standardizing-predictors-and-outputs.html">Stan</a>.<a href="ch-reg-lin-stan.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<ol start="28">
+<li id="fn28"><p>Nella discussione che segue ripeto pari pari ciò che è riportato nel manuale del linguaggio <a href="https://mc-stan.org/docs/2_27/stan-users-guide/standardizing-predictors-and-outputs.html">Stan</a>.<a href="ch-reg-lin-stan.html#fnref28" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

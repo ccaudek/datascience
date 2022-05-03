@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 6 La logica dell’incerto | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -903,7 +903,7 @@ div.csl-indent {
 <p>Esaminiamo qui di seguito alcuni concetti di base della teoria delle probabilità, la quale può essere vista come un’estensione della logica.</p>
 <div id="eventi-e-probabilità" class="section level3 hasAnchor" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Eventi e probabilità<a href="ch-intro-prob-1.html#eventi-e-probabilità" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Nella teoria delle probabilità il risultato “testa” nel lancio di una moneta è chiamato <em>evento</em>.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> Un evento, denotato da una variabile binaria, corrisponde ad uno stato del mondo che si verifica oppure no. Ad esempio, <span class="math inline">\(Y\)</span> = 1 può denotare l’evento per cui il lancio di una moneta produce il risultato testa. Il funzionale <span class="math inline">\(P(Y)\)</span> denota la probabilità con cui si ritiene che l’evento <span class="math inline">\(Y\)</span> sia vero (o la proporzione di volte che si verifica tale evento osservando a lungo termine delle ripetizioni indipendenti di un esperimento casuale). Ad esempio, per il lancio di una moneta equilibrata, la probabilità dell’evento “il risultato del lancio della moneta è testa” è scritta come <span class="math inline">\(P(Y = 1) = 0.5.\)</span></p>
+<p>Nella teoria delle probabilità il risultato “testa” nel lancio di una moneta è chiamato <em>evento</em>.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> Un evento, denotato da una variabile binaria, corrisponde ad uno stato del mondo che si verifica oppure no. Ad esempio, <span class="math inline">\(Y\)</span> = 1 può denotare l’evento per cui il lancio di una moneta produce il risultato testa. Il funzionale <span class="math inline">\(P(Y)\)</span> denota la probabilità con cui si ritiene che l’evento <span class="math inline">\(Y\)</span> sia vero (o la proporzione di volte che si verifica tale evento osservando a lungo termine delle ripetizioni indipendenti di un esperimento casuale). Ad esempio, per il lancio di una moneta equilibrata, la probabilità dell’evento “il risultato del lancio della moneta è testa” è scritta come <span class="math inline">\(P(Y = 1) = 0.5.\)</span></p>
 <p>Se la moneta è equilibrata dobbiamo anche avere <span class="math inline">\(P(Y = 0) = 0.5\)</span>. I due eventi <em>Y</em> = 1 e <span class="math inline">\(Y\)</span> = 0 sono <em>mutuamente esclusivi</em> nel senso che non possono entrambi verificarsi contemporaneamente: <span class="math inline">\(P(Y = 1\; \land \; Y = 0) = 0.\)</span> Gli eventi <span class="math inline">\(Y\)</span> = 1 e <span class="math inline">\(Y\)</span> = 0 di dicono <em>esaustivi</em>, nel senso che almeno uno di essi deve verificarsi e nessun altro tipo di evento è possibile. Nella notazione probabilistica, <span class="math inline">\(P(Y = 1\; \lor \; Y = 0) = 1.\)</span> Il connettivo logico “o” (<span class="math inline">\(\lor\)</span>) specifica eventi <em>disgiunti</em>, ovvero eventi che non possono verificarsi contemporaneamente (eventi <em>incompatibili</em>) e per i quali, perciò, la probabilità della loro congiunzione è <span class="math inline">\(P(A \; \land \; B) = 0\)</span>. Il connettivo logico “e” (<span class="math inline">\(\land\)</span>), invece, specifica eventi <em>congiunti</em>, ovvero eventi che possono verificarsi contemporaneamente (eventi <em>compatibili</em>) e per i quali, perciò, la probabilità della loro congiunzione è <span class="math inline">\(P(A \; \land \; B) &gt; 0\)</span>. La probabilità del verificarsi di due eventi congiunti <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si può denotare, in maniera equivalente, con la notazione precedente, oppure con <span class="math inline">\(P(A \cap B)\)</span>, oppure con <span class="math inline">\(P(A, B)\)</span>.</p>
 <p>Si richiede che <span class="math inline">\(0 \leq P(A) \leq 1\)</span>, dove <span class="math inline">\(P(A) = 0\)</span> denota l’evento impossibile e <span class="math inline">\(P(A) = 1\)</span> denota l’evento certo. Scriviamo <span class="math inline">\(P(\lnot A)\)</span> o <span class="math inline">\(P(\bar{A})\)</span> per denotare la probabilità che l’evento <span class="math inline">\(A\)</span> non avvenga; questa probabilità è definita come <span class="math inline">\(P(\bar{A}) = 1 − P(A)\)</span>.</p>
 </div>
@@ -1203,8 +1203,8 @@ Finetti, Bruno de. 1931. <span>“Probabilismo.”</span> <em>Logos</em>, 163–
 </div>
 <div class="footnotes">
 <hr />
-<ol start="6">
-<li id="fn6"><p>Per un ripasso delle nozioni di base della teoria degli insiemi, si veda l’Appendice <a href="insiemistica.html#insiemistica">C</a>.<a href="ch-intro-prob-1.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<ol start="5">
+<li id="fn5"><p>Per un ripasso delle nozioni di base della teoria degli insiemi, si veda l’Appendice <a href="insiemistica.html#insiemistica">C</a>.<a href="ch-intro-prob-1.html#fnref5" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

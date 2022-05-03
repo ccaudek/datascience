@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 1 Concetti chiave | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -928,7 +928,7 @@ semplicemente alla riga che esse occupano.</p>
 </div>
 <div id="parametri-e-modelli" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Parametri e modelli<a href="ch-key-notions.html#parametri-e-modelli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Ogni variabile casuale ha una <em>distribuzione</em> che descrive la probabilità che la variabile assuma qualsiasi valore in un dato intervallo.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Senza ulteriori specificazioni, una distribuzione può fare riferimento a un’intera famiglia di distribuzioni. I parametri, tipicamente indicati con lettere greche come <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\alpha\)</span>, ci permettono di specificare di quale membro della famiglia stiamo parlando. Quindi, si può parlare di una variabile casuale con una distribuzione Normale, ma se viene specificata la media <span class="math inline">\(\mu\)</span> = 100 e la varianza <span class="math inline">\(\sigma^2\)</span> = 15, viene individuata una specifica distribuzione Normale – nell’esempio, la distribuzione del quoziente di intelligenza.</p>
+<p>Ogni variabile casuale ha una <em>distribuzione</em> che descrive la probabilità che la variabile assuma qualsiasi valore in un dato intervallo.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Senza ulteriori specificazioni, una distribuzione può fare riferimento a un’intera famiglia di distribuzioni. I parametri, tipicamente indicati con lettere greche come <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\alpha\)</span>, ci permettono di specificare di quale membro della famiglia stiamo parlando. Quindi, si può parlare di una variabile casuale con una distribuzione Normale, ma se viene specificata la media <span class="math inline">\(\mu\)</span> = 100 e la varianza <span class="math inline">\(\sigma^2\)</span> = 15, viene individuata una specifica distribuzione Normale – nell’esempio, la distribuzione del quoziente di intelligenza.</p>
 <p>I metodi statistici parametrici specificano la famiglia delle distribuzioni e quindi utilizzano i dati per individuare, stimando i parametri, una specifica distribuzione all’interno della famiglia di distribuzioni ipotizzata. Se <span class="math inline">\(f\)</span> è la PDF di una variabile casuale <span class="math inline">\(Y\)</span>, l’interesse può concentrarsi sulla sua media e varianza. Nell’analisi di regressione, ad esempio, cerchiamo di spiegare come i parametri di <span class="math inline">\(f\)</span> dipendano dalle covariate <span class="math inline">\(X\)</span>. Nella regressione lineare classica, assumiamo che <span class="math inline">\(Y\)</span> abbia una distribuzione normale con media <span class="math inline">\(\mu = \mathbb{E}(Y)\)</span>, e stimiamo come <span class="math inline">\(\mathbb{E}(Y)\)</span> dipenda da <span class="math inline">\(X\)</span>. Poiché molti esiti psicologici non seguono una distribuzione normale, verranno introdotte distribuzioni più appropriate per questi risultati. I metodi non parametrici, invece, non specificano una famiglia di distribuzioni per <span class="math inline">\(f\)</span>. In queste dispense faremo riferimento a metodi non parametrici quando discuteremo della statistica descrittiva.</p>
 <p>Il termine <em>modello</em> è onnipresente in statistica e nella <em>data science</em>. Il modello statistico include le ipotesi e le specifiche matematiche relative alla distribuzione della variabile casuale di interesse. Il modello dipende dai dati e dalla domanda di ricerca, ma raramente è unico; nella maggior parte dei casi, esiste più di un modello che potrebbe ragionevolmente usato per affrontare la stessa domanda di ricerca e avendo a disposizione i dati osservati. Nella previsione delle aspettative future dei pazienti depressi che discuteremo in seguito <span class="citation">(<a href="#ref-zetschefuture2019" role="doc-biblioref">Zetsche, Bürkner, and Renneberg 2019</a>)</span>, ad esempio, la specifica del modello include l’insieme delle covariate candidate, l’espressione matematica che collega i predittori con le aspettative future e qualsiasi ipotesi sulla distribuzione della variabile dipendente. La domanda di cosa costituisca un buon modello è una domanda su cui torneremo ripetutamente in questo insegnamento.</p>
 </div>
@@ -966,8 +966,8 @@ Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“
 </div>
 <div class="footnotes">
 <hr />
-<ol start="2">
-<li id="fn2"><p>In questo e nei successivi Paragrafi di questo Capitolo introduco gli obiettivi della <em>data science</em> utilizzando una serie di concetti che saranno chiariti solo in seguito. Questa breve panoramica risulterà dunque solo in parte comprensibile ad una prima lettura e serve solo per definire la <em>big picture</em> dei temi trattati in questo insegnamento. Il significato dei termini qui utilizzati sarà chiarito nei Capitoli successivi.<a href="ch-key-notions.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<ol start="1">
+<li id="fn1"><p>In questo e nei successivi Paragrafi di questo Capitolo introduco gli obiettivi della <em>data science</em> utilizzando una serie di concetti che saranno chiariti solo in seguito. Questa breve panoramica risulterà dunque solo in parte comprensibile ad una prima lettura e serve solo per definire la <em>big picture</em> dei temi trattati in questo insegnamento. Il significato dei termini qui utilizzati sarà chiarito nei Capitoli successivi.<a href="ch-key-notions.html#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

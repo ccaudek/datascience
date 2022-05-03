@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 12 Distribuzioni di v.c. discrete | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -912,8 +912,8 @@ Essendo <span class="math inline">\(\theta\)</span> la probabilità di <span cla
 \tag{12.3}
 \end{equation}\]</span></p>
 <p>Non siamo però interessati alla probabilità di una <em>specifica</em> sequenza di <span class="math inline">\(S\)</span> e <span class="math inline">\(I\)</span> ma, bensì, alla probabilità di osservare una <em>qualsiasi</em> sequenza di <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove. In altre parole, vogliamo la probabilità dell’unione di tutti gli eventi corrispondenti a <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove.</p>
-<p>È immediato notare che una qualsiasi altra sequenza contenente esattamente <span class="math inline">\(y\)</span> successi avrà sempre come probabilità <span class="math inline">\(\theta^y \cdot (1-\theta)^{n-y}\)</span>: il prodotto infatti resta costante anche se cambia l’ordine dei fattori.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> Per trovare il risultato cercato dobbiamo moltiplicare la <a href="ch-distr-rv-discr.html#eq:demo-bino-kernel">(12.3)</a> per il numero di sequenze possibili di <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove.</p>
-<p>Il numero di sequenze che contengono esattamente <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove. La risposta è fornita dal coefficiente binomiale<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>:</p>
+<p>È immediato notare che una qualsiasi altra sequenza contenente esattamente <span class="math inline">\(y\)</span> successi avrà sempre come probabilità <span class="math inline">\(\theta^y \cdot (1-\theta)^{n-y}\)</span>: il prodotto infatti resta costante anche se cambia l’ordine dei fattori.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> Per trovare il risultato cercato dobbiamo moltiplicare la <a href="ch-distr-rv-discr.html#eq:demo-bino-kernel">(12.3)</a> per il numero di sequenze possibili di <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove.</p>
+<p>Il numero di sequenze che contengono esattamente <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove. La risposta è fornita dal coefficiente binomiale<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>:</p>
 <p><span class="math display" id="eq:binomial-coefficient">\[\begin{equation}
 \binom{n}{y} = \frac{n!}{y!(n-y)!},
 \tag{12.4}
@@ -1117,9 +1117,9 @@ e poi troviamo</p>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="11">
-<li id="fn11"><p>Viene detta <em>scambiabilità</em> la proprietà per cui l’ordine con cui compiamo le osservazioni è irrilevante per l’assegnazione delle probabilità.<a href="ch-distr-rv-discr.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>La derivazione della formula del coefficiente binomiale è fornita nell’Appendice <a href="#derivazione-coef-binom"><strong>??</strong></a>.<a href="ch-distr-rv-discr.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<ol start="10">
+<li id="fn10"><p>Viene detta <em>scambiabilità</em> la proprietà per cui l’ordine con cui compiamo le osservazioni è irrilevante per l’assegnazione delle probabilità.<a href="ch-distr-rv-discr.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>La derivazione della formula del coefficiente binomiale è fornita nell’Appendice <a href="#derivazione-coef-binom"><strong>??</strong></a>.<a href="ch-distr-rv-discr.html#fnref11" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

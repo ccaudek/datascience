@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 4 Indici di posizione e di scala | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -1033,7 +1033,7 @@ anziché come</p>
 </div>
 <div id="scarto-tipo" class="section level3 hasAnchor" number="4.2.4">
 <h3><span class="header-section-number">4.2.4</span> Scarto tipo<a href="ch-loc-scale.html#scarto-tipo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Per le ragioni espresse sopra, la misura più usata della dispersione di una distribuzione di dati è lo <em>scarto quadratico medio</em> (o <em>scarto tipo</em>, o <em>deviazione standard</em>), ovvero la radice quadrata della varianza<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. A differenza della varianza, dunque, lo scarto tipo è espresso nella stessa unità di misura dei dati. Come nel caso della varianza, anche lo scarto tipo <span class="math inline">\(s\)</span> dovrebbe essere usato soltanto quando la media è adeguata per misurare il centro della distribuzione, ovvero, nel caso di distribuzioni simmetriche. Come nel caso della media <span class="math inline">\(\bar{x}\)</span>, anche lo scarto tipo è fortemente influenzato dai dati anomali (<em>outlier</em>), ovvero dalla presenza di uno o di pochi dati che sono molto più distanti dalla media rispetto agli altri valori della distribuzione. Quando tutte le osservazioni sono uguali, <span class="math inline">\(s = 0\)</span>, altrimenti <span class="math inline">\(s &gt; 0\)</span>.</p>
+<p>Per le ragioni espresse sopra, la misura più usata della dispersione di una distribuzione di dati è lo <em>scarto quadratico medio</em> (o <em>scarto tipo</em>, o <em>deviazione standard</em>), ovvero la radice quadrata della varianza<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. A differenza della varianza, dunque, lo scarto tipo è espresso nella stessa unità di misura dei dati. Come nel caso della varianza, anche lo scarto tipo <span class="math inline">\(s\)</span> dovrebbe essere usato soltanto quando la media è adeguata per misurare il centro della distribuzione, ovvero, nel caso di distribuzioni simmetriche. Come nel caso della media <span class="math inline">\(\bar{x}\)</span>, anche lo scarto tipo è fortemente influenzato dai dati anomali (<em>outlier</em>), ovvero dalla presenza di uno o di pochi dati che sono molto più distanti dalla media rispetto agli altri valori della distribuzione. Quando tutte le osservazioni sono uguali, <span class="math inline">\(s = 0\)</span>, altrimenti <span class="math inline">\(s &gt; 0\)</span>.</p>
 <p>Allo scarto tipo può essere assegnata una semplice interpretazione: lo scarto tipo è <em>simile</em> (ma non identico) allo scarto semplice medio campionario, ovvero alla media aritmetica dei valori assoluti degli scarti dalla media. Lo scarto tipo ci dice, dunque, quanto sono distanti, in media, le singole osservazioni dal centro della distribuzione. Un’interpretazione più precisa del significato dello scarto tipo è fornita nel Paragrafo successivo.</p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-24" class="exercise"><strong>Esercizio 4.5  </strong></span>Si calcoli lo scarto tipo per i valori BDI-II di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
@@ -1087,8 +1087,8 @@ Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“
 </div>
 <div class="footnotes">
 <hr />
-<ol start="5">
-<li id="fn5"><p>Il termine <em>standard deviation</em> è stato introdotto in statistica da Pearson nel 1894 assieme alla lettera greca <span class="math inline">\(\sigma\)</span> che lo rappresenta. Il termine italiano “deviazione standard” ne è la traduzione più utilizzata nel linguaggio comune; il termine dell’<a href="https://it.wikipedia.org/wiki/Ente_nazionale_italiano_di_unificazione">Ente Nazionale Italiano di Unificazione</a> è tuttavia “scarto tipo”, definito come la radice quadrata positiva della varianza.<a href="ch-loc-scale.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<ol start="4">
+<li id="fn4"><p>Il termine <em>standard deviation</em> è stato introdotto in statistica da Pearson nel 1894 assieme alla lettera greca <span class="math inline">\(\sigma\)</span> che lo rappresenta. Il termine italiano “deviazione standard” ne è la traduzione più utilizzata nel linguaggio comune; il termine dell’<a href="https://it.wikipedia.org/wiki/Ente_nazionale_italiano_di_unificazione">Ente Nazionale Italiano di Unificazione</a> è tuttavia “scarto tipo”, definito come la radice quadrata positiva della varianza.<a href="ch-loc-scale.html#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

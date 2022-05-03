@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="ccaudek/datascience" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Capitolo 20 Diagnostica delle catene markoviane | Data Science per psicologi" />
@@ -158,11 +158,11 @@ div.csl-indent {
 <li><a href="./">Data science per psicologi</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefazione</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Benvenuti</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data science</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#la-psicologia-e-la-data-science"><i class="fa fa-check"></i>La psicologia e la Data Science</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#come-studiare"><i class="fa fa-check"></i>Come studiare</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sviluppare-un-metodo-di-studio-efficace"><i class="fa fa-check"></i>Sviluppare un metodo di studio efficace</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="part"><span><b>I Nozioni preliminari</b></span></li>
 <li class="chapter" data-level="1" data-path="ch-key-notions.html"><a href="ch-key-notions.html"><i class="fa fa-check"></i><b>1</b> Concetti chiave</a>
@@ -531,7 +531,7 @@ div.csl-indent {
 <li class="chapter" data-level="24.4" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#il-modello-lineare"><i class="fa fa-check"></i><b>24.4</b> Il modello lineare</a></li>
 <li class="chapter" data-level="" data-path="ch-regr-intro.html"><a href="ch-regr-intro.html#commenti-e-considerazioni-finali-19"><i class="fa fa-check"></i>Commenti e considerazioni finali</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Metodo dei minimi quadrati</a>
+<li class="chapter" data-level="25" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html"><i class="fa fa-check"></i><b>25</b> Regressione lineare con un singolo predittore</a>
 <ul>
 <li class="chapter" data-level="25.1" data-path="ch-regr-model-lm.html"><a href="ch-regr-model-lm.html#stima-dei-coefficienti-di-regressione"><i class="fa fa-check"></i><b>25.1</b> Stima dei coefficienti di regressione</a>
 <ul>
@@ -875,7 +875,7 @@ FIGURA 20.1: Trace plot per il modello Beta-Binomiale dei dati di Gautret et al.
 </p>
 </div>
 <p>La figura <a href="ch-diagn-markov-chains.html#fig:trace-plot-gautret-2">20.1</a> fornisce un esempio perfetto di come dovrebbero apparire i <em>trace plot</em>. Quando le catene markoviane raggiungono uno stato stazionario e sono stabili ciò significa che hanno raggiunto la distribuzione stazionaria e il <em>trace plot</em> rivela un’assenza di struttura e diventa simile alla rappresentazione del rumore bianco, come nella figura <a href="ch-diagn-markov-chains.html#fig:trace-plot-gautret-2">20.1</a>.</p>
-<p>Una mancanza di convergenza è invece indicata dalla figura <a href="ch-diagn-markov-chains.html#fig:bad-trace-bayesrules">20.2</a><a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.</p>
+<p>Una mancanza di convergenza è invece indicata dalla figura <a href="ch-diagn-markov-chains.html#fig:bad-trace-bayesrules">20.2</a><a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:bad-trace-bayesrules"></span>
 <img src="images/bad-trace-bayesrules.png" alt="Trace plots (a sinistra) e corrispondenti grafici di densità (a destra) di due ipotetiche catene di Markov. Queste figure forniscono due esempi di come potrebbero apparire delle catene di Markov non stazionarie. Le linee nere sovrapposte alle densità empiriche (a destra) rappresentano una ipotetica distribuzione target Beta(11,3)." width="1181" />
 <p class="caption">
@@ -917,7 +917,7 @@ FIGURA 20.2: Trace plots (a sinistra) e corrispondenti grafici di densità (a de
 <span id="cb211-16"><a href="ch-diagn-markov-chains.html#cb211-16" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> </span>
 <span id="cb211-17"><a href="ch-diagn-markov-chains.html#cb211-17" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> All <span class="dv">4</span> chains finished successfully.</span>
 <span id="cb211-18"><a href="ch-diagn-markov-chains.html#cb211-18" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Mean chain execution time<span class="sc">:</span> <span class="fl">0.0</span> seconds.</span>
-<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.2</span> seconds.</span>
+<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.3</span> seconds.</span>
 <span id="cb211-20"><a href="ch-diagn-markov-chains.html#cb211-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb211-21"><a href="ch-diagn-markov-chains.html#cb211-21" aria-hidden="true" tabindex="-1"></a>stanfit_bb_short <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(bb_short<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Di seguito sono riportati i <em>trace-plot</em> e i corrispondenti istogrammi lisciati.</p>
@@ -954,7 +954,7 @@ Al contrario, nella figura <a href="ch-diagn-markov-chains.html#fig:bad-autocorr
 FIGURA 20.3: Trace plot (a sinistra) e correlogramma (a destra) di una catena di Markow in cui il mixing è lento – figura riprodotta da <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span>.
 </p>
 </div>
-<p>Questa osservazione è confermata nell’correlogramma (a destra). La lenta diminuzione della curva di autocorrelazione indica che la dipendenza tra i valori della catena non svanisce rapidamente. Con un lag di 20 la correlazione è addirittura pari a 0.9. Poiché i valori della catena sono fortemente associati tra loro, il “mixing” è lento: la simulazione richiede un numero molto grande di iterazioni per esplorare adeguatamente l’intera gamma di valori della distribuzione a posteriori.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a></p>
+<p>Questa osservazione è confermata nell’correlogramma (a destra). La lenta diminuzione della curva di autocorrelazione indica che la dipendenza tra i valori della catena non svanisce rapidamente. Con un lag di 20 la correlazione è addirittura pari a 0.9. Poiché i valori della catena sono fortemente associati tra loro, il “mixing” è lento: la simulazione richiede un numero molto grande di iterazioni per esplorare adeguatamente l’intera gamma di valori della distribuzione a posteriori.<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a></p>
 <p>In presenza di catene di Markov non <em>rapidly mixing</em> sono possibili due rimedi.</p>
 <ul>
 <li>Aumentare il numero di iterazioni. Anche una catena non <em>rapidly mixing</em> può produrre eventualmente una buona approssimazione della distribuzione a posteriori se il numero di iterazioni è sufficientemente grande.</li>
@@ -1058,9 +1058,9 @@ Johnson, Alicia A., Miles Ott, and Mine Dogucu. 2022. <em><span class="nocase">B
 </div>
 <div class="footnotes">
 <hr />
-<ol start="26">
-<li id="fn26"><p>Figura riprodotta da <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span><a href="ch-diagn-markov-chains.html#fnref26" class="footnote-back">↩︎</a></p></li>
-<li id="fn27"><p>Una (famiglia di) catene di Markov è <em>rapidly mixing</em> se mostra un comportamento simile a quello di un campione indipendente: i valori delle catene si addensano nell’intervallo dei valori più plausibili della distribuzione a posteriori; l’autocorrelazione tra i valori della catena diminuisce rapidamente; il rapporto campionario effettivo è ragionevolmente grande. Le catene che non sono <em>rapidly mixing</em> non godono delle caratteristiche di un campione indipendente: le catene non si addensano nell’intervallo dei valori più plausibili della distribuzione a posteriori; l’autocorrelazione tra i valori della catena diminuisce molto lentamente; il rapporto campionario effettivo è piccolo.<a href="ch-diagn-markov-chains.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<ol start="25">
+<li id="fn25"><p>Figura riprodotta da <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span><a href="ch-diagn-markov-chains.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>Una (famiglia di) catene di Markov è <em>rapidly mixing</em> se mostra un comportamento simile a quello di un campione indipendente: i valori delle catene si addensano nell’intervallo dei valori più plausibili della distribuzione a posteriori; l’autocorrelazione tra i valori della catena diminuisce rapidamente; il rapporto campionario effettivo è ragionevolmente grande. Le catene che non sono <em>rapidly mixing</em> non godono delle caratteristiche di un campione indipendente: le catene non si addensano nell’intervallo dei valori più plausibili della distribuzione a posteriori; l’autocorrelazione tra i valori della catena diminuisce molto lentamente; il rapporto campionario effettivo è piccolo.<a href="ch-diagn-markov-chains.html#fnref26" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

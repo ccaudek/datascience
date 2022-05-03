@@ -1,11 +1,13 @@
-# Metodo dei minimi quadrati {#ch-regr-model-lm}
+# Regressione lineare con un singolo predittore {#ch-regr-model-lm}
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 source("_common.R")
 source("_stan_options.R")
 ```
 
-In questo capitolo mi pongo il problema di applicare il modello di regressione bivariata ad un campione di dati. Userò il campione di dati `kidiq`. Riporto qui di seguito la descrizione delle variabili.
+La regressione è un metodo statistico che consente di predire un esito $y$ sulla base della conoscenza delle variabili $x_1, x_2, \dots$. In questo Capitolo verrà introdotto il modello di regressione che predice una variabile  continua $y$ a partire da un unico predittore continuo $x$. Ciò corrisponde ad adattare ai dati ($x_i, y_i$) la retta di regressione $y_i = a + bx_i + e_i$, con $i=1, \dots, n$. Usando dei dati reali, vedremo come stimare i coefficienti di regressione $a$ e $b$ e come essi possano essere interpretati. Vedremo anche di descrivere la bontà di adattamento del modello ai dati. 
+
+Nell'esempio che discuteremo in questo Capitolo verranno usati i dati `kidiq`. Riporto qui di seguito la descrizione delle variabili che sono state misurate in questo campione.
 
 > Data from a survey of adult American women and their children (a subsample from the National Longitudinal Survey of Youth). 
 
@@ -18,6 +20,8 @@ In questo capitolo mi pongo il problema di applicare il modello di regressione b
 > - mom_iq Mother's IQ score
 > - mom_age Mother's age
 
+In questo esercizio sulla regressione lineare considererò la relazione tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`). Mi chiederò se l'intelligenza della madre sia in grado di predire l'intelligenza del bambino e in che misura lo faccia.
+
 Leggo i dati in $\mathsf{R}$.
 
 ```{r}
@@ -27,7 +31,7 @@ kidiq <- rio::import(here::here(
 glimpse(kidiq)
 ```
 
-In questo esercizio considererò la relazione tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`).
+I dati rappresentati in un diagramma a dispersione suggeriscono che, in questo campione, sembra effettivamente esserci un'associazione positiva tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`).
 
 ```{r}
 kidiq %>% 
@@ -35,7 +39,7 @@ kidiq %>%
   geom_point()
 ```
 
-I dati rappresentati nel diagramma a dispersione suggeriscono che, in questo campione, sembra esserci un'associazione positiva tra l'intelligenza del bambino (`kid_score`) e l'intelligenza della madre (`mom_iq`). Mi pongo il problema di descrivere questa associazione mediante una relazione lineare.
+La regressione lineare descrive questa associazione mediante una retta.
 
 ```{r}
 kidiq %>% 
@@ -44,9 +48,7 @@ kidiq %>%
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-Ci sono infinite rette che, in linea di principio, possono essere usate per "approssimare" la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste rette. Vediamo qui di seguito come tale problema viene risolto dall'approccio frequentista mediante il *metodo dei minimi quadrati*.
-
-Un vincolo che viene introdotto dall'approccio frequentista è quello di costringere la retta di regressione a passare per il punto $(\bar{x}, \bar{y})$. 
+Ci sono infinite rette che, in linea di principio, possono essere usate per "approssimare" la nube di punti nel diagramma a dispersione. È dunque necessario introdurre dei vincoli per selezionare una di queste possibili rette. Un vincolo che viene introdotto dal modello di regressione è quello di costringere la retta a passare per il punto $(\bar{x}, \bar{y})$. 
 
 ```{r}
 kidiq %>% 
@@ -59,15 +61,15 @@ kidiq %>%
   )
 ```
 
-Una retta che passa per il punto $(\bar{x}, \bar{y})$ ha delle desideraibili proprietà statistiche che verranno descritte di seguito.
+Una retta che passa per il punto $(\bar{x}, \bar{y})$ ha delle desiderabili proprietà statistiche che verranno descritte in seguito.
 
-Il campione è costituito da $n$ coppie ($x, y$). Per ciascuna coppia $i$-esima di valori $x_i, y_i$, il modello di regressione si aspetta che il valore $y_i$ sia associato al corrispondente valore $x_i$ come indicato dalla seguente equazione:
+Il campione è costituito da $n$ coppie di osservazioni ($x, y$). Per ciascuna coppia di valori $x_i, y_i$, il modello di regressione si aspetta che il valore $y_i$ sia associato al corrispondente valore $x_i$ come indicato dalla seguente equazione:
 
 $$
 y_i = a + b x_i + e_i
 $$
 
-Le osservazioni $y_i$ corrispondono, nell'esempio presente, alla variabile `kid_score`. I primi 10 valori della variabile $y$ sono i seguenti:
+I valori $y_i$ corrispondono, nell'esempio che stiamo discutendo, alla variabile `kid_score`. I primi 10 valori della variabile $y$ sono i seguenti:
 
 ```{r}
 kidiq$kid_score[1:10]
@@ -79,7 +81,7 @@ Per fare riferimento a ciascuna osservazione usiamo l'indice $i$. Quindi, ad ese
 kidiq$kid_score[3]
 ```
 
-La variabile $x$, nel caso presente, è `mom_iq`. I primi 10 valori di $x$ sono
+Nel caso presente, la variabile $x$ è `mom_iq`. I primi 10 valori di $x$ sono
 
 ```{r}
 kidiq$mom_iq[1:10]
@@ -91,54 +93,52 @@ In maniera corrispondente alla $y$, uso un indice per fare riferimento ai singol
 kidiq$mom_iq[3]
 ```
 
-L'equazione precedente ci dice che ciascun valore $y$ è dato dalla somma di due componenti: una componente deterministica e una componente aleatoria. Consideriamo il primo valore $y$ del campione.  Per esso, il modello di regressione afferma quanto segue:
+L'equazione precedente ci dice che ciascun valore $y$ è dato dalla somma di due componenti: una componente deterministica e una componente aleatoria. Consideriamo il primo valore $y$ del campione.  Per esso, il modello di regressione ci dice che
 
 $$
 y_1 = a + b x_1 + e_1,
 $$
 
-laddove $a + b x_1$ è la componente deterministica, detta $\hat{y}$, e $e_1$ è la componente aleatoria.
+laddove $a + b x_1$ è la componente deterministica, denotata con $\hat{y}$, e $e_1$ è la componente aleatoria.
 
-La componente deterministica è la componente di ciascun valore $y_i$ che è possibile prevedere (in maniera deterministica) conoscendo il corrispondente valore $x_i$.  Tuttavia, non è possibile prevedere *perfettamente* i valori $y$ -- ciò si verificherebbe soltanto se tutti punti del diagramma a dispersione fossero disposti su una retta. Ma non lo sono mai nella pratica concreta: la retta è solo un'approssimazione della relazione (lineare) tra $x$ e $y$. Pertanto, conoscendo $x_i$ possiamo solo prevedere una "componente" del corrispondente valore $y_i$.
+La componente deterministica è la *componente* di ciascun valore $y_i$ che è possibile prevedere conoscendo $x_i$. Tuttavia, non è possibile prevedere *perfettamente* i valori $y$ -- ciò si verificherebbe soltanto se tutti punti del diagramma a dispersione fossero disposti su una retta. Ma non lo sono mai nella pratica concreta: la retta è solo un'approssimazione della relazione (lineare) tra $x$ e $y$. Pertanto, conoscendo $x_i$ possiamo solo prevedere una "componente" del corrispondente valore $y_i$.
 
-Cosa significa che possiamo prevedere una componente di ciascuna osservazione $y_i$? Significa che il valore $y_i$ osservato sarà diverso dal valore previsto dal modello. Il che è equivalente a dire che ciascun $y_i$ è dato dalla seguente somma: $y_i = \hat{y}_i + e_i$.
+Cosa significa che possiamo prevedere una componente di ciascuna osservazione $y_i$? Significa che il valore osservato $y_i$ sarà diverso dal valore $\hat{y}_i$ previsto dal modello. Ciascun valore $y_i$ sarà dunque dato dalla seguente somma: $y_i = \hat{y}_i + e_i$, laddove $e_i$, detto "residuo" è la componente di $y_i$ non predicibile dal modello lineare.
 
-L'affermazione precedente pone due domande:
+Ci possiamo dunque porre due domande:
 
-- come possiamo trovare i coefficienti $a$ e $b$ che consentono di predire in maniera deterministica una componente della $y$ a partire dalla conoscenda della $x$?
-- quant'è grande la porzione della $y$ che può essere predetta conoscendo la $x$? In altre parole, quant'è accurata la predizione della $y$ che può essere fornita dalla conoscenza della $x$?
+- come possiamo trovare i coefficienti $a$ e $b$ che consentono di predire una componente della $y$ conoscendo $x$?
+- quant'è grande la porzione della $y$ che può essere predetta conoscendo $x$? In altre parole, quant'è accurata la predizione della $y$ che può essere fornita dal modello di regressione lineare?
 
-Rispondere a tali due domanda definisce i primi due obiettivi del modello statistico della regressione lineare. Il terzo obiettivo è quello dell'inferenza, ovvero quello di capire che relazioni ci sono tra la relazione tra $x$ e $y$ osservata nel campione e la la relazione tra $x$ e $y$ nella popolazione.
+Rispondere a tali due domanda definisce i primi due obiettivi del modello statistico della regressione lineare. Il terzo obiettivo è quello dell'inferenza, ovvero quello di capire che relazioni ci sono tra la relazione tra $x$ e $y$ osservata nel campione e la la relazione tra le due variabili nella popolazione.
 
 ## Stima dei coefficienti di regressione
 
-Iniziamo con il primo obiettivo, ovvero quello di trovare i coefficienti $a$ e $b$ che consentono di predire una frazione di ciascuna osservazione $y$ conoscendo $x$. Quindi, nel caso presente, ci chiediamo quanto segue.  Il primo bambino del campione ha un QI uguale a 65. Sua madre ha un QI di 121.12. Qual è la stima migliore del punteggio QI del bambino che può essere fornita conoscendo il QI di sua madre?
+Iniziamo con il primo obiettivo, ovvero quello di trovare i coefficienti $a$ e $b$ che consentono di predire una componente di ciascuna osservazione $y$ conoscendo $x$. Quindi, nel caso presente, ci chiediamo quanto segue. Il primo bambino del campione ha un QI uguale a 65. Sua madre ha un QI di 121.12. Qual è la predizione migliore del QI del bambino che possiamo ottenere conoscendo il QI della madre?
 
-È chiaro, guardando i numeri, che non c'è una corrispondenza perfetta tra QI della madre e QI del bambino, tutt'altro! Infatti, se guardiamo il diagramma di dispersione ci rendiamo conto che i punti sono piuttosto lontani dalla retta che abbiamo usato per descrivere la relazione tra $x$ e $y$. Tuttavia, il diagramma di dispersione suggerisce che, comunque, al di là del rumore, c'è una relazione tra le due variabili. Il nostro obiettivo è di trovare un metodo quantitativo che consenta di descrivere una tale relazione.
+È chiaro, guardando i dati del campione, che non c'è una corrispondenza perfetta tra QI della madre e QI del bambino, tutt'altro! Infatti, se guardiamo il diagramma di dispersione ci rendiamo conto che i punti sono piuttosto lontani dalla retta che abbiamo sovrapposto alla nube di punti $x_i, y_i$. Tuttavia, il diagramma di dispersione ci suggerisce che, al di là del rumore, c'è comunque una relazione tra le due variabili. Il nostro obiettivo è trovare un metodo quantitativo per descrivere una tale relazione.
 
-Abbiamo detto che, di ciascuna osservazione $y_i$, è possibile prevedere una componente, conoscendo $x_i.$ La componente $y_i$ predicibile da $x_i$ viene denotata da $\hat{y}_i$. Il modello di regressione lineare ci dice che 
+Abbiamo detto che è possibile prevedere una componente di $y_i$ conoscendo $x_i$. La componente $y_i$ predicibile da $x_i$ viene denotata da $\hat{y}_i$ e, nei termini del modello di regressione lineare è uguale a 
 
 $$
 \hat{y}_i = a_i + bx_i.
 $$
 
-L'equazione precedente è un'*equazione lineare* e, dal punto di vista geometrico, corrisponde ad una retta.  Ci sono infinite equazioni che, in linea di principio, potremmo pensare di usare per descrivere la relazione tra $x$ e $y$. Abbiamo scelto questa perché è la più semplice. Se guardiamo il diagramma di dispersione, infatti, non ci sono ragioni per descrivere la relazione tra $x$ e $y$ con qualche curva, anziché con una retta. In altri campioni, una curva può essere più sensata di una retta, quale descrizione della relazione *media* tra $x$ e $y$, ma non nel caso presente. Ricordiamo il principio del rasoio di Occam (ovvero, il principio che sta alla base del pensiero scientifico moderno): se un modello semplice funziona, non c'è ragione di usare un modello più complesso.
+L'equazione precedente è un'*equazione lineare* e, dal punto di vista geometrico, corrisponde ad una retta.  Ci sono infinite equazioni che, in linea di principio, possiamo usare per descrivere la relazione tra $x$ e $y$. Abbiamo scelto la relazione lineare perché è la più semplice. Se guardiamo il diagramma di dispersione, infatti, non ci sono ragioni per descrivere la relazione tra il QI del bambino e il QI della madre con qualche curva, anziché con una retta. In altri campioni, una curva potrebbe essere più sensata di una retta, quale descrizione della relazione *media* tra $x$ e $y$, ma non nel caso presente. Ricordiamo il principio del rasoio di Occam (ovvero, il principio che sta alla base del pensiero scientifico moderno): se un modello semplice funziona, non c'è ragione di usare un modello più complesso.
 
-Dunque, abbiamo capito che vogliamo descrivere la *relazione media* tra $x$ e $y$ con una retta, ovvero, con l'equazione lineare
+Dunque, abbiamo capito che vogliamo descrivere la *relazione media* tra $x$ e $y$ con una retta, ovvero, mediante l'equazione lineare
 
 $$
 \hat{y}_i = a + b x_i.
 $$
 
-L'equazione precedente indica che il modello lineare $a + b x_i$ *non è in grado di prevedere* il valore di ciascuna osservazione $y_i$. Questo, in generale, non è mai possibile (ovvero, è possibile solo in un caso specifico che, nella realtà empirica, non si verifica mai). 
-
-L'equazione precedente ci dice che possiamo prevedere solo una frazione di ciascuna osservazione $y_i$, ovvero quella frazione che abbiamo denotato con $\hat{y}_i$. La componente che non possiamo prevedere con l'equazione $a + b x_i$ viene detta *residuo* e si denota con $e_i$:
+L'equazione precedente ci dice che il modello lineare $a + b x_i$ *non è in grado di prevedere completamente* i valori $y_i$. Questo, in generale, non è mai possibile (ovvero, è possibile solo in un caso specifico che, nella realtà empirica, non si verifica mai). L'equazione precedente ci dice che possiamo prevedere solo una componente di ciascuna osservazione $y_i$, ovvero quella componente che abbiamo denotato con $\hat{y}_i$. La componente che non possiamo prevedere con l'equazione $a + b x_i$ viene detta *residuo* e si denota con $e_i$:
 
 $$
 e_i = y_i - \hat{y}_i = y_i - (a + bx_i).
 $$
 
-Dal punto di vista geometrico, la componente erratica del modello, $e_i$, corrisponde alla distanza verticale tra ciascun punto e la retta di regressione $a + bx$. Diciamo che *scomponiamo* il valore di ciascuna osservazione $y_i$ in due componenti nel senso che 
+Dal punto di vista geometrico, la componente erratica del modello, $e_i$, corrisponde alla distanza verticale tra ciascun punto del diagramma a dispersione e la retta di regressione $a + bx$. Diciamo che *scomponiamo* il valore di ciascuna osservazione $y_i$ in due componenti nel senso che 
 
 $$
 y_i = \hat{y}_i + e_i = (a + bx_i) + e_i. 
@@ -285,17 +285,17 @@ Se sommiamo tutti i residui calcolati rispetto alla retta di regressione dei min
 sum(fm$res)
 ```
 
-
 ### Trasformazione dei dati
 
-Consideriamo ora i dati $y$ espressi come differenze dalla media:
+In generale, per variabili a livello di scala ad intervalli, non è possibile assegnare un'interpretazione utile all'intercetta del modello di regressione lineare. L'intercetta ci dice infatti qual è il valore atteso della $y$ quando $x = 0$. Ma, se la variabile $x$ è misurata su scala ad intervalli, il valore $x = 0$ è arbitrario e non corrisponde "all'assenza di intensità" della variabile $x$. Un valore pari a 0 del QI della madre non vuol dire che l'intelligenza della madre sia nulla (un'affermazione, questa, che è difficile da capire), ma semplicemente che il punteggio del test usato per misurare il QI della madre assume valore 0 (qualcosa che, comunque, in pratica non succederà mai). Quindi è di poco interesse sapere qual è il valore medio del QI del bambino quando test usato per misurare il QI della madre ha valore 0. Per potere fornire all'intercetta del modello di regressione un'interpretazione più utile dobbiamo trasformare le osservazioni $x$.
+
+Esprimiamo $x$ come differenza dalla media. Chiamiamo questa nuova variabile $xd$:
 
 ```{r}
 kidiq$xd <- kidiq$mom_iq - mean(kidiq$mom_iq)
 ```
 
-Il diagramma a dispersione diventa il seguente.
-
+Se ora usiamo le coppie di osservazioni $xd_i, y_i$, il diagramma a dispersione assume la forma seguente.
 
 ```{r}
 kidiq %>% 
@@ -308,24 +308,18 @@ kidiq %>%
   )
 ```
 
-Nel diagramma precedente, la pendenza della retta di regressione è uguale alla precedente, ma in questo grafico all'intercetta può essere assegnata un'interpretazione dotata di senso.
+Quello che abbiamo fatto è stato di *traslare rigidamente* la nube di punti sul piano cartesiano di una quantità pari alla distanza tra $\bar{x}$ e l'origine. Dunque, le *relazioni spaziali* tra i punti del diagramma a dispersione restano immutate. Di conseguenza, la pendenza della retta di regressione calcolata sui dati trasformati è uguale a quella che si trova nel caso dei dati non trasformati. Ciò che cambia è il valore dell'intercetta.
 
 ```{r}
 fm1 <- lm(kid_score ~ xd, data = kidiq)
 coef(fm1)
 ```
 
-Nel caso di dati così trasformati, l'intercetta è sempre il punto sull'asse $y$ dove la retta di regressione interseca l'ordinata. Ma, in questo caso, dato che abbiamo traslato i dati di una quantità pari a $x - \bar{x}$, il valore $x = 0$ corrisponde al valore $\bar{x}$ nel caso dei dati grezzi.  Dunque, l'intercetta avrà la seguente interpretazione:
-
-nel caso di dati nei quali $x$ è espresso come differenze dalla media, l'intercetta corrisponde al valore atteso della $y$ in corrispondenza di $\bar{x}$. 
-
-In altre parole, per i dati così trasformati, l'intercetta corrisponde al QI atteso (ovvero, medio) dei bambini in corrispondenza del QI medio delle madri.
+L'intercetta corrisponde al punto sull'asse $y$ dove la retta di regressione interseca l'ordinata. Ma, nel caso dei dati trasformati, dato che abbiamo traslato i punti di una quantità pari a $x - \bar{x}$, il valore $xd = 0$ corrisponde a $x = \bar{x}$ nel caso dei dati grezzi. Dunque, per i dati trasformati $xd_i, y_i$, l'intercetta corrisponderà al valore atteso della $y$ in corrispondenza del valore medio della variabile $x$ sulla scala dei dati non trasformati (ovvero $\bar{x}$). In altre parole, l'intercetta del modello di regressione lineare calcolata sui dati trasformati corrisponde al QI medio dei bambini in corrispondenza del QI medio delle madri.
 
 ### Il metodo dei minimi quadrati
 
-Ora che abbiamo visto come interpretare il coefficienti di regressione, chiediamoci come vengono calcolati.  
-
-La procedura generale è stata brevemente descritta in precedenza.  Vediamo ora come si giunge alla stessa conclusione usando una simulazione.
+Ora che abbiamo visto come interpretare il coefficienti di regressione, chiediamoci come vengono calcolati. La procedura generale è stata brevemente descritta in precedenza. Vediamo ora come si giunge alla conclusione descritta sopra usando una simulazione.
 
 Il problema è di trovare i valori $a$ e $b$ tali per cui la quantità $\sum_{i=1}^{n}{(y_i - (a + b x_i))^2}$ assume il valore minore possibile. Questo è un problema di minimizzazione rispetto a due parametri. Per dare un'idea di come si fa, semplifichiamo il problema e supponiamo che uno dei due parametri sia noto, ad esempio $a$, così ci resta una sola incognita.
 
