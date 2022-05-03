@@ -23,7 +23,7 @@
 <meta name="author" content="Corrado Caudek" />
 
 
-<meta name="date" content="2022-05-01" />
+<meta name="date" content="2022-05-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -877,7 +877,7 @@ FIGURA 20.1: Trace plot per il modello Beta-Binomiale dei dati di Gautret et al.
 <p>La figura <a href="ch-diagn-markov-chains.html#fig:trace-plot-gautret-2">20.1</a> fornisce un esempio perfetto di come dovrebbero apparire i <em>trace plot</em>. Quando le catene markoviane raggiungono uno stato stazionario e sono stabili ciò significa che hanno raggiunto la distribuzione stazionaria e il <em>trace plot</em> rivela un’assenza di struttura e diventa simile alla rappresentazione del rumore bianco, come nella figura <a href="ch-diagn-markov-chains.html#fig:trace-plot-gautret-2">20.1</a>.</p>
 <p>Una mancanza di convergenza è invece indicata dalla figura <a href="ch-diagn-markov-chains.html#fig:bad-trace-bayesrules">20.2</a><a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:bad-trace-bayesrules"></span>
-<img src="images/bad-trace-bayesrules.png" alt="Trace plots (a sinistra) e corrispondenti grafici di densità (a destra) di due ipotetiche catene di Markov. Queste figure forniscono due esempi di come potrebbero apparire delle catene di Markov non stazionarie. Le linee nere sovrapposte alle densità empiriche (a destra) rappresentano una ipotetica distribuzione target Beta(11,3)."  />
+<img src="images/bad-trace-bayesrules.png" alt="Trace plots (a sinistra) e corrispondenti grafici di densità (a destra) di due ipotetiche catene di Markov. Queste figure forniscono due esempi di come potrebbero apparire delle catene di Markov non stazionarie. Le linee nere sovrapposte alle densità empiriche (a destra) rappresentano una ipotetica distribuzione target Beta(11,3)." width="1181" />
 <p class="caption">
 FIGURA 20.2: Trace plots (a sinistra) e corrispondenti grafici di densità (a destra) di due ipotetiche catene di Markov. Queste figure forniscono due esempi di come potrebbero apparire delle catene di Markov non stazionarie. Le linee nere sovrapposte alle densità empiriche (a destra) rappresentano una ipotetica distribuzione target Beta(11,3).
 </p>
@@ -917,7 +917,7 @@ FIGURA 20.2: Trace plots (a sinistra) e corrispondenti grafici di densità (a de
 <span id="cb211-16"><a href="ch-diagn-markov-chains.html#cb211-16" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> </span>
 <span id="cb211-17"><a href="ch-diagn-markov-chains.html#cb211-17" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> All <span class="dv">4</span> chains finished successfully.</span>
 <span id="cb211-18"><a href="ch-diagn-markov-chains.html#cb211-18" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Mean chain execution time<span class="sc">:</span> <span class="fl">0.0</span> seconds.</span>
-<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.3</span> seconds.</span>
+<span id="cb211-19"><a href="ch-diagn-markov-chains.html#cb211-19" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span> Total execution time<span class="sc">:</span> <span class="fl">0.2</span> seconds.</span>
 <span id="cb211-20"><a href="ch-diagn-markov-chains.html#cb211-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb211-21"><a href="ch-diagn-markov-chains.html#cb211-21" aria-hidden="true" tabindex="-1"></a>stanfit_bb_short <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">read_stan_csv</span>(bb_short<span class="sc">$</span><span class="fu">output_files</span>())</span></code></pre></div>
 <p>Di seguito sono riportati i <em>trace-plot</em> e i corrispondenti istogrammi lisciati.</p>
@@ -949,7 +949,7 @@ FIGURA 20.2: Trace plots (a sinistra) e corrispondenti grafici di densità (a de
 <p>Il correlogramma mostra l’autocorrelazione in funzione di ritardi da 0 a 20. L’autocorrelazione di lag 0 è naturalmente 1 – misura la correlazione tra un valore della catena di Markov e se stesso. L’autocorrelazione di lag 1 è di circa 0.5, indicando una correlazione moderata tra i valori della catena che distano di solo 1 passo l’uno dall’altro. Successivamente, l’autocorrelazione diminuisce rapidamente ed è effettivamente pari a 0 per un lag di 5. Questo risultato fornisce una conferma del fatto che la catena di Markov costituisce una buona approssimazione di un campione casuale di <span class="math inline">\(p(\theta \mid y)\)</span>.</p>
 Al contrario, nella figura <a href="ch-diagn-markov-chains.html#fig:bad-autocorrelation">20.3</a> (a destra) <span class="citation">(riprodotta da <a href="#ref-Johnson2022bayesrules" role="doc-biblioref">Johnson, Ott, and Dogucu 2022</a>)</span> vediamo un esempio nel quale il trace plot rivela una forte tendenza tra i valori di una catena di Markov e, dunque, una forte autocorrelazione.
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:bad-autocorrelation"></span>
-<img src="images/ch6-acf-2-1.png" alt="Trace plot (a sinistra) e correlogramma (a destra) di una catena di Markow in cui il mixing è lento -- figura riprodotta da @Johnson2022bayesrules."  />
+<img src="images/ch6-acf-2-1.png" alt="Trace plot (a sinistra) e correlogramma (a destra) di una catena di Markow in cui il mixing è lento -- figura riprodotta da @Johnson2022bayesrules." width="1181" />
 <p class="caption">
 FIGURA 20.3: Trace plot (a sinistra) e correlogramma (a destra) di una catena di Markow in cui il mixing è lento – figura riprodotta da <span class="citation">Johnson, Ott, and Dogucu (<a href="#ref-Johnson2022bayesrules" role="doc-biblioref">2022</a>)</span>.
 </p>
