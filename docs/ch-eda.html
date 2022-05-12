@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -954,9 +954,9 @@ deviazione standard.</p>
 </div>
 <div id="i-dati-grezzi" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> I dati grezzi<a href="ch-eda.html#i-dati-grezzi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Per introdurre i principali strumenti della statistica descrittiva considereremo qui i dati raccolti da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Questi ricercatori hanno studiato le aspettative negative quale meccanismo chiave nel mantenimento e nella reiterazione della depressione. Nello studio, <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> si sono chiesti se individui depressi maturino delle aspettative accurate sul loro umore futuro, oppure se tali aspettative sono distorte negativamente.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. In uno studio viene esaminato un campione costituito da 30 soggetti con almeno un episodio depressivo maggiore e da 37 controlli sani. Gli autori hanno misurato il livello depressivo con il <em>Beck Depression Inventory</em> (BDI-II). Questi sono i dati che considereremo qui.</p>
+<p>Per introdurre i principali strumenti della statistica descrittiva considereremo qui i dati raccolti da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Questi ricercatori hanno studiato le aspettative negative quale meccanismo chiave nel mantenimento e nella reiterazione della depressione. Nello studio, <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> si sono chiesti se individui depressi maturino delle aspettative accurate sul loro umore futuro, oppure se tali aspettative sono distorte negativamente.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. In uno studio viene esaminato un campione costituito da 30 soggetti con almeno un episodio depressivo maggiore e da 37 controlli sani. Gli autori hanno misurato il livello depressivo con il <em>Beck Depression Inventory</em> (BDI-II). Questi sono i dati che considereremo qui.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-8" class="exercise"><strong>Esercizio 3.1  </strong></span>Qual è la la gravità della depressione riportata dai soggetti nel campione esaminato da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>?</p>
+<p><span id="exr:unlabeled-div-8" class="exercise"><strong>Esercizio 3.1  </strong></span>Qual è la la gravità della depressione riportata dai soggetti nel campione esaminato da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>?</p>
 <p>Per rispondere a questa domanda, iniziamo a leggere in <span class="math inline">\(\mathsf{R}\)</span> i dati, assumendo che il file <code>data.mood.csv</code> si trovi nella cartella <code>data</code> contenuta nella <em>working directory</em>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ch-eda.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
 <span id="cb1-2"><a href="ch-eda.html#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
@@ -1000,7 +1000,7 @@ classe) e il valore centrale <span class="math inline">\(\bar{x}_i\)</span>. La 
 <span class="math inline">\(F_i = f_1+f_2+\dots+f_m = \frac{N_i}{n} = \frac{1}{n} \sum_{i=1}^m f_i.\)</span></p></li>
 </ul>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-10" class="exercise"><strong>Esercizio 3.2  </strong></span>Si calcoli la distribuzione di frequenza assoluta e la distribuzione di frequenza relativa per i valori del BDI-II del campione clinico di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-10" class="exercise"><strong>Esercizio 3.2  </strong></span>Si calcoli la distribuzione di frequenza assoluta e la distribuzione di frequenza relativa per i valori del BDI-II del campione clinico di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Per costruire una distribuzione di frequenza è innanzitutto necessario scegliere gli intervalli delle classi. Facendo riferimento ai cut-off usati per l’interpretazione del BDI-II, definiamo i seguenti <em>intervalli aperti a destra</em>:</p>
 <ul>
 <li>depressione minima: [0, 13.5),</li>
@@ -1008,7 +1008,7 @@ classe) e il valore centrale <span class="math inline">\(\bar{x}_i\)</span>. La 
 <li>depressione moderata: [19.5, 28.5),</li>
 <li>depressione severa: [28.5, 63).</li>
 </ul>
-<p>Esaminando i dati, possiamo notare che 36 soggetti cadono nella prima classe, uno nella seconda classe, e così via. La distribuzione di frequenza della variabile <code>bdi2</code> è riportata nella tabella seguente. Questa distribuzione di frequenza ci aiuta a capire meglio cosa sta succedendo. Se consideriamo la frequenza relativa, ad esempio, possiamo notare che ci sono due valori maggiormente ricorrenti e tali valori corrispondono alle due classi più estreme. Questo ha senso nel caso presente, in quanto il campione esaminato da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> includeva due gruppi di soggetti: soggetti sani (con valori BDI-II bassi) e soggetti depressi (con valori BDI-II alti).<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> In una distribuzione di frequenza tali valori tipici vanno sotto il nome di <em>mode</em> della distribuzione.</p>
+<p>Esaminando i dati, possiamo notare che 36 soggetti cadono nella prima classe, uno nella seconda classe, e così via. La distribuzione di frequenza della variabile <code>bdi2</code> è riportata nella tabella seguente. Questa distribuzione di frequenza ci aiuta a capire meglio cosa sta succedendo. Se consideriamo la frequenza relativa, ad esempio, possiamo notare che ci sono due valori maggiormente ricorrenti e tali valori corrispondono alle due classi più estreme. Questo ha senso nel caso presente, in quanto il campione esaminato da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> includeva due gruppi di soggetti: soggetti sani (con valori BDI-II bassi) e soggetti depressi (con valori BDI-II alti).<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> In una distribuzione di frequenza tali valori tipici vanno sotto il nome di <em>mode</em> della distribuzione.</p>
 <table>
 <thead>
 <tr class="header">
@@ -1135,7 +1135,7 @@ proporzionale alla frequenza relativa <span class="math inline">\(f_i\)</span>. 
 dell’istogramma delle frequenze relative è data della somma delle aree
 dei singoli rettangoli e quindi vale 1.0.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-11" class="exercise"><strong>Esercizio 3.3  </strong></span>Si utilizzi <span class="math inline">\(\mathsf{R}\)</span> per costruire un istogramma per i valori BDI-II riportati da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-11" class="exercise"><strong>Esercizio 3.3  </strong></span>Si utilizzi <span class="math inline">\(\mathsf{R}\)</span> per costruire un istogramma per i valori BDI-II riportati da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Con i quattro intervalli individuati dai cut-off del BDI-II otteniamo la
 rappresentazione riportata nella figura <a href="ch-eda.html#fig:hist1zetsche">3.1</a>. Per chiarezza, precisiamo che <code>ggplot()</code> utilizza intervalli aperti a destra. Nel caso della prima barra dell’istogramma, l’ampiezza dell’intervallo è pari a 13.5 e l’area della barra (ovvero, la frequenza relativa) è uguale a 36/66. Dunque l’altezza della barra è uguale a <span class="math inline">\((36 / 66) / 13.5 = 0.040\)</span>. Lo stesso procedimento si applica per il calcolo dell’altezza degli altri rettangoli.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="ch-eda.html#cb7-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
@@ -1186,7 +1186,7 @@ FIGURA 3.2: Una rappresentazione più comune per l’istogramma dei valori BDI-I
 <p>Il problema precedente può essere alleviato utilizzando una rappresentazione alternativa della distribuzione di frequenza, ovvero la stima della densità della frequenza dei dati (detta anche stima <em>kernel di densità</em>). Un modo semplice per pensare a tale rappresentazione, che in inglese va sotto il nome di <em>kernel density plot</em> (cioè i grafici basati sulla stima kernel di densità), è quello di immaginare un grande campione di dati, in modo che diventi possibile definire un enorme numero di classi di equivalenza di ampiezza molto piccola, le quali non risultino vuote. In tali circostanze, la funzione di densità empirica non è altro che il profilo <em>lisciato</em> dell’istogramma. La stessa idea si applica anche quando il campione è piccolo. In tali circostanze, invece di raccogliere le osservazioni in barre come negli istogrammi, lo stimatore di densità kernel colloca una piccola “gobba” (<em>bump</em>), determinata da un fattore <span class="math inline">\(K\)</span> (kernel) e da un parametro <span class="math inline">\(h\)</span> di smussamento detto ampiezza di banda (<em>bandwidth</em>), in corrispondenza di ogni osservazione, quindi somma le gobbe risultanti generando una curva smussata.</p>
 <p>L’interpretazione che possiamo attribuire al kernel density plot è simile a quella che viene assegnata agli istogrammi: l’area sottesa al kernel density plot in un certo intervallo rappresenta la proporzione di casi della distribuzione che hanno valori compresi in quell’intervallo.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-12" class="exercise"><strong>Esercizio 3.4  </strong></span>All’istogramma dei valori BDI-II di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> si sovrapponga un kernel density plot.</p>
+<p><span id="exr:unlabeled-div-12" class="exercise"><strong>Esercizio 3.4  </strong></span>All’istogramma dei valori BDI-II di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> si sovrapponga un kernel density plot.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ch-eda.html#cb9-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="ch-eda.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bdi)) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="ch-eda.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
@@ -1222,7 +1222,7 @@ FIGURA 3.4: 1: Asimmetria negativa. 2: Asimmetria positiva. 3: Distribuzione uni
 </p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-13" class="exercise"><strong>Esercizio 3.5  </strong></span>Il kernel density plot della figura <a href="ch-eda.html#fig:zetschehist3">3.3</a> indica che la distribuzione dei valori del BDI-II nel campione di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> è bimodale. Ciò indica che le osservazioni della distribuzione si addensano in due cluster ben distinti: un gruppo di osservazioni tende ad avere valori BDI-II bassi, mentre l’altro gruppo tende ad avere BDI-II alti. Questi due cluster di osservazioni corrispondono al gruppo di controllo e al gruppo clinico nel campione di dati esaminato da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-13" class="exercise"><strong>Esercizio 3.5  </strong></span>Il kernel density plot della figura <a href="ch-eda.html#fig:zetschehist3">3.3</a> indica che la distribuzione dei valori del BDI-II nel campione di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> è bimodale. Ciò indica che le osservazioni della distribuzione si addensano in due cluster ben distinti: un gruppo di osservazioni tende ad avere valori BDI-II bassi, mentre l’altro gruppo tende ad avere BDI-II alti. Questi due cluster di osservazioni corrispondono al gruppo di controllo e al gruppo clinico nel campione di dati esaminato da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 </div>
 </div>
 <div id="indici-di-posizione" class="section level2 hasAnchor" number="3.9">
@@ -1231,7 +1231,7 @@ FIGURA 3.4: 1: Asimmetria negativa. 2: Asimmetria positiva. 3: Distribuzione uni
 <div id="quantili" class="section level3 hasAnchor" number="3.9.1">
 <h3><span class="header-section-number">3.9.1</span> Quantili<a href="ch-eda.html#quantili" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La descrizione della distribuzione dei valori BDI-II di
-<span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> può essere facilitata dalla determinazione di
+<span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> può essere facilitata dalla determinazione di
 alcuni valori caratteristici che sintetizzano le informazioni contenute
 nella distribuzione di frequenze. Si dicono <em>quantili</em> (o <em>frattili</em>)
 quei valori caratteristici che hanno le seguenti proprietà. I <em>quartili</em>
@@ -1259,7 +1259,7 @@ alternativa ad un istogramma (in realtà vedremo poi come possa essere
 combinata con un istogramma). Tale rappresentazione va sotto il nome di
 box-plot.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-14" class="exercise"><strong>Esercizio 3.6  </strong></span>Per fare un esempio, consideriamo i nove soggetti del campione clinico di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> che hanno riportato un unico episodio di depressione maggiore. Per tali soggetti i valori ordinati del BDI-II (per semplicità li chiameremo <span class="math inline">\(x\)</span>) sono i seguenti: 19, 26, 27, 28, 28, 33, 33, 41, 43.
+<p><span id="exr:unlabeled-div-14" class="exercise"><strong>Esercizio 3.6  </strong></span>Per fare un esempio, consideriamo i nove soggetti del campione clinico di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> che hanno riportato un unico episodio di depressione maggiore. Per tali soggetti i valori ordinati del BDI-II (per semplicità li chiameremo <span class="math inline">\(x\)</span>) sono i seguenti: 19, 26, 27, 28, 28, 33, 33, 41, 43.
 Per il calcolo del secondo quartile (non interpolato), ovvero per il calcolo della mediana, dobbiamo considerare la quantità <span class="math inline">\(np = 9 \cdot 0.5 = 4.5\)</span>, non intero. Quindi, <span class="math inline">\(q_1 = x_{4 + 1} = 27\)</span>.
 Per il calcolo del quantile (non interpolato) di ordine <span class="math inline">\(p = 2/3\)</span> dobbiamo considerare la quantità <span class="math inline">\(np = 9 \cdot 2/3 = 6\)</span>, intero. Quindi, <span class="math inline">\(q_{\frac{2}{3}} = \frac{1}{2} (x_{6} + x_{7}) = \frac{1}{2} (33 + 33) = 33\)</span>.</p>
 </div>
@@ -1285,7 +1285,7 @@ FIGURA 3.5: Box-plot: <span class="math inline">\(M\)</span> è la mediana, <spa
 </p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-15" class="exercise"><strong>Esercizio 3.7  </strong></span>Per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>, si utilizzi un box-plot per rappresentare graficamente la distribuzione dei punteggi BDI-II nel gruppo dei pazienti e nel gruppo di controllo.</p>
+<p><span id="exr:unlabeled-div-15" class="exercise"><strong>Esercizio 3.7  </strong></span>Per i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>, si utilizzi un box-plot per rappresentare graficamente la distribuzione dei punteggi BDI-II nel gruppo dei pazienti e nel gruppo di controllo.</p>
 <p>Nella figura <a href="ch-eda.html#fig:violin-zetsche">3.6</a> sinistra sono rappresentati i dati grezzi. La linea curva che circonda (simmetricamente) le osservazioni è l’<em>istogramma lisciato</em> (kernel density plot) che abbiamo descritto in precedenza. Nella figura <a href="ch-eda.html#fig:violin-zetsche">3.6</a> destra sono rappresentanti gli stessi dati: il kernel density plot è lo stesso di prima, ma al suo interno è stato collocato un box-plot. Entrambe le rappresentazioni suggeriscono che la distribuzione dei dati è all’incirca simmetrica nel gruppo clinico. Il gruppo di controllo mostra invece un’asimmetria positiva.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="ch-eda.html#cb10-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="ch-eda.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(esm_id, group) <span class="sc">%&gt;%</span></span>
@@ -1364,7 +1364,7 @@ FIGURA 3.6: Due versioni di un violin plot per i valori BDI-II di ciascuno dei d
 FIGURA 3.7: Sina plot per i valori BDI-II di ciascuno dei due gruppi di soggetti esaminati da Zetsche et al. (2019) con l’indicazione della mediana per ciascun gruppo.
 </p>
 </div>
-<p>Per un esempio in una recente pubblicazione, possiamo considerare le figure 3 e 6 di <span class="citation">Lazic, Semenova, and Williams (<a href="#ref-lazic2020determining" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Per un esempio in una recente pubblicazione, possiamo considerare le figure 3 e 6 di <span class="citation">Lazic et al. (<a href="#ref-lazic2020determining" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
 <div id="leccellenza-grafica" class="section level3 hasAnchor" number="3.9.4">
@@ -1397,15 +1397,15 @@ rappresentazione migliore dei dati di @zetschefuture2019. Il seguente <a href="h
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-lazic2020determining" class="csl-entry">
-Lazic, Stanley E, Elizaveta Semenova, and Dominic P Williams. 2020. <span>“Determining Organ Weight Toxicity with Bayesian Causal Models: Improving on the Analysis of Relative Organ Weights.”</span> <em>Scientific Reports</em> 10 (1): 1–12.
+Lazic, S. E., Semenova, E., &amp; Williams, D. P. (2020). Determining organ weight toxicity with bayesian causal models: Improving on the analysis of relative organ weights. <em>Scientific Reports</em>, <em>10</em>(1), 1–12.
 </div>
 <div id="ref-tufte_visual_display" class="csl-entry">
-Tufte, Edward R. 2001. <em>The Visual Display of Quantitative Information</em>. Graphics press Cheshire, CT.
+Tufte, E. R. (2001). <em>The visual display of quantitative information</em>. Graphics press Cheshire, CT.
 </div>
 <div id="ref-zetschefuture2019" class="csl-entry">
-Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“Future Expectations in Clinical Depression: <span>Biased</span> or Realistic?”</span> <em>Journal of Abnormal Psychology</em> 128 (7): 678–88.
+Zetsche, U., Bürkner, P.-C., &amp; Renneberg, B. (2019). Future expectations in clinical depression: <span>Biased</span> or realistic? <em>Journal of Abnormal Psychology</em>, <em>128</em>(7), 678–688.
 </div>
 </div>
 <div class="footnotes">

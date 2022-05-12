@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -890,7 +890,7 @@ p(\theta \mid y) = \frac{p(y \mid \theta) p(\theta)}{\int_{\Theta}p(y \mid \thet
 \end{equation}\]</span></p>
 <p>Si noti che l’integrale al denominatore della <a href="ch-bayes-workflow.html#eq:bayes-intro">(14.1)</a> è spesso di difficile risoluzione analitica per cui l’inferenza bayesiana solitamente procede attraverso metodi di ricampionamento e metodi iterativi, quali le Catene di Markov Monte Carlo (MCMC).</p>
 <!-- Si considera inoltre una variabile $\Theta$ continua, avente funzione di densità $p(\theta)$, tali che $p(y \mid \theta)$ sia la funzione di probabilità condizionata di $Y$ dato $\Theta$. Allora, la formula di Bayes diventa: -->
-<p><span class="citation">Martin, Kumar, and Lao (<a href="#ref-martin2022bayesian" role="doc-biblioref">2022</a>)</span> descrivono la modellazione bayesiana distinguendo tre passaggi.</p>
+<p><span class="citation">Martin et al. (<a href="#ref-martin2022bayesian" role="doc-biblioref">2022</a>)</span> descrivono la modellazione bayesiana distinguendo tre passaggi.</p>
 <ol style="list-style-type: decimal">
 <li>Dati alcuni dati e alcune ipotesi su come questi dati potrebbero essere stati generati, si progetta un modello statistico combinando e trasformando variabili casuali.</li>
 <li>Si usa il teorema di Bayes per condizionare il modello ai dati. Questo processo viene chiamato “inferenza” e come risultato si ottiene una distribuzione a posteriori.</li>
@@ -929,7 +929,7 @@ FIGURA 14.1: Esempi di distribuzioni a priori per il parametro <span class="math
 </div>
 <div id="unapplicazione-empirica" class="section level3 hasAnchor" number="14.2.3">
 <h3><span class="header-section-number">14.2.3</span> Un’applicazione empirica<a href="ch-bayes-workflow.html#unapplicazione-empirica" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Per introdurre la modelizzazione bayesiana useremo qui i dati riportati da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> (si veda l’appendice <a href="appendix:future-exp.html#appendix:future-exp">E</a>). Tali dati corrispondono a 23 “successi” in 30 prove e possono dunque essere considerati la manifestazione di una variabile casuale Bernoulliana.</p>
+<p>Per introdurre la modelizzazione bayesiana useremo qui i dati riportati da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> (si veda l’appendice <a href="appendix:future-exp.html#appendix:future-exp">E</a>). Tali dati corrispondono a 23 “successi” in 30 prove e possono dunque essere considerati la manifestazione di una variabile casuale Bernoulliana.</p>
 <p>Se non abbiamo alcuna informazione a priori su <span class="math inline">\(\theta\)</span> (ovvero, la probabilità che l’aspettativa dell’umore futuro del partecipante sia distorta negativamente), potremmo pensare di usare una distribuzione a priori uniforme, ovvero una Beta di parametri <span class="math inline">\(\alpha=1\)</span> e <span class="math inline">\(\beta=1\)</span>. Una tale scelta, tuttavia, è sconsigliata in quanto è più vantaggioso usare una distribuzione debolmente informativa, come ad esempio <span class="math inline">\(\mbox{Beta}(2, 2)\)</span>, che ha come scopo la regolarizzazione, cioè quello di mantenere le inferenze in un intervallo ragionevole. Qui useremo una <span class="math inline">\(\mbox{Beta}(2, 10)\)</span>.</p>
 <p><span class="math display">\[
 p(\theta) = \frac{\Gamma(12)}{\Gamma(2)\Gamma(10)}\theta^{2-1} (1-\theta)^{10-1}.
@@ -969,7 +969,7 @@ p(\theta) = \frac{\Gamma(12)}{\Gamma(2)\Gamma(10)}\theta^{2-1} (1-\theta)^{10-1}
 </div>
 <div id="unapplicazione-empirica-1" class="section level3 hasAnchor" number="14.3.3">
 <h3><span class="header-section-number">14.3.3</span> Un’applicazione empirica<a href="ch-bayes-workflow.html#unapplicazione-empirica-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Se i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> possono essere riassunti da una proporzione allora è sensato adottare un modello probabilistico binomiale quale meccanismo generatore dei dati:</p>
+<p>Se i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> possono essere riassunti da una proporzione allora è sensato adottare un modello probabilistico binomiale quale meccanismo generatore dei dati:</p>
 <p><span class="math display" id="eq:binomialmodel">\[\begin{equation}
 y  \sim \mbox{Bin}(n, \theta),
 \tag{14.2}
@@ -981,7 +981,7 @@ p(y \mid \theta)
 \mbox{Bin}(y \mid n, \theta).
 \]</span></p>
 <p>Nei capitoli precedenti è stato mostrato come, sulla base del modello binomiale, sia possibile assegnare una probabilità a ciascun possibile valore <span class="math inline">\(y \in \{0, 1, \dots, n\}\)</span> <em>assumendo noto il valore del parametro</em> <span class="math inline">\(\theta\)</span>. Ma ora abbiamo il problema inverso, ovvero quello di fare inferenza su <span class="math inline">\(\theta\)</span> alla luce dei dati campionari <span class="math inline">\(y\)</span>. In altre parole, riteniamo di conoscere il modello probabilistico che ha generato i dati, ma di tale modello non conosciamo i parametri: vogliamo dunque ottenere informazioni su <span class="math inline">\(\theta\)</span> avendo osservato i dati <span class="math inline">\(y\)</span>.</p>
-<p>Per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> la funzione di verosimiglianza corrisponde alla funzione binomiale di parametro <span class="math inline">\(\theta \in [0, 1]\)</span> sconosciuto. Abbiamo osservato un “successo” 23 volte in 30 “prove”, dunque, <span class="math inline">\(y = 23\)</span> e <span class="math inline">\(n = 30\)</span>. La funzione di verosimiglianza diventa</p>
+<p>Per i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> la funzione di verosimiglianza corrisponde alla funzione binomiale di parametro <span class="math inline">\(\theta \in [0, 1]\)</span> sconosciuto. Abbiamo osservato un “successo” 23 volte in 30 “prove”, dunque, <span class="math inline">\(y = 23\)</span> e <span class="math inline">\(n = 30\)</span>. La funzione di verosimiglianza diventa</p>
 <p><span class="math display" id="eq:likebino23">\[\begin{equation}
 \mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} \theta^{23} + (1-\theta)^7.
 \tag{14.3}
@@ -1027,7 +1027,7 @@ FIGURA 14.2: Funzione di verosimiglianza nel caso di 23 successi in 30 prove.
 <p>Si noti che, nel caso di variabili continue, la verosimiglianza marginale è espressa nei termini di un integrale. Tranne in pochi casi particolari, tale integrale non ha una soluzione analitica. Per questa ragione, l’inferenza bayesiana procede calcolando una approssimazione della distribuzione a posteriori mediante metodi numerici.</p>
 <div id="unapplicazione-empirica-2" class="section level3 hasAnchor" number="14.4.1">
 <h3><span class="header-section-number">14.4.1</span> Un’applicazione empirica<a href="ch-bayes-workflow.html#unapplicazione-empirica-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Consideriamo nuovamente i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Supponiamo che nel numeratore bayesiano la verosimiglianza sia moltiplicata per una distribuzione uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. In tali circostanze, il prodotto si riduce alla funzione di verosimiglianza. Per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>, dunque, la costante di normalizzazione si ottiene marginalizzando la funzione di verosimiglianza <span class="math inline">\(p(y = 23, n = 30 \mid \theta)\)</span> sopra <span class="math inline">\(\theta\)</span>, ovvero risolvendo l’integrale:</p>
+<p>Consideriamo nuovamente i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Supponiamo che nel numeratore bayesiano la verosimiglianza sia moltiplicata per una distribuzione uniforme, ovvero <span class="math inline">\(\mbox{Beta}(1, 1)\)</span>. In tali circostanze, il prodotto si riduce alla funzione di verosimiglianza. Per i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>, dunque, la costante di normalizzazione si ottiene marginalizzando la funzione di verosimiglianza <span class="math inline">\(p(y = 23, n = 30 \mid \theta)\)</span> sopra <span class="math inline">\(\theta\)</span>, ovvero risolvendo l’integrale:</p>
 <p><span class="math display" id="eq:intlikebino23">\[\begin{equation}
 p(y = 23, n = 30) = \int_0^1 \binom{30}{23} \theta^{23} (1-\theta)^{7} \,\operatorname {d}\!\theta.
 \tag{14.4}
@@ -1086,15 +1086,15 @@ p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\o
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-martin2022bayesian" class="csl-entry">
-Martin, Osvaldo A, Ravin Kumar, and Junpeng Lao. 2022. <em>Bayesian Modeling and Computation in Python</em>. CRC Press.
+Martin, O. A., Kumar, R., &amp; Lao, J. (2022). <em>Bayesian modeling and computation in python</em>. CRC Press.
 </div>
 <div id="ref-vandeSchoot2021modelling" class="csl-entry">
-Schoot, Rens van de, Sarah Depaoli, Ruth King, Bianca Kramer, Kaspar Märtens, Mahlet G. Tadesse, Marina Vannucci, et al. 2021. <span>“Bayesian Statistics and Modelling.”</span> <em>Nature Reviews Methods Primer</em> 1 (1): 1–26.
+Schoot, R. van de, Depaoli, S., King, R., Kramer, B., Märtens, K., Tadesse, M. G., Vannucci, M., Gelman, A., Veen, D., Willemsen, J., &amp; Yau, C. (2021). Bayesian statistics and modelling. <em>Nature Reviews Methods Primer</em>, <em>1</em>(1), 1–26.
 </div>
 <div id="ref-zetschefuture2019" class="csl-entry">
-Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“Future Expectations in Clinical Depression: <span>Biased</span> or Realistic?”</span> <em>Journal of Abnormal Psychology</em> 128 (7): 678–88.
+Zetsche, U., Bürkner, P.-C., &amp; Renneberg, B. (2019). Future expectations in clinical depression: <span>Biased</span> or realistic? <em>Journal of Abnormal Psychology</em>, <em>128</em>(7), 678–688.
 </div>
 </div>
             </section>

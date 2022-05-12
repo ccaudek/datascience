@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -882,7 +882,7 @@ div.csl-indent {
 <p>In precedenza abbiamo visto come si genera la distribuzione predittiva a posteriori nel caso del modello più semplice: quello di un’unica variabile con una data distribuzione di probabilità. In particolare, abbiamo considerato il caso beta-binomiale. In questo Capitolo estenderemo la discussione al caso del modello di regressione lineare. Esamineremo un esempio di <em>posterior predictive check</em> in cui simuleremo <span class="math inline">\(p(y^{rep} \mid \theta, y)\)</span> e un esempio di <em>prior predictive check</em> in cui simuleremo <span class="math inline">\(p(y^{rep} \mid \mathcal{M})\)</span>, ovvero condizionando il modello al meccanismo generatore dei dati <span class="math inline">\(\mathcal{M}\)</span>, ma senza però includere i dati del campione.</p>
 <div id="distribuzione-predittiva-a-posteriori-1" class="section level2 hasAnchor" number="29.1">
 <h2><span class="header-section-number">29.1</span> Distribuzione predittiva a posteriori<a href="ch-pred-checks.html#distribuzione-predittiva-a-posteriori-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Consideriamo qui un esempio nel quale vengono usati i dati <code>kidiq</code> <span class="citation">(<a href="#ref-gelman2020regression" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span>. Leggiamo i dati in <span class="math inline">\(\mathsf{R}\)</span>.</p>
+<p>Consideriamo qui un esempio nel quale vengono usati i dati <code>kidiq</code> <span class="citation">(<a href="#ref-gelman2020regression" role="doc-biblioref">Gelman et al., 2020</a>)</span>. Leggiamo i dati in <span class="math inline">\(\mathsf{R}\)</span>.</p>
 <div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="ch-pred-checks.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;rio&quot;</span>)</span>
 <span id="cb405-2"><a href="ch-pred-checks.html#cb405-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;kidiq.dta&quot;</span>))</span></code></pre></div>
 <p>Per svolgere l’analisi bayesiana sistemiamo i dati (standardizzati) nel formato appropriato per Stan:</p>
@@ -1123,9 +1123,9 @@ e deviazione standard <span class="math inline">\(\sigma\)</span>.</p>
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-gelman2020regression" class="csl-entry">
-Gelman, Andrew, Jennifer Hill, and Aki Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge University Press.
+Gelman, A., Hill, J., &amp; Vehtari, A. (2020). <em>Regression and other stories</em>. Cambridge University Press.
 </div>
 </div>
             </section>

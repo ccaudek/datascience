@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -879,7 +879,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="ch-corr" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Capitolo 5</span> Le relazioni tra variabili<a href="ch-corr.html#ch-corr" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Nella loro ricerca, <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> hanno misurato il livello di depressione dei soggetti utilizzando due scale psicometriche: il Beck Depression Inventory II (BDI-II) e la Center for Epidemiologic Studies Depression Scale (CES-D). Il BDI-II è uno strumento self-report che valutare la presenza e l’intensità di sintomi depressivi in pazienti adulti e adolescenti di almeno 13 anni di età con diagnosi psichiatrica
+<p>Nella loro ricerca, <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> hanno misurato il livello di depressione dei soggetti utilizzando due scale psicometriche: il Beck Depression Inventory II (BDI-II) e la Center for Epidemiologic Studies Depression Scale (CES-D). Il BDI-II è uno strumento self-report che valutare la presenza e l’intensità di sintomi depressivi in pazienti adulti e adolescenti di almeno 13 anni di età con diagnosi psichiatrica
 mentre la CES-D è una scala self-report progettata per misurare i
 sintomi depressivi che sono stati vissuti nella settimana precedente
 nella popolazione generale, specialmente quella degli
@@ -906,7 +906,7 @@ diagramma a dispersione.</p>
 <div id="diagramma-a-dispersione" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Diagramma a dispersione<a href="ch-corr.html#diagramma-a-dispersione" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Il diagramma di dispersione è la rappresentazione grafica delle coppie di punti individuati da due variabili <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
-<p>Per fare un esempio concreto, consideriamo le variabili BDI-II e CES-D di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Il diagramma di dispersione per tali variabili si ottiene ponendo, ad esempio, i valori BDI-II sull’asse delle ascisse e quelli del CES-D sull’asse delle ordinate. In tale grafico, fornito dalla figura <a href="ch-corr.html#fig:zetsche-scatter">5.1</a>, cascun punto corrisponde ad un individuo del quale, nel caso presente, conosciamo il livello di depressione misurato dalle due scale psicometriche.</p>
+<p>Per fare un esempio concreto, consideriamo le variabili BDI-II e CES-D di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>. Il diagramma di dispersione per tali variabili si ottiene ponendo, ad esempio, i valori BDI-II sull’asse delle ascisse e quelli del CES-D sull’asse delle ordinate. In tale grafico, fornito dalla figura <a href="ch-corr.html#fig:zetsche-scatter">5.1</a>, cascun punto corrisponde ad un individuo del quale, nel caso presente, conosciamo il livello di depressione misurato dalle due scale psicometriche.</p>
 <p>Dalla figura <a href="ch-corr.html#fig:zetsche-scatter">5.1</a> possiamo vedere che i dati mostrano una tendenza a disporsi attorno ad una retta – nel gergo statistico, questo fatto viene espresso dicendo che i punteggi CES-D tendono ad essere linearmente associati ai punteggi BDI-II. È ovvio, tuttavia, che tale relazione lineare è lungi dall’essere perfetta – se fosse perfetta, tutti i punti del diagramma a dispersione si disporrebbero esattamente lungo una retta.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ch-corr.html#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
 <span id="cb19-2"><a href="ch-corr.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data.mood.csv&quot;</span>),</span>
@@ -1073,7 +1073,7 @@ un test psicologico misura effettivamente ciò che ci si aspetta che
 misuri (nel caso dell’esempio presente, la depressione), allora dovremo
 aspettarci che fornisca una correlazione alta con risultati di altri
 test che misurano lo stesso costrutto – come nel caso dei dati di
-<span class="citation">(<a href="#ref-zetschefuture2019" role="doc-biblioref">Zetsche, Bürkner, and Renneberg 2019</a>)</span>. Un’altra proprietà desiderabile di un test
+<span class="citation">(<a href="#ref-zetschefuture2019" role="doc-biblioref">Zetsche et al., 2019</a>)</span>. Un’altra proprietà desiderabile di un test
 psicometrico è la <em>validità divergente</em>: i risultati di test
 psicometrici che misurano costrutti diversi dovrebbero essere poco
 associati tra loro. In altre parole, in questo secondo caso dovremmo
@@ -1117,9 +1117,9 @@ FIGURA 5.2: Due insiemi di dati (fittizi) per i quali i coefficienti di correlaz
 
 
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-zetschefuture2019" class="csl-entry">
-Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“Future Expectations in Clinical Depression: <span>Biased</span> or Realistic?”</span> <em>Journal of Abnormal Psychology</em> 128 (7): 678–88.
+Zetsche, U., Bürkner, P.-C., &amp; Renneberg, B. (2019). Future expectations in clinical depression: <span>Biased</span> or realistic? <em>Journal of Abnormal Psychology</em>, <em>128</em>(7), 678–688.
 </div>
 </div>
             </section>

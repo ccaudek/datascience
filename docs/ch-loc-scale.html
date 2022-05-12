@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -922,7 +922,7 @@ distribuzione è asimmetrica, o in presenza di valori anomali (<em>outlier</em>)
 – si veda il pannello di destra della figura <a href="ch-eda.html#fig:violin-zetsche">3.6</a>. In tali circostanze, la tendenza centrale della distribuzione è meglio rappresentata dalla mediana o dalla media spuntata.</p>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Esercizio 4.1  </strong></span>Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-18" class="exercise"><strong>Esercizio 4.1  </strong></span>Si calcoli la media dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="ch-loc-scale.html#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(</span>
 <span id="cb12-2"><a href="ch-loc-scale.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data.mood.csv&quot;</span>),</span>
 <span id="cb12-3"><a href="ch-loc-scale.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span></span>
@@ -954,7 +954,7 @@ una sequenza crescente, <span class="math inline">\(x_1 \leq x_2 \leq x_3 \leq \
 poi eliminare il primo 5% e l’ultimo 5% dei dati della serie così
 ordinata. La media spuntata è data dalla media aritmetica dei dati rimanenti.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Esercizio 4.2  </strong></span>Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> escludendo il 10% dei valori più estremi in ciascun gruppo.</p>
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Esercizio 4.2  </strong></span>Si calcoli la media spuntata dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span> escludendo il 10% dei valori più estremi in ciascun gruppo.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="ch-loc-scale.html#cb14-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="ch-loc-scale.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="ch-loc-scale.html#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -976,7 +976,7 @@ abbia più mode; in tal caso si dice <em>multimodale</em> e questo operatore
 perde il suo significato di indice di tendenza centrale) e la <em>mediana</em>
 <span class="math inline">\(\tilde{x}\)</span>.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Esercizio 4.3  </strong></span>Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-20" class="exercise"><strong>Esercizio 4.3  </strong></span>Si calcolino i quantili di ordine 0.25, 0.5 e 0.75 dei valori BDI-II per i due gruppi di soggetti di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="ch-loc-scale.html#cb15-1" aria-hidden="true" tabindex="-1"></a>bysubj <span class="sc">%&gt;%</span></span>
 <span id="cb15-2"><a href="ch-loc-scale.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
 <span id="cb15-3"><a href="ch-loc-scale.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -1030,7 +1030,7 @@ s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 \end{equation}\]</span></p>
 <p>è la media dei quadrati degli scarti <span class="math inline">\(x_i - \bar{x}\)</span> tra ogni valore e la media della distribuzione. La varianza è una misura di dispersione più complessa di quelle esaminate in precedenza. È appropriata solo nel caso di distribuzioni simmetriche e, anch’essa, è fortemente influenzata dai valori anomali. Inoltre, è espressa in un’unità di misura che è il quadrato dell’unità di misura dei dati originari e quindi ad essa non può essere assegnata un’interpretazione intuitiva.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Esercizio 4.4  </strong></span>Si calcoli la varianza dei valori BDI-II per i dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Esercizio 4.4  </strong></span>Si calcoli la varianza dei valori BDI-II per i dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="ch-loc-scale.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(bysubj<span class="sc">$</span>bdi)</span>
 <span id="cb16-2"><a href="ch-loc-scale.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 239.8732</span></span></code></pre></div>
@@ -1058,7 +1058,7 @@ anziché come</p>
 <p>Per le ragioni espresse sopra, la misura più usata della dispersione di una distribuzione di dati è lo <em>scarto quadratico medio</em> (o <em>scarto tipo</em>, o <em>deviazione standard</em>), ovvero la radice quadrata della varianza<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. A differenza della varianza, dunque, lo scarto tipo è espresso nella stessa unità di misura dei dati. Come nel caso della varianza, anche lo scarto tipo <span class="math inline">\(s\)</span> dovrebbe essere usato soltanto quando la media è adeguata per misurare il centro della distribuzione, ovvero, nel caso di distribuzioni simmetriche. Come nel caso della media <span class="math inline">\(\bar{x}\)</span>, anche lo scarto tipo è fortemente influenzato dai dati anomali (<em>outlier</em>), ovvero dalla presenza di uno o di pochi dati che sono molto più distanti dalla media rispetto agli altri valori della distribuzione. Quando tutte le osservazioni sono uguali, <span class="math inline">\(s = 0\)</span>, altrimenti <span class="math inline">\(s &gt; 0\)</span>.</p>
 <p>Allo scarto tipo può essere assegnata una semplice interpretazione: lo scarto tipo è <em>simile</em> (ma non identico) allo scarto semplice medio campionario, ovvero alla media aritmetica dei valori assoluti degli scarti dalla media. Lo scarto tipo ci dice, dunque, quanto sono distanti, in media, le singole osservazioni dal centro della distribuzione. Un’interpretazione più precisa del significato dello scarto tipo è fornita nel Paragrafo successivo.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Esercizio 4.5  </strong></span>Si calcoli lo scarto tipo per i valori BDI-II di dati di <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-24" class="exercise"><strong>Esercizio 4.5  </strong></span>Si calcoli lo scarto tipo per i valori BDI-II di dati di <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ch-loc-scale.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(bysubj<span class="sc">$</span>bdi)</span>
 <span id="cb17-2"><a href="ch-loc-scale.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15.48784</span></span></code></pre></div>
@@ -1076,7 +1076,7 @@ Nel caso di una distribuzione dei dati unimodale simmetrica di forma campanulare
 \]</span>
 Pertanto, solitamente i software restituiscono il valore MAD moltiplicato per una tale costante.</p>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Esercizio 4.6  </strong></span>Si calcoli il valore MAD per i valori BDI-II riportati da <span class="citation">Zetsche, Bürkner, and Renneberg (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Esercizio 4.6  </strong></span>Si calcoli il valore MAD per i valori BDI-II riportati da <span class="citation">Zetsche et al. (<a href="#ref-zetschefuture2019" role="doc-biblioref">2019</a>)</span>.</p>
 <p>Applicando la formula precedente, per tutto il campione abbiamo</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="ch-loc-scale.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.4826</span> <span class="sc">*</span> <span class="fu">median</span>(<span class="fu">abs</span>(bysubj<span class="sc">$</span>bdi <span class="sc">-</span> <span class="fu">median</span>(bysubj<span class="sc">$</span>bdi)))</span>
 <span id="cb18-2"><a href="ch-loc-scale.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8.8956</span></span></code></pre></div>
@@ -1102,9 +1102,9 @@ ottenuto dal rapporto tra la deviazione standard e la media dei dati. Un altro i
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-zetschefuture2019" class="csl-entry">
-Zetsche, Ulrike, Paul-Christian Bürkner, and Babette Renneberg. 2019. <span>“Future Expectations in Clinical Depression: <span>Biased</span> or Realistic?”</span> <em>Journal of Abnormal Psychology</em> 128 (7): 678–88.
+Zetsche, U., Bürkner, P.-C., &amp; Renneberg, B. (2019). Future expectations in clinical depression: <span>Biased</span> or realistic? <em>Journal of Abnormal Psychology</em>, <em>128</em>(7), 678–688.
 </div>
 </div>
 <div class="footnotes">

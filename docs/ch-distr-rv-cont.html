@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -1283,7 +1283,7 @@ B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}\,,
 </ul>
 </div>
 <div class="exercise">
-<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Esercizio 13.4  </strong></span>Nel disturbo depressivo la recidiva è definita come la comparsa di un nuovo episodio depressivo che si manifesta dopo un prolungato periodo di recupero (6-12 mesi) con stato di eutimia (umore relativamente normale). Supponiamo che una serie di studi mostri una comparsa di recidiva in una proporzione che va dal 20% al 60% dei casi, con una media del 40% <span class="citation">(per una recente discussione, si veda <a href="#ref-nuggerud2020analysis" role="doc-biblioref">Nuggerud-Galeas et al. 2020</a>)</span>. Sulla base di queste ipotetiche informazioni, è possibile usare la distribuzione Beta per rappresentare le nostre credenze a priori relativamente alla probabilità di recidiva. Per fare questo dobbiamo trovare i parametri della distribuzione Beta tali per cui la massa della densità sia compresa tra 0.2 e 0.6, con la media in corrispondenza di 0.4. Procedendo per tentativi ed errori, ed usando la funzione <code>bayesrules::plot_beta()</code>, un risultato possibile è <span class="math inline">\(\Beta(16, 24)\)</span>.</p>
+<p><span id="exr:unlabeled-div-76" class="exercise"><strong>Esercizio 13.4  </strong></span>Nel disturbo depressivo la recidiva è definita come la comparsa di un nuovo episodio depressivo che si manifesta dopo un prolungato periodo di recupero (6-12 mesi) con stato di eutimia (umore relativamente normale). Supponiamo che una serie di studi mostri una comparsa di recidiva in una proporzione che va dal 20% al 60% dei casi, con una media del 40% <span class="citation">(per una recente discussione, si veda <a href="#ref-nuggerud2020analysis" role="doc-biblioref">Nuggerud-Galeas et al., 2020</a>)</span>. Sulla base di queste ipotetiche informazioni, è possibile usare la distribuzione Beta per rappresentare le nostre credenze a priori relativamente alla probabilità di recidiva. Per fare questo dobbiamo trovare i parametri della distribuzione Beta tali per cui la massa della densità sia compresa tra 0.2 e 0.6, con la media in corrispondenza di 0.4. Procedendo per tentativi ed errori, ed usando la funzione <code>bayesrules::plot_beta()</code>, un risultato possibile è <span class="math inline">\(\Beta(16, 24)\)</span>.</p>
 <p>La funzione <code>find_pars()</code> prende in input la media e <span class="math inline">\(\alpha + \beta\)</span>, ritorna i valori dei parametri:</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="ch-distr-rv-cont.html#cb74-1" aria-hidden="true" tabindex="-1"></a>find_pars <span class="ot">&lt;-</span> <span class="cf">function</span>(ev, n) {</span>
 <span id="cb74-2"><a href="ch-distr-rv-cont.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> ev <span class="sc">*</span> n</span>
@@ -1387,12 +1387,12 @@ La distribuzione di Pareto ha una asimmetria positiva. Il supporto della distrib
 
 
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-McElreath_rethinking" class="csl-entry">
-McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. 2nd Edition. Boca Raton, Florida: CRC Press.
+McElreath, R. (2020). <em>Statistical rethinking: <span>A</span> <span>Bayesian</span> course with examples in <span>R</span> and <span>Stan</span></em> (2nd Edition). CRC Press.
 </div>
 <div id="ref-nuggerud2020analysis" class="csl-entry">
-Nuggerud-Galeas, Shysset, Loreto Sáez-Benito Suescun, Nuria Berenguer Torrijo, Ana Sáez-Benito Suescun, Alejandra Aguilar-Latorre, Rosa Magallón Botaya, and Bárbara Oliván Blázquez. 2020. <span>“Analysis of Depressive Episodes, Their Recurrence and Pharmacologic Treatment in Primary Care Patients: A Retrospective Descriptive Study.”</span> <em>Plos One</em> 15 (5): e0233454.
+Nuggerud-Galeas, S., Sáez-Benito Suescun, L., Berenguer Torrijo, N., Sáez-Benito Suescun, A., Aguilar-Latorre, A., Magallón Botaya, R., &amp; Oliván Blázquez, B. (2020). Analysis of depressive episodes, their recurrence and pharmacologic treatment in primary care patients: A retrospective descriptive study. <em>Plos One</em>, <em>15</em>(5), e0233454.
 </div>
 </div>
             </section>

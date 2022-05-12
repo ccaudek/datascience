@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -1705,7 +1705,7 @@ anche indicando nome della variabile, scrivendo
 <code>nome_data_frame$nome_variabile</code>:</p>
 <div class="sourceCode" id="cb741"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb741-1"><a href="introduzione-al-linguaggio-r.html#cb741-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>value</span>
 <span id="cb741-2"><a href="introduzione-al-linguaggio-r.html#cb741-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3</span></span></code></pre></div>
-<p>Per fare un esempio, creiamo un data.frame che contenga tutte le informazioni di un mazzo di carte da poker <span class="citation">(<a href="#ref-grolemund2014hands" role="doc-biblioref">Grolemund 2014</a>)</span>. In tale data.frame, ciascuna riga
+<p>Per fare un esempio, creiamo un data.frame che contenga tutte le informazioni di un mazzo di carte da poker <span class="citation">(<a href="#ref-grolemund2014hands" role="doc-biblioref">Grolemund, 2014</a>)</span>. In tale data.frame, ciascuna riga
 corrisponde ad una carta – in un mazzo da poker ci sono 52 carte,
 perciò il data.frame avrà 52 righe. Il vettore <code>face</code> indica con una
 stringa di caratteri il valore di ciascuna carta, il vettore <code>suit</code>
@@ -2135,7 +2135,7 @@ una variabile rilevata. In <code>R</code> una tale struttura è chiamata <em>dat
 <div id="trattamento-dei-dati-con-dplyr" class="section level3 hasAnchor" number="49.7.2">
 <h3><span class="header-section-number">J.7.2</span> Trattamento dei dati con <code>dplyr</code><a href="introduzione-al-linguaggio-r.html#trattamento-dei-dati-con-dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Il pacchetto <code>dplyr</code> include sei funzioni base: <code>filter()</code>, <code>select()</code>, <code>mutate()</code>, <code>arrange()</code>, <code>group_by()</code> e <code>summarise()</code>. Queste sei funzioni costituiscono i <em>verbi</em> del linguaggio di manipolazione dei dati. A questi sei verbi si aggiunge il pipe <code>%&gt;%</code> che serve a concatenare più operazioni. In particolare, considerando una matrice osservazioni per variabili, <code>select()</code> e <code>mutate()</code> si occupano di organizzare le variabili, <code>filter()</code> e <code>arrange()</code> i casi, e <code>group_by()</code> e <code>summarise()</code> i gruppi.</p>
-<p>Per introdurre le funzionalità di <code>dplyr</code>, utilizzeremo i dati <code>msleep</code> forniti dal pacchetto <code>ggplot2</code>. Tali dati descrivono le ore di sonno medie di 83 specie di mammiferi <span class="citation">(<a href="#ref-savage2007scaling" role="doc-biblioref">Savage et al. 2007</a>)</span>. Carichiamo il <em>boundle</em> <code>tidyverse</code> (che contiene <code>ggplot2</code>) e leggiamo nella memoria di lavoro l’oggetto <code>msleep</code>:</p>
+<p>Per introdurre le funzionalità di <code>dplyr</code>, utilizzeremo i dati <code>msleep</code> forniti dal pacchetto <code>ggplot2</code>. Tali dati descrivono le ore di sonno medie di 83 specie di mammiferi <span class="citation">(<a href="#ref-savage2007scaling" role="doc-biblioref">Savage et al., 2007</a>)</span>. Carichiamo il <em>boundle</em> <code>tidyverse</code> (che contiene <code>ggplot2</code>) e leggiamo nella memoria di lavoro l’oggetto <code>msleep</code>:</p>
 <div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="introduzione-al-linguaggio-r.html#cb772-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb772-2"><a href="introduzione-al-linguaggio-r.html#cb772-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(msleep)</span>
 <span id="cb772-3"><a href="introduzione-al-linguaggio-r.html#cb772-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(msleep)</span>
@@ -2385,7 +2385,7 @@ Supponiamo ora di volere che i livelli del fattore <code>f_1</code> abbiano le e
 <span id="cb788-7"><a href="introduzione-al-linguaggio-r.html#cb788-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; new_massimo   new_tanto   new_medio    new_poco </span></span>
 <span id="cb788-8"><a href="introduzione-al-linguaggio-r.html#cb788-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           1           1           1           2</span></span></code></pre></div>
 <p>
-Per approfondire le problematiche della manipolazione di variabili qualitative in <code>R</code>, si veda <span class="citation">McNamara and Horton (<a href="#ref-mcnamara2018wrangling" role="doc-biblioref">2018</a>)</span>.</p>
+Per approfondire le problematiche della manipolazione di variabili qualitative in <code>R</code>, si veda <span class="citation">McNamara &amp; Horton (<a href="#ref-mcnamara2018wrangling" role="doc-biblioref">2018</a>)</span>.</p>
 </div>
 </div>
 <div id="creare-grafici-con-ggplot2" class="section level3 hasAnchor" number="49.7.4">
@@ -2457,7 +2457,7 @@ Per approfondire le problematiche della manipolazione di variabili qualitative i
 <p>La visualizzazione può essere migliorata cambiando le etichette della legenda del grafico. Per fare questo è necessario intervenire sui dati prima di usare <code>ggplot()</code> – per esempio, come abbiamo fatto in precedenza con la funzione <code>forcats::fct_recode()</code>.</p>
 <div id="istogramma-1" class="section level4 hasAnchor" number="49.7.5.1">
 <h4><span class="header-section-number">J.7.5.1</span> Istogramma<a href="introduzione-al-linguaggio-r.html#istogramma-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Creiamo ora un istogramma che rappresenta la distribuzione del (logaritmo del) peso medio del cervello delle 83 specie di mammiferi considerate da <span class="citation">Savage and West (<a href="#ref-savage2007quantitative" role="doc-biblioref">2007</a>)</span>. L’argomento <code>aes(y = ..density..)</code> in <code>geom_histogram()</code> produce le frequenze relative. L’opzione di default (senza questo argomento) porta <code>ggplot()</code> a rappresentare le frequenze assolute.</p>
+<p>Creiamo ora un istogramma che rappresenta la distribuzione del (logaritmo del) peso medio del cervello delle 83 specie di mammiferi considerate da <span class="citation">Savage &amp; West (<a href="#ref-savage2007quantitative" role="doc-biblioref">2007</a>)</span>. L’argomento <code>aes(y = ..density..)</code> in <code>geom_histogram()</code> produce le frequenze relative. L’opzione di default (senza questo argomento) porta <code>ggplot()</code> a rappresentare le frequenze assolute.</p>
 <div class="sourceCode" id="cb794"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb794-1"><a href="introduzione-al-linguaggio-r.html#cb794-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
 <span id="cb794-2"><a href="introduzione-al-linguaggio-r.html#cb794-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb794-3"><a href="introduzione-al-linguaggio-r.html#cb794-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="fu">log</span>(brainwt))</span>
@@ -2481,8 +2481,8 @@ Per approfondire le problematiche della manipolazione di variabili qualitative i
 <h2><span class="header-section-number">J.8</span> Flusso di lavoro riproducibile<a href="introduzione-al-linguaggio-r.html#flusso-di-lavoro-riproducibile" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="la-crisi-della-riproducibilità" class="section level3 hasAnchor" number="49.8.1">
 <h3><span class="header-section-number">J.8.1</span> La crisi della riproducibilità<a href="introduzione-al-linguaggio-r.html#la-crisi-della-riproducibilità" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>“Per il metodo scientifico è essenziale che gli esperimenti siano riproducibili. Vale a dire che una persona diversa dallo sperimentatore originale deve essere in grado di ottenere gli stessi risultati seguendo lo stesso protocollo sperimentale (Gilbert Chin).”</em> Ma in psicologia (e non solo) la riproducibilità è inferiore a quanto previsto o desiderato. In un famoso studio pubblicato su <em>Science</em>, un ampio gruppo di ricercatori <span class="citation">(<a href="#ref-open2015estimating" role="doc-biblioref">Open Science Collaboration and others 2015</a>)</span> è riuscito a replicare solo il 40 per cento circa dei risultati di 100 studi di psicologia cognitiva e sociale pubblicati in precedenza. I risultati di questo studio, e di molti altri pubblicati in seguito, sono stati interpretati in modi diversi. La preoccupazione sulla riproducibilità della ricerca è stata espressa mediante l’affermare secondo la quale “la maggior parte dei risultati della ricerca sono falsi” <span class="citation">(<a href="#ref-ioannidis2005most" role="doc-biblioref">Ioannidis 2005</a>)</span> oppure mediante l’affermazione secondo cui “dobbiamo apportare modifiche sostanziali al modo in cui conduciamo la ricerca” <span class="citation">(<a href="#ref-cumming2014new" role="doc-biblioref">Cumming 2014</a>)</span>. Alcuni ricercatori sono arrivati a definire la presente situazione come una “crisi della riproducibilità dei risultati della ricerca”.</p>
-<p>Il termine “riproducibilità” (o “replicabilità”) è stato definito in vari modi. Consideriamo la definizione fornita da <span class="citation">Goodman, Fanelli, and Ioannidis (<a href="#ref-goodman2016does" role="doc-biblioref">2016</a>)</span>:</p>
+<p><em>“Per il metodo scientifico è essenziale che gli esperimenti siano riproducibili. Vale a dire che una persona diversa dallo sperimentatore originale deve essere in grado di ottenere gli stessi risultati seguendo lo stesso protocollo sperimentale (Gilbert Chin).”</em> Ma in psicologia (e non solo) la riproducibilità è inferiore a quanto previsto o desiderato. In un famoso studio pubblicato su <em>Science</em>, un ampio gruppo di ricercatori <span class="citation">(<a href="#ref-open2015estimating" role="doc-biblioref">Open Science Collaboration and others, 2015</a>)</span> è riuscito a replicare solo il 40 per cento circa dei risultati di 100 studi di psicologia cognitiva e sociale pubblicati in precedenza. I risultati di questo studio, e di molti altri pubblicati in seguito, sono stati interpretati in modi diversi. La preoccupazione sulla riproducibilità della ricerca è stata espressa mediante l’affermare secondo la quale “la maggior parte dei risultati della ricerca sono falsi” <span class="citation">(<a href="#ref-ioannidis2005most" role="doc-biblioref">Ioannidis, 2005</a>)</span> oppure mediante l’affermazione secondo cui “dobbiamo apportare modifiche sostanziali al modo in cui conduciamo la ricerca” <span class="citation">(<a href="#ref-cumming2014new" role="doc-biblioref">Cumming, 2014</a>)</span>. Alcuni ricercatori sono arrivati a definire la presente situazione come una “crisi della riproducibilità dei risultati della ricerca”.</p>
+<p>Il termine “riproducibilità” (o “replicabilità”) è stato definito in vari modi. Consideriamo la definizione fornita da <span class="citation">Goodman et al. (<a href="#ref-goodman2016does" role="doc-biblioref">2016</a>)</span>:</p>
 <ul>
 <li><p>la riproducibilità dei metodi “si riferisce al fatto che il ricercatore fornisce dettagli sufficienti sulle procedure e sui dati dello studio in modo che le stesse procedure possano … essere replicate esattamente” (pag. 2) con gli stessi dati;</p></li>
 <li><p>la riproducibilità dei risultati “si riferisce all’ottenimento degli stessi risultati dalla conduzione di uno studio indipendente le cui procedure replicano il più esattamente possibile quelle dell’esperimento originale” (pag. 2-3) con dati indipendenti;</p></li>
@@ -2704,33 +2704,33 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}
 
 
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-cumming2014new" class="csl-entry">
-Cumming, Geoff. 2014. <span>“The New Statistics: Why and How.”</span> <em>Psychological Science</em> 25 (1): 7–29.
+Cumming, G. (2014). The new statistics: Why and how. <em>Psychological Science</em>, <em>25</em>(1), 7–29.
 </div>
 <div id="ref-goodman2016does" class="csl-entry">
-Goodman, Steven N, Daniele Fanelli, and John PA Ioannidis. 2016. <span>“What Does Research Reproducibility Mean?”</span> <em>Science Translational Medicine</em> 8 (341): 341ps12–12.
+Goodman, S. N., Fanelli, D., &amp; Ioannidis, J. P. (2016). What does research reproducibility mean? <em>Science Translational Medicine</em>, <em>8</em>(341), 341ps12–341ps12.
 </div>
 <div id="ref-grolemund2014hands" class="csl-entry">
-Grolemund, Garrett. 2014. <em>Hands-on Programming with <span>R</span>: <span>W</span>rite Your Own Functions and Simulations</em>. O’Reilly Media, Inc.
+Grolemund, G. (2014). <em>Hands-on programming with <span>R</span>: <span>W</span>rite your own functions and simulations</em>. O’Reilly Media, Inc.
 </div>
 <div id="ref-ioannidis2005most" class="csl-entry">
-Ioannidis, John PA. 2005. <span>“Why Most Published Research Findings Are False.”</span> <em>PLoS Medicine</em> 2 (8): e124.
+Ioannidis, J. P. (2005). Why most published research findings are false. <em>PLoS Medicine</em>, <em>2</em>(8), e124.
 </div>
 <div id="ref-mcnamara2018wrangling" class="csl-entry">
-McNamara, Amelia, and Nicholas J Horton. 2018. <span>“Wrangling Categorical Data in r.”</span> <em>The American Statistician</em> 72 (1): 97–104.
+McNamara, A., &amp; Horton, N. J. (2018). Wrangling categorical data in r. <em>The American Statistician</em>, <em>72</em>(1), 97–104.
 </div>
 <div id="ref-open2015estimating" class="csl-entry">
-Open Science Collaboration and others. 2015. <span>“Estimating the Reproducibility of Psychological Science.”</span> <em>Science</em> 349 (6251): aac4716.
+Open Science Collaboration and others. (2015). Estimating the reproducibility of psychological science. <em>Science</em>, <em>349</em>(6251), aac4716.
 </div>
 <div id="ref-savage2007scaling" class="csl-entry">
-Savage, Van M, Andrew P Allen, James H Brown, James F Gillooly, Alexander B Herman, William H Woodruff, and Geoffrey B West. 2007. <span>“Scaling of Number, Size, and Metabolic Rate of Cells with Body Size in Mammals.”</span> <em>Proceedings of the National Academy of Sciences</em> 104 (11): 4718–23.
+Savage, V. M., Allen, A. P., Brown, J. H., Gillooly, J. F., Herman, A. B., Woodruff, W. H., &amp; West, G. B. (2007). Scaling of number, size, and metabolic rate of cells with body size in mammals. <em>Proceedings of the National Academy of Sciences</em>, <em>104</em>(11), 4718–4723.
 </div>
 <div id="ref-savage2007quantitative" class="csl-entry">
-Savage, Van M, and Geoffrey B West. 2007. <span>“A Quantitative, Theoretical Framework for Understanding Mammalian Sleep.”</span> <em>Proceedings of the National Academy of Sciences</em> 104 (3): 1051–56.
+Savage, V. M., &amp; West, G. B. (2007). A quantitative, theoretical framework for understanding mammalian sleep. <em>Proceedings of the National Academy of Sciences</em>, <em>104</em>(3), 1051–1056.
 </div>
 <div id="ref-wilkinson2012grammar" class="csl-entry">
-Wilkinson, Leland. 2012. <span>“The Grammar of Graphics.”</span> In <em>Handbook of Computational Statistics</em>, 375–414. Springer.
+Wilkinson, L. (2012). The grammar of graphics. In <em>Handbook of computational statistics</em> (pp. 375–414). Springer.
 </div>
 </div>
             </section>

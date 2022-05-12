@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -883,8 +883,8 @@ div.csl-indent {
 <div id="sec:bayes-cancer" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Probabilità condizionata su altri eventi<a href="ch-prob-cond.html#sec:bayes-cancer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>L’attribuzione di una probabilità ad un evento è sempre condizionata dalle conoscenze che abbiamo a disposizione. Per un determinato stato di conoscenze, attribuiamo ad un dato evento una certa probabilità di verificarsi; ma se il nostro stato di conoscenze cambia, allora cambierà anche la probabilità che attribuiremo all’evento in questione. Infatti, si può pensare che tutte le probabilità siano probabilità condizionate, anche se l’evento condizionante non è sempre esplicitamente menzionato.</p>
-<p>Per introdurre la probabilità condizionata, <span class="citation">Albert and Hu (<a href="#ref-albert2019probability" role="doc-biblioref">2019</a>)</span> utilizzando il famoso paradosso delle tre carte. “Ci sono tre carte, delle quali la prima (<span class="math inline">\(A\)</span>) è rossa su entrambi i lati, la seconda (<span class="math inline">\(B\)</span>) su un lato è rossa e sull’altro è bianca e la terza (<span class="math inline">\(C\)</span>) è bianca su entrambi i lati. Ponendo su un tavolo una delle tre carte, scelta a caso, ottengo che il lato visibile è di colore rosso. Qual è la probabilità che anche il lato non visibile sia di colore rosso? La risposta intuitiva porta solitamente a rispondere che la probabilità ricercata sia pari al 50%, in quanto solo due carte (la <span class="math inline">\(A\)</span> e la <span class="math inline">\(B\)</span>) possono mostrare il colore rosso e solo una di queste (la <span class="math inline">\(A\)</span>) può mostrare anche sull’altro lato il colore rosso; tuttavia si dimostra che la risposta giusta è 2/3.” (da Wikipedia)</p>
-<p><span class="citation">Albert and Hu (<a href="#ref-albert2019probability" role="doc-biblioref">2019</a>)</span> propongono di risolvere il problema con una simulazione in <span class="math inline">\(\textsf{R}\)</span>: prima di tutto si sceglie una carta a caso, e poi si sceglie un lato della carta. Ci sono tre carte possibili, che chiamiamo “c_rossa”, “c_bianca”, e “c_entrambi”. Per la carta rossa, ci sono due lati rossi; per la carta bianca ci sono due lati bianchi e la carta “entrambi” ha un lato rosso e un lato bianco.</p>
+<p>Per introdurre la probabilità condizionata, <span class="citation">Albert &amp; Hu (<a href="#ref-albert2019probability" role="doc-biblioref">2019</a>)</span> utilizzando il famoso paradosso delle tre carte. “Ci sono tre carte, delle quali la prima (<span class="math inline">\(A\)</span>) è rossa su entrambi i lati, la seconda (<span class="math inline">\(B\)</span>) su un lato è rossa e sull’altro è bianca e la terza (<span class="math inline">\(C\)</span>) è bianca su entrambi i lati. Ponendo su un tavolo una delle tre carte, scelta a caso, ottengo che il lato visibile è di colore rosso. Qual è la probabilità che anche il lato non visibile sia di colore rosso? La risposta intuitiva porta solitamente a rispondere che la probabilità ricercata sia pari al 50%, in quanto solo due carte (la <span class="math inline">\(A\)</span> e la <span class="math inline">\(B\)</span>) possono mostrare il colore rosso e solo una di queste (la <span class="math inline">\(A\)</span>) può mostrare anche sull’altro lato il colore rosso; tuttavia si dimostra che la risposta giusta è 2/3.” (da Wikipedia)</p>
+<p><span class="citation">Albert &amp; Hu (<a href="#ref-albert2019probability" role="doc-biblioref">2019</a>)</span> propongono di risolvere il problema con una simulazione in <span class="math inline">\(\textsf{R}\)</span>: prima di tutto si sceglie una carta a caso, e poi si sceglie un lato della carta. Ci sono tre carte possibili, che chiamiamo “c_rossa”, “c_bianca”, e “c_entrambi”. Per la carta rossa, ci sono due lati rossi; per la carta bianca ci sono due lati bianchi e la carta “entrambi” ha un lato rosso e un lato bianco.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="ch-prob-cond.html#cb37-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb37-2"><a href="ch-prob-cond.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Carta =</span> <span class="fu">c</span>(</span>
 <span id="cb37-3"><a href="ch-prob-cond.html#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;c_rossa&quot;</span>, <span class="st">&quot;c_rossa&quot;</span>, <span class="st">&quot;c_bianca&quot;</span>, <span class="st">&quot;c_bianca&quot;</span>, <span class="st">&quot;c_entrambi&quot;</span>, </span>
@@ -1141,9 +1141,9 @@ P(A, B \mid C) = P(A \mid C) P(B \mid C).
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-albert2019probability" class="csl-entry">
-Albert, Jim, and Jingchen Hu. 2019. <em>Probability and Bayesian Modeling</em>. Chapman; Hall/CRC.
+Albert, J., &amp; Hu, J. (2019). <em>Probability and bayesian modeling</em>. Chapman; Hall/CRC.
 </div>
 </div>
             </section>

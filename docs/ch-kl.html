@@ -752,7 +752,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="E" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html"><i class="fa fa-check"></i><b>E</b> Le aspettative future dei pazienti depressi</a>
 <ul>
-<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche, Bürkner, and Renneberg (<span>2019</span>)</span></a></li>
+<li class="chapter" data-level="E.1" data-path="appendix:future-exp.html"><a href="appendix:future-exp.html#app:zet"><i class="fa fa-check"></i><b>E.1</b> La ricerca di <span class="citation">Zetsche et al. (<span>2019</span>)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="F" data-path="appendix:beta-binom.html"><a href="appendix:beta-binom.html"><i class="fa fa-check"></i><b>F</b> Modello Beta-binomiale</a>
 <ul>
@@ -906,7 +906,7 @@ h(p, q) = h(p) + \mathbb{KL} (p \mid\mid q),
 \end{equation}\]</span></p>
 <p>il che mostra come la divergenza <span class="math inline">\(\mathbb{KL}\)</span> possa essere interpretata come l’incremento di entropia, rispetto a <span class="math inline">\(h(p)\)</span>, quando <span class="math inline">\(q\)</span> viene usata per rappresentare <span class="math inline">\(p\)</span>.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-93" class="example"><strong>Esempio 34.1  </strong></span><span class="citation">(da <a href="#ref-McElreath_rethinking" role="doc-biblioref">McElreath 2020</a>)</span> Sia la distribuzione target <span class="math inline">\(p = \{0.3, 0.7\}\)</span>. Supponiamo che la distribuzione approssimata <span class="math inline">\(q\)</span> possa assumere valori da <span class="math inline">\(q = \{0.01, 0.99\}\)</span> a <span class="math inline">\(q = \{0.99, 0.01\}\)</span>. Calcoliamo la divergenza KL.</p>
+<p><span id="exm:unlabeled-div-93" class="example"><strong>Esempio 34.1  </strong></span><span class="citation">(da <a href="#ref-McElreath_rethinking" role="doc-biblioref">McElreath, 2020</a>)</span> Sia la distribuzione target <span class="math inline">\(p = \{0.3, 0.7\}\)</span>. Supponiamo che la distribuzione approssimata <span class="math inline">\(q\)</span> possa assumere valori da <span class="math inline">\(q = \{0.01, 0.99\}\)</span> a <span class="math inline">\(q = \{0.99, 0.01\}\)</span>. Calcoliamo la divergenza KL.</p>
 <p>Le istruzioni <span class="math inline">\(\mathsf{R}\)</span> sono le seguenti:</p>
 <div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="ch-kl.html#cb545-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span></span>
 <span id="cb545-2"><a href="ch-kl.html#cb545-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
@@ -1083,19 +1083,19 @@ p(y^{rep} \mid y) \sim \mbox{Beta}(2, 2).
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-gelman2014understanding" class="csl-entry">
-Gelman, Andrew, Jessica Hwang, and Aki Vehtari. 2014. <span>“Understanding Predictive Information Criteria for Bayesian Models.”</span> <em>Statistics and Computing</em> 24 (6): 997–1016.
+Gelman, A., Hwang, J., &amp; Vehtari, A. (2014). Understanding predictive information criteria for bayesian models. <em>Statistics and Computing</em>, <em>24</em>(6), 997–1016.
 </div>
 <div id="ref-McElreath_rethinking" class="csl-entry">
-McElreath, Richard. 2020. <em>Statistical Rethinking: <span>A</span> <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. 2nd Edition. Boca Raton, Florida: CRC Press.
+McElreath, R. (2020). <em>Statistical rethinking: <span>A</span> <span>Bayesian</span> course with examples in <span>R</span> and <span>Stan</span></em> (2nd Edition). CRC Press.
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="32">
 <li id="fn32"><p>Se il modello sottostante i dati fosse noto non avremmo bisogno di cercare il modello migliore, perché <span class="math inline">\(p_t\)</span> è il modello migliore.<a href="ch-kl.html#fnref32" class="footnote-back">↩︎</a></p></li>
-<li id="fn33"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman, Hwang, and Vehtari (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn33"><p>In riferimento alla notazione, ricordiamo che <span class="citation">Gelman et al. (<a href="#ref-gelman2014understanding" role="doc-biblioref">2014</a>)</span> distinguono tra <span class="math inline">\(y^{rep}\)</span> e <span class="math inline">\(\tilde{y}\)</span>. I valori <span class="math inline">\(y^{rep}\)</span> corrispondono ad un’altra possibile realizzazione del medesimo modello statistico che ha prodotto <span class="math inline">\(y\)</span> mediante determinati valori dei parametri <span class="math inline">\(\theta\)</span> (repliche sotto lo stesso modello statistico). I valori <span class="math inline">\(\tilde{y}\)</span> corrispondono invece ad un campione empirico di dati osservato in qualche futura occasione.<a href="ch-kl.html#fnref33" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

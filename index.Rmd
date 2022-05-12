@@ -7,6 +7,7 @@ output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
+csl: apa.csl
 link-citations: yes
 github-repo: ccaudek/datascience
 description: "This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy."
