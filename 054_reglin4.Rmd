@@ -181,7 +181,7 @@ tibble(
   )
 ```
 
-Tale risultati si ottiene nella seguente porzione del codice $\mathsf{R}$.
+Il risultato cercato si ottiene (disegnare molteplici rette ciascuna definita da un valore casuale dalla distribuzione a posteriori dei parametri $\alpha$ e $\beta$) mediante la seguente porzione del codice $\mathsf{R}$.
 
 ```{r, eval=FALSE}
 geom_abline(
@@ -213,16 +213,6 @@ rstantools::posterior_interval(
 Un grafico che, nel caso dei dati standardizzati, riporta l'intervallo di credibilità al livello di probabilità desiderato per i parametri $\alpha$, $\beta$ e $\sigma$ si ottiene con l'istruzione seguente.
 
 ```{r}
-mcmc_areas(
-  fit2$draws(c("alpha_std", "beta_std", "sigma_std")),
-  prob = 0.8,
-  prob_outer = 0.95
-)
-```
-
-Oppure nel modo nel modo seguente.
-
-```{r}
 output_stanfit %>%
   mcmc_intervals(
     pars = c("alpha_std", "beta_std", "sigma_std"),
@@ -237,6 +227,8 @@ Gli intervalli di massima densità si trovano nel modo seguente.
 bayestestR::hdi(output_stanfit, ci = 0.95)
 ```
 
+Quando la distribuzione a posteriori dei parametri è simmetrica, i due tipi di intervalli producono, all'atto pratico, risultati equivalenti.
+
 ### Quale soglia usare?
 
 Ripeto c'è niente di "magico" o necessario relativamente al livello di 0.95: il valore 0.95 è arbitrario. È quello utilizzato nelle pubblicazioni scientifiche, di consuetudine. Almeno in psicologia. In fisica, ad esempio, si usa un intervallo molto più grande.
@@ -245,13 +237,13 @@ Ripeto c'è niente di "magico" o necessario relativamente al livello di 0.95: il
 
 > The value for which P=.05, or 1 in 20, is 1.96 or nearly 2; it is convenient to take this point as a limit in judging whether a deviation is to be considered significant or not. Deviations exceeding twice the standard deviation are thus formally regarded as significant. Using this criterion we should be led to follow up a negative result only once in 22 trials, even if the statistics are the only guide available. Small effects would still escape notice if the data were insufficiently numerous to bring them out, but no lowering of the standard of significance would meet this difficulty (Fisher, 1925, p. 47)
 
-Questo paragrafo rende immediatamente evidente il motivo per cui Fisher afferma che il valore 0.05 è conveniente: è più o meno equivalente alla probabilità di trovarsi a più di due deviazioni standard dalla media di una variabile casuale normalmente distribuita. In questo modo, 0.05 può essere visto non come un numero dotato in un qualche significato importante, ma solo come un valore che risultava dalla necessità di facilità di calcolo, prima che i computer rendessero obsolete le tabelle e le approssimazioni. In seguito, nell'applicare la statistica alla distribuzione χ2, Fisher osserva che 
+Questo paragrafo rende immediatamente evidente il motivo per cui Fisher afferma che il valore 0.05 è conveniente: è più o meno equivalente alla probabilità di trovarsi a più di due deviazioni standard dalla media di una variabile casuale normalmente distribuita. In questo modo, 0.05 può essere visto non come un numero dotato in un qualche significato importante, ma solo come *un valore che risultava dalla necessità di facilità di calcolo*, prima che i computer rendessero obsolete le tabelle e le approssimazioni. In seguito, nel discutere le applicazioni statistiche della distribuzione $\chi^2$, Fisher osserva che 
 
-> [w]e shall not often be astray if we draw a conventional line at .05, and consider that higher values of χ2 indicate a real discrepancy (Fisher, 1925, p. 79). 
+> [w]e shall not often be astray if we draw a conventional line at .05, and consider that higher values of $\chi^2$ indicate a real discrepancy (Fisher, 1925, p. 79). 
 
-Sulla base di queste affermazioni di Fisher, la soglia di 0.95 è diventata la consuetudine nella comunità scientifica -- o almeno, in parte di essa. 
+Sulla base di queste affermazioni di Fisher, la soglia del 0.95 è diventata la consuetudine nella comunità scientifica -- o almeno, in parte di essa. 
 
-Ma sono ovviamente possibili tantissime altre soglie per quantificare la nostra incertezza: alcuni ricercatori usano il livello di 0.89, altri quello di 0.5. Se l'obiettivo è quello di descrivere il livello della nostra incertezza relativamente alla stima del parametro, allora dobbiamo riconoscere che la nostra incertezza è descritta dall'*intera* distribuzione a posteriori. Per cui il metodo più semplice, più diretto e più completo per descrivere la nostra incertezza rispetto alla stima dei parametri è semplicemente quello di riportare graficamente *tutta* la distribuzione a posteriori. Una rappresentazione della distribuzione a posteriori dei parametri del modello per l'esempio presente si ottiene con la seguente istruzione.
+Ma sono ovviamente possibili tantissime altre soglie per quantificare la nostra incertezza: alcuni ricercatori usano il livello di 0.89, altri quello di 0.5. Se l'obiettivo è quello di descrivere il livello della nostra incertezza relativamente alla stima del parametro, allora dobbiamo riconoscere che la nostra incertezza è descritta dall'*intera* distribuzione a posteriori. Per cui il metodo più semplice, più diretto e più completo per descrivere la nostra incertezza rispetto alla stima dei parametri è quello di riportare graficamente *tutta* la distribuzione a posteriori. Per l'esempio presente, una rappresentazione della distribuzione a posteriori dei parametri del modello si ottiene, ad esempio, con la seguente istruzione.
 
 ```{r}
 rstan::stan_dens(
@@ -261,15 +253,27 @@ rstan::stan_dens(
 )
 ```
 
+In alternativa possiamo usare la seguente istruzione.
+
+```{r}
+mcmc_areas(
+  fit2$draws(c("alpha_std", "beta_std", "sigma_std")),
+  prob = 0.8,
+  prob_outer = 0.95
+)
+```
+
 ## Test di ipotesi
 
-È facile valutare ipotesi direzionali usando Stan. Per esempio, la probabilità  $P(\hat{\beta}_1 > 0)$ è
+È facile valutare ipotesi direzionali usando Stan. Per esempio, chiediamoci quale sia la probabilità  $P(\hat{\beta}_1 > 0)$.
+
+Per trovare la probabilità richiesta possiamo usare il vettore `post$beta` il quale contiene 16,000 valori presi a caso dalla distribuzione a posteriori $p(\beta \mid y)$. Nell'istruzione seguente, `post$beta > 0` valuta se ciascun elemento di `post$beta` soddisfi la condizione logica specificata, ritornando `TRUE` (codificato con 1) o `FALSE` (codificato con 0) a seconda che la condizione logica sia vera o falsa. L'istruzione `sum(post$beta > 0)` conta dunque il numero di volte in cui la condizione è soddisfatta, mentre `length(post$beta)` è uguale a 16,000. La proporzione così determinata è una stima empirica della probabilità cercata.
 
 ```{r}
 sum(post$beta > 0) / length(post$beta)
 ```
 
-ovvero, la probabilità $P(\hat{\beta}_1 < 0)$ è
+L'evento complementare, ovvero, la probabilità $P(\hat{\beta}_1 < 0)$ è dunque dato dalla seguente istruzione.
 
 ```{r}
 sum(post$beta < 0) / length(post$beta)
@@ -279,11 +283,11 @@ Ciò significa che, relativamente alla presenza di un'associazione lineare posit
 
 ## Modello lineare robusto
 
-Spesso i ricercatori devono affrontare il problema degli outlier: in presenza di outlier, un modello statistico basato sulla distribuzione gaussiana produrrà delle stime distorte dei parametri (ovvero stime che non si generalizzano ad altri campioni di dati). Il metodo tradizionale per affrontare questo problema è quello di eliminare gli outlier prima di eseguire l'analisi statistica. Il problema di questo approccio, però, è che il criterio utilizzato per eliminare gli outlier, quale esso sia, è arbitrario; dunque, usando criteri diversi per la rimozione di outlier, i ricercatori finiscono per trovare risultati diversi.
+Spesso i ricercatori devono affrontare il problema degli outlier (osservazioni anomale): in presenza di outlier, un modello statistico basato sulla distribuzione gaussiana produce delle stime distorte dei parametri (ovvero stime che *non si generalizzano* ad altri campioni di dati). Il metodo tradizionale per affrontare questo problema è quello di eliminare gli outlier prima di eseguire l'analisi statistica. Il problema di questo approccio, però, è che il criterio utilizzato per eliminare gli outlier, quale esso sia, è arbitrario; dunque, usando criteri diversi per la rimozione di outlier, i ricercatori finiscono per trovare risultati diversi.
 
 Questo problema trova una semplice soluzione nell'approccio bayesiano. Il modello lineare che abbiamo dicusso finora ipotizza una specifica distribuzione degli errori, ovvero $\varepsilon \sim \mathcal{N}(0, \sigma_{\varepsilon})$. In un modello formulato in questi termini, la presenza di solo un valore anomalo e influente ha un effetto drammatico sulle stime dei parametri. 
 
-Per fare un esempio, introduciamo un singlo valore anomalo e influente nel set dei dati dell'esempio che stiamo discutendo:
+Per fare un esempio, introduciamo un singolo valore anomalo e influente nel set dei dati dell'esempio che stiamo discutendo:
 
 ```{r}
 df2 <- df

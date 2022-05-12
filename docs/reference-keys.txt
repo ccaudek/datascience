@@ -548,6 +548,20 @@ simulazione
 la-dimensione-delleffetto-1
 una-piccola-dimensione-delleffetto-nella-popolazione
 una-soluzione-sbagliata
+ch-report
+motivazione
+analisi-dei-dati
+approccio-frequentista
+test-t-di-student-per-un-solo-campione
+test-di-ipotesi-1
+intervallo-di-fiducia
+la-dimensione-delleffetto-2
+analisi-bayesiana
+modello-in-linguaggio-stan
+confronto-tra-due-gruppi
+approccio-frequentista-1
+analisi-bayesiana-1
+conclusioni-1
 bibliografia
 simbologia-di-base
 numeri-binari-interi-razionali-irrazionali-e-reali
@@ -644,7 +658,7 @@ esportazione-di-un-file
 pacchetto-rio
 dove-sono-i-miei-file
 manipolazione-dei-dati
-motivazione
+motivazione-1
 trattamento-dei-dati-con-dplyr
 operatore-pipe
 estrarre-una-singola-colonna-con-pull
@@ -677,5 +691,5 @@ equazioni
 codice-r
 compilare-la-presentazione-r-markdown
 dati-mancanti-1
-motivazione-1
+motivazione-2
 trattamento-dei-dati-mancanti

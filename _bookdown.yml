@@ -65,6 +65,7 @@ rmd_files:
     # PART VI
     - "205_ttest.Rmd"
     - "210_pvalue.Rmd"
+    - "211_report.Rmd"
     ## APPENDIX
     - "800_appendix.Rmd"
     - "801_math_symbols.Rmd"
