@@ -1,0 +1,683 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{amsthm}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+
+
+\DeclareMathOperator{\V}{\mathbb{V}} % Define variance operator
+\DeclareMathOperator{\Var}{\mathbb{V}} % Define variance operator
+\DeclareMathOperator{\SD}{SD} % Define sd operator
+\DeclareMathOperator{\Cov}{Cov} % Define covariance operator
+\DeclareMathOperator{\Corr}{Corr} % Define correlation operator
+\DeclareMathOperator{\Me}{Me} % Define mediane operator
+\DeclareMathOperator{\Mo}{Mo} % Define mode operator
+
+\DeclareMathOperator{\Bin}{Binomial} % Define binomial operator
+\DeclareMathOperator{\Bernoulli}{Bernoulli} % Define Bernoulli operator
+\DeclareMathOperator{\Ber}{\mathscr{B}} % Define Bernoulli operator
+\DeclareMathOperator{\Poi}{Poisson} % Define Poisson operator
+\DeclareMathOperator{\Uniform}{Uniform} % Define Uniform operator
+\DeclareMathOperator{\Cauchy}{Cauchy} % Define Cauchy operator
+\DeclareMathOperator{\B}{B} % beta function
+% \mbox{B}(a, b) % beta function
+% \mbox{Beta}(a, b) % beta distribution
+
+\DeclareMathOperator{\elpd}{elpd} % Define elpd operator
+\DeclareMathOperator{\lppd}{lppd} % Define lppd operator
+\DeclareMathOperator{\LOO}{LOO} % Define LOO operator
+\DeclareMathOperator{\argmin}{arg\,min}
+\DeclareMathOperator{\argmax}{arg\,max}
+
+\DeclareMathOperator{\E}{\mathbb{E}}
+
+\newcommand{\R}{\textsf{R}} % Define R programming language symbol
+\newcommand{\Real}{\mathbb{R}} % Define real number operator
+\newcommand{\Prob}{\mathscr{P}}
+\newcommand{\indep}{\perp \!\!\! \perp}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Data Science per psicologi},
+  pdfauthor={Corrado Caudek},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Data Science per psicologi}
+\author{Corrado Caudek}
+\date{2022-06-04}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollario}
+\newtheorem{proposition}{Proposizione}
+\newtheorem{conjecture}{Congettura}
+\theoremstyle{definition}
+\newtheorem{definition}{Definizione}
+\theoremstyle{definition}
+\newtheorem{example}{Esempio}
+\theoremstyle{definition}
+\newtheorem{exercise}{Esercizio}
+\theoremstyle{definition}
+\newtheorem{hypothesis}{Hypothesis}
+\theoremstyle{remark}
+\newtheorem*{remark}{Osservazione}
+\newtheorem*{solution}{Soluzione}
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{benvenuti}{%
+\chapter*{Benvenuti}\label{benvenuti}}
+\addcontentsline{toc}{chapter}{Benvenuti}
+
+Benvenuti nella versione online di \emph{Data Science per psicologi}. Viene qui presentato il materiale delle lezioni dell'insegnamento di \emph{Psicometria B000286} (A.A. 2021/2022) rivolto agli studenti del primo anno del Corso di Laurea in Scienze e Tecniche Psicologiche dell'Università degli Studi di Firenze. Lo scopo di questo insegnamento è quello di fornire agli studenti un'introduzione all'analisi dei dati psicologici. Le conoscenze/competenze che verranno sviluppate in questo insegnamento sono dunque quelle della Data Science applicata alla psicologia, ovvero, un insieme di conoscenze/competenze che si pongono all'intersezione tra psicologia, statistica e informatica.
+
+\hypertarget{la-psicologia-e-la-data-science}{%
+\section*{La psicologia e la Data Science}\label{la-psicologia-e-la-data-science}}
+\addcontentsline{toc}{section}{La psicologia e la Data Science}
+
+Sembra sensato spendere due parole su una domanda che è importante per gli studenti: perché dobbiamo perdere tanto tempo a studiare queste cose quando in realtà quello che ci interessa è tutt'altro? Questa è una bella domanda. C'è una ragione molto semplice che dovrebbe farci capire perché la Data Science sia così importante per la psicologia. Infatti, a ben pensarci, la psicologia è una disciplina intrinsecamente statistica, se per statistica intendiamo quella disciplina che studia la variazione delle caratteristiche degli individui nella popolazione. La psicologia studia \emph{gli individui} ed è proprio la variabilità inter- e intra-individuale ciò che vogliamo descrivere e, in certi casi, predire. In questo senso, la psicologia è molto diversa dall'ingegneria, per esempio. Le proprietà di un determinato ponte sotto certe condizioni, ad esempio, sono molto simili a quelle di un altro ponte, sotto le medesime condizioni. Quindi, per un ingegnere la statistica è poco importante: le proprietà dei materiali sono unicamente dipendenti dalla loro composizione e restano costanti. Ma lo stesso non può dirsi degli individui: ogni individuo è unico e cambia nel tempo. E le variazioni tra gli individui, e di un individuo nel tempo, sono l'oggetto di studio proprio della psicologia: è dunque chiaro che i problemi che la psicologia si pone sono molto diversi da quelli affrontati, per esempio, dagli ingegneri. Questa è la ragione per cui abbiamo tanto bisogno della Data Science in psicologia: perché la Data Science ci consente di descrivere la variazione e il cambiamento. E queste sono appunto le caratteristiche di base dei fenomeni psicologici.
+
+Sono sicuro che, leggendo queste righe, a molti studenti sarà venuta in mente la seguente domanda: perché non chiediamo a qualche esperto di fare il ``lavoro sporco'' (ovvero le analisi statistiche) per noi, mentre noi (gli psicologi) ci occupiamo solo di ciò che ci interessa, ovvero dei problemi psicologici slegati dai dettagli ``tecnici'' della Data Science? La risposta a questa domanda è che non è possibile progettare uno studio psicologico sensato senza avere almeno una comprensione rudimentale della Data Science. Le tematiche della Data Science non possono essere ignorate né dai ricercatori in psicologia né da coloro che svolgono la professione di psicologo al di fuori dell'Università. Infatti, anche i professionisti al di fuori dall'università non possono fare a meno di leggere la letteratura psicologica più recente: il continuo aggiornamento delle conoscenze è infatti richiesto dalla deontologia della professione. Ma per potere fare questo è necessario conoscere un bel po' di Data Science! Basta aprire a caso una rivista specialistica di psicologia per rendersi conto di quanto ciò sia vero: gli articoli che riportano i risultati delle ricerche psicologiche sono zeppi di analisi statistiche e di modelli formali. E la comprensione della letteratura psicologica rappresenta un requisito minimo nel bagaglio professionale dello psicologo.
+
+Le considerazioni precedenti cercano di chiarire il seguente punto: la Data Science non è qualcosa da studiare a malincuore, in un singolo insegnamento universitario, per poi poterla tranquillamente dimenticare. Nel bene e nel male, gli psicologi usano gli strumenti della Data Science in tantissimi ambiti della loro attività professionale: in particolare quando costruiscono, somministrano e interpretano i test psicometrici. È dunque chiaro che possedere delle solide basi di Data Science è un tassello imprescindibile del bagaglio professionale dello psicologo. In questo insegnamento verrano trattati i temi base della Data Science e verrà adottato un punto di vista bayesiano, che corrisponde all'approccio più recente e sempre più diffuso in psicologia.
+
+\hypertarget{come-studiare}{%
+\section*{Come studiare}\label{come-studiare}}
+\addcontentsline{toc}{section}{Come studiare}
+
+Il giusto metodo di studio per prepararsi all'esame di Psicometria è quello di seguire attivamente le lezioni, assimilare i concetti via via che essi vengono presentati e verificare in autonomia le procedure presentate a lezione. Incoraggio gli studenti a farmi domande per chiarire ciò che non è stato capito appieno. Incoraggio gli studenti a utilizzare i forum attivi su Moodle e, soprattutto, a svolgere gli esercizi proposti su Moodle. I problemi forniti su Moodle rappresentano il livello di difficoltà richiesto per superare l'esame e consentono allo studente di comprendere se le competenze sviluppate fino a quel punto sono sufficienti rispetto alle richieste dell'esame.
+
+La prima fase dello studio, che è sicuramente individuale, è quella in cui è necessario acquisire le conoscenze teoriche relative ai problemi che saranno presentati all'esame. La seconda fase di studio, che può essere facilitata da scambi con altri e da incontri di gruppo, porta ad acquisire la capacità di applicare le conoscenze: è necessario capire come usare un software (\(\textsf{R}\)) per applicare i concetti statistici alla specifica situazione del problema che si vuole risolvere. Le due fasi non sono però separate: il saper fare molto spesso ci aiuta a capire meglio.
+
+\begin{flushright}
+Corrado Caudek\\
+Marzo 2022
+\end{flushright}
+
+\hypertarget{license}{%
+\section*{License}\label{license}}
+\addcontentsline{toc}{section}{License}
+
+The online version of this book is licensed under the \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License}.
+
+The code is public domain, licensed under \href{https://creativecommons.org/publicdomain/zero/1.0/}{Creative Commons CC0 1.0 Universal (CC0 1.0)}.
+
+\mainmatter
+
+\hypertarget{part-nozioni-preliminari}{%
+\part{Nozioni preliminari}\label{part-nozioni-preliminari}}
+
+\hypertarget{ch-key-notions}{%
+\chapter{Concetti chiave}\label{ch-key-notions}}
+
+La \emph{data science} si pone all'intersezione tra statistica e informatica. La statistica è un insieme di metodi ugilizzati per estrarre informazioni dai dati; l'informatica implementa tali procedure in un software. In questo Capitolo vengono introdotti i concetti fondamentali.
+
+\hypertarget{popolazioni-e-campioni}{%
+\section{Popolazioni e campioni}\label{popolazioni-e-campioni}}
+
+\emph{Popolazione.} L'analisi dei dati inizia con l'individuazione delle unità portatrici di informazioni circa il fenomeno di interesse. Si dice popolazione (o universo) l'insieme \(\Omega\) delle entità capaci di fornire informazioni sul fenomeno oggetto dell'indagine statistica. Possiamo scrivere \(\Omega = \{\omega_i\}_{i=1, \dots, n}= \{\omega_1, \omega_2, \dots, \omega_n\}\), oppure \(\Omega = \{\omega_1, \omega_2, \dots \}\) nel caso di popolazioni finite o infinite, rispettivamente.
+
+L'obiettivo principale della ricerca psicologica è conoscere gli esiti psicologici e i loro fattori trainanti nella popolazione. Questo è l'obiettivo delle sperimentazioni psicologiche e della maggior parte degli studi osservazionali in psicologia. È quindi necessario essere molto chiari sulla popolazione a cui si applicano i risultati della ricerca. La popolazione può essere ben definita, ad esempio, tutte le persone che si trovavano nella città di Hiroshima al momento del bombardamento atomico e sono sopravvissute per un anno, o può essere ipotetica, ad esempio, tutte le persone depresse che hanno subito o saranno sottoposte ad un intervento psicologico. Il ricercatore deve sempre essere in grado di determinare se un soggetto appartiene alla popolazione oggetto di interesse.
+
+Una \emph{sotto-popolazione} è una popolazione che soddisfa proprietà ben definite. Ad esempio, potremmo essere interessati alla sotto-popolazione di uomini di età inferiore ai 20 anni o alla sotto-popolazione di pazienti depressi sottoposti ad uno specifico intervento psicologico. Molte domande scientifiche riguardano le differenze tra sotto-popolazioni; ad esempio, il confronto tra un gruppo sottoposto a psicoterapia e un gruppo di controllo per determinare se il trattamento è stato efficace.
+
+\emph{Campione.} Gli elementi \(\omega_i\) dell'insieme \(\Omega\) sono detti \emph{unità statistiche}. Un sottoinsieme della popolazione, ovvero un insieme di elementi \(\omega_i\), viene chiamato \emph{campione}. Ciascuna unità statistica \(\omega_i\) (abbreviata con u.s.) è portatrice dell'informazione che verrà rilevata mediante un'operazione di misurazione.
+
+Un campione è dunque un sottoinsieme della popolazione utilizzato per conoscere tale popolazione. A differenza di una sotto-popolazione definita in base a chiari criteri, un campione viene generalmente selezionato tramite un procedura casuale. Il \emph{campionamento casuale} consente allo scienziato di trarre conclusioni sulla popolazione e, soprattutto, di quantificare l'incertezza sui risultati. I campioni di un sondaggio sono esempi di campioni casuali, ma molti studi osservazionali non sono campionati casualmente. Possono essere \emph{campioni di convenienza}, come coorti di studenti in un unico istituto, che consistono di tutti gli studenti sottoposti ad un certo intervento psicologico in quell'istituto. Indipendentemente da come vengono ottenuti i campioni, il loro uso al fine di conoscere una popolazione target significa che i problemi di rappresentatività sono inevitabili e devono essere affrontati.
+
+\hypertarget{variabili-e-costanti}{%
+\section{Variabili e costanti}\label{variabili-e-costanti}}
+
+Una \emph{variabile} è qualsiasi proprietà o descrittore che può assumere più valori (numerici o categoriali). Una variabile può essere pensata come una domanda a cui il valore è la risposta. Ad esempio, ``Quanti anni ha questo partecipante?'' ``38 anni''. Qui, ``età'' è la variabile e ``38'' è il suo valore. La probabilità che la variabile \(X\) assuma valore \(x\) si scrive \(P(X = x)\). Questo è spesso abbreviato in \(P(x)\). Possiamo anche esaminare la probabilità di più valori contemporaneamente; per esempio, la probabilità che \(X = x\) e \(Y = y\) è scritta \(P(X = x, Y = y)\) o \(P(x, y)\). Si noti che \(P(X = 38)\) è interpretato come la probabilità che un individuo selezionato casualmente dalla popolazione abbia 38 anni. Il termine ``variabile'' si contrappone al termine ``costante'' che descrive una proprietà invariante di tutte le unità statistiche.
+
+Si dice \emph{modalità} ciascuna delle varianti con cui una variabile statistica può presentarsi. Definiamo \emph{insieme delle modalità} di una variabile statistica l'insieme \(M\) di tutte le possibili espressioni con cui la variabile può manifestarsi. Le modalità osservate e facenti parte del campione si chiamano \emph{dati} (si veda la Tabella \protect\hyperlink{tab:term_st_desc}{1.1}).
+
+\begin{example}
+Supponiamo che il fenomeno studiato sia l'intelligenza. In uno studio, la popolazione potrebbe corrispondere all'insieme di tutti gli italiani adulti. La variabile considerata potrebbe essere il punteggio del test standardizzato WAIS-IV. Le modalità di tale variabile potrebbero essere \(112, 92, 121, \dots\). Tale variabile è di tipo quantitativo discreto.
+\end{example}
+
+\begin{example}
+Supponiamo che il fenomeno studiato sia il compito Stroop. La popolazione potrebbe corrispondere all'insieme dei bambini dai 6 agli 8 anni. La variabile considerata potrebbe essere il reciproco dei tempi di reazione in secondi. Le modalità di tale variabile potrebbero essere \(1.93, 2.35, 1.32, 1.49, 1.62, 2.93, \dots\). La variabile è di tipo quantitativo continuo.
+\end{example}
+
+\begin{example}
+Supponiamo che il fenomeno studiato sia il disturbo di personalità. La popolazione potrebbe corrispondere all'insieme dei detenuti nelle carceri italiane. La variabile considerata potrebbe essere l'assessment del disturbo di personalità tramite interviste cliniche strutturate. Le modalità di tale variabile potrebbero essere i Cluster A, Cluster B, Cluster C descritti dal DSM-V. Tale variabile è di tipo qualitativo.
+\end{example}
+
+\hypertarget{variabili-casuali}{%
+\subsection{Variabili casuali}\label{variabili-casuali}}
+
+Il termine \emph{variabile} usato nella statistica è equivalente al termine \emph{variabile casuale} usato nella teoria delle probabilità. Lo studio dei risultati degli interventi psicologici è lo studio delle variabili casuali che misurano questi risultati. Una variabile casuale cattura una caratteristica specifica degli individui nella popolazione e i suoi valori variano tipicamente tra gli individui. Ogni variabile casuale può assumere in teoria una gamma di valori sebbene, in pratica, osserviamo un valore specifico per ogni individuo. Quando faremo riferiremo alle variabili casuali considerate in termini generali useremo lettere maiuscole come \(X\) e \(Y\); quando faremo riferimento ai valori che una variabile casuale assume in determinate circostanze useremo lettere minuscole come \(x\) e \(y\).
+
+\hypertarget{variabili-indipendenti-e-variabili-dipendenti}{%
+\subsection{Variabili indipendenti e variabili dipendenti}\label{variabili-indipendenti-e-variabili-dipendenti}}
+
+Un primo compito fondamentale in qualsiasi analisi dei dati è l'identificazione delle variabili dipendenti (\(Y\)) e delle variabili indipendenti (\(X\)). Le variabili dipendenti sono anche chiamate variabili di esito o di risposta e le variabili indipendenti sono anche chiamate predittori o covariate. Ad esempio, nell'analisi di regressione, che esamineremo in seguito, la domanda centrale è quella di capire come \(Y\) cambia al variare di \(X\). Più precisamente, la domanda che viene posta è: se il valore della variabile indipendente \(X\) cambia, qual è la conseguenza per la variabile dipendente \(Y\)? In parole povere, le variabili indipendenti e dipendenti sono analoghe a ``cause'' ed ``effetti'', laddove le virgolette usate qui sottolineano che questa è solo un'analogia e che la determinazione delle cause può avvenire soltanto mediante l'utilizzo di un appropriato disegno sperimentale e di un'adeguata analisi statistica.
+
+Se una variabile è una variabile indipendente o dipendente dipende dalla domanda di ricerca. A volte può essere difficile decidere quale variabile è dipendente e quale è indipendente, in particolare quando siamo specificamente interessati ai rapporti di causa/effetto. Ad esempio, supponiamo di indagare l'associazione tra esercizio fisico e insonnia. Vi sono evidenze che l'esercizio fisico (fatto al momento giusto della giornata) può ridurre l'insonnia. Ma l'insonnia può anche ridurre la capacità di una persona di fare esercizio fisico. In questo caso, dunque, non è facile capire quale sia la causa e quale l'effetto, quale sia la variabile dipendente e quale la variabile indipendente. La possibilità di identificare il ruolo delle variabili (dipendente/indipendente) dipende dalla nostra comprensione del fenomeno in esame.
+
+\begin{example}
+Uno psicologo convoca 120 studenti universitari per un test di memoria.
+Prima di iniziare l'esperimento, a metà dei soggetti viene detto che si
+tratta di un compito particolarmente difficile; agli altri soggetti non
+viene data alcuna indicazione. Lo psicologo misura il punteggio nella
+prova di memoria di ciascun soggetto.
+
+In questo esperimento, la variabile indipendente è l'informazione sulla difficoltà della prova. La variabile indipendente viene manipolata dallo sperimentatore assegnando i soggetti (di solito in maniera causale) o alla condizione (modalità) ``informazione assegnata'' o ``informazione non data''. La
+variabile dipendente è ciò che viene misurato nell'esperimento, ovvero
+il punteggio nella prova di memoria di ciascun soggetto.
+\end{example}
+
+\hypertarget{la-matrice-dei-dati}{%
+\subsection{La matrice dei dati}\label{la-matrice-dei-dati}}
+
+Le realizzazioni delle variabili esaminate in una rilevazione statistica
+vengono organizzate in una \emph{matrice dei dati}. Le colonne della matrice
+dei dati contengono gli insiemi dei dati individuali di ciascuna
+variabile statistica considerata. Ogni riga della matrice contiene tutte
+le informazioni relative alla stessa unità statistica. Una generica
+matrice dei dati ha l'aspetto seguente:
+
+\[
+D_{m,n} = 
+ \begin{pmatrix}
+  \omega_1 & a_{1}   & b_{1}   & \cdots & x_{1} & y_{1}\\
+  \omega_2 & a_{2}   & b_{2}   & \cdots & x_{2} & y_{2}\\
+  \vdots   & \vdots  & \vdots  & \ddots & \vdots & \vdots  \\
+ \omega_n  & a_{n}   & b_{n}   & \cdots & x_{n} & y_{n}
+ \end{pmatrix}
+ \]
+
+dove, nel caso presente, la prima colonna contiene il
+nome delle unità statistiche, la seconda e la terza colonna si
+riferiscono a due mutabili statistiche (variabili categoriali; \(A\) e
+\(B\)) e ne presentano le modalità osservate nel campione mentre le ultime
+due colonne si riferiscono a due variabili statistiche (\(X\) e \(Y\)) e ne
+presentano le modalità osservate nel campione. Generalmente, tra le
+unità statistiche \(\omega_i\) non esiste un ordine progressivo; l'indice
+attribuito alle unità statistiche nella matrice dei dati si riferisce
+semplicemente alla riga che esse occupano.
+
+\hypertarget{parametri-e-modelli}{%
+\section{Parametri e modelli}\label{parametri-e-modelli}}
+
+Ogni variabile casuale ha una \emph{distribuzione} che descrive la probabilità che la variabile assuma qualsiasi valore in un dato intervallo.\footnote{In questo e nei successivi Paragrafi di questo Capitolo introduco gli obiettivi della \emph{data science} utilizzando una serie di concetti che saranno chiariti solo in seguito. Questa breve panoramica risulterà dunque solo in parte comprensibile ad una prima lettura e serve solo per definire la \emph{big picture} dei temi trattati in questo insegnamento. Il significato dei termini qui utilizzati sarà chiarito nei Capitoli successivi.} Senza ulteriori specificazioni, una distribuzione può fare riferimento a un'intera famiglia di distribuzioni. I parametri, tipicamente indicati con lettere greche come \(\mu\) e \(\alpha\), ci permettono di specificare di quale membro della famiglia stiamo parlando. Quindi, si può parlare di una variabile casuale con una distribuzione Normale, ma se viene specificata la media \(\mu\) = 100 e la varianza \(\sigma^2\) = 15, viene individuata una specifica distribuzione Normale -- nell'esempio, la distribuzione del quoziente di intelligenza.
+
+I metodi statistici parametrici specificano la famiglia delle distribuzioni e quindi utilizzano i dati per individuare, stimando i parametri, una specifica distribuzione all'interno della famiglia di distribuzioni ipotizzata. Se \(f\) è la PDF di una variabile casuale \(Y\), l'interesse può concentrarsi sulla sua media e varianza. Nell'analisi di regressione, ad esempio, cerchiamo di spiegare come i parametri di \(f\) dipendano dalle covariate \(X\). Nella regressione lineare classica, assumiamo che \(Y\) abbia una distribuzione normale con media \(\mu = \mathbb{E}(Y)\), e stimiamo come \(\mathbb{E}(Y)\) dipenda da \(X\). Poiché molti esiti psicologici non seguono una distribuzione normale, verranno introdotte distribuzioni più appropriate per questi risultati. I metodi non parametrici, invece, non specificano una famiglia di distribuzioni per \(f\). In queste dispense faremo riferimento a metodi non parametrici quando discuteremo della statistica descrittiva.
+
+Il termine \emph{modello} è onnipresente in statistica e nella \emph{data science}. Il modello statistico include le ipotesi e le specifiche matematiche relative alla distribuzione della variabile casuale di interesse. Il modello dipende dai dati e dalla domanda di ricerca, ma raramente è unico; nella maggior parte dei casi, esiste più di un modello che potrebbe ragionevolmente usato per affrontare la stessa domanda di ricerca e avendo a disposizione i dati osservati. Nella previsione delle aspettative future dei pazienti depressi che discuteremo in seguito \citep{zetschefuture2019}, ad esempio, la specifica del modello include l'insieme delle covariate candidate, l'espressione matematica che collega i predittori con le aspettative future e qualsiasi ipotesi sulla distribuzione della variabile dipendente. La domanda di cosa costituisca un buon modello è una domanda su cui torneremo ripetutamente in questo insegnamento.
+
+\hypertarget{effetto}{%
+\section{Effetto}\label{effetto}}
+
+L'\emph{effetto} è una qualche misura dei dati. Dipende dal tipo di dati e dal tipo di test statistico che si vuole utilizzare. Ad esempio, se viene lanciata una moneta 100 volte e esce testa 66 volte, l'effetto sarà 66/100. Diventa poi possibile confrontare l'effetto ottenuto con l'effetto nullo che ci si aspetterebbe da una moneta bilanciata (50/100), o con qualsiasi altro effetto che può essere scelto. La \emph{dimensione dell'effetto} si riferisce alla differenza tra l'effetto misurato nei dati e l'effetto nullo (di solito un valore che ci si aspetta di ottenere in base al caso soltanto).
+
+\hypertarget{stima-e-inferenza}{%
+\section{Stima e inferenza}\label{stima-e-inferenza}}
+
+La stima è il processo mediante il quale il campione viene utilizzato per conoscere le proprietà di interesse della popolazione. La media campionaria è una stima naturale della media della popolazione e la mediana campionaria è una stima naturale della mediana della popolazione. Quando parliamo di stimare una proprietà della popolazione (a volte indicata come parametro della popolazione) o di stimare la distribuzione di una variabile casuale, stiamo parlando dell'utilizzo dei dati osservati per conoscere le proprietà di interesse della popolazione. L'inferenza statistica è il processo mediante il quale le stime campionarie vengono utilizzate per rispondere a domande di ricerca e per valutare specifiche ipotesi relative alla popolazione. Discuteremo le procedure bayesiane dell'inferenza nell'ultima parte di queste dispense.
+
+\hypertarget{metodi-e-procedure-della-psicologia}{%
+\section{Metodi e procedure della psicologia}\label{metodi-e-procedure-della-psicologia}}
+
+Un modello psicologico di un qualche aspetto del comportamento umano o della mente ha le seguenti proprietà:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  descrive le caratteristiche del comportamento in questione,
+\item
+  formula predizioni sulle caratteristiche future del comportamento,
+\item
+  è sostenuto da evidenze empiriche,
+\item
+  deve essere falsificabile (ovvero, in linea di principio, deve
+  potere fare delle predizioni su aspetti del fenomeno considerato che
+  non sono ancora noti e che, se venissero indagati, potrebbero
+  portare a rigettare il modello, se si dimostrassero incompatibili con
+  esso).
+\end{enumerate}
+
+L'analisi dei dati valuta un modello psicologico utilizzando strumenti statistici.
+
+Questa dispensa è strutturata in maniera tale da rispecchiare la suddivisione tra i temi della misurazione, dell'analisi descrittiva e dell'inferenza. Nel prossimo Capitolo sarà affrontato il tema della misurazione e, nell'ultima parte della dispensa verrà discusso l'argomento più difficile, quello dell'inferenza. Prima di affrontare il secondo tema, l'analisi descrittiva dei dati, sarà necessario introdurre il linguaggio di programmazione statistica R (un'introduzione a R è fornita in Appendice). Inoltre, prima di potere discutere l'inferenza, dovranno essere introdotti i concetti di base della teoria delle probabilità, in quanto l'inferenza non è che l'applicazione della teoria delle probabilità all'analisi dei dati.
+
+\mainmatter
+
+\hypertarget{part-inferenza-bayesiana}{%
+\part{Inferenza bayesiana}\label{part-inferenza-bayesiana}}
+
+\hypertarget{ch-bayes-workflow}{%
+\chapter{Credibilità, modelli e parametri}\label{ch-bayes-workflow}}
+
+L'obiettivo di questo Capitolo è di introdurre il quadro concettuale dell'analisi dei dati bayesiana. L'analisi dei dati bayesiana ha due idee fondamentali.
+
+\begin{itemize}
+\tightlist
+\item
+  La prima idea è che l'inferenza bayesiana sia la riallocazione della credibilità rispetto alle varie ipotesi possibili.
+\item
+  La seconda idea fondamentale è che le possibili ipotesi, a cui attribuiamo un determinato livello di credibilità, possono essere espresse nei termini dei valori di un parametro in un modello statistico.
+\end{itemize}
+
+\citet{doing_bayesian_data_an} esprime quest'idea mediante un riferimento letterario. Il detective immaginario Sherlock Holmes spesso diceva al suo compagno, il dottor Watson: ``Quante volte ti ho detto che quando hai eliminato l'impossibile, tutto ciò che rimane, per quanto improbabile, deve essere la verità?'' (Doyle, 1890, cap. 6) Anche se questo ragionamento non è mai stato descritto da Holmes o Watson o Doyle come un'inferenza bayesiana, in realtà, commenta \citet{doing_bayesian_data_an}, lo è. Holmes ha concepito un insieme di possibili cause di un crimine. Alcune delle possibilità possono sembrare molto improbabili, a priori. Holmes raccoglie sistematicamente le prove che escludono una serie di possibili cause. Se tutte le possibili cause tranne una possono essere eliminate, il ragionamento (bayesiano) porta Holmes a concludere che la restante possibile causa sia pienamente credibile, anche se all'inizio sembrava improbabile.
+
+\citet{doing_bayesian_data_an} esprime quest'idea nei termini della seguente figura. Supponiamo che vi siano quattro possibili ipotesi rispetto ad un fenomeno (nella figura ``Possibilities''): A, B, C, D.
+
+\begin{center}\includegraphics{ds4psy_files/figure-latex/unnamed-chunk-3-1} \end{center}
+
+\hypertarget{flusso-di-lavoro-bayesiano}{%
+\section{Flusso di lavoro bayesiano}\label{flusso-di-lavoro-bayesiano}}
+
+La moderna statistica bayesiana viene per lo più eseguita utilizzando un linguaggio di programmazione probabilistico implementato su computer. Ciò ha cambiato radicalmente il modo in cui venivano eseguite le statistiche bayesiane anche fin pochi decenni fa. La complessità dei modelli che possiamo costruire è aumentata e la barriera delle competenze matematiche e computazionali che sono richieste è diminuita. Inoltre, il processo di modellazione iterativa è diventato, sotto molti aspetti, molto più facile da eseguire. Anche se formulare modelli statistici complessi è diventato più facile che mai, la statistica è un campo pieno di sottigliezze che non scompaiono magicamente utilizzando potenti metodi computazionali. Pertanto, avere una buona preparazione sugli aspetti teorici, specialmente quelli rilevanti per la pratica, è estremamente utile per applicare efficacemente i metodi statistici.
+
+\hypertarget{modellizzazione-bayesiana}{%
+\section{Modellizzazione bayesiana}\label{modellizzazione-bayesiana}}
+
+Nell'approccio bayesiano all'inferenza statistica si prende in considerazione una variabile casuale \(Y\) di cui si conosce la distribuzione a meno di un parametro \(\theta\). Secondo l'approccio bayesiano, è possibile modellare l'incertezza sul valore del parametro rappresentandolo con una variabile casuale continua \(\Theta\) avente come supporto l'insieme dei valori ammissibili per il parametro cercato. La funzione di densità \(p(\theta)\) prende il nome di \emph{distribuzione a priori} e rappresenta la sintesi delle opinioni e delle informazioni che si hanno sul parametro prima dell'osservazione dei dati. L'aggiornamento dell'incertezza su \(\theta\) è determinata dal verificarsi dell'evidenza \(y\), ovvero dall'osservazione dei risultati di un esperimento casuale. Le informazioni provenienti dal campione osservato \(y = (y_1, \dots, y_n)\) sono contenute nella funzione \(p(y \mid \theta)\), che, osservata come funzione di \(\theta\) per \(y\), prende il nome di \emph{funzione di verosimiglianza}. L'aggiornamento delle conoscenze a priori incorporate nella distribuzione iniziale \(p(\theta)\) in seguito al verificarsi di \(Y = y\) (evidenza empirica) avviene attraverso il teorema di Bayes in cui \(p(\theta \mid y)\) risulta proporzionale al prodotto della probabilità a priori e della verosimiglianza e prende il nome di \emph{distribuzione a posteriori}:
+
+\begin{equation}
+p(\theta \mid y) = \frac{p(y \mid \theta) p(\theta)}{\int_{\Theta}p(y \mid \theta) p(\theta) \,\operatorname {d}\!\theta} \quad \theta \in \Theta.
+\label{eq:bayes-intro}
+\end{equation}
+
+Si noti che l'integrale al denominatore della \eqref{eq:bayes-intro} è spesso di difficile risoluzione analitica per cui l'inferenza bayesiana solitamente procede attraverso metodi di ricampionamento e metodi iterativi, quali le Catene di Markov Monte Carlo (MCMC).
+
+\citet{martin2022bayesian} descrivono la modellazione bayesiana distinguendo tre passaggi.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Dati alcuni dati e alcune ipotesi su come questi dati potrebbero essere stati generati, si progetta un modello statistico combinando e trasformando variabili casuali.
+\item
+  Si usa il teorema di Bayes per condizionare il modello ai dati. Questo processo viene chiamato ``inferenza'' e come risultato si ottiene una distribuzione a posteriori.
+\item
+  Si critica il modello utilizzando criteri diversi, inclusi i dati e la nostra conoscenza del dominio, per verificare se abbia senso. Poiché in generale siamo incerti sul modello, a volte si confrontano modelli diversi.
+\end{enumerate}
+
+Questi tre passaggi vengono eseguiti in modo iterativo e danno luogo a quello che è chiamato ``flusso di lavoro bayesiano'' (\emph{bayesian workflow}).
+
+\hypertarget{notazione}{%
+\subsection{Notazione}\label{notazione}}
+
+Per fissare la notazione, nel seguito \(y\) rappresenterà i dati e \(\theta\) rappresenterà i parametri incogniti di un modello statistico. Sia \(y\) che \(\theta\) vengono concepiti come variabili casuali. Con \(x\) vengono invece denotate le quantità note, come ad esempio i predittori del modello lineare. Per rappresentare in un modo conciso i modelli probabilistici viene usata una notazione particolare. Ad esempio, invece di scrivere \(p(\theta) = \mbox{Beta}(1, 1)\) scriviamo \(\theta \sim \mbox{Beta}(1, 1)\). Il simbolo ``\(\sim\)'' viene spesso letto ``è distribuito come''. Possiamo anche pensare che significhi che \(\theta\) costituisce un campione casuale estratto dalla distribuzione Beta(1, 1). Allo stesso modo, ad esempio, la verosimiglianza del modello binomiale può essere scritta come \(y \sim \text{Bin}(n, \theta)\).
+
+\hypertarget{distribuzioni-a-priori}{%
+\section{Distribuzioni a priori}\label{distribuzioni-a-priori}}
+
+Quando adottiamo un approccio bayesiano, i parametri della distribuzione di riferimento non venono considerati come delle costanti incognite ma bensì vengono trattati come variabili casuali; di conseguenza, i parametri assumono una particolare distribuzione che nelle statistica bayesiana viene definita ``a priori''. I parametri \(\theta\) possono assumere delle distribuzioni a priori differenti: a seconda delle informazioni disponibili bisogna selezionare una distribuzione di \(\theta\) in modo tale che venga assegnata una probabilità maggiore a quei valori del parametro che si ritengono più plausibili. Idealmente, le credenze a priori che portano alla specificazione di una distribuzione a priori dovrebbero essere supportate da una qualche motivazione, come ad esempio i risultati di ricerche precedenti.
+
+\hypertarget{tipologie-di-distribuzioni-a-priori}{%
+\subsection{Tipologie di distribuzioni a priori}\label{tipologie-di-distribuzioni-a-priori}}
+
+Possiamo distinguere tra diverse distribuzioni a priori in base a quanto fortemente impegnano il ricercatore a ritenere come plausibile un particolare intervallo di valori dei parametri. Il caso più estremo è quello che rivela una totale assenza di conoscenze a priori, il che conduce alle \emph{distribuzioni a priori non informative}, ovvero quelle che assegnano lo stesso livello di fiducia a tutti i valori dei parametri. Le distribuzioni a priori informative, d'altra parte, possono essere \emph{debolmente informative} o \emph{fortemente informative}, a seconda del modo in cui lo sperimentatore distribuisce la sua fiducia nello spazio del parametro. Il caso più estremo di credenza a priori è quello che assegna tutta la probabilità ad un singolo valore del parametro. La figura seguente mostra alcuni esempi di distribuzioni a priori per il modello Binomiale:
+
+\begin{itemize}
+\tightlist
+\item
+  distribuzione \emph{non informativa}: \(\theta_c \sim \mbox{Beta}(1,1)\);
+\item
+  distribuzione \emph{debolmente informativa}: \(\theta_c \sim \mbox{Beta}(5,2)\);
+\item
+  distribuzione \emph{fortemente informativa}: \(\theta_c \sim \mbox{Beta}(50,20)\);
+\item
+  \emph{valore puntuale}: \(\theta_c \sim \mbox{Beta}(\alpha, \beta)\) con \(\alpha, \beta \rightarrow \infty\) e \(\frac{\alpha}{\beta} = \frac{5}{2}\).
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics{ds4psy_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{Esempi di distribuzioni a priori per il parametro $\theta_c$ nel Modello Binomiale.}\label{fig:unnamed-chunk-4}
+\end{figure}
+
+\hypertarget{selezione-della-distribuzione-a-priori}{%
+\subsection{Selezione della distribuzione a priori}\label{selezione-della-distribuzione-a-priori}}
+
+La selezione delle distribuzioni a priori è stata spesso vista come una delle scelte più importanti che un ricercatore fa quando implementa un modello bayesiano in quanto può avere un impatto sostanziale sui risultati finali. La soggettività delle distribuzioni a priori è evidenziata dai critici come un potenziale svantaggio dei metodi bayesiani. A questa critica, \citet{vandeSchoot2021modelling} rispondono dicendo che, al di là della scelta delle distribuzioni a priori, ci sono molti elementi del processo di inferenza statistica che sono soggettivi, ovvero la scelta del modello statistico e le ipotesi sulla distribuzione degli errori. In secondo luogo, \citet{vandeSchoot2021modelling} notano come le distribuzioni a priori svolgono due importanti ruoli statistici: quello della ``regolarizzazione della stima'', ovvero, il processo che porta ad indebolire l'influenza indebita di osservazioni estreme, e quello del miglioramento dell'efficienza della stima, ovvero, la facilitazione dei processi di calcolo numerico di stima della distribuzione a posteriori. L'effetto della distribuzione a priori sulla distribuzione a posteriori verrà discusso in dettaglio nel Capitolo \ref{chapter-balance}.
+
+\hypertarget{unapplicazione-empirica}{%
+\subsection{Un'applicazione empirica}\label{unapplicazione-empirica}}
+
+Per introdurre la modelizzazione bayesiana useremo qui i dati riportati da \citet{zetschefuture2019} (si veda l'appendice \ref{appendix:future-exp}). Tali dati corrispondono a 23 ``successi'' in 30 prove e possono dunque essere considerati la manifestazione di una variabile casuale Bernoulliana.
+
+Se non abbiamo alcuna informazione a priori su \(\theta\) (ovvero, la probabilità che l'aspettativa dell'umore futuro del partecipante sia distorta negativamente), potremmo pensare di usare una distribuzione a priori uniforme, ovvero una Beta di parametri \(\alpha=1\) e \(\beta=1\). Una tale scelta, tuttavia, è sconsigliata in quanto è più vantaggioso usare una distribuzione debolmente informativa, come ad esempio \(\mbox{Beta}(2, 2)\), che ha come scopo la regolarizzazione, cioè quello di mantenere le inferenze in un intervallo ragionevole. Qui useremo una \(\mbox{Beta}(2, 10)\).
+
+\[
+p(\theta) = \frac{\Gamma(12)}{\Gamma(2)\Gamma(10)}\theta^{2-1} (1-\theta)^{10-1}.
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bayesrules}\SpecialCharTok{::}\FunctionTok{plot\_beta}\NormalTok{(}\AttributeTok{alpha =} \DecValTok{2}\NormalTok{, }\AttributeTok{beta =} \DecValTok{10}\NormalTok{, }\AttributeTok{mean =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{mode =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{ds4psy_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+La \(\mbox{Beta}(2, 10)\) esprime la credenza che \(\theta\) assume valori \(< 0.5\), con il valore più plausibile pari a circa 0.1. Questo è assolutamente implausibile per il caso dell'esempio in discussione: la \(\mbox{Beta}(2, 10)\) verrà usata solo per scopi didattici, ovvero, per esplorare le conseguenze di tale scelta sulla distribuzione a posteriori.
+
+\hypertarget{la-funzione-di-verosimiglianza}{%
+\section{La funzione di verosimiglianza}\label{la-funzione-di-verosimiglianza}}
+
+Iniziamo con una definizione.
+
+\begin{definition}
+La \emph{funzione di verosimiglianza} \(\mathcal{L}(\theta \mid y) = f(y \mid \theta), \theta \in \Theta,\) è la funzione di massa o di densità di probabilità dei dati \(y\) vista come una funzione del parametro sconosciuto (o dei parametri sconosciuti) \(\theta\).
+\end{definition}
+
+Detto in altre parole, le funzioni di verosimiglianza e di (massa o densità di) probabilità sono formalmente identiche, ma è completamente diversa la loro interpretazione. Nel caso della funzione di massa o di densità di probabilità la distribuzione del vettore casuale delle osservazioni campionarie \(y\) dipende dai valori assunti dal parametro (o dai parametri) \(\theta\); nel caso della la funzione di verosimiglianza la credibilità assegnata a ciascun possibile valore \(\theta\) viene determinata avendo acquisita l'informazione campionaria \(y\) che rappresenta l'elemento condizionante. In altri termini, la funzione di verosimiglianza descrive in termini relativi il sostegno empirico che \(\theta \in \Theta\) riceve da \(y\). Infatti, la funzione di verosimiglianza assume forme diverse al variare di \(y\). Possiamo dunque pensare alla funzione di verosimiglianza come alla risposta alla seguente domanda: avendo osservato i dati \(y\), quanto risultano (relativamente) credibili i diversi valori del parametro \(\theta\)? In termini più formali possiamo dire: sulla base dei dati, \(\theta_1 \in \Theta\) risulta più credibile di \(\theta_2 \in \Theta\) quale indice del modello probabilistico generatore dei dati se \(\mathcal{L}(\theta_1) > \mathcal{L}(\theta_1)\).
+
+Notiamo un punto importante: la funzione \(\mathcal{L}(\theta \mid y)\) non è una funzione di densità. Infatti, essa non racchiude un'area unitaria.
+
+\hypertarget{notazione-1}{%
+\subsection{Notazione}\label{notazione-1}}
+
+Seguendo una pratica comune, in questa dispensa spesso useremo la notazione \(p(\cdot)\) per rappresentare due quantità differenti, ovvero la funzione di verosimiglianza e la distribuzione a priori. Questo piccolo abuso di notazione riflette il seguente punto di vista: anche se la verosimiglianza non è una funzione di densità di probabilità, noi non vogliamo stressare questo aspetto, ma vogliamo piuttosto pensare alla verosimiglianza e alla distribuzione a priori come a due elementi che sono egualmente necessari per calcolare la distribuzione a posteriori. In altri termini, per così dire, questa notazione assegna lo stesso status epistemologico alle due diverse quantità che si trovano al numeratore della regola di Bayes.
+
+\hypertarget{la-log-verosimiglianza}{%
+\subsection{La log-verosimiglianza}\label{la-log-verosimiglianza}}
+
+Dal punto di vista pratico risulta più conveniente utilizzare, al posto della funzione di verosimiglianza, il suo logaritmo naturale, ovvero la funzione di log-verosimiglianza:
+
+\begin{equation}
+\ell(\theta) = \log \mathcal{L}(\theta).
+\end{equation}
+
+Poiché il logaritmo è una funzione strettamente crescente (usualmente si considera il logaritmo naturale), allora \(\mathcal{L}(\theta)\) e \(\ell(\theta)\) assumono il massimo (o i punti di massimo) in corrispondenza degli stessi valori di \(\theta\) (per un approfondimento, si veda l'Appendice \ref{appendix:max-like}):
+
+\[
+\hat{\theta} = \argmax_{\theta \in \Theta} \ell(\theta) = \argmax_{\theta \in \Theta} \mathcal{L}(\theta).
+\]
+
+Per le proprietà del logaritmo, si ha
+
+\begin{equation}
+\ell(\theta) = \log \left( \prod_{i = 1}^n f(y \mid \theta) \right) = \sum_{i = 1}^n \log f(y \mid \theta).
+\end{equation}
+
+Si noti che non è necessario lavorare con i logaritmi, ma è fortemente consigliato. Il motivo è che i valori della verosimiglianza, in cui si moltiplicano valori di probabilità molto piccoli, possono diventare estremamente piccoli -- qualcosa come \(10^{-34}\). In tali circostanze, non è sorprendente che i programmi dei computer mostrino problemi di arrotondamento numerico. Le trasformazioni logaritmiche risolvono questo problema.
+
+\hypertarget{unapplicazione-empirica-1}{%
+\subsection{Un'applicazione empirica}\label{unapplicazione-empirica-1}}
+
+Se i dati di \citet{zetschefuture2019} possono essere riassunti da una proporzione allora è sensato adottare un modello probabilistico binomiale quale meccanismo generatore dei dati:
+
+\begin{equation}
+y  \sim \mbox{Bin}(n, \theta),
+\label{eq:binomialmodel}
+\end{equation}
+
+laddove \(\theta\) è la probabiltà che una prova Bernoulliana assuma il valore 1 e \(n\) corrisponde al numero di prove Bernoulliane. Questo modello assume che le prove Bernoulliane \(y_i\) che costituiscono il campione \(y\) siano tra loro indipendenti e che ciascuna abbia la stessa probabilità \(\theta \in [0, 1]\) di essere un ``successo'' (valore 1). In altre parole, il modello generatore dei dati avrà una funzione di massa di probabilità
+
+\[
+p(y \mid \theta)
+\ = \
+\mbox{Bin}(y \mid n, \theta).
+\]
+
+Nei capitoli precedenti è stato mostrato come, sulla base del modello binomiale, sia possibile assegnare una probabilità a ciascun possibile valore \(y \in \{0, 1, \dots, n\}\) \emph{assumendo noto il valore del parametro} \(\theta\). Ma ora abbiamo il problema inverso, ovvero quello di fare inferenza su \(\theta\) alla luce dei dati campionari \(y\). In altre parole, riteniamo di conoscere il modello probabilistico che ha generato i dati, ma di tale modello non conosciamo i parametri: vogliamo dunque ottenere informazioni su \(\theta\) avendo osservato i dati \(y\).
+
+Per i dati di \citet{zetschefuture2019} la funzione di verosimiglianza corrisponde alla funzione binomiale di parametro \(\theta \in [0, 1]\) sconosciuto. Abbiamo osservato un ``successo'' 23 volte in 30 ``prove'', dunque, \(y = 23\) e \(n = 30\). La funzione di verosimiglianza diventa
+
+\begin{equation}
+\mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} \theta^{23} + (1-\theta)^7.
+\label{eq:likebino23}
+\end{equation}
+
+Per costruire la funzione di verosimiglianza dobbiamo applicare la \eqref{eq:likebino23} tante volte, cambiando ogni volta il valore \(\theta\) ma \emph{tenendo sempre costante il valore dei dati}. Per esempio, se poniamo \(\theta = 0.1\)
+
+\[
+\mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} 0.1^{23} + (1-0.1)^7
+\]
+
+otteniamo
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\DecValTok{23}\NormalTok{, }\DecValTok{30}\NormalTok{, }\FloatTok{0.1}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 9.737168e{-}18}
+\end{Highlighting}
+\end{Shaded}
+
+Se poniamo \(\theta = 0.2\)
+
+\[
+\mathcal{L}(\theta \mid y) = \frac{(23 + 7)!}{23!7!} 0.2^{23} + (1-0.2)^7
+\]
+
+otteniamo
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\DecValTok{23}\NormalTok{, }\DecValTok{30}\NormalTok{, }\FloatTok{0.2}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 3.581417e{-}11}
+\end{Highlighting}
+\end{Shaded}
+
+e così via. La figura \ref{fig:likefutexpect} --- costruita utilizzando 100 valori equispaziati \(\theta \in [0, 1]\) --- fornisce una rappresentazione grafica della funzione di verosimiglianza.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{30}
+\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{23}
+\NormalTok{theta }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{100}\NormalTok{)}
+\NormalTok{like }\OtherTok{\textless{}{-}} \FunctionTok{choose}\NormalTok{(n, y) }\SpecialCharTok{*}\NormalTok{ theta}\SpecialCharTok{\^{}}\NormalTok{y }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ theta)}\SpecialCharTok{\^{}}\NormalTok{(n }\SpecialCharTok{{-}}\NormalTok{ y)}
+\FunctionTok{tibble}\NormalTok{(theta, like) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ theta, }\AttributeTok{y =}\NormalTok{ like)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{y =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{L}\NormalTok{(theta)),}
+    \AttributeTok{x =} \FunctionTok{expression}\NormalTok{(}\StringTok{"Valori possibili di"} \SpecialCharTok{\textasciitilde{}}\NormalTok{ theta)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{ds4psy_files/figure-latex/likefutexpect-1} 
+
+}
+
+\caption{Funzione di verosimiglianza nel caso di 23 successi in 30 prove.}\label{fig:likefutexpect}
+\end{figure}
+
+Come possiamo interpretare la curva che abbiamo ottenuto? Per alcuni valori \(\theta\) la funzione di verosimiglianza assume valori piccoli; per altri valori \(\theta\) la funzione di verosimiglianza assume valori più grandi. Questi ultimi sono i valori di \(\theta\) più credibili e il valore 23/30 (la moda della funzione di verosimiglianza) è il valore più credibile di tutti.
+
+\hypertarget{sec:const-normaliz-bino23}{%
+\section{La verosimiglianza marginale}\label{sec:const-normaliz-bino23}}
+
+Per il calcolo di \(p(\theta \mid y)\) è necessario dividere il prodotto tra la distribuzione a priori e la verosimiglianza per una costante di normalizzazione. Tale costante di normalizzazione, detta \emph{verosimiglianza marginale}, ha lo scopo di fare in modo che \(p(\theta \mid y)\) abbia area unitaria.
+
+Si noti che, nel caso di variabili continue, la verosimiglianza marginale è espressa nei termini di un integrale. Tranne in pochi casi particolari, tale integrale non ha una soluzione analitica. Per questa ragione, l'inferenza bayesiana procede calcolando una approssimazione della distribuzione a posteriori mediante metodi numerici.
+
+\hypertarget{unapplicazione-empirica-2}{%
+\subsection{Un'applicazione empirica}\label{unapplicazione-empirica-2}}
+
+Consideriamo nuovamente i dati di \citet{zetschefuture2019}. Supponiamo che nel numeratore bayesiano la verosimiglianza sia moltiplicata per una distribuzione uniforme, ovvero \(\mbox{Beta}(1, 1)\). In tali circostanze, il prodotto si riduce alla funzione di verosimiglianza. Per i dati di \citet{zetschefuture2019}, dunque, la costante di normalizzazione si ottiene marginalizzando la funzione di verosimiglianza \(p(y = 23, n = 30 \mid \theta)\) sopra \(\theta\), ovvero risolvendo l'integrale:
+
+\begin{equation}
+p(y = 23, n = 30) = \int_0^1 \binom{30}{23} \theta^{23} (1-\theta)^{7} \,\operatorname {d}\!\theta.
+\label{eq:intlikebino23}
+\end{equation}
+
+Una soluzione numerica si trova facilmente usando \(\R\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{like\_bin }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(theta) \{}
+  \FunctionTok{choose}\NormalTok{(}\DecValTok{30}\NormalTok{, }\DecValTok{23}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ theta}\SpecialCharTok{\^{}}\DecValTok{23} \SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ theta)}\SpecialCharTok{\^{}}\DecValTok{7}
+\NormalTok{\}}
+\FunctionTok{integrate}\NormalTok{(like\_bin, }\AttributeTok{lower =} \DecValTok{0}\NormalTok{, }\AttributeTok{upper =} \DecValTok{1}\NormalTok{)}\SpecialCharTok{$}\NormalTok{value}
+\CommentTok{\#\textgreater{} [1] 0.03225806}
+\end{Highlighting}
+\end{Shaded}
+
+La derivazione analitica è fornita nell'Appendice \ref{appendix:const-norm-bino23}.
+
+\hypertarget{distribuzione-a-posteriori}{%
+\section{Distribuzione a posteriori}\label{distribuzione-a-posteriori}}
+
+La distribuzione a postreriori si trova applicando il teorema di Bayes:
+
+\[
+\text{probabilità a posteriori} = \frac{\text{probabilità a priori} \cdot \text{verosimiglianza}}{\text{costante di normalizzazione}}
+\]
+
+Una volta trovata la distribuzione a posteriori, possiamo usarla per derivare altre quantità di interesse. Questo viene generalmente ottenuto calcolando il seguente valore atteso:
+
+\[
+J = \int f(\theta) p(\theta \mid y) \,\operatorname {d}\!y
+\]
+
+Se \(f(\cdot)\) è la funzione identità, ad esempio, \(J\) risulta essere la media di \(\theta\):
+
+\[
+\bar{\theta} = \int_{\Theta} \theta p(\theta \mid y) \,\operatorname {d}\!\theta .
+\]
+
+Ripeto qui quanto detto sopra: le quantità di interesse della statistica bayesiana(costante di normalizzazione, valore atteso della distribuzione a posteriori, ecc.) contengono integrali che risultano, nella maggior parte dei casi, impossibili da risolvere analiticamente. Per questo motivo, si ricorre a metodi di stima numerici, in particolare a quei metodi Monte Carlo basati sulle proprietà delle catene di Markov (MCMC). Questo argomento verrà discusso nel Capitolo \ref{ch:metropolis}.
+
+\hypertarget{distribuzione-predittiva-a-priori}{%
+\section{Distribuzione predittiva a priori}\label{distribuzione-predittiva-a-priori}}
+
+La distribuzione a posteriori è l'oggetto centrale nella statistica bayesiana, ma non è l'unico. Oltre a fare inferenze sui valori dei parametri, potremmo voler fare inferenze sui dati. Questo può essere fatto calcolando la \emph{distribuzione predittiva a priori}:
+
+\begin{equation}
+p(y^*) = \int_\Theta p(y^* \mid \theta) p(\theta) \,\operatorname {d}\!\theta .
+\label{eq:prior-pred-distr}
+\end{equation}
+
+La \eqref{eq:prior-pred-distr} descrive la distribuzione prevista dei dati in base al modello (che include la distribuzione a priori e la verosimiglianza), ovvero descrive i dati \(y^*\) che ci aspettiamo di osservare, dato il modello, prima di avere osservato i dati del campione.
+
+È possibile utilizzare campioni dalla distribuzione predittiva a priori per valutare e calibrare i modelli utilizzando le nostre conoscenze dominio-specifiche. Ad esempio, ci possiamo chiedere: ``È sensato che un modello dell'altezza umana preveda che un essere umano sia alto -1.5 metri?''. Già prima di misurare una singola persona, possiamo renderci conto dell'assurdità di questa domanda. Se la distribuzione prevista dei dati consente domande di questo tipo (ovvero, prevede di osservare dati che risultano insensati alla luce delle nostre conoscenze dominio-specifiche), è chiaro che il modello deve essere riformulato.
+
+\hypertarget{distribuzione-predittiva-a-posteriori}{%
+\section{Distribuzione predittiva a posteriori}\label{distribuzione-predittiva-a-posteriori}}
+
+Un'altra quantità utile da calcolare è la distribuzione predittiva a posteriori:
+
+\begin{equation}
+p(\tilde{y} \mid y) = \int_\Theta p(\tilde{y} \mid \theta) p(\theta \mid y) \,\operatorname {d}\!\theta .
+\label{eq:post-pred-distr}
+\end{equation}
+
+Questa è la distribuzione dei dati attesi futuri \(\tilde{y}\) alla luce della distribuzione a posteriori \(p(\theta \mid y)\), che a sua volta è una conseguenza del modello adottato (distribuzione a priori e verosimiglianza) e dei dati osservati. In altre parole, questi sono i dati che il modello si aspetta dopo aver osservato i dati de campione. Dalla \eqref{eq:post-pred-distr} possiamo vedere che le previsioni sui dati attesi futuri sono calcolate integrando (o marginalizzando) sulla distribuzione a posteriori dei parametri. Di conseguenza, le previsioni calcolate in questo modo incorporano l'incertezza relativa alla stima dei parametri del modello.
+
+\hypertarget{commenti-e-considerazioni-finali}{%
+\section*{Commenti e considerazioni finali}\label{commenti-e-considerazioni-finali}}
+\addcontentsline{toc}{section}{Commenti e considerazioni finali}
+
+Questo Capitolo ha brevemente passato in rassegna i concetti di base dell'inferenza statistica bayesiana. In base all'approccio bayesiano, invece di dire che il parametro di interesse di un modello statistico ha un valore vero ma sconosciuto, diciamo che, prima di eseguire l'esperimento, è possibile assegnare una distribuzione di probabilità, che chiamano stato di credenza, a quello che è il vero valore del parametro. Questa distribuzione a priori può essere nota (per esempio, sappiamo che la distribuzione dei punteggi del QI è normale con media 100 e deviazione standard 15) o può essere del tutto arbitraria. L'inferenza bayesiana procede poi nel modo seguente: si raccolgono alcuni dati e si calcola la probabilità dei possibili valori del parametro alla luce dei dati osservati e delle credenze a priori. Questa nuova distribuzione di probabilità è chiamata ``distribuzione a posteriori'' e riassume l'incertezza dell'inferenza.
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}

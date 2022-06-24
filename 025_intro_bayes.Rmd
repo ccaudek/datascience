@@ -2,11 +2,97 @@
 
 # (PART) Inferenza bayesiana {-}
 
-# Flusso di lavoro bayesiano {#ch-bayes-workflow}
+# Credibilità, modelli e parametri {#ch-bayes-workflow}
 
 ```{r, include = FALSE}
 source("_common.R")
 ```
+
+L'obiettivo di questo Capitolo è di introdurre il quadro concettuale dell'analisi dei dati bayesiana. 
+
+## Analisi dei dati bayesiana
+
+L'analisi dei dati bayesiana si basa su due idee fondamentali. 
+
+- La prima idea è quella della riallocazione della credibilità tra le possibilità.  
+- La seconda idea è che le possibili ipotesi, a cui attribuiamo diversi gradi di credibilità, possono essere espresse i valori dei parametri di un modello statistico.
+
+### Prima idea: riallocazione della credibilità
+
+Consideriamo la prima idea. @doing_bayesian_data_an la descrive facendo un riferimento letterario. Il detective immaginario Sherlock Holmes spesso diceva al suo compagno, il dottor Watson: "Quante volte ti ho detto che quando hai eliminato l'impossibile, tutto ciò che rimane, per quanto improbabile, deve essere la verità?" (Doyle, 1890, cap. 6). Anche se il ragionamento di Holmes o Watson o Doyle non è mai stato descritto come un'inferenza bayesiana, in realtà lo è. Nei romanzi di Doyle, Sherlock Holmes ragiona nel modo seguente. Holmes inizia a elencare i vari sospetti di un crimine. A priori, attribuisce un certo grado di credibilità alla possibilità che il colpevole sia uno di vari sospetti considerati. In seguito, Holmes raccoglie sistematicamente le prove che escludono alcuni dei possibili sospetti. Se tutti i possibili sospetti tranne uno possono essere esclusi, Sherlock Holmes  conclude attribuisce la piena credibilità all'idea che il sospetto rimanente sia il colpevole, anche se all'inizio questa idea poteva sembrare poco credibile.
+
+@doing_bayesian_data_an esprime il ragionamento bayesiano di Sherlock Holmes mediante la seguente figura. Supponiamo che vi siano quattro possibili ipotesi rispetto ad un fenomeno (nella figura "Possibilities"): A, B, C, D. Queste ipotesi possono corrispondere, ad esempio, ai quattro possibili colpevoli di un crimine.
+
+```{r, echo=FALSE}
+d <-
+  crossing(iteration = 1:3,
+           stage     = factor(c("Prior", "Posterior"),
+                              levels = c("Prior", "Posterior"))) %>% 
+  expand(nesting(iteration, stage),
+         Possibilities = LETTERS[1:4]) %>% 
+  mutate(Credibility   = c(rep(.25, times = 4),
+                           0, rep(1/3, times = 3),
+                           0, rep(1/3, times = 3),
+                           rep(c(0, .5), each = 2),
+                           rep(c(0, .5), each = 2),
+                           rep(0, times = 3), 1))
+text <-
+  tibble(Possibilities = "B",
+         Credibility   = .75,
+         label         = str_c(LETTERS[1:3], " is\nimpossible"),
+         iteration     = 1:3,
+         stage         = factor("Posterior", 
+                                levels = c("Prior", "Posterior")))
+arrow <-
+  tibble(Possibilities = LETTERS[1:3],
+         iteration     = 1:3) %>% 
+  expand(nesting(Possibilities, iteration),
+         Credibility = c(0.6, 0.01)) %>% 
+  mutate(stage = factor("Posterior", levels = c("Prior", "Posterior")))
+
+d %>%
+  ggplot(aes(x = Possibilities, y = Credibility)) +
+  geom_col(color = "grey30", fill = "grey30") +
+  # annotation in the bottom row
+  geom_text(data = text, 
+            aes(label = label)) +
+  # arrows in the bottom row
+  geom_line(data = arrow,
+            arrow = arrow(length = unit(0.30, "cm"), 
+                          ends = "first", type = "closed")) +
+  facet_grid(stage ~ iteration) +
+  theme(axis.ticks.x = element_blank(),
+        panel.grid = element_blank(),
+        strip.text.x = element_blank())
+```
+
+Nella riga superiore ci sono le ipotesi a priori relativamente al "colpevole". Nella prima colonna, la nostra credibilità a priori si distribuisce equamente tra i quattro possibili colpevoli. Si noti che all'intera credibilità a priori assegniamo il valore 1. Se ci sono quattro possibilità, a ciascuna attribuiamo il valore 0.25 se esse vengono considerate equivalenti. Se i dati a disposizione consentono di escludere la possibilità A allora, a posteriori, il livello di credibilità si ridistribuisce tra le tre rimanenti possibilità come indicato nella figura (ovvero, assegniamo a ciascuna di esse il valore di 1/3). Il passaggio dalla distribuzione a priori a quella a posteriori si dice *aggiornamento bayesiano*. In questo caso, l'aggiornamento bayesiano (ovvero, la riallocazione della credibilità alla luce dei dati a disposizione) ha solo consentito di escludere un possibile colpevole. Nella seconda colonna della figura, a priori si considera impossibile la possibilità A, per cui la nostra credibilità di distribuisce tra le rimanenti possibilità come indicato nella figura, se le consideriamo equivalenti. Supponendo che i dati consentano di escludere la possibilità B, l'aggiornamento bayesiano ci porta alla distribuzione a posteriori che attribuisce una credibilità di 0.5 alle possibilità C e D. In questo caso, abbiamo escluso due possibili colpevoli, ma non sappiamo decidere tra C e D. Infine, il caso più fortunato è descritto nell'ultima colonna, nella quale a priori possiamo escludere A e B. I dati ci consentono di escludere C. Per cui, a posteriori, siamo sicuri (la credibilità è 1) che il colpevole sia D. L'analisi bayesiana procede esattamente in questo modo: distribuisce la nostra credibilità a priori tra una serie di possibilità. A questo punto si osservano dei dati. Le informazioni fornite dai dati conducono ad una diversa distribuzione della credibilità tra le possibilità. Tale aggiornamento delle credenze conduce alla distribuzione a posteriori, la quale descrive il modo in cui abbiamo modificato le credenze a priori alla luce delle nuove informazioni fornite dai dati.
+
+### I dati sono rumorosi e le inferenze sono probabilistiche
+
+I casi della figura precedente presupponevano che i dati osservati avessero relazioni deterministiche con le possibili cause. Ad esempio, Sherlock Holmes potrebbe aver trovato un'impronta sulla scena del crimine e identificato la taglia e il tipo di scarpa con assoluta certezza, escludendo così completamente o implicando un particolare candidato sospetto. 
+
+In realtà, i dati hanno solo relazioni probabilistiche con le loro cause sottostanti. Un vero investigatore potrebbe misurare attentamente l'impronta e i dettagli del suo battistrada, ma queste misurazioni restringerebbero solo probabilisticamente la gamma di possibili scarpe che potrebbero aver prodotto l'impronta. Le misure non sono perfette e l'impronta è solo una rappresentazione imperfetta della scarpa che l'ha prodotta. La relazione tra la causa (cioè la scarpa) e l'effetto misurato (cioè l'impronta) viene complicata dalla presenza del "rumore della misurazione".
+
+Nella ricerca scientifica, le misurazioni sono fortemente contaminate dagli effetti di molteplici influenze estranee, nonostante gli enormi sforzi per limitare la loro intrusione. Per esempio, in uno studio sull'apprendimento della statistica da parte degli studenti di psicologia, un ricercatore potrebbe dividere gli studenti in due gruppi: un gruppo sperimentale (che affianca lo studio del materiale dell'esame con una serie di esercitazioni nelle quali viene utilizzato un software per l'analisi dei dati) e un gruppo di controllo (che studia il materiale dell'esame su un testo e si limita a svolgere degli esercizi scolastici carta-e-penna). Supponiamo che il ricercatore misuri la prestazione all'esame dei due gruppi. È chiaro che la prestazione all'esame per ogni singolo studente, al di là dell'effetto della manipolazione sperimentale, può variare notevolmente a seconda di molte altre influenze, come la motivazione, l'ansia, la preparazione pregressa, la quantità di studio, ecc.
+
+I dati risultanti, quindi, saranno estremamente rumorosi, con un'enorme variabilità all'interno di ciascun gruppo e un'enorme sovrapposizione tra i gruppi. Pertanto, ci saranno molte prestazioni all'esame misurate nel gruppo sperimentale che sono più alte delle prestazioni all'esame nel gruppo di controllo e viceversa. Da queste due distribuzioni di voti all'esame, molto disperse e sovrapposte, vogliamo inferire quanta differenza c'è tra i due gruppi e quanto possiamo essere certi di una tale differenza. 
+
+Tutti i dati scientifici hanno un certo grado di "rumore" nei loro valori. Le tecniche di analisi dei dati sono progettate per inferire le tendenze sottostanti da dati rumorosi. A differenza di Sherlock Holmes, che potrebbe fare un'osservazione ed escludere completamente alcune possibili cause, nella ricerca scientifica possiamo raccogliere dati e modificare solo in un modo incrementale la credibilità di alcune possibili tendenze. Vedremo molti esempi realistici di questo processo in questo insegnamento. Il bello dell'analisi bayesiana è che, alla luce delle informazioni fornite dai dati, la teoria delle probabilità ci consente di riallocare la credibilità in un modo non arbitrario e automatico.
+
+### Seconda idea: le possibilità sono valori di parametri in un modello statistico
+
+BDI-II prima e dopo un intervento psicologico.
+
+
+Nel precedente ragionamento "bayesiano" di Sherlock Holmes, le possibilità corrispondevano alle quattro modalità di una variabile discreta: la variabile era "i possibili colpevoli del crimine" e le modalità erano appunto A, B, C e D. 
+
+In statistica, lavorare con variabili discrete è complicato. È molto più semplice, invece, svolgere l'aggiornamento bayesiano mediante gli strumenti della teoria delle probabilità, se vengono utilizzate variabili continue. 
+
+In tali circostanze, le "possibilità" corrispondono ai valori dei parametri in un modello statistico. Possiamo chiarire questa affermazione nel modo seguente. 
+
+
+## Flusso di lavoro bayesiano 
 
 La moderna statistica bayesiana viene per lo più eseguita utilizzando un linguaggio di programmazione probabilistico implementato su computer. Ciò ha cambiato radicalmente il modo in cui venivano eseguite le statistiche bayesiane anche fin pochi decenni fa. La complessità dei modelli che possiamo costruire è aumentata e la barriera delle competenze matematiche e computazionali che sono richieste è diminuita. Inoltre, il processo di modellazione iterativa è diventato, sotto molti aspetti, molto più facile da eseguire. Anche se formulare modelli statistici complessi è diventato più facile che mai, la statistica è un campo pieno di sottigliezze che non scompaiono magicamente utilizzando potenti metodi computazionali. Pertanto, avere una buona preparazione sugli aspetti teorici, specialmente quelli rilevanti per la pratica, è estremamente utile per applicare efficacemente i metodi statistici.
 
@@ -285,4 +371,6 @@ Questa è la distribuzione dei dati attesi futuri $\tilde{y}$ alla luce della di
 ## Commenti e considerazioni finali {-}
 
 Questo Capitolo ha brevemente passato in rassegna i concetti di base dell'inferenza statistica bayesiana. In base all'approccio bayesiano, invece di dire che il parametro di interesse di un modello statistico ha un valore vero ma sconosciuto, diciamo che, prima di eseguire l'esperimento, è possibile assegnare una distribuzione di probabilità, che chiamano stato di credenza, a quello che è il vero valore del parametro. Questa distribuzione a priori può essere nota (per esempio, sappiamo che la distribuzione dei punteggi del QI è normale con media 100 e deviazione standard 15) o può essere  del tutto arbitraria. L'inferenza bayesiana procede poi nel modo seguente: si raccolgono alcuni dati e si calcola la probabilità dei possibili valori del parametro alla luce dei dati osservati e delle credenze a priori. Questa nuova distribuzione di probabilità è chiamata "distribuzione a posteriori" e riassume l'incertezza dell'inferenza. 
+
+## Bibliografia {-}
 

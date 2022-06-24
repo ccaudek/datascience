@@ -1,21 +1,27 @@
 --- 
 title: "Data Science per psicologi"
 author: "Corrado Caudek"
+knit: "bookdown::render_book"
 date: "`r Sys.Date()`"
+description: >
+  This document contains the materials of the lessons of Psicometria B000286 
+  (2021/2022) aimed at students of the first year of the Degree Course in 
+  Psychological Sciences and Techniques of the University of Florence, Italy.
+
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+github-repo: ccaudek/datascience
+
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 csl: apa.csl
 link-citations: yes
-github-repo: ccaudek/datascience
-description: "This document contains the materials of the lessons of Psicometria B000286 (2021/2022) aimed at students of the first year of the Degree Course in Psychological Sciences and Techniques of the University of Florence, Italy."
+
 ---
 
 # Benvenuti {-}
 
-Benvenuti nella versione online di *Data Science per psicologi*. Viene qui presentato il materiale delle lezioni dell'insegnamento di _Psicometria B000286_ (A.A. 2021/2022) rivolto agli studenti del primo anno del Corso di Laurea in Scienze e Tecniche Psicologiche dell'Università degli Studi di Firenze. Lo scopo di questo insegnamento è quello di fornire agli studenti un'introduzione all'analisi dei dati psicologici. Le conoscenze/competenze che verranno sviluppate in questo insegnamento sono dunque quelle della Data Science, ovvero un insieme di conoscenze/competenze che si pongono all'intersezione tra statistica e informatica.
+Benvenuti nella versione online di *Data Science per psicologi*. Viene qui presentato il materiale delle lezioni dell'insegnamento di _Psicometria B000286_ (A.A. 2021/2022) rivolto agli studenti del primo anno del Corso di Laurea in Scienze e Tecniche Psicologiche dell'Università degli Studi di Firenze. Lo scopo di questo insegnamento è quello di fornire agli studenti un'introduzione all'analisi dei dati psicologici. Le conoscenze/competenze che verranno sviluppate in questo insegnamento sono dunque quelle della Data Science applicata alla psicologia, ovvero, un insieme di conoscenze/competenze che si pongono all'intersezione tra psicologia, statistica e informatica.
 
 ## La psicologia e la Data Science {-}
 

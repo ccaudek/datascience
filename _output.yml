@@ -11,4 +11,15 @@ bookdown::gitbook:
       link: https://github.com/ccaudek/datascience/edit/master/%s
       text: "Suggest an edit"
     download: ["pdf", "epub"]
-bookdown::bs4_book: default
+
+bookdown::bs4_book:
+  css: style.css
+  theme:
+    primary: "#982a31"
+    fg: "#2b2121"
+    bg: "#ffffff"
+  repo:
+    base: https://github.com/ccaudek/datascience
+    branch: main
+  includes:
+    in_header: [ga_script.html]
